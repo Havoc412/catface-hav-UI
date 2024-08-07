@@ -1,0 +1,215 @@
+<template>
+    <view class="card" :class="{ active: isDown, passive: !isDown }" @touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="handleTouchEnd">
+        <swiper class="swiper" circular="true" easing-function="linear" :current="poiid" @change="onSwiperChange">
+            <swiper-item v-for="(item, index) in swiperList" :key="index">
+                <view class="swipercard">
+                    <cover-image class="locationimg" :src="item.img" />
+                    <text class="textbox">{{ item.name }}\n详细信息</text>
+                    <cover-image class="navigation" src="/static/导航.png" @click="openNavi" />
+                    <view class="collect">
+                        <switch color="#FFCC33" style="transform: scale(0.7)" />
+                    </view>
+                </view>
+            </swiper-item>
+        </swiper>
+    </view>
+</template>
+
+<script setup>
+import { poiid } from './poiid';
+import { plandate } from './plandate';
+import { watch, ref, onMounted, nextTick } from 'vue';
+//导入store
+import { usePoiStore } from '@/store/map/poi';
+import { usePlanStore } from '@/store/map/plan';
+//模式标记
+import { modeflag } from './modeflag';
+const poistore = usePoiStore();
+const planstore = usePlanStore();
+onMounted(() => {
+    if (modeflag.value == 1) {
+        let poicardInfo = poistore.pois.map((poi) => ({
+            name: poi.name,
+            img: poi.img
+        }));
+        swiperList.value = poicardInfo;
+    } else if (modeflag.value == 2) {
+        let plancardInfo = planstore.plan[plandate.value].map((poi) => ({
+            name: poi.name,
+            img: poi.img
+        }));
+        swiperList.value = plancardInfo;
+    }
+});
+//卡片编号
+function onSwiperChange(e) {
+    // e.detail.current 是当前 swiper-item 的索引
+    //console.log(swiperList.value);
+    poiid.value = e.detail.current;
+    // mapContext.moveToLocation({
+    //     latitude: poistore.pois[poiid.value].latitude,
+    //     longitude: poistore.pois[poiid.value].longitude
+    // });
+    if (modeflag.value == 1) {
+        mapContext.moveToLocation({
+            latitude: poistore.pois[poiid.value].latitude,
+            longitude: poistore.pois[poiid.value].longitude
+        });
+    } else if (modeflag.value == 2) {
+        mapContext.moveToLocation({
+            latitude: planstore.plan[plandate.value][poiid.value].latitude,
+            longitude: planstore.plan[plandate.value][poiid.value].longitude
+        });
+    }
+
+    if (isDown.value) {
+        isDown.value = false;
+        //     isUp.value = true;
+    }
+}
+
+const swiperList = ref([
+    { name: '地点1', img: 'https://img0.baidu.com/it/u=2426072799,1960439289&fm=253&fmt=auto&app=120&f=JPEG?w=747&h=500' },
+    { name: '地点2', img: 'https://inews.gtimg.com/om_bt/OcesVZX6D_MTeO7QyyBPw0qrv3pHhm3XT6xWrgynm-0oIAA/1000' },
+    { name: '地点3', img: 'https://img0.baidu.com/it/u=2426072799,1960439289&fm=253&fmt=auto&app=120&f=JPEG?w=747&h=500' }
+]);
+
+//amap web service api key
+const apiKey = 'faf6f56699991459332a82e555776a0f';
+//地图context（地图控件）
+const mapContext = uni.createMapContext('myMap');
+
+//调起导航
+function openNavi() {
+    if (modeflag.value == 1) {
+        mapContext.openMapApp({
+            //优先使用名称搜索
+            longitude: poistore.pois[poiid.value].longitude,
+            latitude: poistore.pois[poiid.value].latitude,
+            destination: poistore.pois[poiid.value].name
+        });
+    } else if (modeflag.value == 2) {
+        mapContext.openMapApp({
+            //优先使用名称搜索
+            longitude: planstore.plan[plandate.value][poiid.value].longitude,
+            latitude: planstore.plan[plandate.value][poiid.value].latitude,
+            destination: planstore.plan[plandate.value][poiid.value].name
+        });
+    }
+}
+//plan日期切换
+watch(
+    () => plandate.value,
+    (newValue, oldValue) => {
+        const cardInfo = planstore.plan[newValue].map((poi) => ({
+            name: poi.name,
+            img: poi.img
+        }));
+        swiperList.value = cardInfo;
+        console.log('监听到日期变化');
+    }
+);
+//模式切换
+watch(
+    () => modeflag.value,
+    (newValue, oldValue) => {
+        if (newValue == 1) {
+            let poicardInfo = poistore.pois.map((poi) => ({
+                name: poi.name,
+                img: poi.img
+            }));
+            swiperList.value = poicardInfo;
+        } else if (newValue == 2) {
+            let plancardInfo = planstore.plan[plandate.value].map((poi) => ({
+                name: poi.name,
+                img: poi.img
+            }));
+            swiperList.value = plancardInfo;
+        }
+        console.log('监听到模式变化');
+    }
+);
+
+const isDragging = ref(false);
+
+const isDown = ref(false);
+// const isUp = ref(false);
+const hasDragging = ref(false);
+const startY = ref(0);
+const currentY = ref(0);
+
+const handleTouchStart = (e) => {
+    startY.value = e.touches[0].screenY;
+};
+
+const handleTouchMove = (e) => {
+    currentY.value = e.touches[0].screenY;
+
+    const moveY = currentY.value - startY.value;
+    // if (cardRef.value) {
+    //     // 确保 cardRef.value 不是 null
+    //     cardRef.value.style.transform = `translateY(${moveY}px)`;
+    // }
+};
+
+const handleTouchEnd = () => {
+    if (currentY.value - startY.value > 50) {
+        //下滑
+        isDown.value = true;
+        // isUp.value = false;
+    }
+    if (startY.value - currentY.value > 50) {
+        //上划
+        // isUp.value = true;
+        isDown.value = false;
+    }
+};
+</script>
+
+<style scoped>
+.card {
+    transition: transform 0.3s;
+}
+.active {
+    transform: translateY(80%);
+}
+.passive {
+    transform: translateY(0%);
+}
+.swipercard {
+    display: flex; /* 使用Flexbox布局 */
+
+    background-color: antiquewhite;
+    height: 140px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 3px 3px 1px rgba(67, 67, 67, 0.5);
+    margin: 5px;
+}
+
+.locationimg {
+    position: absolute;
+    top: 25px;
+    left: 20px;
+    height: 90px;
+    width: 90px;
+    border-radius: 5px;
+}
+.textbox {
+    position: absolute;
+    top: 25px;
+    left: 140px;
+}
+.navigation {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+.collect {
+    position: absolute;
+    bottom: 10px;
+    right: 45px;
+}
+</style>

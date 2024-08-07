@@ -1,0 +1,574 @@
+<!--info 目前是 map 页面-->
+<template>
+    <view class="map">
+        <map
+            id="myMap"
+            ref="myMap"
+            style="width: 100%;"
+            :style="{
+                'height': height
+            }"
+            enable-poi="true"
+            enable-3D="false"
+            enable-rotate="true"
+            enable-building="true"
+            enable-overlooking="true"
+            show-location="true"
+            :include-points="includePoints"
+            :longitude="centerLng"
+            :latitude="centerLat"
+            :scale="scale"
+            :markers="markers"
+            :polyline="routeLine"
+            @markertap="onmarkertap"
+            @poitap="onpoitap"
+        >
+            <cover-view slot="callout" v-if="showCallout">
+                <cover-view class="customCallout" v-for="(item, index) in markers" :marker-id="item.id">
+                    <cover-image style="height: 20rpx; width: 20rpx; margin-right: 2rpx" :src="`/static/map/${item.mode}.png`"></cover-image>
+                    <text style="font-size: 20rpx" v-if="item.cost">{{ item.cost }}￥</text>
+                    <text style="font-size: 20rpx">{{ formatDuration(item.duration) }}</text>
+                </cover-view>
+            </cover-view>
+            <view class="poidisplay" v-if="showCard">
+                <poiDisplayNvue />
+            </view>
+            <view class="plandisplay" v-if="showPlan">
+                <pathDisplayNvue />
+            </view>
+
+            <view class="location_btn1" v-if="!isExpand" @click="refresh">
+                <cover-image class="location_icon" src="/static/map/location.png" alt="location" />
+            </view>
+            <view class="testbtn" style="background-color: aqua; position: absolute; top: 270px; left: 10px; margin: 5px" @click="gotopoi(testpoi)">poi</view>
+            <view class="testbtn" style="background-color: yellowgreen; position: absolute; top: 300px; left: 10px; margin: 5px" @click="gotoplan(testpath)">plan</view>
+            <view class="testbtn" style="background-color: aqua; position: absolute; top: 270px; right: 10px; margin: 5px" @click="showCard = !showCard">poishow</view>
+            <view class="testbtn" style="background-color: yellowgreen; position: absolute; top: 300px; right: 10px; margin: 5px" @click="showPlan = !showPlan">planshow</view>
+
+            <view class="testbtn" style="background-color: yellowgreen; position: absolute; top: 330px; left: 10px; margin: 5px" @click="showAccurateRoute(accuraterouteinfo)">
+                accurateroute
+            </view>
+            <view class="testbtn" style="background-color: yellowgreen; position: absolute; top: 360px; left: 10px; margin: 5px" @click="showRoughRoute(roughrouteinfo)">
+                roughroute
+            </view>
+            <view class="testbtn" style="background-color: aqua; position: absolute; top: 330px; right: 10px; margin: 5px" @click="showCallout = !showCallout">showCallout</view>
+            <!--  <view
+                class="testbtn"
+                style="background-color: yellowgreen; position: absolute; top: 330px; right: 10px; margin: 5px"
+                @click="routeSearch({ longitude: 114.3567759, latitude: 30.525858, id: null }, [], { longitude: 114.36071, latitude: 30.523126, id: null }, 'walking')"
+            >
+                routesearch
+            </view> -->
+            <!-- <view class="btn-test" @click="keyWordSearch('武汉大学', '武汉市')">
+                <text>展示点位</text>
+            </view> -->
+            <!-- <view class="btn-test" @click="hidepoint">
+                <text>删除点位</text>
+            </view> -->
+        </map>
+        <!--test position-->
+        <!-- <pathFloatWin/> -->
+    </view>
+</template>
+
+<script setup>
+//测试数据
+import { accuraterouteinfo, roughrouteinfo, testpoi, testpath } from './testdata';
+//导入store
+import { usePoiStore } from '@/store/map/poi';
+import { usePlanStore } from '@/store/map/plan';
+const poistore = usePoiStore();
+const planstore = usePlanStore();
+//导入响应变量
+import { modeflag } from './modeflag';
+import { isExpand } from './isExpand';
+import { poiid } from './poiid'; //poi卡片id和markerid
+import { plandate } from './plandate';
+const poimarkers = ref([]); //存储markers，以marker标准格式存储
+const planmarkers = ref([]); //存储markers，以marker标准格式存储
+//vue
+import { watch, ref, onMounted } from 'vue';
+
+//页面组件导入
+import poiDisplayNvue from './poiDisplay.nvue';
+import pathDisplayNvue from './pathDisplay.nvue';
+//控制页面组件显隐
+const showCallout = ref(true);
+const showPlan = ref(false);
+const showCard = ref(false);
+//amap web service api key
+const apiKey = 'faf6f56699991459332a82e555776a0f';
+//地图context（地图控件）
+const mapContext = uni.createMapContext('myMap');
+//
+let myRotation = 0;
+const includePoints = ref([]); // 用于展示路径展示，需要判断起点终点路经点中最大最小的经纬度值传入两个坐标点(minlat,minlng)和(maxlat,maxlng)
+
+// tag lng && lat
+const centerLng = ref(null);
+const centerLat = ref(null);
+const myLng = ref(null);
+const myLat = ref(null);
+
+//map组件属性
+const markers = ref([]);
+const routeLine = ref(null);
+const scale = ref(16);
+//marker number
+let poiMarkerNum = 0;
+let wayPointMarkerNum = 0;
+
+// FUNC
+onMounted(() => {
+    // info 开启实时定位与方向
+    // 获取位置
+    uni.startLocationUpdate({
+        type: 'gcj02 ',
+        success: (res) => console.log('开启接收位置消息成功'),
+        fail: (err) => console.error('开启接收位置消息失败：', err),
+        complete: (msg) => console.log('调用开启接收位置消息 API 完成')
+    });
+    uni.startCompass({
+        success: (res) => console.log('开启罗盘成功'),
+        fail: (err) => console.error('开启罗盘失败：', err),
+        complete: (msg) => console.log('调用开启罗盘 API 完成')
+    });
+    // info 实时监听用户当前位置并移动定位点
+    uni.onLocationChange((res) => {
+        myLat.value = res.latitude;
+        myLng.value = res.longitude;
+
+        if (centerLng.value == null || centerLat.value == null) {
+            centerLng.value = res.longitude;
+            centerLat.value = res.latitude;
+        }
+    });
+    //获取方向
+    uni.onCompassChange(function (res) {
+        myRotation = res.direction;
+    });
+});
+function formatDuration(seconds) {
+    let hours = Math.floor(seconds / 3600); // 计算小时数
+    let minutes = Math.floor((seconds % 3600) / 60); // 计算分钟数
+    let remainingSeconds = seconds % 60; // 计算剩余秒数
+
+    let result = ''; // 初始化结果字符串
+
+    // 如果有小时数，添加到结果
+    if (hours > 0) {
+        result += `${hours}h`;
+    }
+
+    // 如果有分钟数或者秒数不为0，处理分钟和秒数
+    if (minutes > 0 || remainingSeconds > 0) {
+        // 如果秒数不为0，分钟数加1
+        if (remainingSeconds > 0) {
+            minutes += 1; // 这里使用0.5来表示向上取整
+        }
+
+        result += `${minutes}min`;
+    }
+
+    return result;
+}
+function routeSearch(origin, waypoints, destination, mode) {
+    //origin&destination形式如下 {longitude:114.3567759，latitude：30.525858，id：} waypoints形式如下[{longitude:114.3567759，latitude：30.525858},{...},{...}]
+    //mode 出行方式 driving walking
+    //id为高德poiid，参数中加入poiid提升规划准确性
+    // info 路径规划 调用高德web服务api
+    // 驾车路线规划
+    wayPointMarkerNum = 2;
+    let routePoints = [];
+    let wayPointsParams = '&waypoints=';
+    waypoints.forEach((waypoint) => {
+        wayPointsParams += waypoint.longitude;
+        wayPointsParams += ',';
+        wayPointsParams += waypoint.latitude;
+        wayPointsParams += ';';
+        wayPointMarkerNum++;
+    });
+
+    let originParams = origin.id == null ? 'origin=' + origin.longitude + ',' + origin.latitude : 'origin=' + origin.longitude + ',' + origin.latitude + '&origin_id=' + origin.id;
+    let destinationParams =
+        destination.id == null
+            ? '&destination=' + destination.longitude + ',' + destination.latitude
+            : '&destination=' + destination.longitude + ',' + destination.latitude + '&destination_id=' + destination.id;
+    let routeParams =
+        waypoints.length == 0
+            ? originParams + destinationParams + '&key=' + apiKey + '&show_fields=polyline'
+            : originParams + destinationParams + wayPointsParams + '&key=' + apiKey + '&show_fields=polyline，cost';
+    // 起点 origin=114.3567759,30.525858  终点destination=114.36071,30.523126 途径点（最多十六个）waypoints=114.36071,30.523126;114.36071,30.53小数点后最多六位，其余可传参数见https://lbs.amap.com/api/webservice/guide/api/newroute
+    uni.request({
+        url: `https://restapi.amap.com/v5/direction/${mode}?${routeParams}`,
+        success: (res) => {
+            console.log(res);
+            const steps = res.data.route.paths[0].steps;
+            steps.forEach((steps) => {
+                let line = steps.polyline.split(';');
+                line.forEach((pts) => {
+                    let point = pts.split(',');
+                    routePoints.push({
+                        latitude: parseFloat(point[1]),
+                        longitude: parseFloat(point[0])
+                    });
+                });
+            });
+            console.log(routePoints);
+            routeLine.value = [
+                {
+                    // info 线路规划
+                    points: routePoints,
+                    color: '#33c9FFDD',
+                    width: 15,
+                    dottedLine: false,
+                    arrowLine: true
+                }
+            ];
+        }
+    });
+}
+
+// info poi搜索 调用高德 web服务 api
+function keyWordSearch(keyWord, region) {
+    // 关键词poi搜索 poi markerid 101-199 keyword长度不超过80 参数均为字符串类型
+    let poiMarkers = [];
+    const keyWordPoiParams = 'keywords=' + keyWord + '&region=' + region + '&key=' + apiKey;
+    //更多参数看文档默认一次传十个poi
+    uni.request({
+        url: `https://restapi.amap.com/v5/place/text?${keyWordPoiParams}`,
+        success: (res) => {
+            let pois = res.data.pois;
+            let id = 101;
+            pois.forEach((poi) => {
+                let lnglat = poi.location.split(',');
+                let poimarker = {
+                    id: id,
+                    anchor: {
+                        x: 0.5,
+                        y: 0.5
+                    },
+                    latitude: lnglat[1],
+                    longitude: lnglat[0],
+                    iconPath: '/static/map/logo.png',
+                    callout: {
+                        content: poi.name,
+                        display: 'ALWAYS'
+                    }
+                };
+                poiMarkers.push(poimarker);
+                id++;
+                poiMarkerNum++;
+            });
+            mapContext.addMarkers({
+                markers: poiMarkers,
+                clear: true
+            });
+        }
+    });
+}
+
+// info 点击定位图标将当前定位点移到地图中央
+function refresh() {
+    console.info("click refresh!");
+    mapContext.moveToLocation({
+        latitude: myLat.value,
+        longitude: myLng.value
+    });
+}
+
+// // info 路径规划起点终点途径点展示 id1-99
+// const wayPoints = [
+//     {
+//         id: 1,
+//         latitude: 30.525858,
+//         longitude: 114.3567759,
+//         iconPath: '/static/amap_start.png'
+//     },
+//     {
+//         id: 2,
+//         latitude: 30.6,
+//         longitude: 114.36071,
+//         iconPath: '/static/amap_end.png'
+//     }
+// ];
+
+//使用地图组件控制方法addMarkers添加点详情见 https://uniapp.dcloud.net.cn/api/location/map.html
+//模拟展示每日规划
+function gotoplan(planinfo) {
+    modeflag.value = 2;
+    planstore.savePlan(planinfo);
+    // console.log(planstore.plan[plandate.value]);
+    let coordinates = planstore.plan[plandate.value].map((poi) => ({
+        latitude: poi.latitude,
+        longitude: poi.longitude
+    }));
+    planmarkers.value = planstore.plan[plandate.value].map((poi) => ({
+        id: poi.id,
+        latitude: poi.latitude,
+        longitude: poi.longitude,
+        iconPath: '/static/map' + poi.type + '.png',
+        width: 20,
+        height: 20,
+        anchor: {
+            x: 0.5,
+            y: 0.5
+        },
+
+        callout: {
+            content: poi.name,
+            display: 'ALWAYS'
+        }
+    }));
+    planmarkers.value[poiid.value].width = 30;
+    planmarkers.value[poiid.value].height = 30;
+    // mapContext.addMarkers({
+    //     markers: planmarkers.value,
+    //     clear: true
+    // });
+    markers.value = planmarkers.value;
+    mapContext.includePoints({
+        points: coordinates,
+        padding: [500]
+    });
+}
+//路线展示
+function showAccurateRoute(routeInfo) {
+    let routeArray = [];
+    for (let i = 0; i < routeInfo.length; i++) {
+        routeArray.push({
+            points: routeInfo[i].path,
+            color: '#33c9FFDD',
+            width: 15,
+            dottedLine: false,
+            arrowLine: true,
+            arrowIconPath: '/static/map/route_' + (i + 1) + '.png'
+        });
+    }
+    routeLine.value = routeArray;
+}
+function showRoughRoute(routeInfo) {
+    let routeArray = [];
+    let calloutmarker = [];
+    for (let i = 0; i < routeInfo.length; i++) {
+        routeArray.push({
+            points: routeInfo[i].path,
+            color: '#33c9FFDD',
+            width: 15,
+            dottedLine: false,
+            arrowLine: true,
+            arrowIconPath: '/static/map/route_' + (i + 1) + '.png'
+        });
+        calloutmarker.push({
+            id: i + 100,
+            latitude: (routeInfo[i].path[0].latitude + routeInfo[i].path[1].latitude) / 2,
+            longitude: (routeInfo[i].path[0].longitude + routeInfo[i].path[1].longitude) / 2,
+            width: 10,
+            height: 10,
+            alpha: 0,
+            anchor: {
+                x: 0.5,
+                y: 0.5
+            },
+            // iconPath:'/static/map/route_' + (i + 1) + '.png',
+            duration: routeInfo[i].duration,
+            cost: routeInfo[i].cost,
+            mode: routeInfo[i].mode,
+            // callout: {
+            //     content: '111',
+            //     display: 'ALWAYS'
+            // },
+            customCallout: {
+                display: 'ALWAYS',
+                anchorX: 0,
+                anchorY: 0
+            },
+            label: {
+                content: ' ' + (i + 1) + ' ',
+                textAlign: 'center',
+                borderWidth: 1,
+                fontSize: 8,
+                borderColor: '#000000',
+                anchorX: -6,
+                anchorY: -5,
+                borderRadius: 50
+            }
+        });
+    }
+    let combinedArray = markers.value.concat(calloutmarker);
+    markers.value = combinedArray;
+    routeLine.value = routeArray;
+}
+function hideroute() {
+    routeLine.value = [];
+}
+//模拟poi展示
+function gotopoi(poiinfo) {
+    modeflag.value = 1;
+    //console.log(modeflag.value);
+    poistore.savePoi(poiinfo);
+    // console.log(poistore.pois);
+    //
+    let coordinates = poistore.pois.map((poi) => ({
+        latitude: poi.latitude,
+        longitude: poi.longitude
+    }));
+    //
+    poimarkers.value = poistore.pois.map((poi) => ({
+        id: poi.id,
+        anchor: {
+            x: 0.5,
+            y: 0.5
+        },
+        latitude: poi.latitude,
+        longitude: poi.longitude,
+        iconPath: '/static/map/' + poi.type + '.png',
+        width: 20,
+        height: 20,
+        callout: {
+            content: poi.name,
+            display: 'ALWAYS'
+        }
+    }));
+    poimarkers.value[poiid.value].width = 30;
+    poimarkers.value[poiid.value].height = 30;
+
+    // console.log(coordinates);
+    //移动视角展示所有poi
+    mapContext.includePoints({
+        points: coordinates,
+        padding: [500]
+    });
+    markers.value = poimarkers.value;
+    // mapContext.addMarkers({
+    //     markers: poimarkers.value,
+    //     clear: true
+    // });
+}
+//点击poi事件onmarkertap
+function onmarkertap(e) {
+    console.log(e.detail.markerId);
+    if (e.detail.markerId < 100) {
+        poiid.value = e.detail.markerId;
+        if (modeflag.value == 1) {
+            mapContext.moveToLocation({
+                latitude: poistore.pois[poiid.value].latitude,
+                longitude: poistore.pois[poiid.value].longitude
+            });
+        } else if (modeflag.value == 2) {
+            mapContext.moveToLocation({
+                latitude: planstore.plan[plandate.value][poiid.value].latitude,
+                longitude: planstore.plan[plandate.value][poiid.value].longitude
+            });
+        }
+    }
+}
+//点击原生poi onpoitap
+function onpoitap(e) {
+    console.log(e.detail.name);
+}
+//poi焦点切换
+watch(
+    () => poiid.value,
+    (newValue, oldValue) => {
+        //console.log(markers.value[oldValue]);
+        let focusmarkers = markers.value;
+        // if (modeflag.value == 1) {
+        //     focusmarkers = poimarkers.value;
+        // } else if (modeflag.value == 2) {
+        //     focusmarkers = planmarkers.value;
+        // }
+        focusmarkers[oldValue].width = 20;
+        focusmarkers[oldValue].height = 20;
+        focusmarkers[newValue].width = 30;
+        focusmarkers[newValue].height = 30;
+        mapContext.addMarkers({
+            markers: focusmarkers,
+            clear: true
+        });
+    }
+);
+
+//plan日期切换
+watch(
+    () => plandate.value,
+    (newValue, oldValue) => {
+        let coordinates = planstore.plan[newValue].map((poi) => ({
+            latitude: poi.latitude,
+            longitude: poi.longitude
+        }));
+        planmarkers.value = planstore.plan[newValue].map((poi) => ({
+            id: poi.id,
+            latitude: poi.latitude,
+            longitude: poi.longitude,
+            iconPath: '/static/map/' + poi.type + '.png',
+            width: 20,
+            height: 20,
+
+            callout: {
+                content: poi.name,
+                display: 'ALWAYS'
+            }
+        }));
+        mapContext.addMarkers({
+            markers: planmarkers.value,
+            clear: true
+        });
+        mapContext.includePoints({
+            points: coordinates,
+            padding: [500]
+        });
+    }
+);
+
+// info 通信部分
+const height = ref('1300rpx');
+
+
+</script>
+
+<style scoped>
+.customCallout {
+    display: flex;
+    border-radius: 10px;
+    padding: 1px;
+    width: 120rpx;
+    height: 30rpx;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.location_btn1 {
+    position: absolute;
+    top: 110rpx;
+    right: 10rpx;
+    margin: 5rpx;
+}
+/* .location_btn2 {
+    position: absolute;
+    top: 120px;
+    right: 10px;
+    margin: 5px;
+} */
+.location_icon {
+    height: 100rpx;
+    width: 100rpx;
+    opacity: 0.7; /* 50% 透明度 */
+}
+.map {
+    display: flex;
+}
+.poidisplay {
+    position: absolute;
+    bottom: 0;
+    left: 0; /* 根据需要调整 */
+    right: 0; /* 根据需要调整 */
+}
+.plandisplay {
+    position: absolute;
+    top: 0rpx;
+
+    margin: 0rpx;
+}
+</style>

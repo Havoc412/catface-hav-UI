@@ -1,0 +1,95 @@
+<template>
+    <view class="planbox" :class="{ active_card: isExpand }">
+        <view class="datepicker">
+            <picker :value="index" :range="array" mode="selector" @change="onDataChange">
+                <view class="uni-input">Day{{ array[index] }}</view>
+            </picker>
+        </view>
+        <cover-image class="expand" :class="{ active_btn: isExpand }" src="/static/下拉.png" @click="isExpand = !isExpand" />
+        <view v-if="isExpand" class="poitagbox">
+            <view v-for="item in planstore.plan[plandate]" :key="item.id" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around">
+                <text class="child-container">{{ item.name }}</text>
+                <cover-image v-if="item.id < planstore.plan[plandate].length - 1" src="/static/ic_next.png" style="width: 40rpx; height: 40rpx; margin-top: 12rpx" />
+            </view>
+        </view>
+    </view>
+</template>
+
+<script setup>
+import { isExpand } from './isExpand';
+//导入store
+import { usePoiStore } from '@/store/map/poi';
+import { usePlanStore } from '@/store/map/plan';
+const poistore = usePoiStore();
+const planstore = usePlanStore();
+import { plandate } from './plandate';
+import { ref, onMounted, computed } from 'vue';
+const mapContext = uni.createMapContext('myMap');
+//日期选择器参数
+const index = ref(0);
+const array = ref([]);
+//模式标记
+import { modeflag } from './modeflag';
+onMounted(() => {
+    let datanumber = planstore.plan.length;
+    array.value = Array.from({ length: datanumber }, (v, k) => k + 1);
+});
+//时间选择器
+function onDataChange(e) {
+    index.value = e.detail.value;
+    plandate.value = e.detail.value;
+}
+</script>
+
+<style scoped>
+.planbox {
+    min-height: 60px; /* 最小高度 */
+    max-height: 500px; /* 最大高度 */
+    overflow: auto; /* 如果内容超出最大高度，允许滚动 */
+    background-color: antiquewhite;
+    display: flex;
+    flex-direction: column; /* 子元素垂直排列 */
+    width: 350px;
+    border-radius: 20px;
+    padding: 10px;
+}
+.datepicker {
+    width: 70px;
+}
+.uni-input {
+    padding: 10px;
+    background-color: white;
+    width: 70px;
+    border-radius: 5px;
+}
+.expand {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    height: 20px;
+    width: 20px;
+    transform: scaleY(1); /* 垂直翻转 */
+}
+.active_card {
+    height: auto;
+}
+.active_btn {
+    transform: scaleY(-1); /* 垂直翻转 */
+}
+.poitagbox {
+    margin-top: 5px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; /* 允许子元素换行 */
+}
+.child-container {
+    border-radius: 5px;
+    width: auto;
+    padding: 3px;
+    background-color: burlywood;
+    flex: 0 1 auto; /* 子元素的flex属性 */
+    margin: 3px; /* 子元素之间的间距 */
+    /* 可以根据需要设置子元素的宽度 */
+}
+</style>
