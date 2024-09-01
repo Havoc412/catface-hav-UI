@@ -12,26 +12,26 @@
   },
   "pages": [
     {
-      "path": "pages/Home/HomeView"
+      "path": "pages/Home/index"
     },
     {
-      "path": "pages/PunchCard/PunchView"
+      "path": "pages/PunchCard/index"
     },
     {
-      "path": "pages/Message/MessageView"
+      "path": "pages/Message/index"
     },
     {
-      "path": "pages/Person/PersonView"
+      "path": "pages/Person/index"
     },
     {
-      "path": "pages/Test/test"
+      "path": "pages/Test/index"
     },
     // base 5
     {
-      "path": "pages/PostDetail/postDetailView" // 帖子详细页
+      "path": "pages/PostDetail/index" // 帖子详细页
     },
     {
-      "path": "pages/Search/SearchView" // 搜索 - 完全版
+      "path": "pages/Search/index" // 搜索 - 完全版
     },
     {
       "path": "pages/AiPlan/questionFullView"

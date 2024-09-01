@@ -42,7 +42,7 @@
   const indexStore = tabIndex();
   // const
   const iconPath = iconTabbarPath.getFullPath();
-  const pages = ["Home/HomeView", "PunchCard/PunchView", "Message/MessageView", "Person/PersonView", "Test/test"];
+  const pages = ["Home", "PunchCard", "Message", "Person", "Test"];
 // FUNC
   const getRealPath = (index) => {
     if(indexStore.currentIndex == index)
@@ -55,7 +55,7 @@
     console.info("跳转", index);
     indexStore.changeCurtabIndex(index);
 
-    const pagePath = "../" + pages[index];
+    const pagePath = "../" + pages[index] + "/index";
     uni.navigateTo({ url: pagePath, animationType: "fade-in"});
     // info fade-in 视觉效果会好很多。
   }

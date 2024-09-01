@@ -61,7 +61,7 @@
     })
     //
     const gotoSearch = () => {
-        uni.navigateTo({ url: '/pages/Search/SearchView' })
+        uni.navigateTo({ url: "/pages/Search/index" })
     }
 
 </script>
