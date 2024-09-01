@@ -39,7 +39,7 @@
     }
 
     const gotoAiTalk = () => {
-        uni.redirectTo({ url: '/pages/AiTalk/AiTalkView' })
+        uni.redirectTo({ url: '/pages/AiTalk/index' })
     }
 
 </script>

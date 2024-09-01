@@ -145,7 +145,7 @@
 
     // test
     const gotoChoose = () => {
-      uni.navigateTo({ url: '/pages/AiTalk/talkAndPlan' })
+      uni.navigateTo({ url: '/pages/AiList/index' })
     }
 
 </script>

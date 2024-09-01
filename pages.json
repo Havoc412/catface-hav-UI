@@ -40,7 +40,13 @@
       "path": "pages/AiTalk/talkStart/index"
     },
     {
-      "path": "pages/AiTalk/AiTalkView" // 规划对话
+      "path": "pages/AiTalk/index" // 规划对话
+    },
+    {
+      "path": "pages/AiList/index"
+    },
+    {
+      "path": "pages/NavigationGaode/navigationView"
     },
     {
       "path": "components/linzq-citySelect/linzq-citySelect" // 城市选择
@@ -50,28 +56,31 @@
       "path": "pages/Map/index",
       "style": {
         "app-plus": {
-          "subNVues": [{
-            "id": "map",
-            "path": "pages/Map/subNVues/baseplate",
-            "style": {  
-              "position": "absolute",
-              "top": 0,
-              "left": 0,
-              "width": "100%",  
-              "height": "1300rpx",
-              "background": "transparent"//一定要设置为透明背景，否则会跟map并排显示
+          "subNVues": [
+            {
+              "id": "map",
+              "path": "pages/Map/subNVues/baseplate",
+              "style": {
+                "position": "absolute",
+                "top": 0,
+                "left": 0,
+                "width": "100%",
+                "height": "1300rpx",
+                "background": "transparent" //一定要设置为透明背景，否则会跟map并排显示
+              }
+            },
+            {
+              "id": "aitalk",
+              "path": "pages/Map/subNVues/messageField",
+              "style": {
+                "position": "absolute",
+                "bottom": "50px",
+                "width": "100%",
+                "height": "230px",
+                "background": "transparent"
+              }
             }
-          }, {
-            "id": "aitalk",
-            "path": "pages/Map/subNVues/messageField",
-            "style": {
-              "position": "absolute",
-              "bottom": "50px",
-              "width": "100%",
-              "height": "230px",
-              "background": "transparent"
-            }
-          }]
+          ]
         }
       }
     },
