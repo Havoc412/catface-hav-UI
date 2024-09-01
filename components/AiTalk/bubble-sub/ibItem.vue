@@ -1,4 +1,4 @@
-<!--info 2.0 版本的信息块 -->
+<!--info 2.0 版本的信息块；ib：information block -->
 <template>
     <view class="flex-top-horizontal PT-container block gap-10" @click="gotoDetail">
         <view class="relative">

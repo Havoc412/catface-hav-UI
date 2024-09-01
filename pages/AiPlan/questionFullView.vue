@@ -1,3 +1,4 @@
+<!--info 暂时无用，包括 question-sub -->
 <!--AI 前置问卷-->
 <template>
     <view class="flex-center-vertical container gap-10" @click.stop>

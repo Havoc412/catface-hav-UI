@@ -1,3 +1,4 @@
+<!--实现文本流的子组件，具体实现形式需要看后端的连接方式-->
 <template>
     <span :class="props.classCustom">
         <span>{{ dataShow }}</span>

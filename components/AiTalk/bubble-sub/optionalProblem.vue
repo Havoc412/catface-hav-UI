@@ -1,3 +1,4 @@
+<!--增加了交互的问题项 UI，但设计上还很不成熟的感觉。-->
 <template>
     <view class="flex-vertical gap-5 mt-5">
         <template v-for="(item, index) in props.list" :key="index">

@@ -1,3 +1,4 @@
+<!--用组件的渲染作为触发器。-->
 <template>
     <span></span>
 </template>
