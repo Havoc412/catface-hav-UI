@@ -1,3 +1,4 @@
+<!--全局基本底部导航栏，在 main.js 中声明为 t-tarbar-->
 <template>
   <view style="height: 62px"></view> <!--用来把主页内容顶上去-->
   <view class="flex-row justify-between items-center container">

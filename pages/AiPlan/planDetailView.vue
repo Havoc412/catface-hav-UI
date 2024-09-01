@@ -35,7 +35,7 @@
     import tabberAi from "@/components/AiTalk/tabber.vue";
 
     import planIndex from "@/components/planDetail/planIndex.vue";
-    import chipGroup from "@/components/Home/chipGroup.vue";
+    import chipGroup from "@/components/Com/chip-group/chipGroup.vue";
     import traffic from "@/components/planDetail/traffic.vue";
     import pathCard from "@/components/planDetail/pathCard.vue";
     // store

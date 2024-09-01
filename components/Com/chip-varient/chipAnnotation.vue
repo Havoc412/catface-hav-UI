@@ -1,3 +1,4 @@
+<!--注释功能的 chip-->
 <template>
     <t-chip :light="inputFlag" :light-start="inputFlag" :kind="props.kind">
         <!--info 同时使用有奇效！！-->

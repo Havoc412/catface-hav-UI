@@ -29,7 +29,7 @@
 <script setup>
     import { ref, computed, nextTick, onMounted, watch } from 'vue';
     // com
-    import similarWin from "./similarWin.vue";
+    import similarWin from "./chip-sub/similarWin.vue";
     // store
     import useChipsStore from "@/store/chips";
     const chipStore = useChipsStore();

@@ -46,6 +46,9 @@
       "path": "pages/AiList/index"
     },
     {
+      "path": "pages/AiPlan/planDetailView"
+    },
+    {
       "path": "pages/NavigationGaode/navigationView"
     },
     {
