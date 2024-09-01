@@ -31,9 +31,10 @@
 <script setup>
     import { ref } from "vue";
     // com
+    import searchBox from "@/components/Search/searchBox.vue";
+    import historyChips from "@/components/Search/historyChips.vue";
+
     import chipGroup from "@/components/Home/chipGroup.vue";
-    import historyChips from "@/components/Home/historyChips.vue";
-    import searchBox from "@/components/Home/searchBox.vue";
 
     import headerBase from "@/components/Com/headerBase.vue";
     import search from "@/components/Com/search.vue";
