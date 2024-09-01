@@ -1,3 +1,4 @@
+<!--comment区域，顶部的输入框-->
 <template>
     <view class="flex-center-horizontal gap-50">
         <up-avatar :src="props.avatar" size="35"></up-avatar>

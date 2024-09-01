@@ -23,7 +23,7 @@
                 <text>{{ time }}</text>
             </view>
             <!--tag comment-->
-            <commentBox/>
+            <comment/>
         </view>
         <!--end-->
     </view>
@@ -38,7 +38,7 @@
     import chipGroup from "@/components/Home/chipGroup.vue";
     import tabbar from "@/components/PostDetail/tabbar.vue";
     import funcBtn from "@/components/PostDetail/funcBtn.vue";
-    import commentBox from "./commentBox.vue";
+    import comment from "@/components/PostDetail/comment.vue";
     // store
     import { useDetailIconPath } from "@/store/dataBase";
     const iconPath = useDetailIconPath();

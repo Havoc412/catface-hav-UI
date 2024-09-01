@@ -1,3 +1,4 @@
+<!--单条评论信息-->
 <template>
    <view class="flex-top-horizontal gap-10 block-width">
         <up-avatar class="no-shrink" :src="props.information.avatar" size="35"></up-avatar>
@@ -24,7 +25,7 @@
 
 <script setup>
     import { ref } from "vue";
-    import iconText from "../Com/iconText.vue";
+    import iconText from "@/components/Com/iconText.vue";
     // store
     import { useDetailIconPath } from '@/store/dataBase';
     const iconPath = useDetailIconPath();
