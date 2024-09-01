@@ -16,8 +16,8 @@
 <script setup>
     import { ref } from "vue";
     // com
-    import tHeader from '@/components/Com/header.vue';
     import search from "@/components/Com/search.vue";
+    import tHeader from "@/components/Home/header.vue";
     import card from '@/components/Punch/card.vue';
 
 // DATA
