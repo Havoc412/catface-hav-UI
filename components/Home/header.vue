@@ -1,3 +1,4 @@
+<!--基本的顶部功能区-->
 <template>
     <view class="flex-center-horizontal container top-container" :style="{
             '--status-height': phoneInforStore.statusBarHeight.toString() + 'px',
@@ -52,8 +53,8 @@
 
 <script setup>
     import { ref, nextTick } from "vue";
-    import FunctionMenu from "./function.vue";
-    import Setting from "./setting.vue";
+    import FunctionMenu from "./header-sub/function.vue";
+    import Setting from "./header-sub/setting.vue";
     // store
     import usePhoneInfor from "@/store/phoneInfor";
     const phoneInforStore = usePhoneInfor();

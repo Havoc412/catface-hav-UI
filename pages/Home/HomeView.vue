@@ -42,11 +42,11 @@
     import usePhoneInfor from "@/store/phoneInfor";
     const phoneInforStore = usePhoneInfor();
     // com
+    // import planStartVue from './planStart.vue';    // info 没有用到了
     import Search from "@/components/Com/search.vue";
     import Card from "@/components/Home/card.vue";
-    import planStartVue from './planStart.vue';
-    import starVue from './star.vue';
-    import tHeader from '@/components/Com/header.vue';
+    import starVue from "@/components/Home/star.vue";
+    import tHeader from "@/components/Home/header.vue";
 
 // DATA
     const cardList = ref([  

@@ -1,3 +1,4 @@
+<!--首页的【星球】关键词交互插件-->
 <template>
   <view class="star-container">
     <view id="container" class="tagBall" @touchmove.prevent @touchstart="handleTouchStart" @touchmove="handleTouchMove"

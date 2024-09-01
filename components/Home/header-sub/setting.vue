@@ -35,7 +35,7 @@
     import usePhoneStore from "@/store/phoneInfor";
     const phoneInfor = usePhoneStore();
 
-    import Box from "../../components/Home/tagBox.vue";
+    import Box from "./setting-sub/tagBox.vue";
 
 // DATA
     const props = defineProps({
