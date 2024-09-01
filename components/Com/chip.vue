@@ -1,5 +1,5 @@
 <template>
-    <view class="flex-center-both basic" :class="getClass" :style="{
+    <view class="flex-center-both basic" :class="[getClass, props.shape]" :style="{
         '--border-radius': checkKind.borderRadius,
         '--color': selectFlag ? checkKind.fontColorSelected : checkKind.fontColor,
         '--back-color': checkKind.backColor,   
@@ -8,7 +8,7 @@
             {{ props.text }}
         </slot>
         <!--info tag 的介绍框框-->
-        <view v-show="similarWinFlag"
+        <view v-if="similarWinFlag"
             :animation="similarWinAnimation"
             class="z-9 detail-container"
             :style="{
@@ -27,9 +27,13 @@
 </template>
 
 <script setup>
-    import { ref, computed, nextTick, onMounted } from 'vue';
+    import { ref, computed, nextTick, onMounted, watch } from 'vue';
     // com
     import similarWin from "./similarWin.vue";
+    // store
+    import useChipsStore from "@/store/chips";
+    const chipStore = useChipsStore();
+    // todo 自点亮也写在这里就可以了。
 
 // DATA
     const props = defineProps({
@@ -38,15 +42,36 @@
             default: "way"
         },
         text: {
-            type: String,
+            type: [String, Number],
             default: "风格"
+        },
+        shape: {
+            type: String,
+            default: "rectangle"
         },
         belongAiHeader: { // info 为了 aitalk-header 特化
             type: Boolean,
             default: false
-        }
+        },
+        light: { // info 是否保持常亮 light-hold
+            type: Boolean,
+            default: false
+        },
+        lightStart: {   // info  lightFlag 的初始值； // info 优先级 light > lightSrart
+            type: Boolean,
+            default: false
+        },
+        belongChipGroupFlex: { // info 
+            type: Boolean,
+            default: false
+        },
+        // todo 优化整理 三个 belong，
+        belongChipGroupSingle: Boolean,
+
+        // info !!!
+        chipType: String
     });
-    const emits = defineEmits(["longPress", "closeSimilarWin"]);  // todo 用于历史记录的消息传递
+    const emits = defineEmits(["longPress", "closeSimilarWin", "clickChoose", "clickDelete"]);  // todo 用于历史记录的消息传递
 
     const FONTCOLOR = ref({
         unselected: "#cccccc",
@@ -73,7 +98,7 @@
     };
 
     // flag
-    const selectFlag = ref(false);
+    const selectFlag = ref(props.light | props.lightStart);
     const similarWinFlag = ref(true);
     // test
     onMounted(() => {
@@ -86,7 +111,16 @@
     // const
     const TOP = -45;
 
+    // info chip type flag
+
 // FUNC
+    onMounted(() => {
+
+    })
+
+    watch(() => props.lightStart, () => {
+        selectFlag.value = props.light | props.lightStart;
+    })
     const checkKind = computed(() => {
         return style[props.kind] || style.way;
     })
@@ -115,14 +149,38 @@
                 duration: TIME_ANIMATION,
                 timingFunction: 'ease'
             })
-
             similarWinAnimation.value.opacity(1).step();
         });
     }
+
     const click = () => {
-        if(!islongPress)
-            selectFlag.value = !selectFlag.value;
+        if(!islongPress && !props.light) { // info 实现常亮效果
+            // selectFlag.value = !selectFlag.value; // info 向上传递具体的操作形式，判断处理形式
+            // info chip store
+            if(!selectFlag.value)
+                chipStore.add(props.text, props.kind);
+            else
+                var a = 1; // todo 删除
+            
+
+            if(props.belongChipGroupFlex) {
+                if(!selectFlag.value)
+                    emits("clickChoose");
+                else
+                    emits("clickDelete");  
+            }
+            else if(props.belongChipGroupSingle) {
+                if(!selectFlag.value)
+                    emits("clickChoose");
+                else
+                    emits("clickDelete");
+                selectFlag.value = !selectFlag.value;
+            }
+            else
+                selectFlag.value = !selectFlag.value;
+        }
     }
+
     const touchend = () => {
         setTimeout(() => {
             islongPress = false;
@@ -148,7 +206,6 @@
 
 .basic {
     height: 30px;
-    padding: 10px;
 
     border-radius: var(--border-radius);
 
@@ -161,6 +218,14 @@
     flex-shrink: 0;
     flex-basis: auto;
     white-space: nowrap;
+}
+
+.rectangle {
+    padding: 10px;
+}
+
+.square {
+    padding: 10px 5px;
 }
 
 .default {
