@@ -71,7 +71,8 @@
     }
 
     const detail = (index) => {
-        uni.navigateTo({ url: '/pages/PostDetail/postDetailView' })
+        uni.navigateTo({ url: '/pages/PostDetail/index' })
+        // todo 根据 card 传参
     }
 
     const gotoSearch = () => {

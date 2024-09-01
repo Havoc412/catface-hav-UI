@@ -19,7 +19,7 @@
                     <up-avatar :src="props.avatar" size="20"></up-avatar>
                     <text class="ml-10">{{ props.userName }}</text>
                 </view>
-                <view class="flex-center-horizontal like-container">
+                <view class="flex-center-horizontal like-container" @click.stop>
                     <u-icon size="14" :name="likeFlag ? iconPath.likeSelected : iconPath.like" @click="handleLike"></u-icon>
                     <text class="ml-4" :class="{'like-text': likeFlag}">{{ likeNum }}</text>
                 </view>
