@@ -33,11 +33,11 @@
 <script setup>
     import { ref } from "vue";
     // com
-    import detailHeader from "@/components/Detail/header.vue";
-    import album from '@/components/Detail/album.vue';
+    import detailHeader from "@/components/PostDetail/header.vue";
+    import album from "@/components/PostDetail/album.vue";
     import chipGroup from "@/components/Home/chipGroup.vue";
-    import tabbar from "@/components/Detail/tabbar.vue";
-    import funcBtn from "@/components/Detail/funcBtn.vue";
+    import tabbar from "@/components/PostDetail/tabbar.vue";
+    import funcBtn from "@/components/PostDetail/funcBtn.vue";
     import commentBox from "./commentBox.vue";
     // store
     import { useDetailIconPath } from "@/store/dataBase";

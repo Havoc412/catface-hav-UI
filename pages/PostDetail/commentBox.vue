@@ -11,8 +11,8 @@
 <script setup>
     import { ref } from "vue";
     // com
-    import commentTop from "@/components/Detail/commentTop.vue";
-    import comment from "@/components/Detail/comment.vue";
+    import commentTop from "@/components/PostDetail/commentTop.vue";
+    import comment from "@/components/PostDetail/comment.vue";
     // store
 // DATA
     const props = defineProps({
