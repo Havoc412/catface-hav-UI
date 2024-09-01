@@ -1,43 +1,57 @@
 <template>
     <view class="flex-center-both">
         <floatWin>
-            <view class="flex-center-vertical">
-                <u-icon class="mt-80" :name="iconPath.LOGO" size="105"></u-icon>
-                <text class="talk">您希望您的旅行是什么样的呢？</text>
-                <view class="input-container">
-                    <u--textarea v-model="content" 
-                        placeholder="说点什么吧......"
-                        border="none"
-                        fontSize="14"
-                        height="80"
-                        :customStyle="{
-                            borderRadius: '20px',
-                            padding: '15px',
-                            border: '1px solid #000',
-                            paddingRight: '45px',
-                        }"
-                    ></u--textarea>
-                    <view class="input-func-container">
-                        <view v-if="inputNULL" class="flex-horizontal gap-20">
-                            <u-icon :name="iconInput.microphone" size="20"></u-icon>
-                            <u-icon :name="iconInput.camera" size="20"></u-icon>
+            <view class="flex-vertical">
+                <view class="flex-vertical gap-10">
+                    <question-win-item :title="title[0]">
+                        <view class="flex-horizontal gap-20">
+                            <text>起点</text>
+                            <t-chip kind="spot" :text="spotStore.start" light/>
+                            <text>终点</text>
+                            <t-chip kind="spot" :text="spotStore.end" light/>
                         </view>
-                        <u-icon v-else :name="iconPath.clear" size="20" @click="clearInput"></u-icon>
-                    </view>
-                </view>
-                <view class="flex-center-horizontal gap-35 mt-50">
-                    <t-btn variant="tonal" class="btn-base">上一题</t-btn>
-                    <t-btn variant="tonal" class="btn-base">下一题</t-btn>
-                </view>
-                <view class="flex-center-horizontal gap-35 mt-10">
-                    <t-btn variant="outlined" class="btn-base" :custom-style="{
-                        color: '#666666',
-                        borderColor: '#666666'
-                    }" @click="gotoBack">取消</t-btn>
-                    <t-btn variant="tonal" class="btn-base" :custom-style="{
-                        color: '#FFFFFF',
-                        backgroundColor: '#FFC300'
-                    }">完成</t-btn>
+                    </question-win-item>
+                    <question-win-item :title="title[1]">
+                        <view class="flex-horizontal gap-10">
+                            <text>游玩时长</text>
+                            <t-chip kind="way" :text="timeStore.timeLength" light/>
+                        </view>
+                        <view class="flex-horizontal gap-10">
+                            <text>出发时间</text>
+                            <t-chip kind="way" :text="timeStore.dateStart" light/>
+                        </view>
+                    </question-win-item>
+                    <question-win-item :title="title[2]">
+                        <view class="flex-horizontal gap-10">
+                            <text>预算</text>
+                            <t-chip kind="way" :text="'￥' + budgetStore.budget.toString()" light/>
+                        </view>
+                    </question-win-item>
+                    <question-win-item :title="title[3]">
+                        <chip-group-choose
+                            title="旅行伴随" light-hold openStart
+                            :way-list="preferenceStore.followChosed"
+                            :spot-list="[]" :thing-list="[]"
+                        />
+                        <chip-group-choose
+                            title="旅行主题" light-hold openStart
+                            :way-list="preferenceStore.themeChosed"
+                            :spot-list="[]" :thing-list="[]"
+                        />
+                        <chip-group-choose
+                            title="行程紧凑度" light-hold openStart
+                            :way-list="preferenceStore.tightnessChosedd"
+                            :spot-list="[]" :thing-list="[]"
+                        />
+                        <chip-group-choose
+                            title="酒店档位" light-hold openStart
+                            :way-list="preferenceStore.hotelStallChosed"
+                            :spot-list="[]" :thing-list="[]"
+                        />
+                    </question-win-item>
+                    <question-win-item :title="title[4]">
+                        
+                    </question-win-item>
                 </view>
             </view>
         </floatWin>
@@ -48,14 +62,25 @@
     import { ref, computed } from "vue";
     // com
     import floatWin from "@/components/Com/floatWin.vue";
+    import questionWinItem from "./questionwin-sub/questionWinItem.vue";
+
+    import chipGroupChoose from "@/components/Com/chip-group/chipGroupChoose.vue";
     // store
     import { useAiIconPath, useDetailIconPath } from "@/store/dataBase.ts";
     const iconPath = useAiIconPath();
     const iconInput = useDetailIconPath();
+    import { useTitle, useSpot, useTime, useBudget, usePreference, useIndividual } from "@/store/aiPlanQuestion";
+    const titleStore = useTitle();
+    const spotStore = useSpot();
+    const timeStore = useTime();
+    const budgetStore = useBudget();
+    const preferenceStore = usePreference();
+    // todo...
+
 // DATA
     const emits = defineEmits(['close']);
+    const title = ref(titleStore.title);
 
-    const content = ref("");
 // FUNC
     const inputNULL = computed(() => {
         return content.value === "";
@@ -72,6 +97,11 @@
 </script>
 
 <style scoped>
+
+/* .container {
+    height: 80;
+    overflow: scroll;
+} */
 
 .talk {
     margin-top: 50px;

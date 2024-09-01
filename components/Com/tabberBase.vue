@@ -1,20 +1,24 @@
 <template>
-    <view class="container flex-bottom-horizontal gap-10"
-    :class="{
-        [setZIndex]: true
-    }"
+    <view class="container flex-vertical"
     :style="{
         '--bottom': setBottom
     }"
+    :class="{
+        [setZIndex]: true
+    }"
     @click.stop>
-        <view class="flex-center-horizontal">
-            <slot name="prefix"></slot>
-        </view>
-        <view class="flex-center-horizontal shrink">
-            <slot name="midfix"></slot>
-        </view>
-        <view class="flex-center-horizontal"> 
-            <slot name="suffix"></slot>
+        <slot name="topfix"></slot>
+        <view class="flex-bottom-horizontal bottom-container" 
+        >
+            <view class="flex-center-horizontal">
+                <slot name="prefix"></slot>
+            </view>
+            <view class="flex-center-horizontal shrink">
+                <slot name="midfix"></slot>
+            </view>
+            <view class="flex-center-horizontal"> 
+                <slot name="suffix"></slot>
+            </view>
         </view>
     </view>
 </template>
@@ -42,6 +46,9 @@
     const setBottom = computed(() => {
         return props.bottom.toString() + 'px';
     })
+    const setWidth = computed(() => {
+
+    })
 
 </script>
 
@@ -50,11 +57,14 @@
 .container {
     position: sticky;
     bottom: var(--bottom);
-    
-    background-color: #fff;
-    padding: 4px;
 
+    background-color: transparent;
     transition: bottom .1s;
+}
+
+.bottom-container {
+    background-color: #ffffff;
+    padding: 2px;
 }
 
 </style>        
