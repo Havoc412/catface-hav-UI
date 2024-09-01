@@ -1,29 +1,19 @@
-<!--基本的顶部功能区-->
 <template>
     <view class="flex-center-horizontal container top-container" :style="{
             '--status-height': phoneInforStore.statusBarHeight.toString() + 'px',
         }" @click.stop>
         <!--update 滑块有一些错位-->
-        <u-tabs :list="TabList" :current="tabIndex" @scroll="test" line-color="#ffc300" line-height="2"
-            line-width="36" :activeStyle="{
-                color: '#000000',
-                fontSize: '18px',
-                lineHeight: '16.5px'
-            }" :inactiveStyle="{
-                color: '#333333',
-                fontWeight: '300',
-                lineHeight: '14.5px'
-            }" :itemStyle="{
-                paddingBottom: '7px',
-                paddingTop: '5px',
-            }" />
+        <tab-group class="tab-container" :tab-list="tabList"
+            @change-index="changeIndex"/>
         <view class="flex-center-horizontal gap-1">
             <t-btn-icon icon="/static/icon/list.svg" @click="settingFlag = true"></t-btn-icon>
             <t-btn-icon icon="/static/icon/more.svg" @click.stop="openFunction"></t-btn-icon>
-            <t-btn-icon icon="/static/icon/LOGO.svg" @click.stop="gotoAiPlan"></t-btn-icon>
+            <!--todo 这里换规划 -> 导航-->
+            <t-btn-icon icon="/static/icon/LOGO.svg" @click.stop="planFlag = true"></t-btn-icon>
         </view>
         <!--菜单功能-->
         <FunctionMenu v-show="functionFlag"
+        kind="home"
         :animation="functionAnimation"
         class="function-menu top-float-win"
         :class="{
@@ -41,41 +31,57 @@
         <Setting />
     </u-popup>
     <!--规划功能-->
-    <!-- <u-overlay class="flex-center-both" :show="planFlag" @click="planFlag = false"> -->
-        <!--未有规划之时-->
+    <u-overlay class="flex-center-both" :show="planFlag" @click="planFlag = false">
+        <!-- 未有规划之时 -->
         <!-- <questionFullView/> -->
-        <!--已有规划之时-->
-        <!-- <view class="flex-center-both">
-            <planStartVue />
-        </view> -->
-    <!-- </u-overlay> -->
+        <!-- 已有规划之时 -->
+        <view class="flex-center-both">
+            <planStart />
+        </view>
+    </u-overlay>
 </template>
 
 <script setup>
-    import { ref, nextTick } from "vue";
-    import FunctionMenu from "./header-sub/function.vue";
+    import { ref, nextTick, onMounted, watch } from "vue";
+    // com
+    import tabGroup from "./header-sub/tabGroup.vue";
+    import FunctionMenu from "./header-sub/functionFloat.vue";
     import Setting from "./header-sub/setting.vue";
+    import planStart from '@/pages/Home/planStart.vue';
     // store
     import usePhoneInfor from "@/store/phoneInfor";
     const phoneInforStore = usePhoneInfor();
+    import { useLocation } from "@/store/location";
+    const locationStore = useLocation();
 // DATA
     const props = defineProps({
 
     });
     const emits = defineEmits([]);
     //todo 第一个词条需要和定位绑定，以及处理“定位失效”时的容错。
-    const TabList = ref([{name: "武汉"}, {name: "关注"}, {name: "规划"}, {name: "推荐"}]);
+    const tabList = ref(["地点", "关注", "规划", "推荐"]);
     const tabIndex = ref(0);   // bug 好像无效
+    const MenuList = ref({})
     // flag
     const settingFlag = ref(false);
     const planFlag = ref(false);
+        // mark 两个flag共同维护
     const functionFlag = ref(false);
-    // style
+    let clickOnceFlag = false;
+    // tag style - animation
     const functionAnimation = ref(null);
+
 // FUNC
-    // animation
+    onMounted(() => {
+       locationStore.getLocation();
+    })
+    watch(() => locationStore.city, () => {
+        tabList.value[0] = locationStore.city;
+    })
+
+    // tag menu animation
     const TIME_ANIMATION = 200;
-    const toggleFloatWin = (show) => {
+    const toggleFloatWin = (show) => { // update 之后最好封装好一下。
         if(show) {
             functionFlag.value = true;
 
@@ -98,36 +104,51 @@
             functionAnimation.value.opacity(0).step();
         }
     }
-    // router
     const openFunction = () => {
-        if(functionFlag.value)
-        // info 在动画生效期间，如果点击过快，就会bug，flag反转，无法正常工作；所以直接打断。
+        if(functionFlag.value) // info 在动画生效期间，如果点击过快，就会bug，flag反转，无法正常工作；所以直接打断。
             return;
-        // console.info("openFunction");
-        if(!functionFlag.value)
+        console.info("openFunction", functionFlag.value);
+        if(!clickOnceFlag) {
+            toggleFloatWin(!functionFlag.value);
+        } else {
+            clickOnceFlag = false;
+        }
+        if(functionFlag.value) {
+            clickOnceFlag = true;
             uni.$once("baseClick", () => {
+                clickOnceFlag = false;
+                console.info("baseClick-open", functionFlag.value); // info stop 好像成功阻止
                 toggleFloatWin(false);
-                // console.info("baseClick-open");
             });
+        }
         else {
             uni.$off("baseClick");
-            // console.info("baseClick-close");
+            console.info("baseClick-close");
         }
-        toggleFloatWin(!functionFlag.value);
     }
+    // tag router
     const gotoAiPlan = () => {
         uni.navigateTo({ url: '/pages/AiPlan/questionFullView'})
     }
+
+    // tag tag-group
+    const changeIndex = (index) => {
+        tabIndex.value = index;
+    }
+
     // test
-    function test() {
-        // console.info(tabIndex.value);
-        console.info("scroll run");
+    const getLocation = () => {
+        
     }
     
 </script>
 
 <style scoped>
 /* TOP */
+.tab-container {
+    padding: 0 10px;
+}
+
 .container {
     position: sticky;
     top: 0px;
