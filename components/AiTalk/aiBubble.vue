@@ -1,55 +1,100 @@
 <template>
     <view class="flex-top-horizontal container gap-10">
-        <u-icon :name="iconPath.AI" size="30"></u-icon>
+        <view class="relative">
+            <u-icon :name="props.avatar" size="30"></u-icon>
+            <view v-if="props.wordByWord" class="loader"/>
+        </view>
         <view class="talk-container wrap">
             <component :is="item.type" v-for="(item, index) in props.content" :key="index">
                 <template v-if="item.type === 'endl'">
                     <view>{{ item.text }}</view>
                 </template>
                 <template v-else-if="item.type[0] === 'P'"> <!--info 为了方便，只比较了 ‘P’-->
-                    <view class="flex-center-horizontal PT-container block gap-10">
-                        <!-- <view class="flex-horizontal gap-10"> -->
-                        <!--bug chip会收到 text 的宽度影响-->
-                            <view class="relative">
-                                <up-image :src="item.imgPath" fade radius="5" width="50" height="50"/>
-                                <view class="img-grade">{{ item.grade }}</view>
-                            </view>
-                            <view class="shrink">
-                                <view class="flex-horizontal">
-                                    <t-chip class="t-ship" :kind="getType(item.type)" :text="item.text"></t-chip>
-                                    <view class="shrink"></view>
-                                </view>
-                                <text class="location-text">{{ item.location }}</text>
-                                <!-- <view class="location-text">{{ item.location }}</view> -->
-                            </view>
-                        <!-- </view> -->
-                        <view class="flex-center-both price-container">
-                            <view v-if="item.price === 0" style="justify-content: flex-end;">
-                                <span style="font-size: 18px;">免费</span>
-                            </view>
-                            <view v-else>
-                                <span style="font-size: 10px;">￥</span>
-                                <span style="font-size: 18px;">{{ item.price }}</span>
-                                <span style="font-size: 8px;">起</span>
-                            </view>
-                        </view>
-                    </view>
+                    <!--info 原版直接展示-->
+                    <!-- <pt-item
+                        :type="getType(item.type)"
+                        :text="item.text"
+                        :grade="item.grade"
+                        :price="item.price"
+                        :img-path="item.imgPath"
+                        :location="item.location"  
+                    /> -->
+                    <!--info 新版集中展示-->
+                    <trigger-func :item="item" @emit-back-object="loadinPTList"/>
                 </template>
-                <template v-else>
-                    <span :class="item.type">{{ item.text }}</span>
+                <template  v-else-if="item.type[0] === 'C'">
+                    <chip-group-single-choose
+                        :tag-kind="getType(item.type)"
+                        :tag-list="item.list"
+                        :reload="item.reload"
+                        :reply="item.reply"
+                        :light="item.light"
+                    />
+                </template>
+                <template v-else-if="item.type[0] === 'I'">
+                    <ib-item
+                        :type="getType(item.type)"
+                        :text="item.text"
+                        :grade="item.grade"
+                        :price="item.price"
+                        :img-path="item.imgPath"
+                        :location="item.location"
+                        :introduce="item.introduce"
+                    />
+                </template>
+                <template v-else-if="item.type[0] === 'O'">
+                    <optional-problem
+                        :list="item.list"
+                    />
+                </template>
+                <template v-else> <!--text || loading-->
+                    <span v-if="!props.wordByWord" :class="item.type">{{ item.text }}</span>
+                    <word-by-word v-else :classCustom="item.type" :text="item.text"/>
                 </template>
             </component>
+            <!--test-->
+            <!--info 用于存放左右滑动版本的PT信息块-->
+            <swiper v-if="PTList != []"
+                class="swiper"
+                :style="{
+                    '--swiper-height': setSwiperHeight
+                }"
+                indicator-dots
+                circular
+            >
+                <swiper-item v-for="(itemList, index) in PTList">
+                    <pt-item v-for="(item, index) in itemList"
+                        :type="item.type"
+                        :text="item.text"
+                        :grade="item.grade"
+                        :price="item.price"
+                        :img-path="item.imgPath"
+                        :location="item.location"  
+                    />
+                </swiper-item>
+        </swiper>
         </view>
     </view>
 </template>
 
 <script setup>
     import { ref, computed } from "vue";
+    // com
+    import wordByWord from "./bubble-sub/wordByWord.vue";
+    import ptItem from "./bubble-sub/ptItem.vue";
+    import ibItem from "./bubble-sub/ibItem.vue";
+    import triggerFunc from "./bubble-sub/triggerFunc.vue";
+    import optionalProblem from "./bubble-sub/optionalProblem.vue";
+    import chipGroupSingleChoose from "@/components/Com/chip-group/chipGroupSingleChoose.vue";
     // store
     import { useAiIconPath } from "@/store/dataBase";
     const iconPath = useAiIconPath();
 // DATA
     const props = defineProps({
+        avatar: {
+            type: String,
+            default: "/static/icon/AiTalk/AI.svg"
+        },
         content: {
             type: Array,
             default: () => [
@@ -63,11 +108,40 @@
                 { type: "text", text: "接下来是规划测试..."},
             ]
         },
+        time: String, // todo 
         // ... 如何处理 tags
+        wordByWord: Boolean
     });
     const emits = defineEmits([]);
 
+    const PTList = ref([[]]);
 // FUNC
+    const swiperColNum = computed(() => {
+        return Math.ceil(PTList.value.length / 3);
+    })
+    const setSwiperHeight = computed(() => {
+        let height = 0;
+        if(PTList.value[0])
+            switch(PTList.value[0].length) {
+                case 0: height = 0; break;
+                case 1: height = 80; break;
+                case 2: height = 145; break;
+                case 3: height = 205; break;
+                default: height = 205; break;
+            }
+        return height.toString() + "px";
+    })
+
+    // info 会填入到 左右滑动栏 的版本
+    const loadinPTList = (item) => {
+        if(PTList.value.length == 0 || PTList.value[PTList.value.length-1].length == 3)
+            PTList.value.push([]);
+        PTList.value[PTList.value.length-1].push(item);
+        console.info(PTList.value);
+        return "";
+    }
+
+    // info re正则获取结点类别
     const getType = (type) => {
         const regexp = /-(.*)/;
         const matches = type.match(regexp);
@@ -80,9 +154,15 @@
         }
     }
 
+
 </script>
 
 <style scoped>
+
+.swiper {
+    width: 100%;
+    height: var(--swiper-height);
+}
 
 .container {
     justify-content: flex-start;
@@ -97,35 +177,6 @@
 
     font-size: 16px;
     font-family: SourceHanSansCN;
-}
-
-.PT-container {
-    margin: 10px 0;
-}
-
-.img-grade {
-    position: absolute;
-    right: 3px;
-    top: 3px;
-    padding: 0 2px;
-
-    border-radius: 3px;
-    background-color: #00000080;
-
-    font-size: 10px;
-    font-family: Alimama ShuHeiTi;
-    color: #ffc300;
-}
-
-.price-container {
-    padding: 8px 0;
-    background-color: #ffc300;
-    border-radius: 5px;
-    width: 50px;
-    height: 30px;
-
-    color: #fff;
-    font-family: Alimama ShuHeiTi;
 }
 
 .text {
@@ -144,13 +195,25 @@
     color: #c895f0;
 }
 
-.location-text {
-    font-size: 10px;
-    color: #a68f47;
+/* animation */
+.loader {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+
+    border: 1px solid #6464646b; /* 浅灰色背景 */
+    border-top: 2px solid #000000; /* 蓝色 */
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    animation: spin 2s linear infinite;
+
+    background-color: #fff;
 }
 
-.t-ship {
-    flex-shrink: 0;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 </style>        
