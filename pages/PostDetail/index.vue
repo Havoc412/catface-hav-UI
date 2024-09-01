@@ -35,7 +35,7 @@
     // com
     import detailHeader from "@/components/PostDetail/header.vue";
     import album from "@/components/PostDetail/album.vue";
-    import chipGroup from "@/components/Home/chipGroup.vue";
+    import chipGroup from "@/components/Com/chipGroup.vue";
     import tabbar from "@/components/PostDetail/tabbar.vue";
     import funcBtn from "@/components/PostDetail/funcBtn.vue";
     import comment from "@/components/PostDetail/comment.vue";

@@ -42,7 +42,7 @@
   const indexStore = tabIndex();
   // const
   const iconPath = iconTabbarPath.getFullPath();
-  const pages = ["Home", "PunchCard", "Message", "Person", "Test"];
+  const pages = ["Home", "PunchCard", "Message", "Person", 'AiTalk/talkStart'];
 // FUNC
   const getRealPath = (index) => {
     if(indexStore.currentIndex == index)

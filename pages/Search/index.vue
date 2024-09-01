@@ -34,7 +34,7 @@
     import searchBox from "@/components/Search/searchBox.vue";
     import historyChips from "@/components/Search/historyChips.vue";
 
-    import chipGroup from "@/components/Home/chipGroup.vue";
+    import chipGroup from "@/components/Com/chipGroup.vue";
 
     import headerBase from "@/components/Com/headerBase.vue";
     import search from "@/components/Com/search.vue";

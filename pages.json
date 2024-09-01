@@ -37,7 +37,13 @@
       "path": "pages/AiPlan/questionFullView"
     },
     {
+      "path": "pages/AiTalk/talkStart/index"
+    },
+    {
       "path": "pages/AiTalk/AiTalkView" // 规划对话
+    },
+    {
+      "path": "components/linzq-citySelect/linzq-citySelect" // 城市选择
     },
     // map
     {
