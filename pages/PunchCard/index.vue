@@ -18,7 +18,7 @@
     // com
     import search from "@/components/Com/search.vue";
     import tHeader from "@/components/Home/header.vue";
-    import card from '@/components/Punch/card.vue';
+    import card from "@/components/PunchCard/card.vue";
 
 // DATA
     const spotList = ref([
