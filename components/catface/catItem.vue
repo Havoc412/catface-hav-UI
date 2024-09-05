@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-    import { ref, computed } from "vue";
+    import { ref } from "vue";
     import api from "../../request/file";
     // store
 // DATA
@@ -42,16 +42,12 @@
     const emits = defineEmits([]);
 
 // FUNC
-    const get_img_path = computed(() => {
-        let filePath = "images/cats/" + props.id + ".jpg";
-        return api.fetchStaticFile(filePath);
-    })
 
 
 </script>
 
 <style scoped>
-.self-cantainer {
+.self-container {
     font-family: Alimama ShuHeiTi;
 }
 

@@ -32,7 +32,7 @@ export class Request {
         hedaer: header,
         data: data,
         success: (res) => {
-          if (res.data.status == 200) {
+          if (res.data.status >= 200 && res.data.status < 300) {
             // mark 一般默认会用200吧，不过也看实际了，
             resolve(res.data);
           } else {
