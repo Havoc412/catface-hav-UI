@@ -1,7 +1,7 @@
 import App from './App'
 
 // 引入全局uview-plus
-import uviewPlus from './uni_modules/uview-plus/index.js'
+import uviewPlus from './uni_modules/uview-plus'
 
 // i18n部分的配置
 // 引入语言包，注意路径
@@ -16,19 +16,6 @@ let i18nConfig = {
   messages
 }
 
-// mark 自定义组件
-  // tag small
-import btnIcon from "./components/Com/btnIcon.vue";
-import chip from "./components/Com/chip.vue";
-import btn from "./components/Com/Button.vue";
-import image from "./components/Com/Image/image.vue";
-import imageGroup from "./components/Com/Image/imageGroup.vue";
-  // tag mid
-import tabber from "./components/Com/tabbar.vue";
-
-// tag js引入
-// import test from "./request/test.js";
-
 // 引入uView对小程序分享的mixin封装
 import mpShare from '@/uni_modules/uview-plus/libs/mixin/mpShare.js'
 import mixin from './common/mixin'
@@ -38,14 +25,21 @@ import { createSSRApp } from 'vue'
 import { createI18n } from 'vue-i18n'
 const i18n = createI18n(i18nConfig)
 import * as Pinia from 'pinia'
-import {initRequest} from './util/request/index'
+
+// import { initRequest } from './utils/request/index.js'
+// import { Request } from './request';
+
+// info 自定义全局组件
+import tabbar from "./components/com/tabbar.vue";
+import vtButton from "./components/com/button.vue";
+
 
 export function createApp() {
   const app = createSSRApp(App)
   const pinia = Pinia.createPinia()
   
   // 引入请求封装
-  initRequest(app)
+  // initRequest(app)
 
   app.use(i18n)
 	.use(pinia)
@@ -56,21 +50,13 @@ export function createApp() {
   app.mixin(mixin)
   // #endif
 
-  // mark 自定义组件
-  app.component("t-btn-icon", btnIcon);
-  app.component("t-tabbar", tabber);
-  app.component("t-chip", chip);
-  app.component("t-btn", btn);
-  app.component("t-image", image);
-  app.component("t-image-group", imageGroup);
-
-  // tag JS
-  // app.config.globalProperties.$test = test; // info setup中调用好麻烦。。
+  // info nick name components
+  app.component("h-tarbar", tabbar);
+  app.component("h-btn", vtButton);
 
   return {
     app,
     pinia,
-    Pinia // info 为了兼容 nvue 对 pinia 的调用，以防 js stack 中找不到...
   }
 }
 // #endif

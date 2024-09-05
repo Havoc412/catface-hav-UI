@@ -21,7 +21,7 @@
             "delay" : 0
         },
         "usingComponents" : true,
-        "nvueCompiler" : "uni-app", 
+        "nvueCompiler" : "uni-app",
         "compilerVersion" : 3,
         "modules" : {
             "Webview-x5" : {}
@@ -96,7 +96,7 @@
     },
     "quickapp" : {},
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wxe1ff76a57cc6eed3",
         "setting" : {
             "urlCheck" : false,
             "es6" : false,

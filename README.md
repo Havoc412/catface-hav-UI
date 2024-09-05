@@ -1,2 +1,5 @@
-# XiaoyaoTrip
-文宇智行-正式版
+# AiTa-CAtFace
+
+## request
+baseURL 暂时写在 utils/request/index.js 中。
+

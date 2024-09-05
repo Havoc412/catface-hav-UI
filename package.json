@@ -11,5 +11,12 @@
 	"devDependencies": {
 		"eslint": "^8.2.0",
 		"eslint-config-airbnb": "^19.0.0"
-	}
+	},
+	"name": "aita-catface",
+	"version": "1.0.0",
+	"description": "aita-catface",
+	"main": "main.js",
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
 }

@@ -15,7 +15,7 @@
     align-items: center;
 }
 
-.flex-equal-horizontal>* {
+.flex-equal-horizontal > view {
     flex: 1;
 }
 
@@ -37,8 +37,6 @@
     /* 根据需要，可以改为center使得子项垂直居中 */
 }
 
-
-
 .flex-bottom-horizontal {
     display: flex;
     justify-content: space-between;
@@ -56,14 +54,7 @@
 .flex-center-vertical {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-}
-
-.flex-center-col-vertical {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .block-width {
@@ -72,6 +63,10 @@
 
 .block {
     width: 100%;
+}
+
+.block-height {
+    height: 100%;
 }
 
 .no-shrink {

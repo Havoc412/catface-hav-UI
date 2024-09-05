@@ -1,0 +1,136 @@
+<template>
+    <view class="flex-vertical container gap-20">
+        <view class="title">没有查询到目标猫猫，可以补充信息！</view>
+        <!-- form -->
+        <up-form
+            labelPosition="left"
+            :model="catInfor"
+            :rules="rules"
+            ref="form1"
+		>
+			<up-form-item
+                label="名字"
+                prop="catInfo.name"
+			>
+				<up-input
+                    v-model="catInfor.name"
+                    placeholder="为 ta 起一个好听的名字"
+                    placeholderStyle="color: #888888"
+                    clearable
+				></up-input>
+			</up-form-item>
+			<up-form-item
+                label="性别"
+                prop="catInfo.gender"
+			>
+				<up-radio-group v-model="catInfor.gender" @change="groupChange">
+                    <up-radio
+                        :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                        v-for="(item, index) in genderList"
+                        :key="index"
+                        :activeColor="item.color"
+                        :label="item.name"
+                        :name="item.name"
+                    ></up-radio>
+                </up-radio-group>
+			</up-form-item>
+            <up-form-item
+                label="种类"
+                prop="catInfor.breed"
+            >
+                <view class="block relative">
+                    <up-input
+                    v-model="catInfor.breed"
+                    placeholder="请选择 ta 的花色"
+                    placeholderStyle="color: #888888"
+                    disabled
+                    disabledColor="transparent"
+                    />
+                    <!--tip 因为 up-input disabled 之后会阻断 click，所以在上层覆盖一个透明的按钮作为遮罩-->
+                    <h-btn text="" variant="text"
+                        :customStyle="{
+                        position: 'absolute', 
+                        top: 0, left: 0,
+                        width: '100%',
+                        height: '100%', 
+                        background: 'transparent', 
+                        border: 'none'
+                    }" @click="flag.breed = true"></h-btn>
+                </view>
+            </up-form-item>
+		</up-form>
+        <h-btn text="提交" radius="5" :customStyle="{
+            backgroundColor: '#C4E9E4'
+        }"
+            :disabled="!formFinished"
+        />
+        <up-picker
+            :show="flag.breed"
+            :columns="breedList"
+            title="请选择猫猫种类"
+            :closeOnClickOverlay="true"
+            @cancel="flag.breed=false"
+            @confirm="selectBreed"
+        />
+    </view>
+</template>
+
+<script setup>
+    import { ref, reactive } from "vue";
+    // store
+// DATA
+    const props = defineProps({
+
+    });
+    const emits = defineEmits([]);
+
+    const catInfor = reactive({
+        name: '',
+        gender: '',
+        breed: '', // todo 之后可以由 Yolo 识别。
+    })
+    const rules = reactive({
+        
+    })
+
+    // flag
+    const flag = reactive({
+        breed: false,
+    })
+
+    const formFinished = ref(false);
+    // style && db
+    const genderList = reactive([
+        { name: "公", color: "#8bc0c6" },
+        { name: "母", color: "#ce86ab" },
+        { name: "不明", color: "#988fd0" },
+    ])
+    const breedList = reactive([
+        ["橘猫", "橘白猫", "狸花猫", "狸白猫", "彩狸猫", "奶牛猫", "三花猫", "黑猫", "白猫", "特殊品种"]
+    ])
+
+// FUNC
+    const groupChange = (n) => {
+        console.log('groupChange', n, catInfor.gender);
+    };
+
+    const selectBreed = (e) => {
+        catInfor.breed = e.value[0];
+        flag.breed.value = false;
+        // console.info(e, catInfor.breed);
+    }
+
+
+</script>
+
+<style scoped>
+    .container {
+        font-family: Alimama ShuHeiTi;
+        margin: 0 20rpx;
+    }
+
+    .title {
+        font-size: 35rpx;
+    }
+
+</style>
