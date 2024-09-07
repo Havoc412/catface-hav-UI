@@ -40,12 +40,16 @@
             >
                 <view class="block relative">
                     <up-input
-                    v-model="catInfor.breed"
-                    placeholder="请选择 ta 的花色"
-                    placeholderStyle="color: #888888"
-                    disabled
-                    disabledColor="transparent"
-                    />
+                        v-model="catInfor.breed"
+                        placeholder="请选择 ta 的花色"
+                        placeholderStyle="color: #888888"
+                        disabled
+                        disabledColor="transparent"
+                    >
+                        <template #suffix v-if="!flag.breedHumanChange">
+                            <view class="warn-breed">模型推断，有误请改</view>
+                        </template>
+                    </up-input>
                     <!--tip 因为 up-input disabled 之后会阻断 click，所以在上层覆盖一个透明的按钮作为遮罩-->
                     <h-btn text="" variant="text"
                         :customStyle="{
@@ -71,16 +75,23 @@
             :closeOnClickOverlay="true"
             @cancel="flag.breed=false"
             @confirm="selectBreed"
-        />
+        ><!--info 改了官方的源码，加了一个插槽-->
+            <template #top>
+                <view class="warn-breed-choose flex-center-both">暂时只支持以下种类</view>
+            </template>
+        </up-picker>
     </view>
 </template>
 
 <script setup>
-    import { ref, reactive } from "vue";
+    import { ref, reactive, onMounted } from "vue";
     // store
 // DATA
     const props = defineProps({
-
+        breedFromModel: {
+            type: String,
+            default: ""
+        }
     });
     const emits = defineEmits([]);
 
@@ -96,6 +107,7 @@
     // flag
     const flag = reactive({
         breed: false,
+        breedHumanChange: false,
     })
 
     const formFinished = ref(false);
@@ -106,20 +118,25 @@
         { name: "不明", color: "#988fd0" },
     ])
     const breedList = reactive([
-        ["橘猫", "橘白猫", "狸花猫", "狸白猫", "彩狸猫", "奶牛猫", "三花猫", "黑猫", "白猫", "特殊品种"]
+        ["橘猫", "橘白猫", "狸花猫", "狸白猫", "奶牛猫", "三花猫", "黑猫", "白猫"] // todo , "特殊品种"]
     ])
 
 // FUNC
+    onMounted(() => {
+        catInfor.breed = props.breedFromModel;
+        console.info(catInfor, props.breedFromModel);
+    });
+
     const groupChange = (n) => {
         console.log('groupChange', n, catInfor.gender);
     };
 
     const selectBreed = (e) => {
         catInfor.breed = e.value[0];
-        flag.breed.value = false;
+        flag.breed = false;
+        flag.breedHumanChange = true;
         // console.info(e, catInfor.breed);
     }
-
 
 </script>
 
@@ -131,6 +148,19 @@
 
     .title {
         font-size: 35rpx;
+    }
+
+    .warn-breed {
+        position: absolute;
+        right: 10rpx;
+
+        font-size: 25rpx;
+        color: #777;
+    }
+
+    .warn-breed-choose {
+        color: #777;
+        font-size: 25rpx;
     }
 
 </style>

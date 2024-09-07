@@ -6,7 +6,7 @@
     <view class="flex-center-vertical contianer bg-img mt-10">
         <view class="flex-center-vertical">
             <view class="title">点击下图，上传猫猫图片</view>
-            <view>标准实例。(TODO 给一个样图和详细说明)</view>
+            <view class="attention">尽量对准猫猫正脸效果会更好。</view>
             <!--info 文件上传--><!--todo 之后兼容 视频识别 accept="all" -->
             <view class="flex-center-horizontal">
                 <up-upload :fileList="fileList" 
@@ -26,7 +26,7 @@
             </view>
 
             <!-- form -->
-            <cat-form v-show="flag.formshow"/>
+            <cat-form v-if="flag.form.show" :breedFromModel="flag.form.breed"/>
         </view>
     </view>
     <h-tarbar />
@@ -36,6 +36,7 @@
     import { ref, reactive, onMounted } from "vue";
 
     import { Cat } from "../../models/catInfor";
+    import { Ecnn } from "../../ErrCode/errmsg";
     // com
     import catItem from "../../components/catface/catItem.vue";
     import catForm from "../../components/catface/form.vue";
@@ -51,16 +52,13 @@
 
     // Flag
     const flag = reactive({
-        formshow: false,
+        form: {
+            show: false,
+            breed: "",
+        },
     })
 
 // FUNC
-    // onMounted(() => { // test email
-    //     setTimeout(() => {
-    //         email.sendEmail(2, 201);
-    //     }, 1000);
-    // })
-
     // 新增图片
     const afterRead = async (event) => {
         // clear
@@ -89,7 +87,7 @@
             fileListLen++;
         }
         
-        if(!flag.formshow)
+        if(!flag.form.show)
             fileList.value = [];
     };
 
@@ -110,21 +108,20 @@
 
                     let data = JSON.parse(res.data);
                     if (data.status === 200) {
-                        // check data len
-                        if(data.cat_infor_list.length == 0) {
-                            flag.formshow = true;
-                        } else {
-                            // loaf data
-                            data.cat_infor_list.map( function(ele) {
-                                const cat = new Cat(ele);
-                                catInforList.value.push(cat);
-                            });
-                            console.log('成功获取数据', catInforList.value);
-                        }
+                        // loaf data
+                        data.cat_infor_list.map( function(ele) {
+                            const cat = new Cat(ele);
+                            catInforList.value.push(cat);
+                        });
+                        console.log('成功获取数据', catInforList.value);
                     } else {
                         console.log('状态码不是200');
-                        // todo
                         email.sendEmail(false, data.status);
+                        // 没有匹配到 DB 的时候
+                        if(data.status == Ecnn.NoCatMatch) {
+                            flag.form.breed = data.breed;
+                            flag.form.show = true;
+                        }
                     }
                 },
                 fail: (err) => {
