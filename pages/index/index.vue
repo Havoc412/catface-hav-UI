@@ -20,9 +20,11 @@
 </template>
 
 <script setup>
-// todo 可以考虑不通过 store 导入， 90vh 看起来还可以。
-import usePhoneInforStore from "@/store/phoneInfor";
-const phoneInforStore = usePhoneInforStore();
+	// com
+	// store
+	// todo 可以考虑不通过 store 导入， 90vh 看起来还可以。
+	import usePhoneInforStore from "@/store/phoneInfor";
+	const phoneInforStore = usePhoneInforStore();
 </script>
 
 <style scoped>

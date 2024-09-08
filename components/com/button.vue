@@ -77,6 +77,10 @@
         disabled: {
             type: Boolean,
             default: false
+        },
+        shape: {
+            type: String,
+            default: "default", // circle || default
         }
     });
     const emits = defineEmits(['click']);
@@ -105,7 +109,8 @@
             'btn': !props.animationClose,
             'fade-out': isFadingOut.value && !props.animationClose,
             [props.variant]: true,
-            'disabled': props.disabled
+            'disabled': props.disabled,
+            ["shape-" + props.shape]: true
         };
     });
     // tag 外部容器的样式
@@ -123,12 +128,19 @@
 
 .base {
     gap: 5px;
-    padding: 6px 2px;
     background-color: #fff;
     height: inherit;
     border-radius: var(--border-radius);
 
     transition: background-color 0.2s ease;
+}
+
+.shape-default {
+    padding: 6px 2px;
+}
+
+.shape-circle {
+    padding: 4px;
 }
 
 .btn:active, .btn.fade-out {

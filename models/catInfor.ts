@@ -21,7 +21,7 @@ export class Cat {
     this.name = catInfo.name;
     this.breed = catInfo.breed;
     this.gender = catInfo.gender;
-    this.conf = catInfo?.conf ?? 0;
+    this.conf = catInfo && catInfo.conf ? catInfo.conf : 0;
 
     this.url = api.fetchStaticFile("images/cats/" + this.id + ".jpg");
   }

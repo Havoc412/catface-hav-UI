@@ -7,9 +7,9 @@
                 <up-image src="/static/Qcat.png" width="300rpx" height="300rpx" mode="widthFix"/>
             </template>
         </up-image>
-        <view>{{ props.infor.name }}</view>
-        <view>{{ props.infor.breed }}</view>
-        <view>{{ props.infor.gender }}</view>
+        <view class="max-width">{{ props.infor.name }}</view>
+        <view class="max-width">{{ props.infor.breed }}</view>
+        <view class="max-width">{{ props.infor.gender }}</view>
         <view v-if="props.detect">{{ props.infor.conf }}%</view>
     </view>
 </template>
@@ -49,6 +49,10 @@
 <style scoped>
 .self-container {
     font-family: Alimama ShuHeiTi;
+}
+
+.max-width {
+    max-width: 50rpx;
 }
 
 </style>        

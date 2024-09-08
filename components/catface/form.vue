@@ -1,12 +1,14 @@
 <template>
     <view class="flex-vertical container gap-20">
-        <view class="title">没有查询到目标猫猫，可以补充信息！</view>
+        <view class="title flex-horizontal">
+            <!-- <fr-icon-dog theme="outline" :size="40" :fill="['#000000']" />： -->
+            {{ props.detectError ? "感谢": "没有查询到目标猫猫，可以" }}补充信息。
+        </view>
         <!-- form -->
         <up-form
             labelPosition="left"
             :model="catInfor"
             :rules="rules"
-            ref="form1"
 		>
 			<up-form-item
                 label="名字"
@@ -37,6 +39,7 @@
             <up-form-item
                 label="种类"
                 prop="catInfor.breed"
+                @click="flag.breed = true"
             >
                 <view class="block relative">
                     <up-input
@@ -52,14 +55,15 @@
                     </up-input>
                     <!--tip 因为 up-input disabled 之后会阻断 click，所以在上层覆盖一个透明的按钮作为遮罩-->
                     <h-btn text="" variant="text"
-                        :customStyle="{
-                        position: 'absolute', 
-                        top: 0, left: 0,
-                        width: '100%',
-                        height: '100%', 
-                        background: 'transparent', 
-                        border: 'none'
-                    }" @click="flag.breed = true"></h-btn>
+                            :customStyle="{
+                            position: 'absolute', 
+                            top: 0, left: 0,
+                            width: '100%',
+                            height: '100%', 
+                            background: 'transparent', 
+                            border: 'none'
+                        }" @click="flag.breed = true"
+                    ></h-btn>
                 </view>
             </up-form-item>
 		</up-form>
@@ -91,6 +95,10 @@
         breedFromModel: {
             type: String,
             default: ""
+        },
+        detectError: {
+            type: Boolean,
+            default: false
         }
     });
     const emits = defineEmits([]);
@@ -148,6 +156,7 @@
 
     .title {
         font-size: 35rpx;
+        min-width: 600rpx;
     }
 
     .warn-breed {
