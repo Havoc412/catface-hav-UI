@@ -68,9 +68,10 @@
             </up-form-item>
 		</up-form>
         <h-btn text="提交" radius="5" :customStyle="{
-            backgroundColor: '#C4E9E4'
-        }"
+                backgroundColor: '#C4E9E4'
+            }"
             :disabled="!formFinished"
+            @click="submit"
         />
         <up-picker
             :show="flag.breed"
@@ -88,7 +89,7 @@
 </template>
 
 <script setup>
-    import { ref, reactive, onMounted } from "vue";
+    import { ref, reactive, onMounted, computed } from "vue";
     // store
 // DATA
     const props = defineProps({
@@ -101,7 +102,7 @@
             default: false
         }
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(['submit']);
 
     const catInfor = reactive({
         name: '',
@@ -109,7 +110,21 @@
         breed: '', // todo 之后可以由 Yolo 识别。
     })
     const rules = reactive({
-        
+        'catInfo.name': {
+            type: 'string',
+            required: true,
+            message: "请起一个名字吧。"
+        },
+        'catInfo.gender': {
+            type: 'string',
+            required: true,
+            message: "请选择一个性别。"
+        },
+        'catInfor.breed': {
+            type: 'string',
+            required: true,
+            message: "请选择一个花色。"
+        }
     })
 
     // flag
@@ -118,7 +133,6 @@
         breedHumanChange: false,
     })
 
-    const formFinished = ref(false);
     // style && db
     const genderList = reactive([
         { name: "公", color: "#8bc0c6" },
@@ -145,6 +159,16 @@
         flag.breedHumanChange = true;
         // console.info(e, catInfor.breed);
     }
+
+    const submit = () => {
+        emits('submit', catInfor);
+    }
+
+    // style
+
+    const formFinished = computed(() => {
+        return catInfor.name != '' && catInfor.sex != '' && catInfor.breed != '';
+    })
 
 </script>
 

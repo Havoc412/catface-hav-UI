@@ -29,10 +29,17 @@
           <fr-icon-time theme="outline" :size="35" :fill="['#000000']" />
           {{ flag.video.duration }} 秒
         </view>
-        <view v-show="flag.state == 'finished'" class="func-container">
+        <view v-show="flag.state == 'finished'" class="func-reload">
           <h-btn shape="circle">
             <fr-icon-refresh theme="outline" :size="40" :fill="['#000000']" />
           </h-btn>
+        </view>
+        <view v-if="show_video_btn" class="func-video">
+          <btn-msg msg="使用视频登记效果更好。">
+            <h-btn shape="circle" @click="flag.change_video = true">
+              <fr-icon-video-two theme="outline" :size="50" :fill="['#000000']" />
+            </h-btn>
+          </btn-msg>
         </view>
     </view>
   </up-upload>
@@ -42,13 +49,18 @@
   import { ref, reactive, computed } from 'vue';
   // com
   import HEye from "./animation/eye.vue";
+  import btnMsg from "./btnMsg.vue";
   // struct
   import { Cat } from "../../models/catInfor";
   // consts
+  import { BASE_URL } from "../../common/setting";
   import { Ecnn } from "../../ErrCode/errmsg";
 
 // DATA
-  const emits = defineEmits(['email', 'success', 'openForm', 'refresh']);
+  const props = defineProps({
+    openForm: Boolean
+  })
+  const emits = defineEmits(['email', 'success', 'openForm', 'refresh', 'loadFileUrl']);
 
   const DEFAULT_IMG = "/static/Qcat.png";
 
@@ -62,7 +74,8 @@
     type: "", // video || image
     video: {
       duration: 0,
-    }
+    },
+    change_video: false, // info change_video 模式，只修改 file 的文件。
   })
 
   // CONST
@@ -73,7 +86,8 @@
 // FUNC
   // MARK MAIN CODE
   const afterRead = async (event) => {
-    emits('refresh');
+    if(!flag.change_video)
+      emits('refresh');
 
     // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
     let lists = [].concat(event.file); // tip 用于处理输入文件。如果 event.file 是单个文件对象，将其转换为数组；如果是数组，则直接使用。
@@ -82,6 +96,8 @@
 
     let error_flag = false;
     lists.map((item) => {
+      emits('loadFileUrl', item.url); // 记录 URL 到 主页，控制上传。
+      
       fileList.value.push({
         ...item,
         status: 'detecting',
@@ -108,8 +124,12 @@
         return;
       }
     });
-    if(error_flag)
+    console.info("!!!", flag.change_video);
+    if(error_flag || flag.change_video) {
+      flag.change_video = false;
       return;
+    }
+      
     // INFO Stage - 2
     console.info(fileList.value);
     flag.state = 'detecting';
@@ -130,11 +150,10 @@
     fileList.value = [];
   };
 
-  const uploadFilePromise = (url, type=true) => {
+  const uploadFilePromise = (url) => {
     return new Promise((resolve, reject) => {
-      let u = type ? 'detect_cat/': 'add_cat/';
       uni.uploadFile({
-          url: 'http://127.0.0.1:8000/api/cnn/' + u,
+          url: BASE_URL + 'api/cnn/detect_cat/',
           filePath: url,  // 用 url 来传参
           name: 'file',
           formData: {
@@ -179,6 +198,10 @@
     return flag.video.duration <= 30 ? "#000" : "#ff4c55";
   })
 
+  const show_video_btn = computed(() => {
+    return props.openForm; //  && flag.type != 'video'; 这样就允许切换 video 了。
+  })
+
 </script>
 
 <style lang="css" scoped>
@@ -212,9 +235,16 @@
   color: var(--font-color);
 }
 
-.func-container {
+.func-reload {
   position: absolute;
   top: 10rpx;
   right: 10rpx;
 }
+
+.func-video {
+  position: absolute;
+  bottom: 10rpx;
+  right: 10rpx;
+}
+
 </style>

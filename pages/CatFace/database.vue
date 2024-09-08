@@ -31,6 +31,7 @@
 // FUNC
     onMounted(async() => {
         catInforList.value = await api.searchSQL();
+        // console.info(catInforList.value);
     })
 
 

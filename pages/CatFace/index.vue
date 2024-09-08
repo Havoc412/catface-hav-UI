@@ -9,17 +9,19 @@
             <view class="attention">尽量对准猫猫正脸，效果会更好。</view>
             <!--info 文件上传--><!--todo 之后兼容 视频识别 accept="all" -->
             <h-upload 
+                :open-form="flag.form.show"
                 @email="send_email"
                 @open-form="open_form"
                 @success="load_cat_infor"
                 @refresh="refresh"
+                @load-file-url="load_file_url"
             />
             <view class="attention">模型开发优化中，识别结果仅供参考。</view>
 
             <!-- <cat-item/> -->
             <view class="flex-vertical gap-10">
                 <template v-for="(item, id) in catInforList" :index="cat-id">
-                    <cat-item :infor="item" detect/>
+                    <cat-item :infor="item" :detect="item.conf"/>
                 </template>
                 <h-btn 
                     v-show="catInforList.length > 0" 
@@ -36,16 +38,19 @@
             <cat-form v-if="flag.form.show" 
                 :breedFromModel="flag.form.breed" 
                 :detect-error="flag.form.detect_error"
+                @submit="submit"
             />
         </view>
     </view>
+    <!-- <img :src="BASE_URL + 'static/images/cats/test.png'"/> -->
     <h-tarbar />
 </template>
 
 <script setup>
     import { ref, reactive } from "vue";
 
-    import { Ecnn } from "../../ErrCode/errmsg";
+    import { BASE_URL } from "../../common/setting";
+
     // com
     import catItem from "../../components/catface/catItem.vue";
     import catForm from "../../components/catface/form.vue";
@@ -59,6 +64,7 @@
 
 // DATA
     const catInforList = ref([]);
+    const file_url = ref([]);
 
     // Flag
     const flag = reactive({
@@ -96,7 +102,51 @@
         flag.form.detect_error = false;
         flag.form.show = false;
     }
-    
+
+    const load_file_url = (url) => {
+        file_url.value = url;
+        console.info("Load temp file now", file_url.value);
+    }
+
+    // INFO 核心访问 API 的任务。
+    const submit = (catInfor) => {
+        if(file_url.value == "") {
+            email.sendEmail(false, "未选中文件。");
+            return;
+        }
+        uni.uploadFile({
+            url: BASE_URL + 'api/cnn/add_cat/',
+            filePath: file_url.value,
+            name: 'file',
+            formData: {
+                name: catInfor.name,
+                gender: catInfor.gender,
+                breed: catInfor.breed
+            },
+            success: (res) => {
+                let data = JSON.parse(res.data);
+                if (data.status === 200) {
+                    console.info("上传完毕。");
+                    email.sendEmail(true, "上传成功！");
+
+                    flag.form.show = false;
+                    const id = data.data;
+                    catInforList.value = [{
+                        'id': id,
+                        'url': file_url.value,
+                        ...catInfor
+                    }]
+                    console.info(catInforList, id);
+                } else {
+                    console.log('状态码不是200', data);
+                    email(false, data.status);
+                }
+            },
+            fail: (err) => {
+              console.error(err)
+            }
+        })
+    }
 
 </script>
 
