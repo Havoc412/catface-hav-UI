@@ -26,6 +26,12 @@
       "style": {
         "navigationBarTitleText": "CatFace-DB"
       }
+    },
+    {
+      "path": "pages/Rag/index",
+      "style": {
+        "navigationBarTitleText": "RAG"
+      }
     }
   ],
   "globalStyle": {

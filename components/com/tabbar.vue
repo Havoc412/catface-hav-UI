@@ -13,11 +13,10 @@
                 @choose="(id) => funcGoto(ID.catface, id)"
             />
         </view>
-        <!--todo RAG 待开发 -->
-        <view class="flex-center-both sub-container gap-10">
+        <view class="flex-center-both sub-container gap-10" @click="goto(ID.rag)">
             <fr-icon-robot-one :theme="iconTheme(ID.rag)" :size="iconStyle.size" :fill="[iconStyle.color]"/>
             <view>
-                RAG(开发中)
+                RAG(概念演示)
             </view>
         </view>
     </view>
@@ -34,7 +33,7 @@
 	const phoneInforStore = usePhoneInforStore();
 
 // DATA
-    const pages = ["index", "CatFace", "RAG"];
+    const pages = ["index", "CatFace", "Rag"];
     const pages_sub = reactive({
         catface: ["database"],
     })
@@ -52,7 +51,7 @@
     // tag CONST
     const TEXT = reactive({
         catface: {
-            unsel: "CatFace(测试版)",
+            unsel: "CatFace(优化中)",
             sel: "更多"
         },
         rag: {

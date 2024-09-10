@@ -10,12 +10,12 @@
         <view class="max-width">{{ props.infor.name }}</view>
         <view class="max-width">{{ props.infor.breed }}</view>
         <view class="max-width">{{ props.infor.gender }}</view>
-        <view v-if="props.detect">{{ props.infor.conf }}%</view>
+        <view v-if="checkConfExist">{{ props.infor.conf }}%</view>
     </view>
 </template>
 
 <script setup>
-    import { ref } from "vue";
+    import { ref, computed } from "vue";
     import api from "../../request/file";
     // store
 // DATA
@@ -27,12 +27,8 @@
                 breed: '机器狗',
                 gender: 'NaN',
                 url: "/static/dog.jpg",
-                conf: 0
+                conf: 0 // info 依靠 checkConfExist 进行检查。
             }
-        },
-        detect: {  // 只有 detect 模式下有 conf 的参数。
-            type: Boolean,
-            default: false
         },
         gap: {
             type: Number,
@@ -42,6 +38,9 @@
     const emits = defineEmits([]);
 
 // FUNC
+    const checkConfExist = computed(() => {
+        return props.infor.conf !== undefined;
+    })
 
 
 </script>

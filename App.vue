@@ -54,7 +54,8 @@
 	}
 
 	.bg-img {
-		background-image: url("http://127.0.0.1:8000/static/images/back-5.png");
+		// background-image: url("http://127.0.0.1:8000/static/images/back-5.png");
+		background-image: url("http://vv9710nr2082.vicp.fun/static/images/back-5.png");
 		background-repeat: repeat;
 		background-size: 70%;
 	}

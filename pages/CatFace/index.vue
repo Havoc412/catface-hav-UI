@@ -21,7 +21,7 @@
             <!-- <cat-item/> -->
             <view class="flex-vertical gap-10">
                 <template v-for="(item, id) in catInforList" :index="cat-id">
-                    <cat-item :infor="item" :detect="item.conf"/>
+                    <cat-item :infor="item"/>
                 </template>
                 <h-btn 
                     v-show="catInforList.length > 0" 
@@ -32,6 +32,14 @@
                     }"
                     >不是目标猫猫！
                 </h-btn>
+                <view v-if="catInforList.length > 0" 
+                    class="btn-ai">
+                    <btn-msg msg="询问小护，分辨or了解更多猫猫信息。">
+                        <h-btn shape="circle" @click="gotoDetectHelp">
+                            <fr-icon-dog theme="outline" :size="40" :fill="['#000000']" />
+                        </h-btn>
+                    </btn-msg>
+                </view>
             </view>
 
             <!-- form -->
@@ -56,11 +64,15 @@
     import catForm from "../../components/catface/form.vue";
 
     import HUpload from "../../components/com/upload.vue";
+    import btnMsg from "../../components/com/btnMsg.vue";
 
     import snackbar from "../../components/com/snackbar.vue";
     // store
     import emialStore from "../../store/snackbar";
     const email = emialStore();
+
+    import { aiTalk } from "../../store/aiTalk";
+    const talkStore = aiTalk();
 
 // DATA
     const catInforList = ref([]);
@@ -148,6 +160,15 @@
         })
     }
 
+    const gotoDetectHelp = () => {
+        // pre data
+        talkStore.detectInit(catInforList.value);
+        // navigate
+        uni.navigateTo({
+            url: "/pages/Rag/index"
+        })
+    }
+
 </script>
 
 <style scoped>
@@ -172,6 +193,12 @@
     .Qcat {
         height: 500rpx;
         width: 500rpx;
+    }
+
+    .btn-ai {
+        position: fixed;
+        right: 30rpx;
+        bottom: 120rpx;
     }
 
 </style>        

@@ -23,7 +23,9 @@ export class Request {
         },
         param.header
       );
-    }
+    } 
+
+    console.info(data);
 
     return new Promise((resolve, reject) => {
       uni.request({

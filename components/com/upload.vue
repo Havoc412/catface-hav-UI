@@ -37,7 +37,7 @@
         <view v-if="show_video_btn" class="func-video">
           <btn-msg msg="使用视频登记效果更好。">
             <h-btn shape="circle" @click="flag.change_video = true">
-              <fr-icon-video-two theme="outline" :size="50" :fill="['#000000']" />
+              <fr-icon-video-two theme="outline" :size="40" :fill="['#000000']" />
             </h-btn>
           </btn-msg>
         </view>
@@ -97,7 +97,7 @@
     let error_flag = false;
     lists.map((item) => {
       emits('loadFileUrl', item.url); // 记录 URL 到 主页，控制上传。
-      
+
       fileList.value.push({
         ...item,
         status: 'detecting',
