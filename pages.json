@@ -19,7 +19,8 @@
       "path": "pages/CatFace/index",
       "style": {
         "navigationBarTitleText": "CatFace"
-      }
+      },
+      "requiredPrivateInfos": ["getLocation", "chooseLocation"]
     },
     {
       "path": "pages/CatFace/database",
@@ -39,5 +40,10 @@
     "navigationBarTitleText": "AiTa-CatFace",
     "navigationBarBackgroundColor": "#e8f3f1",
     "backgroundColor": "#F8F8F8"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "初始化时获取用户的位置信息用于外出打卡定位"
+    }
   }
 }

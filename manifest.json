@@ -1,5 +1,5 @@
 {
-    "name" : "Travel",
+    "name" : "CatFace",
     "appid" : "__UNI__3B28ABE",
     "description" : "多平台快速开发的UI框架",
     "versionName" : "3.1.0",
@@ -106,7 +106,13 @@
         "optimization" : {
             "subPackages" : true
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+        "requiredPrivateInfos" : [ "getLocation" ],
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "你的位置将用来辅助毛茸茸辨别。"
+            }
+        }
     },
     "mp-alipay" : {
         "usingComponents" : true,

@@ -32,13 +32,9 @@
                     }"
                     >不是目标猫猫！
                 </h-btn>
-                <view v-if="catInforList.length > 0" 
-                    class="btn-ai">
-                    <btn-msg msg="询问小护，分辨or了解更多猫猫信息。">
-                        <h-btn shape="circle" @click="gotoDetectHelp">
-                            <fr-icon-dog theme="outline" :size="40" :fill="['#000000']" />
-                        </h-btn>
-                    </btn-msg>
+                <!--tag Other functions-->
+                <view v-if="catInforList.length > 0" class="btn-ai">
+                    <func :catInforList="catInforList"/>
                 </view>
             </view>
 
@@ -64,7 +60,7 @@
     import catForm from "../../components/catface/form.vue";
 
     import HUpload from "../../components/com/upload.vue";
-    import btnMsg from "../../components/com/btnMsg.vue";
+    import func from "../../components/catface/func.vue";
 
     import snackbar from "../../components/com/snackbar.vue";
     // store
@@ -160,14 +156,6 @@
         })
     }
 
-    const gotoDetectHelp = () => {
-        // pre data
-        talkStore.detectInit(catInforList.value);
-        // navigate
-        uni.navigateTo({
-            url: "/pages/Rag/index"
-        })
-    }
 
 </script>
 
