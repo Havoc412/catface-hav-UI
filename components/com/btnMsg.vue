@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-    import { ref, reactive, onMounted } from "vue";
+    import { ref, reactive, onMounted, watch } from "vue";
     // store
 // DATA
 // todo 关于 absolute 的 right、top 等等还有不少需要设计。
@@ -33,6 +33,10 @@
         timeOut: {
             type: Number,
             default: 1500
+        },
+        show: {
+            type: Boolean,
+            default: true
         }
     });
     const emits = defineEmits([]);
@@ -44,13 +48,29 @@
     const opacity = ref(1);
 // FUNC
     onMounted(() => {
+        // show start or not
+        if(props.show)
+            showMsg();
+        else
+            flag.show = false;
+    })
+
+    watch(() => props.show, () => {
+        if(!flag.show)
+            showMsg();
+    });
+
+    const showMsg = () => {
+        flag.show = true;
+        opacity.value = 1;
+
         setTimeout(() => {
             setTimeout(() => {
                 flag.show = false;
-            }, 1000);
+            }, 1500);
             opacity.value = 0;
         }, props.timeOut);
-    })
+    }
 
 </script>
 

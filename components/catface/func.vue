@@ -1,16 +1,19 @@
 <!--info 当 cnn 结果为复数时，提供辅助过滤的 btn -->
 <template>
     <view class="flex-vertical gap-10">
-        <btn-msg msg="获取当前定位，增强检索。">
+        <btn-msg msg="获取当前定位，增强检索。" :show="flag">
             <h-btn shape="circle" @click="getLocation">
                 <fr-icon-local-two theme="outline" :size="props.iconSize" :fill="['#000000']" />
             </h-btn>
         </btn-msg>
-        <btn-msg msg="询问小护，分辨or了解更多猫猫信息。">
+        <btn-msg msg="询问小护，分辨or了解更多猫猫信息。" :show="flag">
             <h-btn shape="circle" @click="gotoDetectHelp">
-                <fr-icon-dog theme="outline" :size="40" :fill="['#000000']" />
+                <fr-icon-dog theme="outline" :size="props.iconSize" :fill="['#000000']" />
             </h-btn>
         </btn-msg>
+        <h-btn shape="circle" @click="flag = !flag">
+            <fr-icon-help theme="outline" :size="props.iconSize" :fill="['#000000']" />
+        </h-btn>
     </view>
 </template>
 
@@ -32,6 +35,8 @@
         }
     });
     const emits = defineEmits(['filter_by_poi']);
+
+    const flag = ref(false);  // default 默认设定为 不显示。
 
 // FUNC
     const getLocation = () => {
