@@ -1,7 +1,7 @@
 <template>
     <snackbar class="top" v-model="email.snackbar_switch" 
-      :message="email.snackbar_message" :color="email.kind_flag"
-      :timeout="email.time_flag ? 15000 : 2000 ">
+        :message="email.snackbar_message" :color="email.kind_flag"
+        :timeout="email.time_flag ? 15000 : 2000 ">
     </snackbar>
     <view class="flex-center-vertical contianer bg-img mt-10">
         <view class="flex-center-vertical">
@@ -39,13 +39,15 @@
             </view>
 
             <!-- form -->
-            <cat-form v-if="flag.form.show" 
+            <cat-form 
+                v-if="flag.form.show" 
                 :breedFromModel="flag.form.breed" 
                 :detect-error="flag.form.detect_error"
                 @submit="submit"
             />
         </view>
     </view>
+    <notice-win v-if="noticeList.length > 0" :notices="noticeList"/>
     <!-- <img :src="BASE_URL + 'static/images/cats/test.png'"/> -->
     <h-tarbar />
 </template>
@@ -61,6 +63,7 @@
 
     import HUpload from "../../components/com/upload.vue";
     import func from "../../components/catface/func.vue";
+    import noticeWin from "./win/notice.vue";
 
     import snackbar from "../../components/com/snackbar.vue";
     // store
@@ -72,6 +75,7 @@
 
 // DATA
     const catInforList = ref([]);
+    const noticeList = ref([]);
     const file_url = ref([]);
 
     // Flag
@@ -94,9 +98,13 @@
         flag.form.show = true;
     }
 
-    const load_cat_infor = (list, breed) => {
+    const load_cat_infor = (list, breed, ntList) => {
+        console.info(list, ntList);
         flag.form.breed = breed;
         catInforList.value = list;
+        noticeList.value = ntList;
+
+        console.info(catInforList, noticeList);
     }
 
     const detect_error = () => {

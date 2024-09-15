@@ -167,8 +167,8 @@
                       const cat = new Cat(ele);
                       catInforList.push(cat);
                   });
-                  console.log('成功获取数据', catInforList);
-                  emits('success', catInforList, data.breed);
+                  console.log('成功获取数据', data);
+                  emits('success', catInforList, data.breed, data.notices);
               } else {
                   console.log('状态码不是200');
                   email(false, data.status);
