@@ -44,7 +44,7 @@
         color: "#000000"
     })
     const memuStyle = reactive({
-        width: 200, // rpx
+        width: 250, // rpx
         num: 2
     })
 
@@ -58,7 +58,7 @@
             unsel: "RAG(开发中)",
             sel: "更多"
         },
-        catface_funcs: ["查看数据库"]
+        catface_funcs: ["查看数据库"]  // todo "路遇寻猫"
     })
     const ID = reactive({
         catface: 1,

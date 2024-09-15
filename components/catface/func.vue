@@ -1,6 +1,8 @@
 <!--info 当 cnn 结果为复数时，提供辅助过滤的 btn -->
 <template>
-    <view class="flex-vertical gap-10">
+    <view class="flex-vertical gap-10 container" :style="{
+        '--opacity': style.opacity
+    }">
         <btn-msg msg="获取当前定位，增强检索。" :show="flag">
             <h-btn shape="circle" @click="getLocation">
                 <fr-icon-local-two theme="outline" :size="props.iconSize" :fill="['#000000']" />
@@ -11,14 +13,14 @@
                 <fr-icon-dog theme="outline" :size="props.iconSize" :fill="['#000000']" />
             </h-btn>
         </btn-msg>
-        <h-btn shape="circle" @click="flag = !flag">
+        <h-btn shape="circle" @click="clickHelp">
             <fr-icon-help theme="outline" :size="props.iconSize" :fill="['#000000']" />
         </h-btn>
     </view>
 </template>
 
 <script setup>
-    import { ref } from "vue";
+    import { ref, reactive } from "vue";
     import api from "../../request/file";
     // com
     import btnMsg from "../com/btnMsg.vue";
@@ -27,7 +29,7 @@
     const props = defineProps({
         iconSize: {
             type: Number,
-            default: 40
+            default: 50
         },
         catInforList: {
             type: Object,
@@ -37,6 +39,9 @@
     const emits = defineEmits(['filter_by_poi']);
 
     const flag = ref(false);  // default 默认设定为 不显示。
+    const style = reactive({
+        opacity: .5
+    });
 
 // FUNC
     const getLocation = () => {
@@ -73,8 +78,22 @@
         })
     }
 
+    // 
+    const clickHelp = () => {
+        flag.value = !flag.value;
+        style.opacity = 1;
+        setTimeout(() => {
+            style.opacity = .5;
+        }, 1500);
+    }
+
 </script>
 
 <style scoped>
+
+.container {
+    opacity: var(--opacity);
+    transition: opacity 1s;
+}
 
 </style>        

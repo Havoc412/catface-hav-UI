@@ -97,7 +97,7 @@
 }
 
 .left {
-    right: 60rpx;;
+    right: 70rpx;;
 }
 
 .view-rotate {
