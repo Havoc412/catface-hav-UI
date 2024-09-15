@@ -34,7 +34,7 @@
                 </h-btn>
                 <!--tag Other functions-->
                 <view v-if="catInforList.length > 0" class="btn-ai">
-                    <func :catInforList="catInforList"/>
+                    <func :catInforList="catInforList" @filter_by_poi="filter_by_poi"/>
                 </view>
             </view>
 
@@ -154,6 +154,19 @@
               console.error(err)
             }
         })
+    }
+
+    const filter_by_poi = (cats_id) => {
+        const newCatInforList = [];
+        catInforList.value.forEach((item) => {
+            if(cats_id.includes(item.id)) {
+                newCatInforList.push(item);
+            }
+        })
+        console.info(cats_id, newCatInforList);
+        catInforList.value = newCatInforList;
+        if(newCatInforList.length == 0)
+            open_form();
     }
 
 

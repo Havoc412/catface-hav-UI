@@ -9,7 +9,7 @@ function fetchStaticFile(filePath) {
 
 async function searchSQL() {
     try {
-        const res = await get("api/search_sql", {}, {});
+        const res = await get("api/search_sql/", {}, {});
         console.info(res);
         // data pre
         const cat_infor_list = [];
@@ -25,7 +25,23 @@ async function searchSQL() {
     }
 }
 
+async function filter_by_poi(poi, cats_id) {
+    try {
+        const res = await post("api/filter_by_poi/", {}, {
+            poi: poi,
+            cats_id: cats_id,
+        });
+        // ret
+        console.info(res);
+        return res.cats_id;
+    } catch (error) {
+        console.error(error);
+        return false, cats_id;
+    }
+}
+
 export default {
     fetchStaticFile: (filePath) => fetchStaticFile(filePath),
     searchSQL: searchSQL,
-}
+    filter_by_poi: filter_by_poi,
+};

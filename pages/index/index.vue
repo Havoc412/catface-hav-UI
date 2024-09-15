@@ -4,7 +4,7 @@
 	'--height': phoneInforStore.phoneHeight + 'px'
 	}">
 		<image class="logo" src="/static/icon.png"></image>
-		<view class="flex-center-vertical gap-20">
+		<view class="flex-center-vertical gap-20" @click="test">
 			<view class="main-infor">此小程序用于测试 CatFace 和 RAG 模块。</view>
 			<view class="infor">
 				<view class="title">CatFace</view>
@@ -25,6 +25,19 @@
 	// todo 可以考虑不通过 store 导入， 90vh 看起来还可以。
 	import usePhoneInforStore from "@/store/phoneInfor";
 	const phoneInforStore = usePhoneInforStore();
+
+	// test
+	function test () {
+		uni.getLocation({
+            type: 'gcj02',
+            // isHighAccuracy: true,
+            success: async function (res) {
+                console.log('当前位置的经度：' + res.longitude);
+                console.log('当前位置的纬度：' + res.latitude);
+			}
+		})
+	}
+
 </script>
 
 <style scoped>

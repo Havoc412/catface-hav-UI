@@ -16,6 +16,7 @@
 
 <script setup>
     import { ref } from "vue";
+    import api from "../../request/file";
     // com
     import btnMsg from "../com/btnMsg.vue";
 
@@ -30,16 +31,26 @@
             default: () => []
         }
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(['filter_by_poi']);
 
 // FUNC
     const getLocation = () => {
         console.info("run.");
         uni.getLocation({
-            type: 'wgs84',
-            success: function (res) {
+            type: 'gcj02',
+            // isHighAccuracy: true,
+            success: async function (res) {
                 console.log('当前位置的经度：' + res.longitude);
                 console.log('当前位置的纬度：' + res.latitude);
+
+                const poi = { lat: res.latitude, lon: res.longitude};
+                let cats_id = props.catInforList.map((item) => {
+                    return item.id;
+                })
+
+                cats_id = await api.filter_by_poi(poi, cats_id);
+
+                emits('filter_by_poi', cats_id);
             },
             fail: function (err) {
                 console.error(err);
