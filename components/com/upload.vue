@@ -124,7 +124,6 @@
         return;
       }
     });
-    console.info("!!!", flag.change_video);
     if(error_flag || flag.change_video) {
       flag.change_video = false;
       return;

@@ -39,7 +39,7 @@
 
 // FUNC
     const checkConfExist = computed(() => {
-        return props.infor.conf !== undefined;
+        return props.infor.conf !== undefined && props.infor.conf !== 0;
     })
 
 
