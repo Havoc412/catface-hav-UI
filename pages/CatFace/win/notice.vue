@@ -60,6 +60,7 @@
 }
 
 .title {
+    color: #fc4b4b;
     font-family: Alimama ShuHeiTi;
     font-size: 40rpx;
 

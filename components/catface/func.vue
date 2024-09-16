@@ -24,6 +24,9 @@
     import api from "../../request/file";
     // com
     import btnMsg from "../com/btnMsg.vue";
+    // store
+    import { aiTalk } from "../../store/aiTalk";
+    const talkStore = aiTalk();
 
 // DATA
     const props = defineProps({
@@ -71,7 +74,7 @@
     // router
     const gotoDetectHelp = () => {
         // pre data
-        talkStore.detectInit(porps.catInforList);
+        talkStore.detectInit(props.catInforList);
         // navigate
         uni.navigateTo({
             url: "/pages/Rag/index"

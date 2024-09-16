@@ -2,7 +2,7 @@
     <view class="flex-vertical talk-container bg-img">
         <view class="flex-center-both topic">{{ talkStore.topic }}</view>
         <!-- TALK WINDOW -->
-        <view class="flex-vertical gap-10">
+        <view class="flex-vertical gap-10 container-dialogue">
             <template v-for="(item, index) in talkStore.history" :key="index">
                 <ai-bubble v-if="item.side" 
                     :avatar="talkStore.avatar"
@@ -41,9 +41,15 @@
     background-color: #00000009;
 }
 
+.container-dialogue {
+    /* min-height: 85vh; */
+    overflow-y: scroll;
+    /* padding: 5px 10px; */
+}
+
 .topic {
     position: sticky;
-    top: 0rpx;
+    top: 10rpx;
 
     font-family: Alimama ShuHeiTi;
 
