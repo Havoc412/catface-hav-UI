@@ -56,7 +56,7 @@
 <style scoped>
 
 .container {
-    position: sticky;
+    position: sticky;   /* QUESTION 为何不用 fixed 来着？ */
     bottom: var(--bottom);
 
     background-color: transparent;
@@ -65,7 +65,7 @@
 
 .bottom-container {
     background-color: #ffffff;
-    padding: 2px;
+    /* padding: 2px; */
 }
 
 </style>        

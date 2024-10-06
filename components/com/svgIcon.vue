@@ -10,7 +10,7 @@
         name: String,
         size: {
             type: [Number, String],
-            default: 20
+            default: 24
         }
     });
     const emits = defineEmits([]);
@@ -19,6 +19,7 @@
 // FUNC
     // 定义一个函数来转换字符串
     function transformIconName(iconSymbol) {
+        // QUESTION 好像自带了 大小写兼容；
         return iconSymbol.replace(/-/g, '/').concat('.svg');
     }
 
@@ -28,9 +29,6 @@
         }
         return '';
     });
-
-    console.info(svgPath.value);
-    
 
 </script>
 

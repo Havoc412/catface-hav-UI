@@ -7,7 +7,7 @@ export default defineStore("tarbarStore", {
         routeHistory: number[]
     } => {
         return {
-          curPageIndex: 0,
+          curPageIndex: 1,  // INFO 默认是中间页
           routeHistory: []
         };
     },
