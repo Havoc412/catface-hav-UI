@@ -24,6 +24,7 @@
 	// store
 	// todo 可以考虑不通过 store 导入， 90vh 看起来还可以。
 	import usePhoneInforStore from "@/store/phoneInfor";
+import FrSvg from "../../uni_modules/flower-svg/components/fr-svg/fr-svg.vue";
 	const phoneInforStore = usePhoneInforStore();
 
 	// test

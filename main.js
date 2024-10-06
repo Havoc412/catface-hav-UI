@@ -32,6 +32,7 @@ import * as Pinia from 'pinia'
 // info 自定义全局组件
 import tabbar from "./components/com/tabbar.vue";
 import vtButton from "./components/com/button.vue";
+import svgIcon from "./components/com/svgIcon.vue";
 
 
 export function createApp() {
@@ -53,6 +54,7 @@ export function createApp() {
   // info nick name components
   app.component("h-tarbar", tabbar);
   app.component("h-btn", vtButton);
+  app.component("h-icon", svgIcon);
 
   return {
     app,
