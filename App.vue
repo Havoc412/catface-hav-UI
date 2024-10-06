@@ -1,5 +1,5 @@
 <script setup>
-	import { onLaunch, onShow, onHide, onBackPress } from '@dcloudio/uni-app'
+	import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
 
 	import usePhoneInforStore from "./store/phoneInfor";
 	const phoneInforStore = usePhoneInforStore();
@@ -13,14 +13,12 @@
 		phoneInforStore.setPhoneInfor(infor);
 	})
 	onShow(() => {
-		console.log('App Show!')
+		console.log('App Show!') 
 	})
 	onHide(() => {
 		console.log('App Hide!')
 	})
-	// onBackPress((options) => {
-	// 	console.log('Back!', options);
-	// })
+
 </script>
 
 
@@ -54,8 +52,9 @@
 	}
 
 	.bg-img {
-		background-image: url("http://127.0.0.1:8000/static/images/back-5.png");
+		// background-image: url("http://127.0.0.1:8000/static/images/back-5.png");
 		// background-image: url("http://vv9710nr2082.vicp.fun/static/images/back-5.png");
+		background-image: url(http://localhost/background/back-5.png);
 		background-repeat: repeat;
 		background-size: 70%;
 	}

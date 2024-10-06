@@ -73,6 +73,4 @@
 		font-size: 40rpx;
 	}
 
-
-
 </style>
