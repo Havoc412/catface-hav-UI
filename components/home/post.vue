@@ -7,13 +7,15 @@
             <view>{{ props.title }}</view>
             <view class="flex-horizontal gap-5">
                 <up-image :src="props.userAvatar" height="50rpx" width="50rpx" radius="25rpx"/>
-                <view>{{ props.userName }}</view>
+                <view class="no-shrink">{{ props.userName }}</view>
+                <view class="shrink"/>
+                <view class="flex-bottom-horizontal gap-5">
+                    <view class="time">{{ props.time }}</view>
+                    <h-icon :name="likeSvg" @click="like"/>
+                </view>
             </view>
             <!---->
-            <view class="flex-bottom-horizontal">
-                <view class="time">{{ props.time }}</view>
-                <h-icon :name="likeSvg" @click="like"/>
-            </view>
+            
         </view>
     </view>
 </template>
@@ -37,7 +39,7 @@
         },
         userName: {
             type: String,
-            default: "默认用户名"
+            default: "默认名"
         },
         time: {
             type: String,
