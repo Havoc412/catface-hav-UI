@@ -3,7 +3,7 @@
         <view class="container-img relative">
             <up-image 
                 :src="nginx.catsAvatar(props.url)" 
-                height="250" width="340rpx" mode="aspectFill" radius="25"
+                height="250" width="350rpx" mode="aspectFill" radius="25"
                 error-icon="/static/error.svg"/>  <!--INFO 素材来源于网络-->
             <view class="contanier-heart flex-center-both absolute z-0">
                 <h-icon :name="heartSvg" @click="flag.heart = !flag.heart"/>
@@ -12,10 +12,10 @@
         <view class="flex-center-horizontal gap-5">
             <view class="name">{{ props.name }}</view>
             <!--BUG 好像会覆盖 TOP-->
-            <h-icon :name="genderSvg" size="18"/>
+            <h-icon v-show="bookStore.gender" :name="genderSvg" size="18"/>
             <view class="shrink"/>
-            <school-status :type="props.schoolStatus"/>
-            <sterilization-status :type="props.sterilizationStatus"/>
+            <school-status v-show="bookStore.school" :type="props.schoolStatus"/>
+            <sterilization-status v-show="bookStore.sterilization" :type="props.sterilizationStatus"/>
         </view>
     </view>
 </template>
@@ -25,8 +25,10 @@
     // com
     import schoolStatus from "./sub-cat/schoolStatus.vue";
     import sterilizationStatus from "./sub-cat/sterilizationStatus.vue";
-import nginx from "../../request/nginx";
+    import nginx from "../../request/nginx";
     // store
+    import book from "../../store/book";
+    const bookStore = book();
 // DATA
     const props = defineProps({
         name: {

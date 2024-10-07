@@ -8,6 +8,10 @@ $red-1: #E6C1BB;
 $purple-1: #acb1f5;
 
 :export {
+    main: {
+        deep: $h-bg-deep;
+        light: $h-bg-light;
+    };
     schoolStatus: {
         inschool: $green-1;
         graduation: $blue-1;
