@@ -1,10 +1,13 @@
 <!--首页的【星球】关键词交互插件-->
 <template>
   <view class="star-container">
-    <view id="container" class="tagBall" @touchmove.prevent 
-      @touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="handleTouchEnd">
+    <view id="container" class="tagBall" 
+      @touchstart="handleTouchStart" 
+      @touchmove="handleTouchMove" 
+      @touchend="handleTouchEnd"> <!--BUG @touchmove.prevent wx 会导致 touchmove 无效-->
       <view v-for="(item, index) in nameList" :key="index" 
-        class="tag flex-center-vertical" :style="tagsStyles[index]"
+        class="tag flex-center-vertical" 
+        :style="tagsStyles[index]"
         :class="{'tag-animation': animationFlag}" > <!--INFO @click="deep(index+1)"-->
         <!--TODO 增加 click -> detail -->
         <starItem :url="item.url" :name="item.name"/>
@@ -19,7 +22,7 @@
 </template>
 
 <script setup>
-  import { ref, onMounted, nextTick } from 'vue';
+  import { ref, onMounted, nextTick, getCurrentInstance } from 'vue';
 
   import starItem from './sub-star/starItem.vue';
 
@@ -46,8 +49,10 @@
   const ANGLE_MAGNITUDE = Math.PI / ANGLE_AUTO;
 
   const TIME_TOUCHED = 3000;
-  const TIME_ANIMATION = 1000; // test
-  const RATIO = .005;
+  const TIME_ANIMATION = 1500; // test
+  const RATIO = .001;
+  const TIMER = 250;
+  
   // var
   let angleX = Math.PI / ANGLE_AUTO;
   let angleY = Math.PI / ANGLE_AUTO;
@@ -99,9 +104,10 @@
   const init = (radius = RADIUS, transparent = false) => {
       console.info("init", radius);
 
-      //  mark 使用uni-app的API获取元素尺寸
-      const query = uni.createSelectorQuery().in(this);
-      query.selectAll('.tag').fields({ size: true, rect: true,}, 
+      // TIP 使用uni-app的API获取元素尺寸
+      const instance = getCurrentInstance(); // 获取组件实例 // INFO 适配 wx
+      const query = uni.createSelectorQuery().in(instance);
+      query.selectAll('.tag').fields({ size: true, rect: true }, 
         (tagsRects) => { 
           tags = [];  // 重置！
           tagsRects.forEach((tagRect, i) => {
@@ -145,9 +151,9 @@
       if(!touchedFlag) {
         rotateX();
         rotateY();
-        tags.forEach((tag, index)=> moveTag(tag, index, radius));
+        tags.forEach((tag, index) => moveTag(tag, index, radius));
       }
-    }, 200);
+    }, TIMER);
   };
 
   const animateAgain = () => {
@@ -210,6 +216,7 @@
   }
 
   const handleTouchMove = (event) => {
+    // BUG wx 无法触发这个函数。
     touchedFlag = true; // 继续打断
 
     const touchMoveX = event.changedTouches[0].pageX;
@@ -217,6 +224,8 @@
 
     const deltaX = touchStartX - touchMoveX;
     const deltaY = touchStartY - touchMoveY;
+
+    
     // 映射
     angleX = deltaX * RATIO;
     angleY = deltaY * RATIO;
@@ -224,7 +233,7 @@
     // console.info("touch-move...", deltaX, deltaY);
     rotateX();
     rotateY();
-    tags.forEach((tag, index)=> moveTag(tag, index, RADIUS));
+    tags.forEach((tag, index) => moveTag(tag, index, RADIUS));
 
     // ReLoad
     touchStartX = touchMoveX;
@@ -243,7 +252,7 @@
     // angleX = angleY = Math.PI / ANGLE_AUTO;
 
     // 方案三
-      // mark 目前效果最佳？
+      // INFO 目前效果最佳？
     angleX = angleX > 0 ? Math.min(angleX, ANGLE_MAGNITUDE) : Math.max(angleX, -ANGLE_MAGNITUDE);
     angleY = angleY > 0 ? Math.min(angleY, ANGLE_MAGNITUDE) : Math.max(angleY, -ANGLE_MAGNITUDE);
     

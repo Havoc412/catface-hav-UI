@@ -12,8 +12,8 @@
     {
       "path": "pages/Home/index",
       "style": {
-        "navigationBarTitleText": "Hav's Cats"
-        // "navigationBarBackgroundColor": "transparent"
+        "navigationBarTitleText": "Hav's Cats",
+        "navigationStyle": "custom"  // INFO 这样就有了透明的效果。
       }
     },
     {
@@ -57,7 +57,7 @@
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "AiTa-CatFace",
-    "navigationBarBackgroundColor": "transparent"
+    "navigationBarBackgroundColor": "#DAE2E6"
   },
   "permission": {
     "scope.userLocation": {

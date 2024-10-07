@@ -3,7 +3,9 @@
         '--top': state.top + 'px'
     }">
         <!--拖动杆-->
-        <view @touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="handleTouchEnd">
+        <view @touchstart="handleTouchStart" 
+            @touchmove="handleTouchMove" 
+            @touchend="handleTouchEnd">
             <h-icon name="func-line" :style="{
                 'width': '50px'
             }"/>
@@ -34,11 +36,11 @@
     const emits = defineEmits(['close', 'open']);
     
     const consts = {
-        TOP_INIT: 200,
-        TOP_MIN: 40,
+        TOP_INIT: 250,
+        TOP_MIN: 0,
         THRESHOLD_DOWN: 200,
-        THRESHOLD_UP: -100,
-        DRAG_HEIGHT: 30
+        THRESHOLD_UP: -70,
+        DRAG_HEIGHT: 40
     }
     const state = reactive({
         top: 200,
@@ -67,7 +69,7 @@
         const touchMoveY = event.changedTouches[0].pageY;
 
         // ReLoad
-        state.top = Math.max(40, touchMoveY);
+        state.top = Math.max(consts.TOP_MIN, touchMoveY);
         event.stopPropagation();
     };
 
@@ -81,7 +83,7 @@
         // UPDATE 这里的逻辑之后再细化一下
         if(flag.close) {
             if(touchEndY < consts.TOP_INIT) {
-                state.top = consts.TOP_MIN;
+                state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
                 flag.close = false;
                 emits('open');
             } else if(dif < 0) {
@@ -97,7 +99,7 @@
                 flag.close = true;
                 emits('close');
             } else if(dif < consts.THRESHOLD_UP) {
-                state.top = consts.TOP_MIN;
+                state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
             } else {
                 state.top = consts.TOP_INIT;
             }
@@ -112,6 +114,7 @@
 .drag-area {
     position: fixed;
     top: var(--top);
+    left: 0;
     
     width: 100vw;
     

@@ -43,7 +43,7 @@
     height: 80px;
     
     padding: 5% 10%;
-    margin: 5vh 5vw;
+    margin: 15vh 5vw;
     background-color: #fff;
     border-radius: 12px;
 }
