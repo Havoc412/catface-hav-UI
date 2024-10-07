@@ -52,7 +52,7 @@ export function createApp() {
   // #endif
 
   // info nick name components
-  app.component("h-tarbar", tabbar);
+  app.component("h-tabbar", tabbar);
   app.component("h-btn", vtButton);
   app.component("h-icon", svgIcon);
 

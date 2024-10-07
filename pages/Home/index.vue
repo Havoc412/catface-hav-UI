@@ -10,7 +10,7 @@
         <!--fixed 形式的拖动栏-->
         <postDrag @close="closeDrag" @open="openDrag"/>
     </view>
-	<h-tarbar :bottom="state.tabbarBottom"/>
+	<h-tabbar :bottom="state.tabbarBottom"/>
 </template>
 
 <script setup>

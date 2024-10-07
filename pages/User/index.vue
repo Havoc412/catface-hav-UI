@@ -2,6 +2,7 @@
     <view>
         User
     </view>
+    <h-tabbar/>
 </template>
 
 <script setup>
