@@ -2,9 +2,12 @@ import { defineStore } from "pinia";
 
 export default defineStore("book", {
   state: () => ({
+    // TAG School Status
     gender: true,
     school: true,
     sterilization: true,
+    // TAG Filter
+    
   }),
   getters: {
     getSchoolStatus() {

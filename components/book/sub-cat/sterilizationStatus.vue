@@ -7,6 +7,7 @@
 <script setup>
     import { ref, computed } from "vue";
     import color from "@/css/theme/index.module.scss";
+    import { sterilizationStatus_EN, sterilizationStatus_ZH } from "../../../common/consts";
     // store
 // DATA
     const props = defineProps({
@@ -17,8 +18,8 @@
     });
     const emits = defineEmits([]);
 
-    const STATUS_ZH = ['已绝育', '未绝育', '不明'];
-    const STATUS_EN = ['sterilized', 'unsterilized', 'unknown'];
+    const STATUS_ZH = sterilizationStatus_ZH;
+    const STATUS_EN = sterilizationStatus_EN;
 // FUNC
     const index = computed(() => {
         const idx = STATUS_EN.indexOf(props.type);

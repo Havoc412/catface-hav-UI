@@ -7,6 +7,7 @@
 <script setup>
     import { ref, computed } from "vue";
     import color from "@/css/theme/index.module.scss";
+    import { schoolStatus_ZH, schoolStatus_EN } from "../../../common/consts";
     // store
 // DATA
     const props = defineProps({
@@ -18,8 +19,8 @@
     const emits = defineEmits([]);
 
     // ZH 与 EN 一一对应
-    const STATUS_ZH = ['在校', '毕业', '失踪', '喵星', '不明'];
-    const STATUS_EN = ['inschool', 'graduation', 'missing', 'catstar', 'unknown'];
+    const STATUS_ZH = schoolStatus_ZH;
+    const STATUS_EN = schoolStatus_EN;
 // FUNC
     const index = computed(() => {
         const idx = STATUS_EN.indexOf(props.type);
