@@ -1,7 +1,8 @@
 <template>
     <view class="container flex-vertical"
     :style="{
-        '--bottom': setBottom
+        '--bottom': setBottom,
+        '--position': props.position
     }"
     :class="{
         [setZIndex]: true
@@ -35,7 +36,11 @@
         bottom: {
             type: Number,
             default: 0
-        }
+        },
+        position: {
+            type: String,
+            default: 'sticky'
+         }
     });
     const emits = defineEmits([]);
 
@@ -56,7 +61,8 @@
 <style scoped>
 
 .container {
-    position: sticky;   /* QUESTION 为何不用 fixed 来着？ */
+    width: 100vw;
+    position: var(--position);   /* QUESTION 为何不用 fixed 来着？ */
     bottom: var(--bottom);
 
     background-color: transparent;
@@ -64,7 +70,7 @@
 }
 
 .bottom-container {
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     /* padding: 2px; */
 }
 

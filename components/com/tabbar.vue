@@ -1,5 +1,5 @@
 <template>
-    <tabberBase :bottom="props.bottom">
+    <tabberBase :bottom="props.bottom" position="fixed">
         <template #midfix>
             <view class="flex-center-horizontal container-main">
                 <template v-for="(item, index) in PAGES" :key="index">

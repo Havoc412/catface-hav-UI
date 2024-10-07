@@ -31,6 +31,7 @@
 	@import "./css/text.css";
 	@import "./css/position.css";
 	@import "./css/maggin.css";
+	@import "./css/theme/index.scss";
 
 	/* font */
 	@import "./static/font/stylesheet.css";
@@ -59,4 +60,7 @@
 		background-size: 70%;
 	}
 
+	page {
+    	background-color: $h-bg-light;
+	}
 </style>

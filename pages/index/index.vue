@@ -1,7 +1,7 @@
 <!-- Entrance Pages -->
 <template>
 	<view class="flex-center-vertical bg-img contianer" :style="{
-	'--height': phoneInforStore.phoneHeight + 'px'
+		'--height': phoneInforStore.phoneHeight + 'px'
 	}">
 		<image class="logo" src="/static/icon.png"></image>
 		<view class="flex-center-vertical gap-20" @click="test">

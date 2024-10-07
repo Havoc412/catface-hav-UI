@@ -1,4 +1,5 @@
 <template>
+    <!--TIP 在外部可以直接覆盖 style 来实现不同的变换-->
     <image :src="svgPath" class="icon" :style="{'--size': props.size + 'px'}"/>
 </template>
 
