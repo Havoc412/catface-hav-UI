@@ -2,7 +2,6 @@
     <view class="flex-center-vertical container-top bg-img">
         <mainfunc/>
         <!--INFO STAR-->
-        <view style="height: 10vh"/>
         <view class="block flex-fill">
             <!--不启用的时候，无需渲染-->
             <star v-if="flag.star"/>

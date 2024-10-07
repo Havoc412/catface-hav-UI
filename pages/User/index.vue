@@ -8,20 +8,27 @@
             padding="10"
             cat-size="300"
             position-type="right">
-            <view class="flex-top-horizontal">
-                <view class="flex-top-horizontal gap-10">
-                    <view class="avatar">
-                        <up-image :src="data.url" width="70" height="70" radius="35"/>
+            <view class="flex-vertical">
+                <view class="flex-top-horizontal">
+                    <view class="flex-top-horizontal gap-10">
+                        <view class="avatar">
+                            <up-image :src="data.url" width="70" height="70" radius="35"/>
+                        </view>
+                        <view class="flex-vertical container-text gap-5">
+                            <view class="name">{{ data.name }}</view>
+                            <view class="text">{{ data.text }}</view>
+                        </view>
                     </view>
-                    <view class="flex-vertical container-text gap-5">
-                        <view class="name">{{ data.name }}</view>
-                        <view class="text">{{ data.text }}</view>
+                    <view class="shrink"/>
+                    <view class="flex-horizontal gap-10">
+                        <h-icon name="user-sun"/>
+                        <h-icon name="user-list_block"/>
                     </view>
                 </view>
-                <view class="shrink"/>
-                <view class="flex-horizontal gap-10">
-                    <h-icon name="user-sun"/>
-                    <h-icon name="user-list_block"/>
+                <!--装饰-->
+                <view style="height: 100px; width: 150px; border-radius: 20px;
+                    background-color: #AEC4EA;
+                    transform: translate(-20px, 20px); /* 向 x 轴偏移 -20px，y 轴偏移 20px */">
                 </view>
             </view>
         </Block>
