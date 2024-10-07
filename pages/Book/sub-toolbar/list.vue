@@ -7,7 +7,7 @@
                 <view>{{ item }}</view>
                 <up-switch v-model="flag[index]"
                     size="28" :activeColor="color['main-deep']"
-                    @change="bookStore.setStatus(index)"
+                    @change="bookStore.setSchoolStatus(index)"
                 />
             </view>
         </template>
@@ -43,7 +43,7 @@
     
     // INFO 需要和 bookStore 中的状态保持一致。
     const ITEMS = ['性别', '在校状态', '绝育状态'];
-    const flag = reactive(bookStore.getStatus);  // TIP 简化写法。
+    const flag = reactive(bookStore.getSchoolStatus);  // TIP 简化写法。
 
 // FUNC
 
