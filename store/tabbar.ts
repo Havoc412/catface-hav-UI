@@ -5,7 +5,7 @@ export default defineStore("tarbarStore", {
     state: (): {
         curPageIndex: number,
         routeHistory: number[]
-    } => {
+    } => {  
         return {
           curPageIndex: 1,  // INFO 默认是中间页
           routeHistory: []
@@ -15,10 +15,10 @@ export default defineStore("tarbarStore", {
         setPageID(nID: number, remember: Boolean = false) {
             if(remember)
                 this.routeHistory.push(this.curPageIndex);
-            setTimeout(() => {
-                this.curPageIndex = nID;
-                console.info(this.curPageIndex);
-            }, 200); // todo 动画延时的问题。
+            this.curPageIndex = nID;
+            // setTimeout(() => {
+            //     console.info(this.curPageIndex);
+            // }, 200); // todo 动画延时的问题。
             console.info(this.routeHistory);
         },
         backRoute() {

@@ -2,6 +2,7 @@
     <view>
         Book
     </view>
+    <h-tabbar/>
 </template>
 
 <script setup>

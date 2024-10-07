@@ -31,7 +31,7 @@
 // FUNC
     const iconName = computed(() => {
         return (pageIndex) => {
-            return `tabbar-${PAGES[pageIndex]}` + (tabbatStore.curPageIndex === pageIndex ? "_active" : "");
+            return `tabbar-${PAGES[pageIndex].toLowerCase()}` + (tabbatStore.curPageIndex === pageIndex ? "_active" : "");
         }
     })
 
