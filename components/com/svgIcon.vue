@@ -30,6 +30,7 @@
         }
         return '';
     });
+    console.info(svgPath.value);
 
 </script>
 
