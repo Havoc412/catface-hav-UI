@@ -33,6 +33,7 @@ import * as Pinia from 'pinia'
 import tabbar from "./components/com/tabbar.vue";
 import vtButton from "./components/com/button.vue";
 import svgIcon from "./components/com/svgIcon.vue";
+import tag from "./components/com/tag.vue";
 
 
 export function createApp() {
@@ -55,6 +56,7 @@ export function createApp() {
   app.component("h-tabbar", tabbar);
   app.component("h-btn", vtButton);
   app.component("h-icon", svgIcon);
+  app.component("h-tag", tag);
 
   return {
     app,

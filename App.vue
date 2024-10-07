@@ -31,7 +31,7 @@
 	@import "./css/text.css";
 	@import "./css/position.css";
 	@import "./css/margin.css";
-	@import "./css/theme/index.scss";
+	@import "./css/theme/index.module.scss";
 
 	/* font */
 	@import "./static/font/stylesheet.css";

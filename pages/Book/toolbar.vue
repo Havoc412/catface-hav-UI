@@ -1,5 +1,5 @@
 <template>
-    <view class="flex-horizontal block gap-10 mr-10 container-tool">
+    <view class="flex-horizontal block gap-10 mr-10 container-tool z-9">
         <view class="shrink"/>
         <h-icon name="com-list"/>
         <h-icon name="com-filter"/>
@@ -23,6 +23,9 @@
 <style scoped>
 
 .container-tool {
+    position: sticky;
+    top: 45px;
+
     padding: 5px 10px;
     background-image: linear-gradient(to right, #ffffff0F, #ffffff);
 }

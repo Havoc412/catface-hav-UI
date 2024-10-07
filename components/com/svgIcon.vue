@@ -30,7 +30,7 @@
         }
         return '';
     });
-    console.info(svgPath.value);
+    // console.info(svgPath.value); // TEST
 
 </script>
 

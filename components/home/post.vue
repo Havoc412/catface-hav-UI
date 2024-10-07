@@ -72,7 +72,7 @@
 </script> 
 
 <style lang="scss">
-@import "/css/theme/index.scss";  // UPDATE 还是得一个个导入？
+@import "/css/theme/index.module.scss";  // UPDATE 还是得一个个导入？
 
 .container-post {
     border-radius: 5px;
