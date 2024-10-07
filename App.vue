@@ -30,7 +30,7 @@
 	@import "./css/animation.css";
 	@import "./css/text.css";
 	@import "./css/position.css";
-	@import "./css/maggin.css";
+	@import "./css/margin.css";
 	@import "./css/theme/index.scss";
 
 	/* font */
