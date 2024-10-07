@@ -39,7 +39,7 @@
         const pagePath = `/pages/${PAGES[index]}/index`;
         console.info(pagePath);
         uni.redirectTo({ url: pagePath });
-        tabbatStore.setPageID(index, true);
+        tabbatStore.setPageID(index);
     }
 
 </script>
