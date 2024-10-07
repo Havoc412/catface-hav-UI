@@ -29,8 +29,8 @@
     })
 
     onMounted(() => {
-        // flag.star = false;  
-        flag.star = true; // TEST
+        flag.star = false;  
+        // flag.star = true; // TEST
         state.tabbarBottom = 0;
     })
 
@@ -51,7 +51,5 @@
 .container-top {
     height: 100vh;
 }
-
-
 
 </style>

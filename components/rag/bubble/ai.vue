@@ -15,7 +15,7 @@
 
 <script setup>
     import { ref } from "vue";
-    // com
+    // comVGBBBBBBBBB
     import wordByWord from "./wbw.vue";
     // store
 // DATA
