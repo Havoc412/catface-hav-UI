@@ -1,11 +1,12 @@
 <!--首页的【星球】关键词交互插件-->
 <template>
   <view class="star-container">
-    <view id="container" class="tagBall" @touchmove.prevent @touchstart="handleTouchStart" 
-      @touchmove="handleTouchMove" @touchend="handleTouchEnd">
+    <view id="container" class="tagBall" @touchmove.prevent 
+      @touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="handleTouchEnd">
       <view v-for="(item, index) in nameList" :key="index" 
         class="tag flex-center-vertical" :style="tagsStyles[index]"
         :class="{'tag-animation': animationFlag}" > <!--INFO @click="deep(index+1)"-->
+        <!--TODO 增加 click -> detail -->
         <starItem :url="item.url" :name="item.name"/>
       </view>
     </view>

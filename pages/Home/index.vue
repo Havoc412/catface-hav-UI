@@ -4,16 +4,17 @@
         <!--INFO STAR-->
         <view style="height: 10vh"/>
         <view class="block flex-fill">
-            <star v-show="flag.star"/>
+            <!--不启用的时候，无需渲染-->
+            <star v-if="flag.star"/>
         </view>
         <!--fixed 形式的拖动栏-->
-        <!-- <postDrag/> -->
+        <postDrag @close="closeDrag" @open="openDrag"/>
     </view>
-	<h-tarbar/>
+	<h-tarbar :bottom="state.tabbarBottom"/>
 </template>
 
 <script setup>
-    import { ref, reactive } from "vue";
+    import { ref, reactive, onMounted } from "vue";
     // com
     import mainfunc from "../../components/home/mainfunc.vue";
     import star from "../../components/home/star.vue";
@@ -22,10 +23,26 @@
     // store
 // DATA
     const flag = reactive({
-        star: true,
+        star: false,
+    })
+    const state = reactive({
+        tabbarBottom: 0
+    })
+
+    onMounted(() => {
+        flag.star = false;
+        state.tabbarBottom = 0;
     })
 
 // FUNC
+    function closeDrag() {
+        flag.star = true;
+        state.tabbarBottom = -70;
+    }
+    function openDrag() {
+        flag.star = false;
+        state.tabbarBottom = 0;
+    }
 
 </script>
 
