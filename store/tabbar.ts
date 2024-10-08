@@ -19,9 +19,8 @@ export default defineStore("tarbarStore", {
             // setTimeout(() => {
             //     console.info(this.curPageIndex);
             // }, 200); // todo 动画延时的问题。
-            console.info(this.routeHistory);
         },
-        backRoute() {
+        backRoute() { // UPDATE 好像用不到，直接用 Uniapp 原生的路由就好。
           const lastRoute = this.routeHistory.pop(); // 移除并获取数组的最后一个元素
           if (lastRoute !== undefined) {
             this.curPageIndex = lastRoute;

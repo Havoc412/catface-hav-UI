@@ -1,13 +1,13 @@
 <template>
     <view class="container-mf flex-center-horizontal">
         <template v-for="(item, index) in FuncList">
-            <SingleBtn :img-path="item.imgPath" :text="item.text"/>
+            <SingleBtn :img-path="item.imgPath" :text="item.text" @click="goto(item.page)"/>
         </template>
     </view>
 </template>
 
 <script setup>
-    import { ref } from "vue";
+    import { ref, computed } from "vue";
 
     import SingleBtn from "./sub-mainfunc/singleBtn.vue";
     // store
@@ -20,19 +20,26 @@
     const FuncList = ref([
         {
             imgPath: "/static/cats/head/1.png",
+            page: "CatFace",
             text: "猫脸识别"
         },
         {
             imgPath: "/static/cats/head/2.png",
+            page: "Rag",
             text: "对话小护"
         },
         {
             imgPath: "/static/cats/head/3.png",
+            page: '',
             text: "待定？"
         },
     ])
 
 // FUNC
+    function goto(page) {
+        const pageUrl = `/pages/${page}/index`;
+        uni.navigateTo({ url: pageUrl });
+    }
 
 </script>
 

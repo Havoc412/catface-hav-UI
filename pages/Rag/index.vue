@@ -13,7 +13,6 @@
             </template>
         </view>
         <ai-tarbar/>
-        <h-tarbar/>
     </view>
 </template>
 

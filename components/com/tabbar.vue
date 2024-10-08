@@ -37,7 +37,7 @@
 
     function goto(index) {
         const pagePath = `/pages/${PAGES[index]}/index`;
-        console.info(pagePath);
+        console.debug(pagePath);
         uni.redirectTo({ url: pagePath });
         tabbatStore.setPageID(index);
     }

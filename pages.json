@@ -43,12 +43,6 @@
       "requiredPrivateInfos": ["getLocation", "chooseLocation"]
     },
     {
-      "path": "pages/CatFace/database",
-      "style": {
-        "navigationBarTitleText": "CatFace-DB"
-      }
-    },
-    {
       "path": "pages/Rag/index",
       "style": {
         "navigationBarTitleText": "RAG"
@@ -60,7 +54,7 @@
     "navigationBarTitleText": "AiTa-CatFace",
     "navigationBarBackgroundColor": "#DAE2E6"
   },
-  "permission": {
+  "permission": {  // INFO 关于 POI 的授权。
     "scope.userLocation": {
       "desc": "初始化时获取用户的位置信息用于外出打卡定位"
     }
