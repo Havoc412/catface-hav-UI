@@ -61,7 +61,11 @@
         THRESHOLD_DOWN: 200,
         THRESHOLD_UP: -70,
         DRAG_HEIGHT: 40,
-        POST_WIDTH: extractIntFromSize(scssConsts['post-width'])  // rpx
+        POST: {
+            WIDTH: extractIntFromSize(scssConsts['post-width']),  // rpx
+            HEIGHT_MIN: 200, // rpx
+            HEIGHT_MAX: 450,
+        } 
     }
     const state = reactive({
         top: 200,
@@ -224,10 +228,15 @@
         console.info("loadmore");
         if(data.left.length > 5) // TEST
             return;
-
+        // TODO API
         EXAMPLE.forEach((item) => {
             // img info
-            const height = Math.round(item.height / item.width * consts.POST_WIDTH);
+            let height = Math.round(item.height / item.width * consts.POST.WIDTH);
+            if (height < consts.POST.MIN_HEIGHT) {
+                height = consts.POST.MIN_HEIGHT;
+            } else if (height > consts.POST.HEIGHT_MAX) {
+                height = consts.POST.HEIGHT_MAX;
+            }
             // console.debug(item.height, item.width, height)
             item.adoptHeight = height;  // INFO rpx
 
