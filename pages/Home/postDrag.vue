@@ -3,9 +3,13 @@
         '--top': state.top + 'px'
     }"> <!--INFO 主要就是依靠 fixed + top 来实现拖动的效果。-->
         <!--拖动杆-->
-        <view @touchstart="handleTouchStart" 
+        <view :style="{
+            'margin-bottom': flag.close ? '15px' : '0'
+        }"
+            @touchstart="handleTouchStart" 
             @touchmove="handleTouchMove" 
-            @touchend="handleTouchEnd">
+            @touchend="handleTouchEnd"
+            >
             <h-icon name="func-line" :style="{
                 'width': '50px'
             }"/>
@@ -72,6 +76,7 @@
     const flag = reactive({
         close: false,
         full: false,  // drag 部分是否完全展开
+        // twiceClose: false,  // 当下滑两次的时候，就会触发 close
     })
     
     // TEST
@@ -251,6 +256,14 @@
             state.top = consts.TOP_INIT;
             flag.full = false;
         }
+        // else {  // UPDATE 这个的触发条件是 变动为 0 的状态，不是特别有用。
+        //     if(flag.twiceClose) { // 第二次下滑的时候
+        //         state.top = phoneInforStore.phoneHeight - consts.DRAG_HEIGHT;
+        //         flag.close = true;
+        //         emits('close');
+        //     }
+        //     flag.twiceClose = !flag.twiceClose;
+        // }
     }
     
 </script>
