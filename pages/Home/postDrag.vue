@@ -10,18 +10,22 @@
                 'width': '50px'
             }"/>
         </view>
-        <view class="container-waterfall flex-top-horizontal gap-10">
-            <view class="flex-vertical gap-10">
-                <template v-for="(item, index) in data.left" :key="index">
-                    <post :url="item.url" :title="item.title" :userAvatar="item.userAvatar" :userName="item.userName" :time="item.time" :like="item.like" :height="item.adoptHeight"/>
-                </template>
-            </view>
-            <view class="flex-vertical gap-10">
-                <template v-for="(item, index) in data.right" :key="index">
-                    <post :url="item.url" :title="item.title" :userAvatar="item.userAvatar" :userName="item.userName" :time="item.time" :like="item.like" :height="item.adoptHeight"/>
-                </template>
-            </view>
-        </view>
+        <!-- <view> -->
+            <!-- <scroll-view> -->
+                <view class="container-waterfall flex-top-horizontal gap-10">
+                    <view class="flex-vertical gap-10">
+                        <template v-for="(item, index) in data.left" :key="index">
+                            <post :url="item.url" :title="item.title" :userAvatar="item.userAvatar" :userName="item.userName" :time="item.time" :like="item.like" :height="item.adoptHeight"/>
+                        </template>
+                    </view>
+                    <view class="flex-vertical gap-10">
+                        <template v-for="(item, index) in data.right" :key="index">
+                            <post :url="item.url" :title="item.title" :userAvatar="item.userAvatar" :userName="item.userName" :time="item.time" :like="item.like" :height="item.adoptHeight"/>
+                        </template>
+                    </view>
+                </view>
+            <!-- </scroll-view> -->
+        <!-- </view> -->
         <placeHolder/>
     </view>
 </template>
@@ -64,7 +68,8 @@
     const flag = reactive({
         close: false
     })
-
+    
+    // TEST
     const EXAMPLE = [
         {
             "url": "/catsAvatar/0.jpg",  // 暂时先用一下

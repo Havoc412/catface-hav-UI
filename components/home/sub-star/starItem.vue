@@ -1,7 +1,7 @@
 <template>
     <view class="flex-center-vertical">
-        <view class="container-img">
-            <up-image class="img" height="40rpx" width="40rpx" radius="20rpx"
+        <view class="container-star-item">
+            <up-image class="star-img" height="40rpx" width="40rpx" radius="20rpx"
                 :src="fetchUrl" errorIcon="/static/error.png"
             />
         </view>
@@ -34,7 +34,7 @@
 
 <style scoped>
 
-.container-img {
+.container-star-item {
     padding: 1px;
     border-radius: 50%;
 
@@ -42,7 +42,7 @@
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-.img {
+.star-img {
     background-color: #fff;
     border-radius: 50%;
 }
