@@ -13,13 +13,22 @@
                 />
             </template>
         </view>
-        <view style="height: 80px;"></view>
+        <up-loadmore 
+            :status="flag.loadmore"
+            loading-text="小护龟速翻阅中..."
+            nomore-text="已经没有更多资料啦。"
+            color="#777"
+            @loadmore="loadmore"
+        />
+        <view style="height: 70px;"></view>
     </view>
     <h-tabbar/>
 </template>
 
 <script setup>
     import { ref, reactive } from "vue";
+	import { onReachBottom } from '@dcloudio/uni-app'
+
     // com
     import toolbar from "./toolbar.vue";
     import singleCat from "../../components/book/singleCat.vue";
@@ -37,8 +46,27 @@
             {name: "软软", gender: "female", schoolStatus: "inschool", sterilizationStatus: "sterilized", url: "5.jpg"},
         ]
     })
+    
+    const flag = reactive({
+        loadmore: 'loadmore'
+    })
 
 // FUNC
+    function loadmore() {
+        // TODO 这里后续请求 API
+        console.info("loadmore");
+    }
+
+    onReachBottom(() => {
+        console.info("onReachBottom"); // test
+        flag.loadmore = 'loading';
+
+        loadmore();
+
+        setTimeout(() => {
+            flag.loadmore = 'loadmore';
+        }, 1000);
+    })
 
 </script>
 
