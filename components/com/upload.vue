@@ -1,16 +1,17 @@
 <template>
   <up-upload
-    @afterRead="afterRead"
+    class="container-upload relative"
     accept="media"
     :maxCount="1"
     :maxDuration="30"
+    @afterRead="afterRead"
   >
   <!--只是借用一个函数框架，实际的内容替换掉。-->
-    <view class="flex-center-both" style="font-family: Alimama ShuHeiTi; font-size: 25rpx;">
+    <view class="flex-center-both text">
           选取照片或视频（<span style="color: #ff4c55">30s内</span>）
     </view>
     <view class="relative">
-        <up-image show-loading :src="frame" height="500rpx" width="500rpx" radius="5rpx">
+        <up-image show-loading :src="frame" height="550rpx" width="550rpx" radius="5rpx">
           <template #error>
             <view>加载失败</view> <!--todo 换成【鬼混】那张图片-->
           </template>
@@ -204,6 +205,11 @@
 </script>
 
 <style lang="css" scoped>
+.container-upload {
+  background-color: #fff;
+  border-radius: 10px;
+}
+
 .overlay {
   position: absolute;
   top:0;
@@ -244,6 +250,16 @@
   position: absolute;
   bottom: 10rpx;
   right: 10rpx;
+}
+
+.text {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+
+  font-family: Alimama ShuHeiTi;
+  font-size: 15px;
 }
 
 </style>

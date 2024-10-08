@@ -5,9 +5,11 @@
     </snackbar>
     <view class="flex-center-vertical contianer bg-img mt-10">
         <view class="flex-center-vertical">
-            <view class="title">点击下图，上传猫猫图片</view>
-            <view class="attention">尽量对准猫猫正脸，效果会更好。</view>
-            <!--info 文件上传--><!--todo 之后兼容 视频识别 accept="all" -->
+            <view class="title">点击下图，上传猫猫图像</view>
+            <PlaceHolder height="3"/>
+            <h-icon name="com-question" size="22" @click="flag.helper = true"/>
+            <PlaceHolder height="25"/>
+            <!--info 文件上传-->
             <h-upload 
                 :open-form="flag.form.show"
                 @email="send_email"
@@ -17,8 +19,8 @@
                 @load-file-url="load_file_url"
             />
             <view class="attention">模型开发优化中，识别结果仅供参考。</view>
-
-            <!-- <cat-item/> -->
+            
+            <!-- TAG cat-list -->
             <view class="flex-vertical gap-10">
                 <template v-for="(item, id) in catInforList" :index="cat-id">
                     <cat-item :infor="item"/>
@@ -38,7 +40,7 @@
                 </view>
             </view>
 
-            <!-- form -->
+            <!-- TAG form -->
             <cat-form 
                 v-if="flag.form.show" 
                 :breedFromModel="flag.form.breed" 
@@ -47,8 +49,9 @@
             />
         </view>
     </view>
+    <!--一些辅助用 悬浮窗-->
     <notice-win v-if="noticeList.length > 0" :notices="noticeList"/>
-    <!-- <img :src="BASE_URL + 'static/images/cats/test.png'"/> -->
+    <helperWin v-if="flag.helper" @close="flag.helper = false"/>
 </template>
 
 <script setup>
@@ -62,9 +65,14 @@
 
     import HUpload from "../../components/com/upload.vue";
     import func from "../../components/catface/func.vue";
-    import noticeWin from "./win/notice.vue";
 
     import snackbar from "../../components/com/snackbar.vue";
+
+    import PlaceHolder from "../../components/com/sub-tabbar/placeHolder.vue";
+
+        // Wins
+    import noticeWin from "./win/notice.vue";
+    import helperWin from "./win/helper.vue";
     // store
     import emialStore from "../../store/snackbar";
     const email = emialStore();
@@ -84,6 +92,7 @@
             detect_error: false,
             breed: "",
         },
+        helper: false
     })
 
 // FUNC
