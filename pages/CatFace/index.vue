@@ -49,7 +49,6 @@
     </view>
     <notice-win v-if="noticeList.length > 0" :notices="noticeList"/>
     <!-- <img :src="BASE_URL + 'static/images/cats/test.png'"/> -->
-    <h-tarbar />
 </template>
 
 <script setup>

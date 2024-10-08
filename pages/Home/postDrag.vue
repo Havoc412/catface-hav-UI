@@ -65,7 +65,11 @@
             WIDTH: extractIntFromSize(scssConsts['post-width']),  // rpx
             HEIGHT_MIN: 200, // rpx
             HEIGHT_MAX: 450,
-        } 
+        },
+        TITLE: {  // 简单的估算，超过 THRESHOLD_LEN 个字符就增加 HEIGHT 的高度。
+            THRESHOLD_LEN: 13,
+            HEIGHT: 20 // rpx
+        }
     }
     const state = reactive({
         top: 200,
@@ -236,6 +240,9 @@
                 height = consts.POST.MIN_HEIGHT;
             } else if (height > consts.POST.HEIGHT_MAX) {
                 height = consts.POST.HEIGHT_MAX;
+            }
+            if (item.title.length > consts.TITLE.THRESHOLD_LEN) {
+                height += consts.TITLE.HEIGHT;
             }
             // console.debug(item.height, item.width, height)
             item.adoptHeight = height;  // INFO rpx

@@ -13,7 +13,7 @@
       "path": "pages/Home/index",
       "style": {
         "navigationBarTitleText": "Hav's Cats",
-        "navigationStyle": "custom"  // INFO 这样就有了透明的效果。
+        "navigationStyle": "custom"  // INFO 这样 顶部导航栏 就有了透明的效果。
       }
     },
     {
@@ -28,12 +28,13 @@
         "navigationBarTitleText": "Human"
       }
     },
-    {
+    {  // 这只是一个之前的测试首页。
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "AiTa-Hv"
       }
     },
+    // TAG 两个特色页面
     {
       "path": "pages/CatFace/index",
       "style": {
