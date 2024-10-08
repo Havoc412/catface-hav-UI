@@ -10,9 +10,13 @@
                 'width': '50px'
             }"/>
         </view>
-        <!-- <view> -->
-            <!-- <scroll-view> -->
-                <view class="container-waterfall flex-top-horizontal gap-10">
+        <view>
+            <scroll-view :scroll-y="true" 
+                @scrolltolower="lower" @scrolltoupper="upper"
+                class="container-waterfall" :style="{
+                '--height': state.waterfallHeight + 'vh'
+            }">
+                <view class="flex-top-horizontal gap-10">
                     <view class="flex-vertical gap-10">
                         <template v-for="(item, index) in data.left" :key="index">
                             <post :url="item.url" :title="item.title" :userAvatar="item.userAvatar" :userName="item.userName" :time="item.time" :like="item.like" :height="item.adoptHeight"/>
@@ -24,15 +28,14 @@
                         </template>
                     </view>
                 </view>
-            <!-- </scroll-view> -->
-        <!-- </view> -->
+            </scroll-view>
+        </view>
         <placeHolder/>
     </view>
 </template>
 
 <script setup>
     import { ref, reactive, onMounted } from "vue";
-    import { onReachBottom } from '@dcloudio/uni-app'
 
     import scssConsts from "@/common/consts.module.scss";
     import { extractIntFromSize } from "@/utils/string";
@@ -58,6 +61,7 @@
     }
     const state = reactive({
         top: 200,
+        waterfallHeight: 85,
     })
     const vars = {
         touchStartY: 0,
@@ -66,7 +70,8 @@
         heightRight: 0
     }
     const flag = reactive({
-        close: false
+        close: false,
+        full: false,  // drag 部分是否完全展开
     })
     
     // TEST
@@ -148,6 +153,7 @@
 
     onMounted(() => {
       flag.close = false;
+      flag.full = false;
       state.top = consts.TOP_INIT;
       
       data.left = [];
@@ -180,10 +186,12 @@
         if(flag.close) {
             if(touchEndY < consts.TOP_INIT) {
                 state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
+                flag.full = true;
                 flag.close = false;
                 emits('open');
             } else if(dif < 0) {
                 state.top = consts.TOP_INIT;
+                flag.full = false;
                 flag.close = false;
                 emits('open');
             } else {
@@ -192,12 +200,15 @@
         } else {
             if (dif > consts.THRESHOLD_DOWN) {
                 state.top = phoneInforStore.phoneHeight - consts.DRAG_HEIGHT;
+                flag.full = false;
                 flag.close = true;
                 emits('close');
             } else if(dif < consts.THRESHOLD_UP) {
                 state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
+                flag.full = true;
             } else {
                 state.top = consts.TOP_INIT;
+                flag.full = false;
             }
         }
         event.stopPropagation();
@@ -206,6 +217,8 @@
     // TAG # Waterfall
     function loadmore() {
         console.info("loadmore");
+        if(data.left.length > 5) // TEST
+            return;
 
         EXAMPLE.forEach((item) => {
             // img info
@@ -224,9 +237,21 @@
         })
     }
     
-    onReachBottom(() => {
+    function lower() {
         loadmore();
-    })
+        
+        if (!flag.full) {
+            state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
+            flag.full = true;
+        }
+    }
+
+    function upper() {
+        if(flag.full) {
+            state.top = consts.TOP_INIT;
+            flag.full = false;
+        }
+    }
     
 </script>
 
@@ -246,8 +271,7 @@
 }
 
 .container-waterfall {
-    overflow-y: scroll;
-    max-height: calc(100vh - 110px); /* UPDATE 兼容性方面还得协调 */
+    height: var(--height);
 }
 
 </style>        
