@@ -1,6 +1,6 @@
 <template>
     <view class="flex-vertical talk-container bg-img">
-        <view class="flex-center-both topic">{{ talkStore.topic }}</view>
+        <!-- <view class="flex-center-both topic">{{ talkStore.topic }}</view> -->
         <!-- TALK WINDOW -->
         <view class="flex-vertical gap-10 container-dialogue">
             <template v-for="(item, index) in talkStore.history" :key="index">
@@ -22,7 +22,7 @@
     import aiBubble from "../../components/rag/bubble/ai.vue";
     import userBubble from "../../components/rag/bubble/user.vue";
 
-    import aiTarbar from "../../components/rag/tarbar.vue";
+    import aiTarbar from "../../components/rag/tabbar.vue";
     // store
     import { aiTalk } from "../../store/aiTalk";
     const talkStore = aiTalk();

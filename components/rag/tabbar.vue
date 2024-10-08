@@ -1,8 +1,8 @@
 <template>
-    <view class="flex-center-both block tarbar-contain gap-5" :style="{
-        '--bottom': style.bottom + 'px'
+    <view class="flex-center-both block tarbar-contain gap-10" :style="{
+        '--bottom': vars.bottom + 'px'
     }">
-        <fr-icon-voice theme="outline" :size="consts.iconSize" :fill="['#000000']" />
+        <h-icon name="com-more" :size="consts.iconSize"/>
         <view class="input-container shrink">
             <u--textarea 
                 v-model="inputContent" auto-height
@@ -24,7 +24,7 @@
                 @keyboardheightchange="keyboardChange"
             -->
         </view>
-        <fr-icon-tips theme="outline" :size="consts.iconSize" :fill="['#000000']" />
+        <h-icon name="com-add" :size="consts.iconSize"/>
         <view v-if="inputContent !== ''" class="send-container flex-horizontal gap-5" @touchend.prevent="sendUserMessage">
             <view v-if="talkStore.loading" class="loader"/>
             <text>{{ talkStore.loading ? "停止" : "发送" }}</text>
@@ -46,13 +46,13 @@
     const emits = defineEmits([]);
 
     const consts = reactive({
-        iconSize: 40,
+        iconSize: 22,
         bottom: 30
     })
 
     const inputContent = ref('');
-    const style = reactive({
-        bottom: 30
+    const vars = reactive({
+        bottom: 0
     })
 
 // FUNC
@@ -70,32 +70,34 @@
         console.info("键盘变化", infor); // info
         // emits("keyBoardChange", infor.detail);
         // moveHeight.value = infor.detail.height;
-        if(style.bottom > consts.bottom)
-            style.bottom = consts.bottom;
+        if(vars.bottom > consts.bottom)
+            vars.bottom = consts.bottom;
         else
-            style.bottom = infor.detail.height; // * phoneStore.singlePx;
-        console.info(style.bottom);
+            vars.bottom = infor.detail.height; // * phoneStore.singlePx;
+        console.debug(vars.bottom);
     }
-
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "/css/theme/index.module.scss";
+
 .tarbar-contain {
     position: fixed;
     bottom: var(--bottom);
     transition: bottom .1s;
 
 
-    background-color: #e8f3f1;
-    padding:5rpx 10rpx;
+    background-color: $h-bg-deep;
+    border-radius: 10px 10px 0 0;
+    padding: 5px 15px;
 }
 
 .input-container {
     width: 100%;
-    margin: 3px;
+    margin: 5px;
 
-    border-radius: 15px;
+    border-radius: 5px;
     background-color: #f9f9f9;
 
     max-height: 65px;
