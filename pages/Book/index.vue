@@ -20,7 +20,7 @@
             color="#777"
             @loadmore="loadmore"
         />
-        <view style="height: 70px;"></view>
+        <placeHolder/>
     </view>
     <h-tabbar/>
 </template>
@@ -32,6 +32,7 @@
     // com
     import toolbar from "./toolbar.vue";
     import singleCat from "../../components/book/singleCat.vue";
+    import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     // store
 
 // DATA

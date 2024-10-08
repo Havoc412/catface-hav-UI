@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 
+
 export default defineStore("phoneStore", {
   state: (): {
     statusBarHeight: number;
@@ -15,8 +16,14 @@ export default defineStore("phoneStore", {
   getters: {
     singlePx() {
       // 用于 rpx ~ px 转换
-      return this.phoneWidth / 750;
-    }
+      return this.phoneWidth / 750;  // INFO 单位 n px ~ 1 rpx
+    },
+    // halfWidth() {
+    //   const postWidth = extractIntFromSize(consts['post-width']);
+    //   // console.debug('post-width:', postWidth, consts['post-width']);
+    //   console.debug(Math.round(postWidth * this.singlePx));
+    //   return Math.round(postWidth * this.singlePx);
+    // },
   },
   actions: {
     setPhoneInfor(phoneInfor) {

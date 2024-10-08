@@ -1,9 +1,9 @@
 <template>
     <view class="container-post">
-        <image :src="props.url" class="img" :style="{
+        <image :src="nginx.static(props.url)" class="img" :style="{
             '--height': props.height + 'rpx'
         }"/>
-        <view class="flex-vertical container-info">
+        <view class="flex-vertical container-info gap-5">
             <view>{{ props.title }}</view>
             <view class="flex-horizontal gap-5">
                 <up-image :src="props.userAvatar" height="50rpx" width="50rpx" radius="25rpx"/>
@@ -22,6 +22,8 @@
 
 <script setup>
     import { ref, reactive, computed } from "vue";
+    
+    import nginx from "../../request/nginx";
     // store
 // DATA
     const props = defineProps({
@@ -51,7 +53,7 @@
         },
         height: {
             type: Number,
-            default: 340
+            default: 350
         }
     });
     const emits = defineEmits([]);
@@ -73,15 +75,19 @@
 
 <style lang="scss">
 @import "/css/theme/index.module.scss";  // UPDATE 还是得一个个导入？
+@import "/common/consts.module.scss";
 
 .container-post {
+    width: $post-width;
+    
     border-radius: 5px;
     background-color: $h-bg-light;
+    overflow: hidden;
 }
 
 .img {
     height: var(--height);
-    width: 340rpx;
+    width: $post-width;
 }
 
 .container-info {

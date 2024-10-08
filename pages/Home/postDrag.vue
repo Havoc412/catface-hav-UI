@@ -1,7 +1,7 @@
 <template>
     <view class="drag-area flex-center-vertical shrink z-8" :style="{
         '--top': state.top + 'px'
-    }">
+    }"> <!--INFO 主要就是依靠 fixed + top 来实现拖动的效果。-->
         <!--拖动杆-->
         <view @touchstart="handleTouchStart" 
             @touchmove="handleTouchMove" 
@@ -10,22 +10,31 @@
                 'width': '50px'
             }"/>
         </view>
-        <view class="flex-center-vertical">
-            <!--TODO 手搓一个 双列瀑布流；关键点就是记录图片的高度-->
-            <template v-for="id in 4">
-                <view class="flex-horizontal gap-10">
-                    <post/>
-                    <post/>
-                </view>
-            </template>
+        <view class="container-waterfall flex-top-horizontal gap-10">
+            <view class="flex-vertical gap-10">
+                <template v-for="(item, index) in data.left" :key="index">
+                    <post :url="item.url" :title="item.title" :userAvatar="item.userAvatar" :userName="item.userName" :time="item.time" :like="item.like" :height="item.adoptHeight"/>
+                </template>
+            </view>
+            <view class="flex-vertical gap-10">
+                <template v-for="(item, index) in data.right" :key="index">
+                    <post :url="item.url" :title="item.title" :userAvatar="item.userAvatar" :userName="item.userName" :time="item.time" :like="item.like" :height="item.adoptHeight"/>
+                </template>
+            </view>
         </view>
+        <placeHolder/>
     </view>
 </template>
 
 <script setup>
     import { ref, reactive, onMounted } from "vue";
-    
+    import { onReachBottom } from '@dcloudio/uni-app'
+
+    import scssConsts from "@/common/consts.module.scss";
+    import { extractIntFromSize } from "@/utils/string";
+
     import post from "../../components/home/post.vue";
+    import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     // store
     import phoneInfor from "../../store/phoneInfor";
     const phoneInforStore = phoneInfor();   
@@ -37,46 +46,128 @@
     
     const consts = {
         TOP_INIT: 250,
-        TOP_MIN: 0,
+        TOP_MIN: 5,
         THRESHOLD_DOWN: 200,
         THRESHOLD_UP: -70,
-        DRAG_HEIGHT: 40
+        DRAG_HEIGHT: 40,
+        POST_WIDTH: extractIntFromSize(scssConsts['post-width'])  // rpx
     }
     const state = reactive({
         top: 200,
-        touchStartY: 0,
     })
-
+    const vars = {
+        touchStartY: 0,
+        // # Waterfall
+        heightLeft: 0,
+        heightRight: 0
+    }
     const flag = reactive({
         close: false
+    })
+
+    const EXAMPLE = [
+        {
+            "url": "/catsAvatar/0.jpg",  // 暂时先用一下
+            "title": "Title-1",
+            "userAvatar": "/static/cats/head/1.png",
+            "userName": "小王",
+            "time": "22.12.31",
+            "like": true,
+            "height": 2397,
+            "width": 1600
+        },{
+            "url": "/catsAvatar/5.jpg",
+            "title": "Title-4",
+            "userAvatar": "/static/cats/head/4.png",
+            "userName": "软软!!!",
+            "time": "23.1.1",
+            "like": false,
+            "height": 1080,
+            "width": 1440
+        },{
+            "url": "/catsAvatar/0.jpg",  // 暂时先用一下
+            "title": "Title-1",
+            "userAvatar": "/static/cats/head/1.png",
+            "userName": "小王",
+            "time": "22.12.31",
+            "like": true,
+            "height": 2397,
+            "width": 1600
+        },
+        {
+            "url": "/catsAvatar/2.jpg",
+            "title": "默认标题默认标题默认标题默认标题默认标题",
+            "userAvatar": "/static/cats/head/3.png",
+            "userName": "张三",
+            "time": "23.3.5",
+            "like": true,
+            "height": 1600,
+            "width": 2133
+        },
+        {
+            "url": "/catsAvatar/1.jpg",
+            "title": "Title-2 WHU WHU WHU WHU",
+            "userAvatar": "/static/cats/head/2.png",
+            "userName": "李华",
+            "time": "23.2.14",
+            "like": false,
+            "height": 1776,
+            "width": 1184
+        },
+        {
+            "url": "/catsAvatar/5.jpg",
+            "title": "Title-4",
+            "userAvatar": "/static/cats/head/4.png",
+            "userName": "软软!!!",
+            "time": "23.1.1",
+            "like": false,
+            "height": 1080,
+            "width": 1440
+        },{
+            "url": "/catsAvatar/2.jpg",
+            "title": "默认标题默认标题默认标题默认标题默认标题",
+            "userAvatar": "/static/cats/head/3.png",
+            "userName": "张三",
+            "time": "23.3.5",
+            "like": false,
+            "height": 1600,
+            "width": 2133
+        },
+    ]
+
+    // TAG ## Waterfall
+    const data = reactive({
+        left: [],
+        right: []
     })
 
     onMounted(() => {
       flag.close = false;
       state.top = consts.TOP_INIT;
+      
+      data.left = [];
+      data.right = [];
+
+      loadmore();
     })
     
 // FUNC
-
+    // TAG # Drag Handler
     function handleTouchStart(event) {
-        state.touchStartY = event.changedTouches[0].pageY;
+        vars.touchStartY = event.changedTouches[0].pageY;
         event.stopPropagation();
-
         // emits('touchstart');
     }
-
     function handleTouchMove(event) {
         const touchMoveY = event.changedTouches[0].pageY;
-
         // ReLoad
         state.top = Math.max(consts.TOP_MIN, touchMoveY);
         event.stopPropagation();
     };
-
     function handleTouchEnd(event) {
         const touchEndY = event.changedTouches[0].pageY;
         
-        const dif = touchEndY - state.touchStartY;
+        const dif = touchEndY - vars.touchStartY;
 
         console.info(dif);
         
@@ -106,6 +197,31 @@
         }
         event.stopPropagation();
     }
+
+    // TAG # Waterfall
+    function loadmore() {
+        console.info("loadmore");
+
+        EXAMPLE.forEach((item) => {
+            // img info
+            const height = Math.round(item.height / item.width * consts.POST_WIDTH);
+            // console.debug(item.height, item.width, height)
+            item.adoptHeight = height;  // INFO rpx
+
+            // min
+            if (vars.heightLeft <= vars.heightRight) {
+                data.left.push(item);
+                vars.heightLeft += height;
+            } else {
+                data.right.push(item);
+                vars.heightRight += height;
+            }
+        })
+    }
+    
+    onReachBottom(() => {
+        loadmore();
+    })
     
 </script>
 
@@ -122,6 +238,11 @@
     border-radius: 24px 24px 0 0;
 
     transition: top 0.5s ease;
+}
+
+.container-waterfall {
+    overflow-y: scroll;
+    max-height: calc(100vh - 110px); /* UPDATE 兼容性方面还得协调 */
 }
 
 </style>        
