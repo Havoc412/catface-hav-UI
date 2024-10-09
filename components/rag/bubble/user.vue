@@ -3,7 +3,8 @@
         <view class="talk-container flex-vertical">
             <text class="wrap">{{ props.text }}</text>
         </view>
-        <up-image src="/static/Qcat.png" height="70rpx" width="70rpx" radius="35rpx"/>
+        <!--TODO 这里的图片需要从 User Infor 获取。-->
+        <up-image src="/static/user.jpg" height="70rpx" width="70rpx" radius="35rpx"/>
     </view>
 </template>
 
@@ -27,6 +28,8 @@
 
 .container {
     justify-content: flex-end;
+    padding: 0 10rpx;
+
 }
 
 .talk-container {

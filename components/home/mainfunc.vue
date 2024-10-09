@@ -11,6 +11,8 @@
 
     import SingleBtn from "./sub-mainfunc/singleBtn.vue";
     // store
+    import { aiTalk } from "../../store/aiTalk";
+    const talkStore = aiTalk();
 // DATA
     const props = defineProps({
 
@@ -38,6 +40,11 @@
 // FUNC
     function goto(page) {
         const pageUrl = `/pages/${page}/index`;
+
+        if (page == "Rag") {
+            talkStore.init();
+        }
+        
         uni.navigateTo({ url: pageUrl });
     }
 
