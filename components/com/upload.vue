@@ -1,49 +1,50 @@
 <template>
-  <up-upload
-    class="container-upload relative"
-    accept="media"
-    :maxCount="1"
-    :maxDuration="30"
-    @afterRead="afterRead"
-  >
-  <!--只是借用一个函数框架，实际的内容替换掉。-->
-    <view class="flex-center-both text">
-          选取照片或视频（<span style="color: #ff4c55">30s内</span>）
-    </view>
-    <view class="relative">
-        <up-image show-loading :src="frame" height="550rpx" width="550rpx" radius="5rpx">
-          <template #error>
-            <view>加载失败</view> <!--todo 换成【鬼混】那张图片-->
-          </template>
-        </up-image>
-        <!--一个简单的加载中遮罩-->
-        <view v-show="flag.state != 'finished' && flag.state" class="flex-center-both overlay z-5" @click.stop>
-          <view class="flex-center-vertical">
-            <h-eye color="#fff" :size="100"/> <!--update 可以自己画一个更好看的-->
-            <view>{{ StateMsg[flag.state] }}</view>
-          </view>
+  <view class="container-upload relative">
+    <up-upload
+        accept="media"
+        :maxCount="1"
+        :maxDuration="30"
+        @afterRead="afterRead"
+      >
+      <!--只是借用一个函数框架，实际的内容替换掉。-->
+        <view class="flex-center-both text">
+              选取照片或视频（<span style="color: #ff4c55">30s内</span>）
         </view>
-        <!--mp4 基本信息-->
-        <view v-if="flag.type == 'video'" class="flex-center-both gap-5 video-container" :style="{
-          '--font-color': check_time_color
-        }">
-          <fr-icon-time theme="outline" :size="35" :fill="['#000000']" />
-          {{ flag.video.duration }} 秒
+        <view class="relative">
+            <up-image show-loading :src="frame" height="550rpx" width="550rpx" radius="5rpx">
+              <template #error>
+                <view>加载失败</view> <!--todo 换成【鬼混】那张图片-->
+              </template>
+            </up-image>
+            <!--一个简单的加载中遮罩-->
+            <view v-show="flag.state != 'finished' && flag.state" class="flex-center-both overlay z-5" @click.stop>
+              <view class="flex-center-vertical">
+                <h-eye color="#fff" :size="100"/> <!--update 可以自己画一个更好看的-->
+                <view>{{ StateMsg[flag.state] }}</view>
+              </view>
+            </view>
+            <!--mp4 基本信息-->
+            <view v-if="flag.type == 'video'" class="flex-center-both gap-5 video-container" :style="{
+              '--font-color': check_time_color
+            }">
+              <fr-icon-time theme="outline" :size="35" :fill="['#000000']" />
+              {{ flag.video.duration }} 秒
+            </view>
+            <view v-show="flag.state == 'finished'" class="func-reload">
+              <h-btn shape="circle">
+                <fr-icon-refresh theme="outline" :size="40" :fill="['#000000']" />
+              </h-btn>
+            </view>
+            <view v-if="show_video_btn" class="func-video">
+              <btn-msg msg="使用视频登记效果更好。">
+                <h-btn shape="circle" @click="flag.change_video = true">
+                  <fr-icon-video-two theme="outline" :size="40" :fill="['#000000']" />
+                </h-btn>
+              </btn-msg>
+            </view>
         </view>
-        <view v-show="flag.state == 'finished'" class="func-reload">
-          <h-btn shape="circle">
-            <fr-icon-refresh theme="outline" :size="40" :fill="['#000000']" />
-          </h-btn>
-        </view>
-        <view v-if="show_video_btn" class="func-video">
-          <btn-msg msg="使用视频登记效果更好。">
-            <h-btn shape="circle" @click="flag.change_video = true">
-              <fr-icon-video-two theme="outline" :size="40" :fill="['#000000']" />
-            </h-btn>
-          </btn-msg>
-        </view>
-    </view>
-  </up-upload>
+      </up-upload>
+  </view>
 </template>
 
 <script setup>
@@ -204,7 +205,7 @@
 
 </script>
 
-<style lang="css" scoped>
+<style scoped>
 .container-upload {
   background-color: #fff;
   border-radius: 10px;

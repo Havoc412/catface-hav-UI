@@ -1,6 +1,6 @@
 <template>
     <!--TIP 在外部可以直接覆盖 style 来实现不同的变换-->
-    <image :src="svgPath" class="icon" :style="{'--size': props.size + 'px'}"/>
+    <image :src="svgPath" class="icon" :style="{'--size': props.size + 'px'}" @click="emits('click')"/>
 </template>
 
 <script setup>
@@ -14,7 +14,7 @@
             default: 24
         }
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(['click']);
     const PathRoot = "/static/icon";
     
 // FUNC

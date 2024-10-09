@@ -39,9 +39,9 @@
   })
   const emits = defineEmits(['touchstart']);
   // const
-  const RADIUS = 210;
-  const RADIUS_BIGGER = 210;
-  const FALL_LENGTH = 350;  // scale 有关
+  const RADIUS = 500;  // UPDATE 换为 rpx 单位了
+  const RADIUS_BIGGER = 210;  // 暂时没有用到。
+  const FALL_LENGTH = 700;  // scale 有关
 
   const MARGGIN_TOP = 0;
 
@@ -59,7 +59,7 @@
   
   let touchStartX, touchStartY;
   // list // TODO 之后通过 API 获取
-  const nameList = ref([ // INFO 样例也就是 20 个
+  const nameList = ref([ // INFO 样例是 25 个
     { url: "0.jpg", name: "斜刘海" },
     { url: "1.jpg", name: "小北" },
     { url: "3.jpg", name: "发发" },
@@ -79,6 +79,12 @@
     { url: "5.jpg", name: "软软" },
     { url: "8.jpg", name: "囧橘" },
     { url: "0.jpg", name: "斜刘海" },
+    { url: "1.jpg", name: "小北" },
+    { url: "3.jpg", name: "发发" },
+    { url: "4.jpg", name: "猪皮" },
+    { url: "5.jpg", name: "软软" },
+    { url: "8.jpg", name: "囧橘" },
+        { url: "0.jpg", name: "斜刘海" },
     { url: "1.jpg", name: "小北" },
     { url: "3.jpg", name: "发发" },
     { url: "4.jpg", name: "猪皮" },
@@ -139,7 +145,7 @@
 
     // console.info(index, scale, alpha, offsetX, offsetY);
     tagsStyles.value[index] = {
-      transform: `translate3d(${offsetX}px, ${offsetY}px, 0) scale(${scale})`,
+      transform: `translate3d(${offsetX}rpx, ${offsetY}rpx, 0) scale(${scale})`,
       opacity: alpha,
       zIndex: parseInt(scale * 100).toString(),
     };

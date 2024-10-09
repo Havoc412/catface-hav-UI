@@ -1,5 +1,5 @@
 <template>
-    <view class="flex-center-vertical">
+    <view class="flex-center-vertical" @click="emits('click')">
         <image :src="imgPath" class="img"></image>
         <view class="text">{{ props.text }}</view>
     </view>
@@ -19,7 +19,7 @@
             default: "默认文本"
         }
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(['click']);
 
 // FUNC
 

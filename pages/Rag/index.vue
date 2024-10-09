@@ -57,7 +57,7 @@
 <style scoped>
 
 .talk-container {
-    min-height: 90vh;  /** 因为有 tabbar 的关系 */
+    min-height: 100vh;  /** 因为有 tabbar 的关系 */
 
     background-color: #00000009;
 }

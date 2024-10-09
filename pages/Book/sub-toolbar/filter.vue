@@ -1,5 +1,5 @@
 <template>
-    <view class="container flex-vertical">
+    <view class="container-filter flex-vertical">
         <tagBox title='在校状态' :tag-list="schoolStatus_ZH" :closeFlag="true"/>
         <tagBox title='性别' :tag-list="gender_ZH" :closeFlag="true"/>
         <tagBox title='绝育状态' :tag-list="sterilizationStatus_ZH" :closeFlag="true"/>
@@ -40,10 +40,10 @@
 
 <style scoped>
 
-.container {
+.container-filter {
     padding: 20px;
 
-    width: 80vw;
+    width: 70vw;
     height: 100%;
 
     gap: 25px;

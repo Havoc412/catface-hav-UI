@@ -5,7 +5,7 @@
                 :src="nginx.catsAvatar(props.url)" 
                 height="250" width="350rpx" mode="aspectFill" radius="25"
                 error-icon="/static/error.svg"/>  <!--INFO 素材来源于网络-->
-            <view class="contanier-heart flex-center-both absolute z-0">
+            <view class="contanier-heart flex-center-vertical absolute z-0">
                 <h-icon :name="heartSvg" @click="flag.heart = !flag.heart"/>
             </view>
         </view>
@@ -78,6 +78,9 @@
     background-color: #fff;
     padding: 10px;
     border-radius: 50%;
+    
+    height: 45px;
+    width: 45px;
 
     left: 15px;
     bottom: 25px;

@@ -64,7 +64,7 @@
 
 // FUNC
     const likeSvg = computed(() => {
-        return `post-heart${flag.like ? "_active" : ""}`;
+        return `com-heart${flag.like ? "_active" : ""}`;
     });
 
     function like() {
@@ -93,6 +93,7 @@
 .container-info {
     font-size: 14px;
     padding: 10rpx;
+    padding-top: 0;
 }
 
 .time {

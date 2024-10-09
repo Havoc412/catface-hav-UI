@@ -19,14 +19,14 @@
     });
     const emits = defineEmits([]);
 
-    const top = ref(0);
+    const top = ref(-60);
 // FUNC
     watch(() => props.animation, animation);
 
     function animation() {
-        top.value = 130;
+        top.value = 30;
         setTimeout(() => {
-            top.value = 0;
+            top.value = -60;
         }, 2000);
     }
 

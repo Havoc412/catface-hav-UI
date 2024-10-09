@@ -10,9 +10,11 @@
             @touchmove="handleTouchMove" 
             @touchend="handleTouchEnd"
             >
-            <h-icon name="func-line" :style="{
-                'width': '50px'
-            }"/>
+            <image src="/static/icon/func/line.svg" style="width: 100rpx; height: 40rpx;"/>
+            <!--QUESTION wx 中无效，所以直接取出来了。-->
+            <!-- <h-icon name="func-line" :style="{
+                'width': '100rpx'
+            }"/> -->
         </view>
         <view>
             <scroll-view :scroll-y="true" 
