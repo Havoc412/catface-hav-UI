@@ -53,6 +53,13 @@
       "style": {
         "navigationBarTitleText": "History"
       }
+    },
+    // TAG 详细页
+    {
+      "path": "pages/Detail/index",
+      "style": {
+        "navigationBarTitleText": "Detail"
+      }
     }
   ],
   "globalStyle": {
