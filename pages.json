@@ -47,6 +47,12 @@
       "style": {
         "navigationBarTitleText": "Chat Hu"
       }
+    },
+    {
+      "path": "pages/Rag/history",
+      "style": {
+        "navigationBarTitleText": "History"
+      }
     }
   ],
   "globalStyle": {

@@ -2,7 +2,7 @@
     <view class="flex-center-both block tarbar-contain gap-10" :style="{
         '--bottom': vars.bottom + 'px'
     }">
-        <h-icon name="com-more" :size="consts.iconSize"/>
+        <h-icon name="com-more" :size="consts.iconSize" @click="goto"/> <!--TODO 之后扩展为更丰富的菜单-->
         <view class="input-container shrink">
             <u--textarea 
                 v-model="inputContent" auto-height
@@ -76,6 +76,13 @@
             vars.bottom = infor.detail.height; // * phoneStore.singlePx;
         console.debug(vars.bottom);
     }
+
+    function goto() {
+        const pageUrl = '/pages/Rag/history';
+        uni.navigateTo({ url: pageUrl });
+    }
+
+    
 
 </script>
 

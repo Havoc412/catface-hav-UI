@@ -33,7 +33,7 @@
     const talkStore = aiTalk();
 // DATA
     const flag = reactive({
-        topic: Boolean
+        topic: false
     })
     
 // FUNC
