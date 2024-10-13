@@ -34,8 +34,6 @@ export class Request {
       );
     } 
 
-    console.info(data);
-
     return new Promise((resolve, reject) => {
       uni.request({
         url: url,
@@ -48,14 +46,14 @@ export class Request {
             resolve(res.data.data);
           } else {
             // todo 错误处理
-            console.info("request bug - success:", res);
+            console.info("Request bug - success:", res);
             reject(
               new Error("Request succeeded but with a non-success status")
             );
           }
         },
         fail: (err) => {
-          console.info("request bug - fail:", err);
+          console.info("Request bug - fail:", err);
           reject(err);
         },
       });
