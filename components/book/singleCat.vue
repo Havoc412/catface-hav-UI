@@ -1,12 +1,12 @@
 <template>
-    <view class="flex-vertical gap-10">
+    <view class="flex-vertical gap-10" @click="emits('click', props.id)">
         <view class="container-img relative">
             <up-image 
                 :src="nginx.catsAvatar(props.url)" 
                 height="250" width="350rpx" mode="aspectFill" radius="25"
                 error-icon="/static/error.svg"/>  <!--INFO 素材来源于网络-->
             <view class="contanier-heart flex-center-vertical absolute z-0">
-                <h-icon :name="heartSvg" @click="flag.heart = !flag.heart"/>
+                <h-icon :name="heartSvg" @click.stop="flag.heart = !flag.heart"/>
             </view>
         </view>
         <view class="flex-center-horizontal gap-5">
@@ -58,7 +58,7 @@
             default: "/static/dog.jpg"
         }
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(['click']);
 
     const flag = reactive({
         heart: false

@@ -13,6 +13,7 @@
                         :schoolStatus="item.status"
                         :sterilizationStatus="item.sterilization"
                         :url="item.avatar"
+                        @click="gotoDetial"
                     />
                 </template>
             </view>
@@ -23,6 +24,7 @@
                 color="#777"
                 @loadmore="loadmore"
             />
+            <!--TODO 当没有数据的时候，显示 加号的增加，方便上传-->
             <placeHolder/>
         </view>
     </view>
@@ -73,7 +75,11 @@
         if (err != null) {  // 错误处理
             flag.status.type = "error";
             return
-        } 
+        }
+        // check more
+        if(res.length < num)
+            flag.loadmore = 'nomore';
+
         flag.status.show = false;
         
         return res;
@@ -85,7 +91,9 @@
     }
 
     onReachBottom(() => {
-        console.info("onReachBottom"); // test
+        if(flag.loadmore == 'nomore')
+            return;
+        
         flag.loadmore = 'loading';
 
         loadmore();
@@ -94,6 +102,10 @@
             flag.loadmore = 'loadmore';
         }, 1000);
     })
+
+    function gotoDetial(id) {
+        console.debug("Anm_id:", id);
+    }
 
 </script>
 
