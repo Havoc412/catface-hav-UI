@@ -20,7 +20,8 @@
             </view>
             <tagGroup :tag-list="data.tags"/>
         </view>
-        <view class="shrink"/>
+
+        <tabbar/>
     </view>
 </template>
 
@@ -80,9 +81,6 @@
         let name = `gender-${gender_EN[data.value.gender - 1]}`;
         return name;
     })
-    const heartSvg = computed(() => {
-        return `com-heart${flag.heart ? "_active" : ""}`;
-    })
 
     function fetchImgPath() {
         if (!data.value.photos) return; // INFO 根据 GORM json:optical 的设定，"" 不会返回。
@@ -103,7 +101,7 @@
 <style scoped>
 
 .container-top {
-    height: 1500rpx;
+    min-height: 100vh;  /** 因为有 tabbar 的关系 */
 }
 
 .infor-container {
@@ -125,19 +123,6 @@
 
 .intro {
     font-family: Alimama ShuHeiTi;
-}
-
-.contanier-heart {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 50%;
-    
-    height: 45px;
-    width: 45px;
-
-    right: 15px;
-    bottom: 35px;
-    box-shadow: 0px 0px 5px 1px #ccc;
 }
 
 </style>        

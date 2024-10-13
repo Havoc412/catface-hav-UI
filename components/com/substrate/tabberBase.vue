@@ -2,7 +2,8 @@
     <view class="container flex-vertical"
     :style="{
         '--bottom': setBottom,
-        '--position': props.position
+        '--position': props.position,
+        '--padding': props.padding
     }"
     :class="{
         [setZIndex]: true
@@ -22,6 +23,10 @@
                 <slot name="suffix"></slot>
             </view>
         </view>
+        <!--INFO 支持 Fixed 自定义固定一些组件-->
+        <slot name="fixed">
+            <!-- <view style="position: absolute; right: 0; top:0">TEST</view> -->
+        </slot>
     </view>
 </template>
 
@@ -40,7 +45,11 @@
         position: {
             type: String,
             default: 'sticky'
-         }
+        },
+        padding: {
+            type: String,
+            default: "0"
+        }
     });
     const emits = defineEmits([]);
 
@@ -64,14 +73,10 @@
     width: 100vw;
     position: var(--position);   /* QUESTION 为何不用 fixed 来着？ */
     bottom: var(--bottom);
+    padding: var(--padding);
 
     background-color: transparent;
     transition: bottom .1s;
-}
-
-.bottom-container {
-    /* background-color: #ffffff; */
-    /* padding: 2px; */
 }
 
 </style>        
