@@ -15,7 +15,6 @@
     import { reactive, computed } from "vue";
 
     import color from "@/css/theme/index.module.scss";
-    console.info(color);
     import tabberBase from "../com/substrate/tabberBase.vue";
 
     import funcGroup from "./sub-tabbar/funcGroup.vue";
