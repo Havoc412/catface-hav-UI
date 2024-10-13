@@ -1,7 +1,7 @@
 {
 	"id": "Hav's Cats",
 	"scripts": {
-		"test": "eslint . --fix"
+		"test": "jest"
 	},
 	"dependencies": {
 		"@rollup/plugin-commonjs": "^24.0.1",
@@ -10,7 +10,8 @@
 	},
 	"devDependencies": {
 		"eslint": "^8.2.0",
-		"eslint-config-airbnb": "^19.0.0"
+		"eslint-config-airbnb": "^19.0.0",
+		"jest": "^29.7.0"
 	},
 	"name": "aita-catface",
 	"version": "1.0.0",

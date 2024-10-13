@@ -6,7 +6,7 @@
                 <view class="flex-bottom-horizontal gap-10">
                     <view class="name">{{ data.name }}</view>
                     <h-icon :name="genderSvg" size="22"/>
-                    <view class="birthday">{{ data.birthday }}</view>
+                    <view class="birthday">{{ date.calculateAge(data.birthday) }}</view>
                 </view>
                 <view class="shrink"/>
                 <school-status :type="data.status"/>
@@ -34,6 +34,7 @@
     
     import api from "../../request/animal";
     import nginx from "../../request/nginx";
+    import date from "../../utils/date";
     import { gender_EN } from "../../common/consts";
     // com
     import vearCarousel from "../../components/vear-carousel/vear-carousel.vue";
@@ -53,7 +54,7 @@
 
     const data = ref({
         name: '猪皮',
-        birthday: '7岁',
+        birthday: '2017-01-01',
         gender: 1,
         status: 'inschool',
         sterilization: 'sterilized',
