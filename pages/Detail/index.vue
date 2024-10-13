@@ -20,7 +20,7 @@
             </view>
             <tagGroup :tag-list="data.tags"/>
         </view>
-        <encounterMini/>
+        <encounterMini :id="AnmID"/>
 
         <placeHolder/>
         <tabbar/>

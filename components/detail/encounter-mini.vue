@@ -3,13 +3,13 @@
         <view class="flex-center-horizontal block">
             <view class="title">近期路遇</view>
             <view class="shrink"/>
-            <h-icon name="com-more"/>
+            <h-icon name="com-more_deep" @click="gotoEncounterTimeline"/>
         </view>
         <view class="flex-vertical block gap-5">
             <itemOneDay/>
         </view>
     </view>
-</template>
+</template>1
 
 <script setup>
     import { ref } from "vue";
@@ -21,11 +21,20 @@
         type: {
             type: String,
             default: "default"
+        },
+        id: {
+            type: Number,
+            default: 0
         }
     });
     const emits = defineEmits([]);
 
 // FUNC
+    function gotoEncounterTimeline() {
+        uni.navigateTo({
+            url: "/pages/Encounter/timeline?id=" + props.id
+        })
+    }
 
 </script>
 

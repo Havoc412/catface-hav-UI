@@ -60,6 +60,13 @@
       "style": {
         "navigationBarTitleText": "Detail"
       }
+    },
+    // TAG Encounter 路遇相关
+    {
+      "path": "pages/Encounter/timeline",
+      "style": {
+        "navigationBarTitleText": "TimeLine"
+      }
     }
   ],
   "globalStyle": {
