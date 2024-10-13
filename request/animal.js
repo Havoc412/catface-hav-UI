@@ -5,8 +5,9 @@ const api = {
         return await get(`animal?attrs=head_img,name&num=${num}&skip=${skip}`, {}, {});
     },
 
-    getAnimalBook(num, skip) {  // TODO 这里的条件更加复杂，还是根据前端情况封装到一起。
-
+    async getAnimalBook(num, skip, filters) {  
+        // TODO 这里的条件更加复杂，还是根据前端情况封装到一起。
+        return await get(`animal?attrs=name,gender,status,sterilization,avatar&num=${num}&skip=${skip}`, {}, {});
     }
 }
 

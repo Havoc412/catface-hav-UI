@@ -5,11 +5,12 @@
         <view class="container-cats gap-10">
             <template v-for="(item, index) in data.catsList">
                 <singleCat
+                    :id="item.id"
                     :name="item.name"
                     :gender="item.gender"
-                    :schoolStatus="item.schoolStatus"
-                    :sterilizationStatus="item.sterilizationStatus"
-                    :url="item.url"
+                    :schoolStatus="item.status"
+                    :sterilizationStatus="item.sterilization"
+                    :url="item.avatar"
                 />
             </template>
         </view>
@@ -26,8 +27,10 @@
 </template>
 
 <script setup>
-    import { ref, reactive } from "vue";
+    import { ref, reactive, onMounted } from "vue";
 	import { onReachBottom } from '@dcloudio/uni-app'
+
+    import api from "../../request/animal";
 
     // com
     import toolbar from "./toolbar.vue";
@@ -39,12 +42,12 @@
     const data = reactive({
         // TODO 通过 API 获取数据
         catsList: [
-            {name: "斜刘海", gender: "female", schoolStatus: "inschool", sterilizationStatus: "sterilized", url: "0.jpg"},
-            {name: "小北", gender: "female", schoolStatus: "graduation", sterilizationStatus: "sterilized", url: "1.jpg"},
-            {name: "打三", gender: "female", schoolStatus: "inschool", sterilizationStatus: "sterilized", url: "2.jpg"},
-            {name: "发发", gender: "female", schoolStatus: "graduation", sterilizationStatus: "sterilized", url: "3.jpg"},
-            {name: "猪皮", gender: "male", schoolStatus: "inschool", sterilizationStatus: "sterilized", url: "4.jpg"},
-            {name: "软软", gender: "female", schoolStatus: "inschool", sterilizationStatus: "sterilized", url: "5.jpg"},
+            // {name: "斜刘海", gender: "female", status: "inschool", sterilization: "sterilized", avatar: "0.jpg"},
+            // {name: "小北", gender: "female", status: "graduation", sterilization: "sterilized", avatar: "1.jpg"},
+            // {name: "打三", gender: "female", status: "inschool", sterilization: "sterilized", avatar: "2.jpg"},
+            // {name: "发发", gender: "female", status: "graduation", sterilization: "sterilized", avatar: "3.jpg"},
+            // {name: "猪皮", gender: "male", status: "inschool", sterilization: "sterilized", avatar: "4.jpg"},
+            // {name: "软软", gender: "female", status: "inschool", sterilization: "sterilized", avatar: "5.jpg"},
         ]
     })
     
@@ -53,6 +56,10 @@
     })
 
 // FUNC
+    onMounted(async() => {
+        data.catsList = await api.getAnimalBook(10, 0);
+    })
+
     function loadmore() {
         // TODO 这里后续请求 API
         console.info("loadmore");

@@ -22,6 +22,8 @@
 
 <script setup>
     import { ref, reactive, computed } from "vue";
+
+    import { gender_EN } from "../../common/consts";
     // com
     import schoolStatus from "./sub-cat/schoolStatus.vue";
     import sterilizationStatus from "./sub-cat/sterilizationStatus.vue";
@@ -31,20 +33,24 @@
     const bookStore = book();
 // DATA
     const props = defineProps({
+        id: {
+            type: Number,
+            default: 0
+        },
         name: {
             type: String,
             default: "毛茸茸"
         },
         gender: {
-            type: String,
-            default: "male" // INFO male || female || unkown
+            type: [String, Number],
+            default: "boy"
         },
         schoolStatus: {
-            type: String,
+            type: [String, Number],
             default: "inschool"
         },
         sterilizationStatus: {
-            type: String,
+            type: [String, Number],
             default: "unknown"
         },
         url: {
@@ -63,7 +69,12 @@
         return `com-heart${flag.heart ? "_active" : ""}`;
     })
     const genderSvg = computed(() => {
-        return `gender-${props.gender}`;
+        if(typeof props.gender === 'string')
+            return `gender-${props.gender}`;
+        else {
+            let name = `gender-${gender_EN[props.gender - 1]}`;
+            return name;
+        }
     })
 
 </script>
