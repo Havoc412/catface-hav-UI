@@ -105,7 +105,7 @@
 
     function gotoDetial(id) {
         console.debug("Anm_id:", id);
-        uni.redirectTo({
+        uni.navigateTo({
             url: "/pages/Detail/index?id=" + id
         })
     }
