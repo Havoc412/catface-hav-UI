@@ -10,7 +10,7 @@
         :style="tagsStyles[index]"
         :class="{'tag-animation': animationFlag}" > <!--INFO @click="deep(index+1)"-->
         <!--TODO 增加 click -> detail -->
-        <starItem :url="item.url" :name="item.name"/>
+        <starItem :url="item['HeadImg']" :name="item['name']"/>
       </view>
     </view>
     <view class="star-btn flex-horizontal gap-5">
@@ -23,8 +23,10 @@
 
 <script setup>
   import { ref, onMounted, nextTick, getCurrentInstance } from 'vue';
-
-  import starItem from './sub-star/starItem.vue';
+  // COM
+  import starItem from "./sub-star/starItem.vue";
+  // JS
+  import api from '../../request/animal';
 
 // DATA
   const props = defineProps({
@@ -58,38 +60,38 @@
   let angleY = Math.PI / ANGLE_AUTO;
   
   let touchStartX, touchStartY;
-  // list // TODO 之后通过 API 获取
+  // list 
   const nameList = ref([ // INFO 样例是 25 个
-    { url: "0.jpg", name: "斜刘海" },
-    { url: "1.jpg", name: "小北" },
-    { url: "3.jpg", name: "发发" },
-    { url: "4.jpg", name: "猪皮" },
-    { url: "5.jpg", name: "软软" },
-    { url: "8.jpg", name: "囧橘" },
-    { url: "0.jpg", name: "斜刘海" },
-    { url: "1.jpg", name: "小北" },
-    { url: "3.jpg", name: "发发" },
-    { url: "4.jpg", name: "猪皮" },
-    { url: "5.jpg", name: "软软" },
-    { url: "8.jpg", name: "囧橘" },
-    { url: "0.jpg", name: "斜刘海" },
-    { url: "1.jpg", name: "小北" },
-    { url: "3.jpg", name: "发发" },
-    { url: "4.jpg", name: "猪皮" },
-    { url: "5.jpg", name: "软软" },
-    { url: "8.jpg", name: "囧橘" },
-    { url: "0.jpg", name: "斜刘海" },
-    { url: "1.jpg", name: "小北" },
-    { url: "3.jpg", name: "发发" },
-    { url: "4.jpg", name: "猪皮" },
-    { url: "5.jpg", name: "软软" },
-    { url: "8.jpg", name: "囧橘" },
-        { url: "0.jpg", name: "斜刘海" },
-    { url: "1.jpg", name: "小北" },
-    { url: "3.jpg", name: "发发" },
-    { url: "4.jpg", name: "猪皮" },
-    { url: "5.jpg", name: "软软" },
-    { url: "8.jpg", name: "囧橘" },
+    { HeadImg: "0.jpg", name: "斜刘海" },
+    { HeadImg: "1.jpg", name: "小北" },
+    { HeadImg: "3.jpg", name: "发发" },
+    { HeadImg: "4.jpg", name: "猪皮" },
+    { HeadImg: "5.jpg", name: "软软" },
+    { HeadImg: "8.jpg", name: "囧橘" },
+    { HeadImg: "0.jpg", name: "斜刘海" },
+    { HeadImg: "1.jpg", name: "小北" },
+    { HeadImg: "3.jpg", name: "发发" },
+    { HeadImg: "4.jpg", name: "猪皮" },
+    { HeadImg: "5.jpg", name: "软软" },
+    { HeadImg: "8.jpg", name: "囧橘" },
+    { HeadImg: "0.jpg", name: "斜刘海" },
+    { HeadImg: "1.jpg", name: "小北" },
+    { HeadImg: "3.jpg", name: "发发" },
+    { HeadImg: "4.jpg", name: "猪皮" },
+    { HeadImg: "5.jpg", name: "软软" },
+    { HeadImg: "8.jpg", name: "囧橘" },
+    { HeadImg: "0.jpg", name: "斜刘海" },
+    { HeadImg: "1.jpg", name: "小北" },
+    { HeadImg: "3.jpg", name: "发发" },
+    { HeadImg: "4.jpg", name: "猪皮" },
+    { HeadImg: "5.jpg", name: "软软" },
+    { HeadImg: "8.jpg", name: "囧橘" },
+    { HeadImg: "0.jpg", name: "斜刘海" },
+    { HeadImg: "1.jpg", name: "小北" },
+    { HeadImg: "3.jpg", name: "发发" },
+    { HeadImg: "4.jpg", name: "猪皮" },
+    { HeadImg: "5.jpg", name: "软软" },
+    { HeadImg: "8.jpg", name: "囧橘" },
   ]);
 
   let tags = [];
@@ -98,14 +100,52 @@
   let touchedFlag = false;  // 当触发按动后，一段时间内不会自动转（eg.3s?）。
   const animationFlag = ref(true);
   // store
-  const pathHistory = ref([1]);
+  const pathHistory = ref([1]); // 暂时无用
 
 // FUNC
   onMounted(() => {
+    // 1. api data
+    // nameList.value = await getData(25);
+    // console.debug("getData Finished.")
+    
+    // 2. animate
+    // nextTick(() => {  // BUG 当增加延时之后， tagRects.forEach 函数不存在，也就是 没有 tagRect
+    //   init();
+    //   console.info("finish init.");
+    //   animate();
+    // })
     init();
-    console.info("finish init.");
+    console.debug("Finish init.");
     animate();
   });
+
+  onMounted(async() => {  // TIP 干脆直接分开，JS 动画先初始化，然后把数据换掉。
+    nameList.value = await getData(30);
+    console.debug("getData Finished.", nameList.value);
+    // INFO 如果访问失败，不会变动 nameList；效果，by 24.10.13
+  })
+
+  async function getData(num, skip = 0) {
+    var data = await api.getAnimalStar(num, skip);
+
+    // UPDATE 检查数据长度是否小于所需的数量
+    while (data.length < num) {
+      const needed = num - data.length;
+      
+      // 获取当前列表的副本以避免直接修改原数组
+      const currentListCopy = [...data];
+      
+      // 如果全部复制后仍然不够，则只复制需要的数量
+      let toAdd = currentListCopy;
+      if (needed < currentListCopy.length) {
+        toAdd = currentListCopy.slice(0, needed);
+      }
+      
+      data = [...data, ...toAdd];
+    }
+
+    return data
+  }
 
   const init = (radius = RADIUS, transparent = false) => {
       console.info("init", radius);

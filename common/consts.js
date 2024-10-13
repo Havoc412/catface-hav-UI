@@ -1,3 +1,5 @@
+// TODO 之后这些基础的配置信息，通过 API 从后端换取一遍。
+
 // School Status
 export const schoolStatus_ZH = ["在校", "毕业", "退学", "喵星", "不明"];
 export const schoolStatus_EN = [
