@@ -1,6 +1,18 @@
 <template>
-    <view>
-        
+    <view class="container-item flex-center-horizontal">
+        <up-image src="/static/Qcat.png"/> <!--TODO POST IMAGE in Nginx-->
+        <view class="shrink flex-vertical">
+            <view>{{ props.title }}</view>
+            <view class="shrink"/>
+            <view class="flex-horizontal">
+                <view>
+                    
+                </view>
+            </view>
+        </view>
+        <view>
+            
+        </view>
     </view>
 </template>
 
@@ -15,7 +27,7 @@
         },
         title: {
             type: String,
-            default: ""
+            default: "Title Default"
         },
         level: {
             type: String,
@@ -41,5 +53,9 @@
 </script>
 
 <style scoped>
+
+.container-item {
+    border-radius: 25px;
+}
 
 </style>        

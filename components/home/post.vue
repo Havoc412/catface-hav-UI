@@ -6,8 +6,7 @@
         <view class="flex-vertical container-info gap-5">
             <view>{{ props.title }}</view>
             <view class="flex-horizontal gap-5">
-                <up-image :src="props.userAvatar" height="50rpx" width="50rpx" radius="25rpx"/>
-                <view class="no-shrink">{{ props.userName }}</view>
+                <user :userAvatar="props.userAvatar" :userName="props.userName"/>
                 <view class="shrink"/>
                 <view class="flex-bottom-horizontal gap-5">
                     <view class="time">{{ props.time }}</view>
@@ -24,6 +23,8 @@
     import { ref, reactive, computed } from "vue";
     
     import nginx from "../../request/nginx";
+
+    import user from "./sub-post/user.vue";
     // store
 // DATA
     const props = defineProps({
