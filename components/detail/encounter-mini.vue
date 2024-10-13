@@ -1,13 +1,12 @@
 <template>
-    <view class="flex-center-vertical container-encounter-mini">
+    <view class="flex-center-vertical container-encounter-mini gap-10">
         <view class="flex-center-horizontal block">
             <view class="title">近期路遇</view>
             <view class="shrink"/>
             <h-icon name="com-more"/>
         </view>
-        <view>
-            <!--test-->
-            <item/>
+        <view class="flex-vertical block gap-5">
+            <itemOneDay/>
         </view>
     </view>
 </template>
@@ -15,7 +14,7 @@
 <script setup>
     import { ref } from "vue";
 
-    import item from "../encounter/item.vue";
+    import itemOneDay from "../encounter/itemOneDay.vue";
     // store
 // DATA
     const props = defineProps({

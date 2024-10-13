@@ -1,16 +1,25 @@
 $h-bg-deep: #30444E;
 $h-bg-light: #DAE2E6;
 
-$green-1: #B7DAC2;
-$blue-1: #A3CCE4;
-$yellow-1: #FFFFD0;
-$red-1: #E6C1BB;
-$purple-1: #acb1f5;
+$green-0: #B7DAC2;
+$blue-0: #A3CCE4;
+$yellow-0: #FFFFD0;
+$red-0: #E6C1BB;
+$purple-0: #acb1f5;
 
 $gray-1: #A0AEC0;
+$gray-2: #3c4856;
+
+$blue-1: #cbf7ff;
 $blue-2: #00BFFF;
+
+$red-1: #ffe4e0;
 $red-2: #FF575F;
+
+$yellow-1: #fff7c2;
 $yellow-2: #FFC542;
+
+$orange-1: #ffe7c2;
 $orange-2: #FF974A;
 
 :export {
@@ -19,23 +28,37 @@ $orange-2: #FF974A;
         light: $h-bg-light;
     };
     schoolStatus: {
-        inschool: $green-1;
-        graduation: $blue-1;
-        missing: $yellow-1;
-        catstar: $red-1;
-        unknown: $purple-1;
+        inschool: $green-0;
+        graduation: $blue-0;
+        missing: $yellow-0;
+        catstar: $red-0;
+        unknown: $purple-0;
     };
     sterilization: {
-        sterilized: $green-1;
-        unsterilized: $red-1;
-        unknown: $purple-1;
+        sterilized: $green-0;
+        unsterilized: $red-0;
+        unknown: $purple-0;
     };
     encounter: {
-        normal: $gray-1;
-        serious: $red-2;
-        significant: $yellow-2;
-
-        schedule: $blue-2;
-        todo: $orange-2;
+        normal: {
+            light: $gray-1;
+            deep: $gray-2;
+        }
+        serious: {
+            light: $red-1;
+            deep: $red-2;
+        }
+        significant: {
+            light: $yellow-1;
+            deep: $yellow-2;
+        }
+        schedule: {
+            light: $blue-1;
+            deep: $blue-2;
+        }
+        todo: {
+            light: $orange-1;
+            deep: $orange-2;
+        };
     }
 }

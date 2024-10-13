@@ -21,6 +21,8 @@
             <tagGroup :tag-list="data.tags"/>
         </view>
         <encounterMini/>
+
+        <placeHolder/>
         <tabbar/>
     </view>
 </template>
