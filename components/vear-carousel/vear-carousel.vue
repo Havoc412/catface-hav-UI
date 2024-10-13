@@ -10,14 +10,15 @@
 			<swiper-item 
 				:class="currentIndex == index ? 'swiper-item' : 'swiper-item-side'" 
 				v-for="(item, index) in props.imgList" :key="item[props.urlKey]">
+				<!--TODO 更好的展示效果，对 up-image 兼容-->
 				<image 
 					@click="clickImg(item)" 
 					:class="currentIndex == index ? 'item-img' : 'item-img-side'" 
 					:src="item[urlKey]" 
 					lazy-load 
 					:style="dontFirstAnimation ? 'animation: none;' : ''" 
-					mode="aspectFill">
-				</image>
+					mode="aspectFill"
+				/>
 				<view class="absolute" :class="currentIndex == index ? 'shadow-pre' : 'shadow-pre-side'"/>
 			</swiper-item>
 		</swiper>
@@ -31,7 +32,7 @@
 </template>
 
 <script setup>
-	import { ref } from 'vue'
+	import { ref, reactive } from 'vue'
 
 	// 定义props
 	const props = defineProps({
@@ -51,6 +52,12 @@
 	const currentIndex = ref(0);
 	const dontFirstAnimation = ref(true);
 
+	const consts = reactive({
+		IMG_WIDTH: '630rpx',
+		
+	})
+
+// FUNC
 	// 方法定义
 	const swiperChange = (e) => {
 		dontFirstAnimation.value = false;

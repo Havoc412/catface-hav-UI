@@ -1,21 +1,21 @@
 <template>
     <view class="flex-vertical">
-        <vearCarousel :img-list="data.imgList" url-key="url"/>
+        <vearCarousel :img-list="imgList" url-key="url"/>
         <view class="flex-vertical infor-container gap-5 relative">
             <view class="flex-center-horizontal gap-10">
                 <view class="flex-bottom-horizontal gap-10">
                     <view class="name">{{ data.name }}</view>
                     <h-icon :name="genderSvg" size="22"/>
-                    <view class="age">{{ data.age }}</view>
+                    <view class="birthday">{{ data.birthday }}</view>
                 </view>
                 <view class="shrink"/>
-                <school-status :type="data.schoolStatus"/>
-                <sterilization-status :type="data.sterilizationStatus"/>
+                <school-status :type="data.status"/>
+                <sterilization-status :type="data.sterilization"/>
             </view>
-            <view class="nickname">别名：{{ data.nickName }}</view>
+            <view class="nickname">别名：{{ data.nick_name }}</view>
             <placeHolder height="20"/>
             <view class="intro">
-                {{ data.intro }}
+                {{ data.description }}
             </view>
             <tagGroup :tag-list="data.tags"/>
 
@@ -30,6 +30,11 @@
 
 <script setup>
     import { ref, reactive, computed } from "vue";
+    import { onLoad } from "@dcloudio/uni-app"
+    
+    import api from "../../request/animal";
+    import nginx from "../../request/nginx";
+    import { gender_EN } from "../../common/consts";
     // com
     import vearCarousel from "../../components/vear-carousel/vear-carousel.vue";
     import schoolStatus from "../../components/book/sub-cat/schoolStatus.vue";
@@ -43,43 +48,57 @@
         {
             url: '/static/test.jpg',
             id: 1
-        },
-        {
-            url: '/static/test.jpg',
-            id: 2
-        },
-        {
-            url: '/static/test.jpg',
-            id: 3
         }
     ])
 
-    const data = reactive({
-        imgList: imgList,
+    const data = ref({
         name: '猪皮',
-        age: '7岁',
-        gender: 'male',
-        schoolStatus: 'inschool',
-        sterilizationStatus: 'sterilized',
-        intro: '信部资深学长；很有个性的司马脸；每晚选择一位大学牲翻牌子。',
-        nickName: '猜皮',
+        birthday: '7岁',
+        gender: 1,
+        status: 'inschool',
+        sterilization: 'sterilized',
+        description: '信部资深学长；很有个性的司马脸；每晚选择一位大学牲翻牌子。',
+        nick_name: '猜皮',
+        // TODO 从表中联查
         tags: [
             '臭脸', '猜皮', '玉玉'
         ],
-        likeFlag: true
+        likeFlag: true 
     })
 
     const flag = reactive({
         heart: data.likeFlag
     })
+    const AnmID = ref(0);
 
 // FUNC
+    onLoad( async(params) => {
+        AnmID.value = params.id;
+        data.value = await api.getAnimalDetail(AnmID.value);
+        console.debug(data.value);
+        fetchImgPath();
+    })
+
     const genderSvg = computed(() => {
-        return `gender-${data.gender}`;
+        let name = `gender-${gender_EN[data.value.gender - 1]}`;
+        return name;
     })
     const heartSvg = computed(() => {
         return `com-heart${flag.heart ? "_active" : ""}`;
     })
+
+    function fetchImgPath() {
+        imgList.value = [];
+        const photos = data.value.photos.split(',');
+        photos.forEach((element, index) => {
+            const url = nginx.catsPhotos(AnmID.value, element);
+            imgList.value.push({
+                url: url,
+                id: index + 1
+            });
+        });
+        console.debug(imgList.value);
+    }
 
 </script>
 
@@ -94,7 +113,7 @@
     font-size: 24px;
 }
 
-.age {
+.birthday {
     font-weight: bold;
 }
 

@@ -105,6 +105,9 @@
 
     function gotoDetial(id) {
         console.debug("Anm_id:", id);
+        uni.redirectTo({
+            url: "/pages/Detail/index?id=" + id
+        })
     }
 
 </script>

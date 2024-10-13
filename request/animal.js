@@ -15,6 +15,10 @@ const api = {
             console.log("Animal.js", error);
             return [error, true];
         });
+    },
+
+    async getAnimalDetail(id) {
+        return await get(`animal/${id}`, {}, {});
     }
 }
 
