@@ -13,7 +13,7 @@
                 <user-bubble v-else :text="item.text"/>
             </template>
         </view>
-        <ai-tarbar/>
+        <ai-tabbar/>
     </view>
 </template>
 
@@ -27,7 +27,7 @@
     import aiBubble from "../../components/rag/bubble/ai.vue";
     import userBubble from "../../components/rag/bubble/user.vue";
 
-    import aiTarbar from "../../components/rag/tabbar.vue";
+    import aiTabbar from "../../components/rag/tabbar.vue";
     // store
     import { aiTalk } from "../../store/aiTalk";
     const talkStore = aiTalk();

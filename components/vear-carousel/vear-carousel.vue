@@ -11,15 +11,19 @@
 				:class="currentIndex == index ? 'swiper-item' : 'swiper-item-side'" 
 				v-for="(item, index) in props.imgList" :key="item[props.urlKey]">
 				<!--TODO 更好的展示效果，对 up-image 兼容-->
+				<!--TIP 这个 dontFirstAnimation 一个很好的机制。-->
 				<image 
 					@click="clickImg(item)" 
 					:class="currentIndex == index ? 'item-img' : 'item-img-side'" 
 					:src="item[urlKey]" 
 					lazy-load 
-					:style="dontFirstAnimation ? 'animation: none;' : ''" 
+					:style="dontFirstAnimation ? 'animation: none;' : ''"
 					mode="aspectFill"
 				/>
-				<view class="absolute" :class="currentIndex == index ? 'shadow-pre' : 'shadow-pre-side'"/>
+				<view class="absolute" 
+					:class="currentIndex == index ? 'shadow-pre' : 'shadow-pre-side'"
+					:style="dontFirstAnimation ? 'animation: none;' : ''" 
+				/>
 			</swiper-item>
 		</swiper>
 		<view class="dot-container flex-center-both">
@@ -38,11 +42,13 @@
 	const props = defineProps({
 		imgList: {
 			type: Array,
-			default: () => []
+			default: () => [{
+				url: "/static/Qcat.png"
+			}]
 		},
 		urlKey: {
 			type: String,
-			default: ''
+			default: 'url'
 		}
 	})
 	

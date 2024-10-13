@@ -1,5 +1,6 @@
 <template>
-    <view class="flex-vertical">
+    <!--TODO 之后采用骨架图来填充 加载-->
+    <view class="flex-vertical container-top">
         <vearCarousel :img-list="imgList" url-key="url"/>
         <view class="flex-vertical infor-container gap-5 relative">
             <view class="flex-center-horizontal gap-10">
@@ -18,13 +19,8 @@
                 {{ data.description }}
             </view>
             <tagGroup :tag-list="data.tags"/>
-
-            <FuncGroup/>
-
-            <view class="contanier-heart flex-center-vertical absolute z-0">
-                <h-icon :name="heartSvg" @click="flag.heart = !flag.heart"/>
-            </view>
         </view>
+        <view class="shrink"/>
     </view>
 </template>
 
@@ -42,24 +38,23 @@
     import sterilizationStatus from "../../components/book/sub-cat/sterilizationStatus.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     import tagGroup from "../../components/detail/tagGroup.vue";
-    import FuncGroup from "../../components/detail/funcGroup.vue";
+    
+    import tabbar from "../../components/detail/tabbar.vue";
     // store
 // DATA
-    const imgList = ref([
-        {
-            url: '/static/test.jpg',
-            id: 1
-        }
-    ])
+    const imgList = ref([{
+        url: '/static/Qcat.png',
+        id: 1
+    }])
 
-    const data = ref({
-        name: '猪皮',
-        birthday: '2017-01-01',
+    const data = ref({  // TODO 之后采用骨架图
+        name: '毛茸茸名字',
+        birthday: '2024-01-01',
         gender: 1,
         status: 'inschool',
         sterilization: 'sterilized',
-        description: '信部资深学长；很有个性的司马脸；每晚选择一位大学牲翻牌子。',
-        nick_name: '猜皮',
+        description: '默认描述',
+        nick_name: '无',
         // TODO 从表中联查
         tags: [
             '臭脸', '猜皮', '玉玉'
@@ -68,7 +63,8 @@
     })
 
     const flag = reactive({
-        heart: data.likeFlag
+        heart: data.likeFlag,
+        
     })
     const AnmID = ref(0);
 
@@ -89,6 +85,7 @@
     })
 
     function fetchImgPath() {
+        if (!data.value.photos) return; // INFO 根据 GORM json:optical 的设定，"" 不会返回。
         imgList.value = [];
         const photos = data.value.photos.split(',');
         photos.forEach((element, index) => {
@@ -104,6 +101,10 @@
 </script>
 
 <style scoped>
+
+.container-top {
+    height: 1500rpx;
+}
 
 .infor-container {
     padding: 50rpx 30rpx;
@@ -135,7 +136,7 @@
     width: 45px;
 
     right: 15px;
-    bottom: 25px;
+    bottom: 35px;
     box-shadow: 0px 0px 5px 1px #ccc;
 }
 
