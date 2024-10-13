@@ -1,9 +1,11 @@
 <template>
+    <!--UPDATE 之后处理为外部样式或许会更好，提供更高的自由度。-->
     <view class="container flex-vertical"
     :style="{
         '--bottom': setBottom,
         '--position': props.position,
-        '--padding': props.padding
+        '--padding': props.padding,
+        '--bg-color': props.bgColor  
     }"
     :class="{
         [setZIndex]: true
@@ -49,6 +51,10 @@
         padding: {
             type: String,
             default: "0"
+        },
+        bgColor: {
+            type: String,
+            default: "transparent"
         }
     });
     const emits = defineEmits([]);
@@ -75,7 +81,7 @@
     bottom: var(--bottom);
     padding: var(--padding);
 
-    background-color: transparent;
+    background-color: var(--bg-color);
     transition: bottom .1s;
 }
 

@@ -1,5 +1,5 @@
 <template>
-    <tabberBase position="fixed" padding="10rpx">
+    <tabberBase position="fixed" padding="10rpx" :bg-color="color['main-light']">
         <template #prefix>
             <funcGroup/>
         </template>
@@ -13,6 +13,9 @@
 
 <script setup>
     import { reactive, computed } from "vue";
+
+    import color from "@/css/theme/index.module.scss";
+    console.info(color);
     import tabberBase from "../com/substrate/tabberBase.vue";
 
     import funcGroup from "./sub-tabbar/funcGroup.vue";

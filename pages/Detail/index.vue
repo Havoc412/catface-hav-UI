@@ -20,7 +20,7 @@
             </view>
             <tagGroup :tag-list="data.tags"/>
         </view>
-
+        <encounterMini/>
         <tabbar/>
     </view>
 </template>
@@ -40,6 +40,8 @@
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     import tagGroup from "../../components/detail/tagGroup.vue";
     
+    import encounterMini from "../../components/detail/encounter-mini.vue";
+
     import tabbar from "../../components/detail/tabbar.vue";
     // store
 // DATA
@@ -57,9 +59,7 @@
         description: '默认描述',
         nick_name: '无',
         // TODO 从表中联查
-        tags: [
-            '臭脸', '猜皮', '玉玉'
-        ],
+        tags: "臭脸,猜皮,玉玉",
         likeFlag: true 
     })
 

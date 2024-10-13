@@ -1,25 +1,29 @@
 <template>
     <view class="flex-horizontal gap-10">
-        <template v-for="(item, index) in props.tagList" :key="index">
+        <template v-for="(item, index) in decodeTagList" :key="index">
             <tag :text="item"/>
         </template>
     </view>
 </template>
 
 <script setup>
-    import { ref } from "vue";
+    import { computed } from "vue";
     import tag from "../com/tag.vue";
     // store
 // DATA
     const props = defineProps({
         tagList: {
-            type: Array,
-            default: () => ([])
+            type: String,
+            default: ""
         }
     });
     const emits = defineEmits([]);
 
 // FUNC
+    const decodeTagList = computed(() => {
+        if (!props.tagList || props.tagList === "") return [];
+        return props.tagList.split(",");
+    }) 
 
 </script>
 

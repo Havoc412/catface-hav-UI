@@ -7,6 +7,12 @@ $yellow-1: #FFFFD0;
 $red-1: #E6C1BB;
 $purple-1: #acb1f5;
 
+$gray-1: #A0AEC0;
+$blue-2: #00BFFF;
+$red-2: #FF575F;
+$yellow-2: #FFC542;
+$orange-2: #FF974A;
+
 :export {
     main: {
         deep: $h-bg-deep;
@@ -24,4 +30,12 @@ $purple-1: #acb1f5;
         unsterilized: $red-1;
         unknown: $purple-1;
     };
+    encounter: {
+        normal: $gray-1;
+        serious: $red-2;
+        significant: $yellow-2;
+
+        schedule: $blue-2;
+        todo: $orange-2;
+    }
 }

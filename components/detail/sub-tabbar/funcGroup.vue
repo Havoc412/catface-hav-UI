@@ -2,7 +2,7 @@
     <view class="flex-horizontal gap-10">
         <view class="btn">我想领养</view>
         <view class="btn">路遇上传</view>
-        <view class="btn">强推领养！</view>
+        <view class="btn">强推领养</view>
     </view>
 </template>
 

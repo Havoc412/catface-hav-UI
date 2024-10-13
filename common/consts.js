@@ -33,3 +33,7 @@ export const color_EN = [
   "threeColor",
   "colorCat",
 ];
+
+// Enconter Level
+export const encounterLevel_ZH = ["一般", "重大", "标志性事件", "日程", "代办"];
+export const encounterLevel_EN = ["normal", "serious", "significant", "schedule", "todo"];
