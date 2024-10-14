@@ -67,6 +67,12 @@
       "style": {
         "navigationBarTitleText": "TimeLine"
       }
+    },
+    {
+      "path": "pages/Encounter/detail",
+      "style": {
+        "navigationBarTitleText": "Detail"
+      }
     }
   ],
   "globalStyle": {
