@@ -67,13 +67,12 @@
 
     const flag = reactive({
         heart: data.likeFlag,
-        
     })
     const AnmID = ref(0);
 
 // FUNC
     onLoad( async(params) => {
-        AnmID.value = params.id;
+        AnmID.value = +params.id;  // TIP + 或者 parseInt() 都可以转化为 Number
         data.value = await api.getAnimalDetail(AnmID.value);
         console.debug(data.value);
         fetchImgPath();

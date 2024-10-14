@@ -1,5 +1,6 @@
 <template>
     <!--TIP 在外部可以直接覆盖 style 来实现不同的变换-->
+    <!--#1 因为是自定义的简单 click，所以没有 .stop 的用法，外部需要封装一层 view 来阻断。-->
     <image :src="svgPath" class="icon" :style="{'--size': props.size + 'px'}" @click="emits('click')"/>
 </template>
 
