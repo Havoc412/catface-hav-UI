@@ -50,7 +50,8 @@
                         disabledColor="transparent"
                     >
                         <template #suffix v-if="!flag.breedHumanChange">
-                            <view class="warn-breed">模型推断，有误请改</view>
+                            <!--TODO 等 full body 的模型做好后再修改。-->
+                            <view class="warn-breed">模型根据面部推断，有误请改</view>
                         </template>
                     </up-input>
                     <!--tip 因为 up-input disabled 之后会阻断 click，所以在上层覆盖一个透明的按钮作为遮罩-->
