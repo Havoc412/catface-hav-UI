@@ -19,19 +19,33 @@ export const gender_ZH = ["不明", "弟弟", "妹妹", ];
 export const gender_EN = ["unknown", "boy", "girl", ];
 
 // Color
-export const color_ZH = ["不明", "橘白", "奶牛", "白猫", "黑猫", "橘猫", "狸花", "狸白", "简州", "三花", "彩狸",];
+export const color_ZH = [
+  "不明",
+  "橘白",
+  "奶牛",
+  "白猫",
+  "黑猫",
+  "橘猫",
+  "狸花",
+  "狸白",
+  "三花",
+  "玳瑁",
+  "简州",
+  "彩狸",
+];
 export const color_EN = [
   "unknown",
-  "orange",
-  "cow",
+  "orgwhite",
+  "milk",
   "white",
   "black",
-  "orangeCat",
-  "tabby",
-  "tabbyWhite",
-  "jianzhong",
-  "threeColor",
-  "colorCat",
+  "orange",
+  "li",
+  "liwhite",
+  "flower",
+  "tortoiseshell",
+  "jianzhou",
+  "color",
 ];
 
 // Enconter Level
