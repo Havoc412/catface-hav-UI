@@ -33,7 +33,11 @@
 	@import "./css/theme/index.module.scss";
 
 	/* font */
-	@import "./static/font/stylesheet.css";
+	// @import "./static/font/stylesheet.css";
+	@font-face {
+		font-family: Alimama ShuHeiTi;
+		src: url('./static/font/AlimamaShuHeiTi-Bold.woff2');
+	}
 	
 	.top-container {
 		padding-top: var(--status-height);

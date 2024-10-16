@@ -8,29 +8,7 @@
                 padding="10"
                 cat-size="300"
                 position-type="right">
-                <view class="flex-vertical">
-                    <view class="flex-top-horizontal">
-                        <view class="flex-top-horizontal gap-10">
-                            <view class="avatar">
-                                <up-image :src="data.url" width="70" height="70" radius="35"/>
-                            </view>
-                            <view class="flex-vertical container-text gap-5">
-                                <view class="name">{{ data.name }}</view>
-                                <view class="text">{{ data.text }}</view>
-                            </view>
-                        </view>
-                        <view class="shrink"/>
-                        <view class="flex-horizontal gap-10">
-                            <h-icon name="user-sun"/>
-                            <h-icon name="user-list_block"/>
-                        </view>
-                    </view>
-                    <!--装饰-->
-                    <view style="height: 200px; width: 150px; border-radius: 20px;
-                        background-color: #AEC4EA;
-                        transform: translate(-20px, 20px); /* 向 x 轴偏移 -20px，y 轴偏移 20px */">
-                    </view>
-                </view>
+                <login/>
             </blockWin>
         </view>
         <!--TODO 目前只是框架，还没什么实际作用-->
@@ -63,13 +41,10 @@
     import { ref, reactive } from "vue";
     // com
     import blockWin from "../../components/user/block.vue";
-    // store
 
-    const data = reactive({
-        url: '/static/Qcat.png',
-        name: "小护",
-        text: "balabala"
-    })
+    import login from "./login.vue";
+    // store
+    
 // DATA
 
 // FUNC
@@ -82,18 +57,6 @@
     margin: 0 3vw;
 }
 
-.avatar {
-    background-color: #fff;
-    border-radius: 50%;
-}
-
-.container-text {
-    font-family: Alimama ShuHeiTi;
-}
-
-.name {
-    font-size: 25px;
-}
 
 .text {
     font-size: 14px;

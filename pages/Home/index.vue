@@ -6,7 +6,7 @@
             <!--不启用的时候，无需渲染-->
             <star v-if="flag.star"/>
         </view>
-        <!--fixed 形式的拖动栏-->
+        <!--fixed 形式的拖动栏-->v
         <postDrag @close="closeDrag" @open="openDrag"/>
     </view>
 	<h-tabbar :bottom="state.tabbarBottom"/>
