@@ -13,5 +13,8 @@
 	"main": "main.js",
 	"keywords": [],
 	"author": "",
-	"license": "ISC"
+	"license": "ISC",
+	"dependencies": {
+		"crypto-js": "^4.2.0"
+	}
 }

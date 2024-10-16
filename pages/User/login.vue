@@ -41,19 +41,19 @@
     });
     
 // FUNC
-    function Login() {
+    function Login() {  // INFO 可以办到 隐式登录，获取最新的信息。 // TODO 需要用户授权。
         console.log("Login");
         uni.login({  // 
             provider: 'weixin',
             success: function (res) {
                 console.log("login success", res);
-                uni.getUserInfo({
+                uni.getUserInfo({ 
                     provider: 'weixin',
                     success: function (infoRes) {
                         console.log("getUserInfo success", infoRes);
                         data.url = infoRes.userInfo.avatarUrl;
                         data.name = infoRes.userInfo.nickName;
-                        data.text= "已登录";
+                        data.text= ""; // INFO 暂时感觉没什么太大的作用。
                     }
                 })
             },
