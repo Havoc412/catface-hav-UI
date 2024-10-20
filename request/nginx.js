@@ -8,5 +8,8 @@ export default {
   catsHead: (fileName) => fetchUrl(fileName, "catsHead"),
   catsAvatar: (fileName) => fetchUrl(fileName, "catsAvatar"),
   catsPhotos: (anm_id, fileName) => fetchUrl(fileName, `catsPhotos/${anm_id}`),
+  encounterAvatar: (fileName) => fetchUrl(fileName, "encounterAvatar"),
+  humAvatar: (fileName) => fetchUrl(fileName, "humAvatar"),
+  
   static: (fileName) => fetchUrl(fileName),
 };

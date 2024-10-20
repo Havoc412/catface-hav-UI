@@ -22,7 +22,8 @@
                 class="container-waterfall" :style="{
                 '--height': state.waterfallHeight + 'vh'
             }">
-                <view class="flex-top-horizontal gap-10">
+                <statusWin v-if="flag.status.show" :status="flag.status.type"/>
+                <view v-else class="flex-top-horizontal gap-10">
                     <view class="flex-vertical gap-10">
                         <template v-for="(item, index) in data.left" :key="index">
                             <post :url="item.url" :title="item.title" :userAvatar="item.userAvatar" :userName="item.userName" :time="item.time" :like="item.like" :height="item.adoptHeight"/>
@@ -48,9 +49,12 @@
 
     import post from "../../components/home/post.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
+    import statusWin from "../../components/status-win/statusWin.vue";
     // store
     import phoneInfor from "../../store/phoneInfor";
     const phoneInforStore = phoneInfor();   
+
+    import api from "../../request/encounter";
 // DATA
     const props = defineProps({
         
@@ -84,6 +88,10 @@
         heightRight: 0
     }
     const flag = reactive({
+        status: {
+            show: true,
+            type: "loadding"
+        },
         close: false,
         full: false,  // drag 部分是否完全展开
         // twiceClose: false,  // 当下滑两次的时候，就会触发 close
@@ -167,14 +175,14 @@
     })
 
     onMounted(() => {
-      flag.close = false;
-      flag.full = false;
-      state.top = consts.TOP_INIT;
-      
-      data.left = [];
-      data.right = [];
+        flag.close = false;
+        flag.full = false;
+        state.top = consts.TOP_INIT;
 
-      loadmore();
+        data.left = [];
+        data.right = [];
+
+        loadmore(15);
     })
     
 // FUNC
@@ -230,12 +238,22 @@
     }
 
     // TAG # Waterfall
-    function loadmore() {
-        console.info("loadmore");
-        if(data.left.length > 5) // TEST
-            return;
-        // TODO API
-        EXAMPLE.forEach((item) => {
+    async function loadmore(num, skip = 0) {
+        if(flag.status.type == 'nomore')
+            return
+        
+        const [res, err] = await api.getEncounterList(num, skip)
+        if (err != null) {
+            flag.status.type = 'error';
+            return
+        }
+
+        if(res.length < num)
+            flag.status.type = 'nomore'
+
+        console.debug(res);
+        
+        res.forEach((item) => {
             // img info
             let height = Math.round(item.height / item.width * consts.POST.WIDTH);
             if (height < consts.POST.MIN_HEIGHT) {
@@ -258,6 +276,8 @@
                 vars.heightRight += height;
             }
         })
+
+        flag.status.show = false;
     }
     
     function lower() {

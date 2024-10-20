@@ -1,12 +1,12 @@
 <template>
     <view class="container-post">
-        <image :src="nginx.static(props.url)" class="img" :style="{
+        <image :src="nginx.encounterAvatar(props.url)" class="img" :style="{
             '--height': props.height + 'rpx'
         }"/>
         <view class="flex-vertical container-info gap-5">
             <view>{{ props.title }}</view>
             <view class="flex-horizontal gap-5">
-                <user :userAvatar="props.userAvatar" :userName="props.userName"/>
+                <user :userAvatar="nginx.humAvatar(props.userAvatar)" :userName="props.userName"/>
                 <view class="shrink"/>
                 <view class="flex-bottom-horizontal gap-5">
                     <view class="time">{{ props.time }}</view>

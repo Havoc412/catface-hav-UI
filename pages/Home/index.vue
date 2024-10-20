@@ -17,7 +17,7 @@
     // com
     import mainfunc from "../../components/home/mainfunc.vue";
     import star from "../../components/home/star.vue";
-    import postDrag from "./postDrag.vue";
+    import postDrag from "./encounterDrag.vue";
     
     // store
 // DATA
