@@ -81,6 +81,18 @@
     flex: 1;
 }
 
+.yes-shrink {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    /* 隐藏溢出的文本 */
+    white-space: nowrap;
+    /* 防止文本换行 */
+    text-overflow: ellipsis;
+    /* 使用省略号表示溢出的文本 */
+}
+
 .flex-fill {
     /* 填剩余空间 */
     flex-grow: 1;

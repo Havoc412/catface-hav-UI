@@ -1,7 +1,7 @@
 <template>
     <view class="flex-center-horizontal gap-5">
         <up-image :src="props.userAvatar" height="50rpx" width="50rpx" radius="25rpx"/>
-        <view class="no-shrink">{{ props.userName }}</view>
+        <view class="name yes-shrink">{{ props.userName }}</view>
     </view>
 </template>
 
@@ -26,5 +26,9 @@
 </script>
 
 <style scoped>
+
+.name {
+    flex-shrink: 1;
+}
 
 </style>        
