@@ -24,6 +24,8 @@
     import user from "../home/sub-post/user.vue";
     import wechatBtn from "../wechat/btn.vue";
     import textRadio from "../wechat/text-radio.vue";
+
+    import api from "../../request/human";
     // store
     import human from "../../store/human";
     const { setLoginStatus } = human();
@@ -31,7 +33,7 @@
     const props = defineProps({
 
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(['close']);
 
     const data = reactive({
         url: "/static/Qcat.png",
@@ -50,20 +52,26 @@
         })
     })
 
-    async function login() {
+    function login() {
         console.debug("Login");
-        await uni.login({  // 
+        uni.login({  // 
             provider: 'weixin',
-            success: function (res) {
+            success: async function (res) {
                 console.log("login success", res);
+                const [wecharRes, err] = await api.weixinLogin(res.code, data.url, data.name);
+                console.debug(err, wecharRes);
+                if(err == null)
+                    setLoginStatus(wecharRes, data.url, data.name);
                 // TODO 错误处理
-                // setLoginStatus(res.id, data.url, data.name);
+                emits('close');
             },
             fail: function (err) {
                 console.log("login fail", err);
+                emits('close');
             }
         })
     }
+
 
 </script>
 

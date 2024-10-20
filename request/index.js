@@ -20,7 +20,7 @@ export class Request {
     if (method == "POST") {
       header = Object.assign(
         {
-          "content-type": "application/x-www-from-urlencoded",
+          "content-type": "application/form-data",
         },
         param.hedaer
       );

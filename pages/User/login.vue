@@ -7,7 +7,7 @@
                 </view>
                 <view class="flex-vertical gap-5">
                     <view class="name">{{ humanStore.user_name }}</view>
-                    <view class="text">{{ data.text }}</view>
+                    <view v-if="!humanStore.logined" class="text">{{ data.text }}</view>
                 </view>
             </view>
             <view class="shrink"/>
@@ -24,7 +24,7 @@
     </view>
     <!--INFO Login Modal-->
     <u-popup :show="flag.login" mode="bottom" @close="flag.login = false" round="12">
-        <loginModal/>
+        <loginModal @close="flag.login = false"/>
     </u-popup>
 </template>
 
