@@ -1,7 +1,9 @@
 <template>
     <view class="flex-center-horizontal gap-5">
-        <up-image :src="props.userAvatar" height="50rpx" width="50rpx" radius="25rpx"/>
-        <view class="name yes-shrink">{{ props.userName }}</view>
+        <up-image :src="props.userAvatar" 
+            :height="props.size + 'rpx'" :width="props.size + 'rpx'" :radius="props.radius + 'rpx'"
+        />
+        <view class="shrink">{{ props.userName }}</view>
     </view>
 </template>
 
@@ -17,6 +19,14 @@
         userName: {
             type: String,
             default: "默认名"
+        },
+        size: {
+            type: Number,
+            default: 50
+        },
+        radius: {
+            type: Number,
+            default: 25
         }
     });
     const emits = defineEmits([]);
@@ -26,9 +36,5 @@
 </script>
 
 <style scoped>
-
-.name {
-    flex-shrink: 1;
-}
 
 </style>        

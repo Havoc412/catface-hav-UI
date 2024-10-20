@@ -1,31 +1,36 @@
 <template>
     <view class="flex-vertical">
-    <view class="flex-top-horizontal">
-        <view class="flex-top-horizontal gap-10" @click="Login">
-            <view class="avatar">
-                <up-image :src="data.url" width="70" height="70" radius="35"/>
+        <view class="flex-top-horizontal">
+            <view class="flex-top-horizontal gap-10" @click="Login">
+                <view class="avatar">
+                    <up-image :src="data.url" width="70" height="70" radius="35"/>
+                </view>
+                <view class="flex-vertical gap-5">
+                    <view class="name">{{ data.name }}</view>
+                    <view class="text">{{ data.text }}</view>
+                </view>
             </view>
-            <view class="flex-vertical gap-5">
-                <view class="name">{{ data.name }}</view>
-                <view class="text">{{ data.text }}</view>
+            <view class="shrink"/>
+            <view class="flex-horizontal gap-10">
+                <h-icon name="user-sun"/>
+                <h-icon name="user-list_block"/>
             </view>
         </view>
-        <view class="shrink"/>
-        <view class="flex-horizontal gap-10">
-            <h-icon name="user-sun"/>
-            <h-icon name="user-list_block"/>
+        <!--装饰-->
+        <view style="height: 200px; width: 150px; border-radius: 20px;
+            background-color: #AEC4EA;
+            transform: translate(-20px, 20px); /* 向 x 轴偏移 -20px，y 轴偏移 20px */">
         </view>
     </view>
-    <!--装饰-->
-    <view style="height: 200px; width: 150px; border-radius: 20px;
-        background-color: #AEC4EA;
-        transform: translate(-20px, 20px); /* 向 x 轴偏移 -20px，y 轴偏移 20px */">
-    </view>
-</view>
+    <u-popup :show="flag.login" mode="bottom" @close="flag.login = false" round="12">
+        <loginModal/>
+    </u-popup>
 </template>
 
 <script setup>
     import { provide, reactive } from "vue";
+    // com
+    import loginModal from "../../components/login/login-modal.vue";
     // store
 // DATA
     const props = defineProps({
@@ -38,6 +43,10 @@
         url: '/static/Qcat.png',
         name: "未登录",
         text: "点此微信登录"
+    });
+
+    const flag = reactive({
+        login: true
     });
     
 // FUNC
