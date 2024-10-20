@@ -10,21 +10,23 @@
             </view>
             <textRadio text="近期自动登录"/>
             <view class="flex-center-horizontal container-btn">
-                <btn text="拒绝" bg-color="#EDEDED"/>
-                <btn text="允许" bg-color="#07C160" color="#fff" font-weight="bold"/>
+                <wechatBtn text="拒绝" bg-color="#EDEDED" @click="close"/>
+                <wechatBtn text="允许" bg-color="#07C160" color="#fff" font-weight="bold" @click="login"/>
             </view>
         </view>
     </view>
 </template>
 
 <script setup>
-    import { ref, reactive } from "vue";
+    import { reactive, onMounted } from "vue";
 
     // com
     import user from "../home/sub-post/user.vue";
-    import btn from "../wechat/btn.vue";
+    import wechatBtn from "../wechat/btn.vue";
     import textRadio from "../wechat/text-radio.vue";
     // store
+    import human from "../../store/human";
+    const { setLoginStatus } = human();
 // DATA
     const props = defineProps({
 
@@ -32,23 +34,36 @@
     const emits = defineEmits([]);
 
     const data = reactive({
-        url: "/static/user.jpg",
-        name: "小护",
+        url: "/static/Qcat.png",
+        name: "Loadding...",
     })
 
 // FUNC
-    // onMounted(() => {
-    //     uni.getUserInfo({ 
-    //         provider: 'weixin',
-    //         success: function (infoRes) {
-    //             console.log("getUserInfo success", infoRes);
-    //             data.url = infoRes.userInfo.avatarUrl;
-    //             data.name = infoRes.userInfo.nickName;
-    //             data.text= ""; // INFO 暂时感觉没什么太大的作用。
-    //             console.info(data.url)
-    //         }
-    //     })
-    // })
+    onMounted(() => {
+        uni.getUserInfo({ 
+            provider: 'weixin',
+            success: function (infoRes) {
+                console.log("getUserInfo success", infoRes);
+                data.url = infoRes.userInfo.avatarUrl;
+                data.name = infoRes.userInfo.nickName;
+            }
+        })
+    })
+
+    async function login() {
+        console.debug("Login");
+        await uni.login({  // 
+            provider: 'weixin',
+            success: function (res) {
+                console.log("login success", res);
+                // TODO 错误处理
+                // setLoginStatus(res.id, data.url, data.name);
+            },
+            fail: function (err) {
+                console.log("login fail", err);
+            }
+        })
+    }
 
 </script>
 

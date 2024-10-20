@@ -1,12 +1,12 @@
 <template>
     <view class="flex-vertical">
         <view class="flex-top-horizontal">
-            <view class="flex-top-horizontal gap-10" @click="Login">
+            <view class="flex-top-horizontal gap-10" @click="showLogin">
                 <view class="avatar">
-                    <up-image :src="data.url" width="70" height="70" radius="35"/>
+                    <up-image :src="humanStore.user_avatar" width="70" height="70" radius="35"/>
                 </view>
                 <view class="flex-vertical gap-5">
-                    <view class="name">{{ data.name }}</view>
+                    <view class="name">{{ humanStore.user_name }}</view>
                     <view class="text">{{ data.text }}</view>
                 </view>
             </view>
@@ -22,16 +22,19 @@
             transform: translate(-20px, 20px); /* 向 x 轴偏移 -20px，y 轴偏移 20px */">
         </view>
     </view>
+    <!--INFO Login Modal-->
     <u-popup :show="flag.login" mode="bottom" @close="flag.login = false" round="12">
         <loginModal/>
     </u-popup>
 </template>
 
 <script setup>
-    import { provide, reactive } from "vue";
+    import { reactive } from "vue";
     // com
     import loginModal from "../../components/login/login-modal.vue";
     // store
+    import human from "../../store/human";
+    const humanStore = human();
 // DATA
     const props = defineProps({
 
@@ -40,37 +43,16 @@
 
 
     const data = reactive({  // zheng
-        url: '/static/Qcat.png',
-        name: "未登录",
         text: "点此微信登录"
     });
 
     const flag = reactive({
-        login: true
+        login: false
     });
     
 // FUNC
-    function Login() {  // INFO 可以办到 隐式登录，获取最新的信息。 // TODO 需要用户授权。
-        console.log("Login");
-        uni.login({  // 
-            provider: 'weixin',
-            success: function (res) {
-                console.log("login success", res);
-                uni.getUserInfo({ 
-                    provider: 'weixin',
-                    success: function (infoRes) {
-                        console.log("getUserInfo success", infoRes);
-                        data.url = infoRes.userInfo.avatarUrl;
-                        data.name = infoRes.userInfo.nickName;
-                        data.text= ""; // INFO 暂时感觉没什么太大的作用。
-                        console.info(data.url)
-                    }
-                })
-            },
-            fail: function (err) {
-                console.log("login fail", err);
-            }
-        })
+    function showLogin() {  // INFO 可以办到 隐式登录，获取最新的信息。 // TODO 需要用户授权。
+        flag.login = true;
     }
 
 </script>

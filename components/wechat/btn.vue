@@ -4,7 +4,7 @@
         '--radius': props.radius + 'px',
         '--font-size': props.fontSize,
         '--font-weight': props.fontWeight,
-    }">
+    }" @click="emits('click')">
         <view class="sub-btn" :style="{
             '--color': props.color,
         }">
@@ -43,7 +43,7 @@
             default: 4
         }
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(['click']);
 
 // FUNC
 
