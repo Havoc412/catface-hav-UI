@@ -33,7 +33,7 @@
         {
             imgPath: "/static/cats/head/3.png",
             page: '',
-            text: "待定？"
+            text: "全局搜索"
         },
     ])
 
