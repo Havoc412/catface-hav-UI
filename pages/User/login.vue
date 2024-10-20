@@ -54,6 +54,7 @@
                         data.url = infoRes.userInfo.avatarUrl;
                         data.name = infoRes.userInfo.nickName;
                         data.text= ""; // INFO 暂时感觉没什么太大的作用。
+                        console.info(data.url)
                     }
                 })
             },
