@@ -5,17 +5,15 @@
         }"/>
         <view class="flex-vertical container-info gap-5">
             <view>{{ props.title }}</view>
-            <view class="flex-horizontal gap-1 block">
+            <view class="flex-horizontal gap-1 block" @click.stop>
                 <!--INFO 为了压缩有效，不适合二次封装 <user :userAvatar="nginx.humAvatar(props.userAvatar)" :userName="props.userName"/> -->
                 <!--TODO 增加用户信息查询，-->
-                <up-image :src="nginx.humAvatar(props.userAvatar)" height="50rpx" width="50rpx" radius="25rpx" @click.stop/>
-                <view class="name yes-shrink" @click.stop>{{ props.userName }}</view>
+                <up-image :src="nginx.humAvatar(props.userAvatar)" height="50rpx" width="50rpx" radius="25rpx"/>
+                <view class="name yes-shrink">{{ props.userName }}</view>
                 <view class="shrink"/>
                 <view class="flex-bottom-horizontal gap-5">
                     <view class="time">{{ formatTime }}</view>
-                    <view @click.stop>
-                        <h-icon :name="likeSvg" @click="like"/>
-                    </view>
+                    <h-icon :name="likeSvg" @click="like"/>
                 </view>
             </view>
         </view>
