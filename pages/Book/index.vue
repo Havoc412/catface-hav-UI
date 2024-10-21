@@ -71,7 +71,8 @@
     })
 
     async function getData(num, skip = 0) {
-        const [res, err] = await api.getAnimalBook(num, skip);
+        // TODO 完善筛选条件
+        const [res, err] = await api.getAnimalBook(num, skip, {}, true);
         if (err != null) {  // 错误处理
             flag.status.type = "error";
             return

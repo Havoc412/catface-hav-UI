@@ -56,6 +56,7 @@
 
     import api from "../../request/encounter";
 // DATA
+    import { ENCOUNTER_MAX_NUM } from "../../common/consts";
     const props = defineProps({
         
     });
@@ -242,7 +243,8 @@
         if(flag.status.type == 'nomore')
             return
         
-        const [res, err] = await api.getEncounterList(num, skip)
+        // INFO 通过这种方式实现限量  // TODO 之后测试，以及报错信息的传值
+        const [res, err] = await api.getEncounterList(num, skip, skip > ENCOUNTER_MAX_NUM)
         if (err != null) {
             flag.status.type = 'error';
             return

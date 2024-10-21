@@ -17,11 +17,11 @@ export default defineStore({
 
     token: "",
     loginTime: "",
-    permission: 123
+    permission: 123,
   }),
   getters: {
-    logined() {
-      return this.user_id > 0;
+    isAuthenticated() {
+      return this.user_id > 0 && this.token != "";
     },
   },
   actions: {
@@ -30,7 +30,7 @@ export default defineStore({
       this.token = res.token;
       this.loginTime = res.updated_at;
       this.permission = res.permission;
-      
+
       this.user_avatar = avatar;
       this.user_name = name;
 
