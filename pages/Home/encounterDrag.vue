@@ -26,12 +26,20 @@
                 <view v-else class="flex-top-horizontal gap-10">
                     <view class="flex-vertical gap-10">
                         <template v-for="(item, index) in data.left" :key="index">
-                            <post :url="item.url" :title="item.title" :userAvatar="item.userAvatar" :userName="item.userName" :time="item.time" :like="item.like" :height="item.adoptHeight"/>
+                            <post :id="item.id" :user-id="item.user_id"
+                            :url="item.url" :title="item.title" 
+                            :userAvatar="item.userAvatar" :userName="item.userName" 
+                            :time="item.time" :like="item.like" 
+                            :height="item.adoptHeight"/>
                         </template>
                     </view>
                     <view class="flex-vertical gap-10">
                         <template v-for="(item, index) in data.right" :key="index">
-                            <post :url="item.url" :title="item.title" :userAvatar="item.userAvatar" :userName="item.userName" :time="item.time" :like="item.like" :height="item.adoptHeight"/>
+                            <post :id="item.id" :user-id="item.user_id"
+                            :url="item.url" :title="item.title" 
+                            :userAvatar="item.userAvatar" :userName="item.userName" 
+                            :time="item.time" :like="item.like" 
+                            :height="item.adoptHeight"/>
                         </template>
                     </view>
                 </view>
@@ -98,7 +106,7 @@
         // twiceClose: false,  // 当下滑两次的时候，就会触发 close
     })
     
-    // TEST
+    // TEST for
     const EXAMPLE = [
         {
             "url": "/catsAvatar/0.jpg",  // 暂时先用一下

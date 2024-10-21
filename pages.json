@@ -71,7 +71,7 @@
     {
       "path": "pages/Encounter/detail",
       "style": {
-        "navigationBarTitleText": "Detail"
+        "navigationBarTitleText": "Encounter Detail"
       }
     },
     // TAG 登录注册

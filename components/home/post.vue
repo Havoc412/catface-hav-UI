@@ -1,18 +1,21 @@
 <template>
-    <view class="container-post">
+    <view class="container-post" @click="gotoDetial">
         <image :src="nginx.encounterAvatar(props.url)" class="img" :style="{
             '--height': props.height + 'rpx'
         }"/>
         <view class="flex-vertical container-info gap-5">
             <view>{{ props.title }}</view>
             <view class="flex-horizontal gap-1 block">
-                <up-image :src="nginx.humAvatar(props.userAvatar)" height="50rpx" width="50rpx" radius="25rpx"/>
-                <view class="name yes-shrink">{{ props.userName }}</view>
-                <!-- INFO 为了压缩有效，不适合二次封装 <user :userAvatar="nginx.humAvatar(props.userAvatar)" :userName="props.userName"/> -->
+                <!--INFO 为了压缩有效，不适合二次封装 <user :userAvatar="nginx.humAvatar(props.userAvatar)" :userName="props.userName"/> -->
+                <!--TODO 增加用户信息查询，-->
+                <up-image :src="nginx.humAvatar(props.userAvatar)" height="50rpx" width="50rpx" radius="25rpx" @click.stop/>
+                <view class="name yes-shrink" @click.stop>{{ props.userName }}</view>
                 <view class="shrink"/>
                 <view class="flex-bottom-horizontal gap-5">
                     <view class="time">{{ formatTime }}</view>
-                    <h-icon :name="likeSvg" @click="like"/>
+                    <view @click.stop>
+                        <h-icon :name="likeSvg" @click="like"/>
+                    </view>
                 </view>
             </view>
         </view>
@@ -29,6 +32,14 @@
     // store
 // DATA
     const props = defineProps({
+        id: {
+            type: Number,
+            default: 0
+        },
+        userId: { // 上传者 id
+            type: Number,
+            default: 0  
+        },
         url: {
             type: String,
             default: "/static/dog.jpg"
@@ -87,6 +98,12 @@
     function like() {
         api.clickLike(flag.like);
         // flag.like = !flag.like;
+    }
+
+    function gotoDetial() {
+        uni.navigateTo({
+            url: "/pages/Encounter/detail?id=" + props.id
+        })
     }
 
 </script> 
