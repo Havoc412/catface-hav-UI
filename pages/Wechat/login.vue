@@ -1,12 +1,15 @@
 <template>
     <view class="container-top flex-center-both">
-       <view class="flex-center-vertical">
+        <view class="container-alert">
+            <up-alert :title="data.title" type="error" :description="data.description" show-icon closable></up-alert>
+        </view>
+        <view class="flex-center-vertical">
             <view class="flex-vertical gap-5 container-sub">
                 <view class="user">
                     <user userName="CatFace 申请" :size="200"/>
                 </view>
-                <view class="title">使用你的头像与用户名</view>
-                <view class="flex-center-horizontal gap-20" style="margin-bottom: 100rpx;">
+                <view class="title">使用你的头像与用户名并登录/注册</view>
+                <view class="flex-center-horizontal gap-20" style="margin-bottom: 150rpx;">
                     <up-avatar :src="data.url" shape="square" size="60"></up-avatar>
                     <view>{{ data.name }}</view>
                     <view class="shrink"/>
@@ -17,7 +20,7 @@
                 <wechatBtn text="允许" bg-color="#07C160" color="#fff" font-weight="bold" @click="login" block/>
                 <wechatBtn text="拒绝" bg-color="#EDEDED" @click="close" block/>
             </view>
-       </view>
+        </view>
     </view>
 </template>
 
@@ -33,6 +36,9 @@
     const data = reactive({
         url: "/static/Qcat.png",
         name: "Loadding...",
+
+        title: "登录后获取更多",
+        description: ""
     })
 
 // FUNC
@@ -58,12 +64,18 @@
 
 <style scoped>
 
+.container-alert {
+    position: fixed;
+    top: 200rpx;
+}
+
 .container-top {
     height: 100vh;
 }
 
 .container-sub {
     width: 550rpx;
+
 }
 
 .container-btns {
