@@ -44,7 +44,7 @@
 
 // FUNC
     onLoad( async(params) => {
-        data.id = +params.id;  // TIP + 或者 parseInt() 都可以转化为 Number
+        data.id = params.id;
         // data.value = await api.getAnimalDetail(AnmID.value);
         // console.debug(data.value);
         // fetchImgPath();

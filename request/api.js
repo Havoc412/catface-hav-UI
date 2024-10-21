@@ -4,6 +4,9 @@ const request = new Request().http;
 import human from "../store/human";
 const humanStore = human();
 
+// TEST
+import { DEBUG } from "../common/setting";
+
 // { title, description }
 function checkAuth(message) {
     if (humanStore.isAuthenticated)
@@ -13,7 +16,7 @@ function checkAuth(message) {
     return false;
 }
 
-export function get(url, header, data, pass=false, msg) {
+export function get(url, header, data, pass=DEBUG, msg) {
     return request({
         url: url,
         method: "GET",
@@ -22,7 +25,7 @@ export function get(url, header, data, pass=false, msg) {
     })
 }
 
-export function post(url, header, data, pass=false, msg) {
+export function post(url, header, data, pass=DEBUG, msg) {
     if (pass || !checkAuth()) {
         return null;
     }

@@ -9,4 +9,4 @@ if (DEBUG) {
   nginxUrl = "http://113.44.68.213/img/";
 }
 
-export { baseUrl as BASE_URL, nginxUrl as BASE_NGINX_URL };
+export { baseUrl as BASE_URL, nginxUrl as BASE_NGINX_URL, DEBUG };

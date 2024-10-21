@@ -25,7 +25,7 @@ const api = {
     },
 
     async getAnimalDetail(id) {
-        return await get(`animal/${id}`, {}, {});
+        return await get(`admin/animal/${id}`, {}, {});
     }
 }
 
