@@ -23,6 +23,7 @@
     import { ref, reactive, computed } from "vue";
     
     import nginx from "../../request/nginx";
+    import api from "../../request/encounter";
 
     // import user from "./sub-post/user.vue";
     // store
@@ -84,7 +85,8 @@
     })
 
     function like() {
-        flag.like = !flag.like;
+        api.clickLike(flag.like);
+        // flag.like = !flag.like;
     }
 
 </script> 

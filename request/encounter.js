@@ -1,4 +1,4 @@
-import { get } from "./api"
+import { get, post } from "./api"
 
 import human from "../store/human";
 const humanStore = human();
@@ -17,6 +17,10 @@ const api = {
             console.error("encounter.js", error);
             return [error, true];
           });
+    },
+    
+    async clickLike(encounter_id) {  // TODO 同时传递 user_id && encounter_id，根据状态确定变化。
+      return await post('', {}, {})
     }
 }
 

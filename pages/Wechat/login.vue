@@ -53,7 +53,7 @@
     })
 
     function close() {
-        
+        uni.navigateBack();
     }
 
     function login() {
