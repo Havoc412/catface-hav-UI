@@ -73,6 +73,13 @@
       "style": {
         "navigationBarTitleText": "Detail"
       }
+    },
+    // TAG 登录注册
+    {
+      "path": "pages/Wechat/login",
+      "style": {
+        "navigationBarTitleText": "Login"
+      }
     }
   ],
   "globalStyle": {

@@ -1,5 +1,9 @@
 <template>
-    <view class="flex-center-horizontal container-btn" :style="{
+    <view class="flex-center-both container-btn"
+        :class="{
+            'block': props.block
+        }"
+        :style="{
         '--bg-color': props.bgColor,
         '--radius': props.radius + 'px',
         '--font-size': props.fontSize,
@@ -41,6 +45,10 @@
         radius: {
             type: [String, Number],
             default: 4
+        },
+        block: {
+            type: Boolean,
+            default: false
         }
     });
     const emits = defineEmits(['click']);
