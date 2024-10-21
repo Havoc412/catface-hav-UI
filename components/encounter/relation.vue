@@ -2,6 +2,7 @@
     <view class="flex-horizontal m-5 gap-5">
         <pair :avatar="nginx.humAvatar(props.human.user_avatar)" :name="props.human.user_name"/>
         <view class="shrink"/>
+        <!--TODO 当 >=3 之时，采用头像组-->
         <template v-for="(item, index) in props.animals" :key="index">
             <pair :avatar="nginx.catsAvatar(item.avatar)" :name="item.name"/>
         </template>
