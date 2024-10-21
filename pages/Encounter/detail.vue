@@ -19,6 +19,8 @@
 
 <script setup>
     import { ref, reactive } from "vue";
+    import { onLoad } from "@dcloudio/uni-app"
+
     // com
     import relation from "../../components/encounter/relation.vue";
     import album from "../../components/encounter/album.vue";
@@ -27,6 +29,7 @@
     // store
 // DATA
     const data = reactive({
+        id: 0,
         human: {
             avatar: "/static/user.jpg",
             name: "小护"
@@ -40,6 +43,12 @@
 
 
 // FUNC
+    onLoad( async(params) => {
+        data.id = +params.id;  // TIP + 或者 parseInt() 都可以转化为 Number
+        // data.value = await api.getAnimalDetail(AnmID.value);
+        // console.debug(data.value);
+        // fetchImgPath();
+    })
 
 </script> 
 

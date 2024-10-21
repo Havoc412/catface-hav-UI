@@ -4,15 +4,16 @@ const request = new Request().http;
 import human from "../store/human";
 const humanStore = human();
 
-function checkAuth(message="") {
+// { title, description }
+function checkAuth(message) {
     if (humanStore.isAuthenticated)
         return true;
     // INFO 路由守卫，通过直接跳转的方式；同时控制报错信息。
-    uni.navigateTo({ url: "/pages/Wechat/login" });
+    uni.navigateTo({ url: `/pages/Wechat/login?title=${message.title}&description=${message.description}` });
     return false;
 }
 
-export function get(url, header, data, pass=false, msg="") {
+export function get(url, header, data, pass=false, msg) {
     return request({
         url: url,
         method: "GET",
@@ -21,7 +22,7 @@ export function get(url, header, data, pass=false, msg="") {
     })
 }
 
-export function post(url, header, data, pass=false, msg="") {
+export function post(url, header, data, pass=false, msg) {
     if (pass || !checkAuth()) {
         return null;
     }

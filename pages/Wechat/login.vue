@@ -26,6 +26,7 @@
 
 <script setup>
     import { reactive, onMounted } from "vue";
+    import { onLoad } from "@dcloudio/uni-app"
 
     // com
     import user from "../../components/home/sub-post/user.vue";
@@ -50,6 +51,11 @@
         //         data.name = infoRes.userInfo.nickName;
         //     }
         // })
+    })
+
+    onLoad( (params) => {
+        data.title = params.title;
+        data.description = params.description;
     })
 
     function close() {
