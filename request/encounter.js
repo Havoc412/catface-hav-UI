@@ -24,7 +24,7 @@ const api = {
     },
 
     async clickLike(encounter_id) {
-      reutrn
+      return await post("", {}, {}, false)
     }
 }
 

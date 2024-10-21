@@ -6,7 +6,7 @@
         <view class="flex-center-vertical">
             <view class="flex-vertical gap-5 container-sub">
                 <view class="user">
-                    <user userName="CatFace 申请" :size="200"/>
+                    <user userName="CatFace 申请" :size="150"/>
                 </view>
                 <view class="title">使用你的头像与用户名并登录/注册</view>
                 <view class="flex-center-horizontal gap-20" style="margin-bottom: 150rpx;">
@@ -72,7 +72,7 @@
 
 .container-alert {
     position: fixed;
-    top: 200rpx;
+    top: 100rpx;
 }
 
 .container-top {
