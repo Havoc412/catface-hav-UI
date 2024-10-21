@@ -1,14 +1,14 @@
 <template>
     <view class="flex-vertical">
-        <relation :human="data.human" :animals="data.aniamls"/>
-        <album/>
+        <relation :human="data.user" :animals="data.animals"/>
+        <album :user-id="data.user.id" :list="data.encounter.photos"/>
         <view class="flex-vertical container-info gap-10">
             <view class="flex-horizontal">
-                <text class="title">{{ data.title }}</text>
+                <text class="title">{{ data.encounter.title }}</text>
                 <view class="shrink"/>
                 <chip text="日常"/>
             </view>
-            <text>{{ data.content }}</text>
+            <text>{{ data.encounter.content }}</text>
             <!-- <chipGroup :topicList="chipsList.topicList" :locationList="chipsList.locationList"
             :foodList="chipsList.foodList" /> -->
             <!--tag comment-->
@@ -19,7 +19,9 @@
 
 <script setup>
     import { ref, reactive } from "vue";
-    import { onLoad } from "@dcloudio/uni-app"
+    import { onLoad } from "@dcloudio/uni-app";
+
+    import api from "../../request/encounter";
 
     // com
     import relation from "../../components/encounter/relation.vue";
@@ -28,26 +30,28 @@
     import chip from "../../components/com/chip/chip.vue";
     // store
 // DATA
-    const data = reactive({
-        id: 0,
-        human: {
-            avatar: "/static/user.jpg",
-            name: "小护"
+    const EncounterID = ref(0);
+    const data = ref({
+        user: {
+            user_avatar: "/static/user.jpg",
+            user_name: "小护"
         },
-        aniamls: [
+        animals: [
             {avatar: "/static/dog.jpg", name: "猪皮"}
         ],
-        title: "Default",
-        content: "balabala"
+        encounter: {
+            title: "Default",
+            content: "balabala",
+            photos: ""
+            // ...
+        }
     })
 
 
 // FUNC
     onLoad( async(params) => {
-        data.id = params.id;
-        // data.value = await api.getAnimalDetail(AnmID.value);
-        // console.debug(data.value);
-        // fetchImgPath();
+        EncounterID.value = +params.id;
+        data.value = await api.getEncounterDetail(EncounterID.value)
     })
 
 </script> 

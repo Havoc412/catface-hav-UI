@@ -19,8 +19,12 @@ const api = {
           });
     },
     
-    async clickLike(encounter_id) {  // TODO 同时传递 user_id && encounter_id，根据状态确定变化。
+    async getEncounterDetail(encounter_id) {  // TODO 同时传递 user_id && encounter_id，根据状态确定变化。
       return await get(`admin/encounter/${encounter_id}`, {}, {})
+    },
+
+    async clickLike(encounter_id) {
+      reutrn
     }
 }
 

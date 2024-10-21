@@ -9,6 +9,7 @@ export default {
   catsAvatar: (fileName) => fetchUrl(fileName, "catsAvatar"),
   catsPhotos: (anm_id, fileName) => fetchUrl(fileName, `catsPhotos/${anm_id}`),
   encounterAvatar: (fileName) => fetchUrl(fileName, "encounterAvatar"),
+  encounterPhotos: (user_id, fileName) => fetchUrl(fileName, `encounterPhotos/hum_${user_id}`),
   humAvatar: (fileName) => fetchUrl(fileName, "humAvatar"),
   
   static: (fileName) => fetchUrl(fileName),
