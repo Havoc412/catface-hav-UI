@@ -39,11 +39,9 @@
     }
 
     const fetchFullPhotoUrls = computed(() => {
-        console.debug(props.list);
         const fullUrls = props.list.map((fileName) => {
             return nginx.encounterPhotos(props.userId, fileName);
         })
-        console.debug(fullUrls);
         return fullUrls;
     })
 
