@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 
+import { DEBUG } from "../common/setting";
+
 interface wxLogin {
   code: string;
   user_id: number;
@@ -11,7 +13,7 @@ interface wxLogin {
 export default defineStore({
   id: "human",
   state: () => ({
-    user_id: 0, // TODO 根据 Login 改变
+    user_id: DEBUG ? 1 : 0, // TODO 根据 Login 改变
     user_name: "未登录",
     user_avatar: "/static/Qcat.png",
 
