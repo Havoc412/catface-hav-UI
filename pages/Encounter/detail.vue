@@ -1,7 +1,7 @@
 <template>
     <view class="flex-vertical">
         <relation :human="data.user" :animals="data.animals"/>
-        <album :user-id="data.user.id" :list="data.encounter.photos"/>
+        <album :user-id="data.user.id" :list="data.encounter.photos_list"/>
         <view class="flex-vertical container-info gap-10">
             <view class="flex-horizontal">
                 <text class="title">{{ data.encounter.title }}</text>
@@ -42,7 +42,7 @@
         encounter: {
             title: "Default",
             content: "balabala",
-            photos: ""
+            photos_list: []
             // ...
         }
     })

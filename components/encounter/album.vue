@@ -19,8 +19,8 @@
 // DATA
     const props = defineProps({
         list: {
-            type: String,
-            default: ""
+            type: Array,
+            default: () => []
         },
         userId: {
             type: Number,
@@ -28,21 +28,19 @@
         }
     });
     const emits = defineEmits([]);
-    const photosList = ref([]);
     // flag
     const currentIndex = ref(0);
-    const length = computed(() => photosList.value.length);
+    const length = computed(() => props.list.length);
 
 // FUNC
     const changeIndex = (index) => {
         currentIndex.value = index.current;
-        // console.debug(index, currentIndex.value);
+        // console.debug(index, currentIndex.value);    
     }
 
     const fetchFullPhotoUrls = computed(() => {
-        photosList.value = props.list.split(',');
-        console.debug("photosList", photosList, props.list);
-        const fullUrls = photosList.value.map((fileName) => {
+        console.debug(props.list);
+        const fullUrls = props.list.map((fileName) => {
             return nginx.encounterPhotos(props.userId, fileName);
         })
         console.debug(fullUrls);
