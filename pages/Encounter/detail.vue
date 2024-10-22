@@ -6,7 +6,7 @@
             <view class="flex-horizontal">
                 <text class="title">{{ data.encounter.title }}</text>
                 <view class="shrink"/>
-                <chip text="日常"/>
+                <chip-encounter-level :level="data.encounter.level"/>
             </view>
             <text>{{ data.encounter.content }}</text>
             <!-- <chipGroup :topicList="chipsList.topicList" :locationList="chipsList.locationList"
@@ -27,7 +27,7 @@
     import relation from "../../components/encounter/relation.vue";
     import album from "../../components/encounter/album.vue";
     import comment from "../../components/encounter/comment.vue";
-    import chip from "../../components/com/chip/chip.vue";
+    import chipEncounterLevel from "../../components/com/chip/variant/chip-encounter-level.vue";
     // store
 // DATA
     const EncounterID = ref(0);

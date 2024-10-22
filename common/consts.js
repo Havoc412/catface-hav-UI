@@ -49,8 +49,39 @@ export const color_EN = [
 ];
 
 // Enconter Level
-export const encounterLevel_ZH = ["一般", "重大", "标志性事件", "日程", "代办"];
-export const encounterLevel_EN = ["normal", "serious", "significant", "schedule", "todo"];
+export const encounterLevel = [
+  {
+    zh: "日常",
+    en: "daily",
+    bg: "#F0F0F0",
+    font: "#333333"
+  },
+  {
+    zh: "重大",
+    en: "serious",
+    bg: "#FFD700",
+    font: "#000000"
+  },
+  {
+    zh: "标志",
+    en: "flag",
+    bg: "#FF69B4",
+    font: "#FFFFFF"
+  },
+  {
+    zh: "代办",
+    en: "todo",
+    bg: "#87CEFA",
+    font: "#000000"
+  },
+  {
+    zh: "日程",
+    en: "schedule",
+    bg: "#32CD32",
+    font: "#FFFFFF"
+  }
+];
+
 
 // Max Data
 export const ENCOUNTER_MAX_NUM = 2;
