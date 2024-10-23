@@ -6,8 +6,8 @@
                 height="250" width="350rpx" mode="aspectFill" radius="25"
                 error-icon="/static/error.svg"
             />  <!--INFO 素材来源于网络-->
-            <view class="contanier-heart flex-center-vertical absolute z-0" @click.stop>
-                <h-icon :name="heartSvg" @click="flag.heart = !flag.heart"/>
+            <view class="contanier-heart flex-center-both absolute z-0" @click.stop>
+                <h-icon :name="heartSvg" size="18" @click="flag.heart = !flag.heart"/>
             </view>
         </view>
         <view class="flex-center-horizontal gap-5">
@@ -92,7 +92,6 @@
 
 .contanier-heart {
     background-color: #fff;
-    padding: 10px;
     border-radius: 50%;
     
     height: 45px;
