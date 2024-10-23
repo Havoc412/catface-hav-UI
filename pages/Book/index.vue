@@ -25,16 +25,17 @@
                 color="#777"
                 @loadmore="loadmore"
             />
-            <!--TODO 当没有数据的时候，显示 加号的增加，方便上传-->
             <placeHolder/>
         </view>
     </view>
+    <!-- UPDATE 感觉不是很有必要，同时可以放到 tools 内部。 <up-back-top :scroll-top="flag.scrollTop" top="100"/> -->
+    <sideTools :scroll-top="flag.scrollTop" :load-status="flag.loadmore" @add="gotoAddAnimal"/>"
     <h-tabbar/>
 </template>
 
 <script setup>
     import { ref, reactive, onMounted } from "vue";
-	import { onReachBottom } from '@dcloudio/uni-app'
+	import { onReachBottom, onPageScroll } from '@dcloudio/uni-app'
 
     import api from "../../request/animal";
 
@@ -42,6 +43,7 @@
     import toolbar from "./toolbar.vue";
     import singleCat from "../../components/book/singleCat.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
+    import sideTools from "../../components/book/side-tools.vue";
 
     import statusWin from "../../components/status-win/statusWin.vue";
     // store
@@ -59,11 +61,14 @@
     })
     
     const flag = reactive({
+        // TAG Loadmore 组件
         loadmore: 'loadmore',
         status: {
             show: true,
             type: "loadding"
-        }
+        },
+        // TAG 新增毛茸茸组件
+        scrollTop: 0
     })
 
 // FUNC
@@ -92,6 +97,7 @@
         console.info("loadmore");
     }
 
+    // Life
     onReachBottom(() => {
         if(flag.loadmore == 'nomore')
             return;
@@ -105,11 +111,20 @@
         }, 1000);
     })
 
+    onPageScroll((e) => {
+        flag.scrollTop = e.scrollTop;
+    });
+
+    // TAG Router
     function gotoDetial(id) {
         console.debug("Anm_id:", id);
         uni.navigateTo({
             url: "/pages/Detail/index?id=" + id
         })
+    }
+
+    function gotoAddAnimal() {
+        console.debug("gotoAddAnimal");
     }
 
 </script>
