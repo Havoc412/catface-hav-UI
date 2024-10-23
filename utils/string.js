@@ -6,7 +6,8 @@
  */
 export function extractIntFromSize(sizeStr) {
     // 正则表达式匹配数字
-    const regex = /(\d+)(rpx|px)/;
+    // const regex = /(\d+)(rpx|px)/;
+    const regex = /^(\d+)/;
     const match = sizeStr.match(regex);
 
     if (match) {
@@ -18,8 +19,9 @@ export function extractIntFromSize(sizeStr) {
     }
 }
 
-// TEST 使用示例  // TIP 可以直接用 node 单元测试
+// // TEST 使用示例  // TIP 可以直接用 node 单元测试
 // const sizes = ['340rpx', '340px', '50rpx'];
+// // const sizes = ["0岁", "1天", "4周"];
 
 // sizes.forEach(size => {
 //     try {

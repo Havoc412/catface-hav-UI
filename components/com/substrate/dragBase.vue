@@ -1,6 +1,7 @@
 <template>
     <view class="drag-area flex-center-vertical shrink z-8" :style="{
-        '--top': state.top + 'px'
+        '--top': state.top + 'px',
+        '--padding': props.padding
     }"> <!--INFO 主要就是依靠 fixed + top 来实现拖动的效果。-->
         <!--拖动杆-->
         <view :style="{
@@ -25,7 +26,10 @@
     const phoneInforStore = phoneInfor();   
 // DATA
     const props = defineProps({
-
+        padding: {
+            type: String,
+            default: "30rpx"
+        }
     });
     const emits = defineEmits([]);
 
@@ -117,6 +121,8 @@
     
     background-color: #fff;
     border-radius: 24px 24px 0 0;
+
+    padding: var(--padding);
 
     transition: top 0.5s ease;
 }

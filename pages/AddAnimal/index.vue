@@ -1,28 +1,342 @@
 <template>
-    <view class="conatiner-top flex-center-vertical">
+    <view class="container-top flex-center-vertical">
         <vearCarousel :img-list="data.photos" type="add"/>
         <dragBase>
-            123
+            <up-form
+                labelPosition="left"
+                :model="data"
+                :rules="rules"
+                :labelStyle="{
+                    fontSize: '20px',
+                    whiteSpace: 'nowrap',
+                }"
+            >
+                <!-- Name -->
+                <up-form-item
+                    label="名字"
+                    prop="data.name"
+                >
+                    <up-input
+                        v-model="data.name"
+                        placeholder="为 ta 起一个好听的名字"
+                        placeholderStyle="color: #888888"
+                        clearable
+                    ></up-input>
+                </up-form-item>
+                <!-- Gender -->
+                <up-form-item
+                    label="性别"
+                    prop="data.gender"
+                >
+                    <up-radio-group v-model="data.gender" @change="groupChange">
+                        <up-radio
+                            :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                            v-for="(item, index) in gender"
+                            :key="index"
+                            :activeColor="item.color"
+                            :label="item.zh"
+                            :name="item.zh"
+                        ></up-radio>
+                    </up-radio-group>
+                </up-form-item>
+                <!-- Breed -->
+                <up-form-item
+                    label="花色"
+                    prop="data.breed"
+                    @click="flag.breed = true"
+                >
+                    <view class="block relative">
+                        <up-input
+                            v-model="data.breed"
+                            placeholder="请选择 ta 的花色"
+                            placeholderStyle="color: #888888"
+                            disabledColor="transparent"
+                        >
+                            <template #suffix v-if="!flag.breedHumanChange">
+                                <!--TODO 等 full body 的模型做好后再修改。-->
+                                <view class="warn-breed">模型根据面部推断，有误请改</view>
+                            </template>
+                        </up-input>
+                        <!--tip 因为 up-input disabled 之后会阻断 click，所以在上层覆盖一个透明的按钮作为遮罩-->
+                        <h-btn text="" variant="text"
+                                :customStyle="{
+                                position: 'absolute', 
+                                top: 0, left: 0,
+                                width: '100%',
+                                height: '100%', 
+                                background: 'transparent', 
+                                border: 'none'
+                            }" @click="flag.breed = true"
+                        ></h-btn>
+                    </view>
+                </up-form-item>
+                <!-- Status -->
+                <up-form-item
+                    label="学业"
+                    prop="data.status"
+                >
+                    <up-radio-group v-model="data.status" @change="statusChange">
+                        <up-radio
+                            :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                            v-for="(item, index) in schoolStatus"
+                            :key="index"
+                            :activeColor="item.color"
+                            :label="item.zh"
+                            :name="item.zh"
+                        ></up-radio>
+                    </up-radio-group>
+                </up-form-item>
+                <!-- Age -->
+                <up-form-item
+                    label="年龄"
+                    prop="data.age"
+                    @click="flag.age = true"
+                >
+                    <up-input
+                        v-model="ageLinkShow"
+                        placeholder="请输入 ta 的年龄"
+                        placeholderStyle="color: #888888"
+                        clearable
+                    ></up-input>
+                    
+                </up-form-item>
+
+                <!-- Des -->
+                <up-divider :hairline="false" :dot="true" lineColor="#888888"></up-divider>
+                <up-form-item
+                    label="描述"
+                    prop="data.description"
+                >
+                    <up-textarea
+                        v-model="data.description"
+                        placeholder="请输入 ta 的一些描述"
+                        placeholderStyle="color: #888888"
+                        clearable
+                    ></up-textarea>
+                </up-form-item>
+            
+            </up-form>
+            <!-- TODO 这个表单可收缩才好-->
+            <up-form
+                labelPosition="left"
+                :model="data"
+                :labelStyle="{
+                    fontSize: '16px',
+                }"
+            >
+                <up-divider :hairline="false" text="选填" lineColor="#888888"></up-divider>
+                <!-- Other body information -->
+                <!-- Sterilized -->
+                <up-form-item
+                    label="绝育状态"
+                    prop="data.sterilization"
+                >
+                    <up-radio-group v-model="data.sterilization" @change="statusChange">
+                        <up-radio
+                            :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                            v-for="(item, index) in sterilizationStatus"
+                            :key="index"
+                            :activeColor="item.color"
+                            :label="item.zh"
+                            :name="item.zh"
+                        ></up-radio>
+                    </up-radio-group>
+                </up-form-item>
+                <!-- Vaccine -->
+                <up-form-item
+                    label="疫苗情况"
+                    prop="data.vaccination"
+                >
+                    <up-radio-group v-model="data.vaccination" @change="statusChange">
+                        <up-radio
+                            :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                            v-for="(item, index) in vaccinationStatus"
+                            :key="index"
+                            :activeColor="item.color"
+                            :label="item.zh"
+                            :name="item.zh"
+                        ></up-radio>
+                    </up-radio-group>
+                </up-form-item>
+                <!-- deworming -->
+                <!-- <up-form-item
+                    label="驱虫情况"
+                    prop="data.deworming"
+                >
+                    <up-radio-group v-model="data.deworming" @change="statusChange">
+                        <up-radio
+                            :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                            v-for="(item, index) in dewormingStatus"
+                            :key="index"
+                            :activeColor="item.color"
+                            :label="item.zh"
+                            :name="item.zh"
+                        ></up-radio>
+                    </up-radio-group>
+                </up-form-item> -->
+                <up-divider :hairline="false" :dot="true" lineColor="#888888"></up-divider>
+            </up-form>
+            <!-- INFO Func-->
+            <view class="flex-center-vertical gap-5 block">
+                <view class="flex-center-horizontal gap-5 block">
+                    <h-icon name="map-location" size="20"/>
+                    <view>标记地点</view>
+                    <view class="shrink"></view>
+                    <h-icon name="arrow-right"/>
+                </view>
+                <view class="flex-center-horizontal gap-5 block">
+                    <h-icon name="catface-paw" size="20"/>
+                    <view>录入猫脸</view>
+                    <view class="shrink"></view>
+                    <h-icon name="arrow-right"/>
+                </view>
+
+                <view class="flex-center-horizontal gap-5 block">
+                    <h-icon name="post-store"/>
+                    <view>上传</view>
+                </view>
+            </view>
         </dragBase>
+        
+        <!--TAG Fixed 组件-->
+        <up-picker
+            :show="flag.breed"
+            :columns="[breed_ZH]"
+            title="请选择猫猫花色"
+            :closeOnClickOverlay="true"
+            @cancel="flag.breed=false"
+            @confirm="selectBreed"
+        ><!--改了官方的源码，加了一个插槽-->
+            <template #top>
+                <view class="warn-breed-choose flex-center-both">暂时只支持以下花色</view>
+            </template>
+        </up-picker>
+        <up-picker
+            :show="flag.age"
+            :columns="Age"
+            title="请估计毛茸茸的年龄"
+            :closeOnClickOverlay="true"
+            @cancel="flag.age=false"
+            @confirm="selectAge"
+        >
+            <template #top>
+                <!--TODO 不到一个月，3个月左右，不到一岁，1岁多-->
+                <view class="warn-breed-choose flex-center-both">TODO 一些常见值</view>
+            </template>
+        </up-picker>
     </view>
 </template>
 
 <script setup>
-    import { ref, reactive } from "vue";
+    import { ref, reactive, computed } from "vue";
+
+    import { gender, breed_ZH, Age, schoolStatus, sterilizationStatus, vaccinationStatus, dewormingStatus } from "../../common/consts";
+    import { extractIntFromSize } from "../../utils/string";
     // com
     import vearCarousel from "../../components/vear-carousel/vear-carousel.vue";
     import dragBase from "../../components/com/substrate/dragBase.vue";
     // store
 
 // DATA
+    const consts = {
+        subFontSize: 14,
+    }
+
     const data = reactive({
-        photos: []
+        photos: [],
+        
+        name: '',
+        gender: '不明',
+        breed: '', 
+        age: {
+            year: '0',
+            month: '0',
+            week: '0',
+            day: '0',
+        },
+        status: '在校',
+        description: '',
+        
+        sterilization: '不明',
+        vaccination: '不明',
+        deworming: '不明',
+    })
+    const rules = reactive({
+        'data.name': {
+            type: 'string',
+            required: true,
+            message: "请起一个名字吧。"
+        },
+        'data.gender': {
+            type: 'string',
+            required: true,
+            message: "请选择一个性别。"
+        },
+        'data.breed': {
+            type: 'string',
+            required: true,
+            message: "请选择一个花色。"
+        }
+    })
+
+    // flag
+    const flag = reactive({
+        breed: false,
+        breedHumanChange: true,
+        age: false,
     })
 
 // FUNC
+    const ageLinkShow = computed(() => {
+        const fullAge = [data.age.year, data.age.month, data.age.week, data.age.day];
+        const parts = [];
+        for(let i = 0; i < fullAge.length; i++) {
+            if(extractIntFromSize(fullAge[i]) > 0)
+                parts.push(fullAge[i]);
+        }
+        return parts.join('-');
+    })
+
+    const groupChange = (n) => {
+        console.debug('groupChange', n, data.gender);
+    };
+
+    const statusChange = (n) => {
+        console.debug('statusChange', n)
+    }
+    const selectBreed = (e) => {
+        data.breed = e.value[0];
+        flag.breed = false;
+        flag.breedHumanChange = true;
+    }
+    const selectAge = (e) => {
+        data.age.year = e.value[0];
+        data.age.month = e.value[1];
+        data.age.week = e.value[2];
+        data.age.day = e.value[3];
+        flag.age = false;
+    }
 
 </script>
 
 <style scoped>
+
+.container-top {
+    font-family: Alimama ShuHeiTi;
+    margin: 0 10rpx;
+}
+
+.warn-breed {
+    position: absolute;
+    right: 10rpx;
+
+    font-size: 25rpx;
+    color: #777;
+}
+
+.warn-breed-choose {
+    color: #777;
+    font-size: 25rpx;
+}
 
 </style>

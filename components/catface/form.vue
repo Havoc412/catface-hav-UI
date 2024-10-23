@@ -108,7 +108,7 @@
     const catInfor = reactive({
         name: '',
         gender: '',
-        breed: '', // todo 之后可以由 Yolo 识别。
+        breed: '', 
     })
     const rules = reactive({
         'catInfo.name': {
