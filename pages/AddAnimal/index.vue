@@ -1,15 +1,19 @@
 <template>
     <view class="conatiner-top flex-center-vertical">
-        <vearCarousel type="add"/>
+        <vearCarousel :img-list="data.photos" type="add"/>
     </view>
 </template>
 
 <script setup>
-    import { ref } from "vue";
+    import { ref, reactive } from "vue";
     // com
     import vearCarousel from "../../components/vear-carousel/vear-carousel.vue";
     // store
+
 // DATA
+    const data = reactive({
+        photos: []
+    })
 
 // FUNC
 

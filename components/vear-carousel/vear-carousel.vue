@@ -27,8 +27,8 @@
 			</swiper-item>
 			<!--INFO Add Mode 下增加一个占位符-->
 			<swiper-item
-				v-if="ModeAdd"
-				:class="currentIndex == props.imgList.length ? 'swiper-item' : 'swiper-item-side'" 
+				v-if="ModeAdd && props.imgList.length < props.imageMaxNum"
+				:class="currentIndex == props.imgList.length ? 'swiper-item' : 'swiper-item-side'"
 			>
 				<!--TIP 这种方式设置 style-->
 				<image 
@@ -36,7 +36,7 @@
 					:class="currentIndex == props.imgList.length ? 'item-img' : 'item-img-side'" 
 					:style="{
 						...(!dontFirstAnimation ? { animation: 'none' } : {}),
-						padding: '200rpx'
+						padding: '200rpx',
 					}"
 					src="/static/icon/com/plus_thin.svg" 
 					lazy-load 
@@ -106,7 +106,7 @@
 	}
 
 	function addImage() {
-		// TODO 调用打开相册
+		// TODO 调用打开相册，然后把值传到上层，再通过 props 更新。
 	}
 
 	
