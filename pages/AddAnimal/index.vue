@@ -1,6 +1,6 @@
 <template>
     <view class="conatiner-top flex-center-vertical">
-        <vearCarousel/>
+        <vearCarousel type="add"/>
     </view>
 </template>
 

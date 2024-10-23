@@ -5,7 +5,7 @@
 			previous-margin="45rpx" 
 			next-margin="45rpx" 
 			circular 
-			autoplay 
+			:autoplay="!ModeAdd"
 			@change="swiperChange">
 			<swiper-item 
 				:class="currentIndex == index ? 'swiper-item' : 'swiper-item-side'" 
@@ -18,12 +18,30 @@
 					:src="item[urlKey]" 
 					lazy-load 
 					:style="dontFirstAnimation ? 'animation: none;' : ''"
-					mode="aspectFill"
+					mode="aspectFit"
 				/>
 				<view class="absolute" 
 					:class="currentIndex == index ? 'shadow-pre' : 'shadow-pre-side'"
 					:style="dontFirstAnimation ? 'animation: none;' : ''" 
 				/>
+			</swiper-item>
+			<!--INFO Add Mode 下增加一个占位符-->
+			<swiper-item
+				v-if="ModeAdd"
+				:class="currentIndex == props.imgList.length ? 'swiper-item' : 'swiper-item-side'" 
+			>
+				<!--TIP 这种方式设置 style-->
+				<image 
+					@click="addImage" 
+					:class="currentIndex == props.imgList.length ? 'item-img' : 'item-img-side'" 
+					:style="{
+						...(!dontFirstAnimation ? { animation: 'none' } : {}),
+						padding: '200rpx'
+					}"
+					src="/static/icon/com/plus_thin.svg" 
+					lazy-load 
+					mode="aspectFit">
+				</image>
 			</swiper-item>
 		</swiper>
 		<view class="dot-container flex-center-both">
@@ -36,7 +54,7 @@
 </template>
 
 <script setup>
-	import { ref, reactive } from 'vue'
+	import { ref, reactive, computed } from 'vue'
 
 	// 定义props
 	const props = defineProps({
@@ -49,10 +67,19 @@
 		urlKey: {
 			type: String,
 			default: 'url'
+		},
+		type: {
+			type: String,
+			default: 'default' // 'add'
+		},
+		//  When type == 'add' 时有效；
+		imageMaxNum: { // 上传数目上限
+			type: Number,
+			default: 5
 		}
 	})
 	
-	const emits = defineEmits(['selected']);
+	const emits = defineEmits(['selected', 'clickImg']);
 
 	// 定义响应式数据
 	const currentIndex = ref(0);
@@ -60,19 +87,26 @@
 
 	const consts = reactive({
 		IMG_WIDTH: '630rpx',
-		
 	})
 
 // FUNC
+	const ModeAdd = computed(() => {
+		return props.type == 'add';
+	})
 	// 方法定义
 	const swiperChange = (e) => {
 		dontFirstAnimation.value = false;
 		currentIndex.value = e.detail.current;
+		console.debug(currentIndex.value);
 	}
 
 	const clickImg = (item) => {
 		// 使用$emit向父组件传递事件
 		emits('clickImg', item, currentIndex.value);
+	}
+
+	function addImage() {
+		// TODO 调用打开相册
 	}
 
 	

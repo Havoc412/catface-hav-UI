@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24" fill="none">
+<g  mask="url(#mask-43_2)">
+<path d="M22.5 10.5L13.5 10.5L13.5 1.5C13.5 0.670044 12.828 0 12 0C11.172 0 10.5 0.670044 10.5 1.5L10.5 10.5L1.5 10.5C0.671997 10.5 0 11.17 0 12C0 12.83 0.671997 13.5 1.5 13.5L10.5 13.5L10.5 22.5C10.5 23.33 11.172 24 12 24C12.828 24 13.5 23.33 13.5 22.5L13.5 13.5L22.5 13.5C23.328 13.5 24 12.83 24 12C24 11.17 23.328 10.5 22.5 10.5L22.5 10.5Z"   fill="#FFFFFF" >
+</path>
+</g>
+<defs>
+<mask id="mask-43_2" style="mask-type:alpha" maskUnits="userSpaceOnUse">
+<rect x="0" y="0" width="24" height="24"   fill="#000000" >
+</rect>
+<rect x="0" y="0" width="24" height="24"   fill="#000000" >
+</rect>
+</mask>
+</defs>
+</svg>
