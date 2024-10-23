@@ -7,7 +7,7 @@
             <star v-if="flag.star"/>
         </view>
         <!--fixed 形式的拖动栏-->v
-        <postDrag @close="closeDrag" @open="openDrag"/>
+        <encounterDrag @close="closeDrag" @open="openDrag"/>
     </view>
 	<h-tabbar :bottom="state.tabbarBottom"/>
 </template>
@@ -17,7 +17,7 @@
     // com
     import mainfunc from "../../components/home/mainfunc.vue";
     import star from "../../components/home/star.vue";
-    import postDrag from "./encounterDrag.vue";
+    import encounterDrag from "./encounterDrag.vue";
     
     // store
 // DATA
