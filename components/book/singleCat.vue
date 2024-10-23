@@ -57,12 +57,16 @@
         url: {
             type: String,
             default: "/static/dog.jpg"
+        },
+        like: {
+            type: Boolean,
+            default: false
         }
     });
     const emits = defineEmits(['click']);
 
     const flag = reactive({
-        heart: false
+        heart: props.like
     })
 
 // FUNC

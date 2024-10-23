@@ -7,12 +7,13 @@
             <view class="container-cats gap-10">
                 <template v-for="(item, index) in data.catsList">
                     <singleCat
-                        :id="item.id"
-                        :name="item.name"
-                        :gender="item.gender"
-                        :schoolStatus="item.status"
-                        :sterilizationStatus="item.sterilization"
-                        :url="item.avatar"
+                        :id="item.animal.id"
+                        :name="item.animal.name"
+                        :gender="item.animal.gender"
+                        :schoolStatus="item.animal.status"
+                        :sterilizationStatus="item.animal.sterilization"
+                        :url="item.animal.avatar"
+                        :like="item.like"
                         @click="gotoDetial"
                     />
                 </template>

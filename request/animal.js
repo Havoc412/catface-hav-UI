@@ -1,5 +1,8 @@
 import { get } from "./api";
 
+import human from "../store/human";
+const humanStore = human();
+
 const api = {
     // INFO 这两个函数默认【通过】
     async getAnimalStar(num, skip, pass=true) {
@@ -9,7 +12,7 @@ const api = {
     async getAnimalBook(num, skip, filters, pass=true) {  
         // TODO 这里的条件更加复杂，还是根据前端情况封装到一起。
         return await get(
-          `admin/animal?attrs=name,gender,status,sterilization,avatar&num=${num}&skip=${skip}`,
+          `admin/animal?attrs=name,gender,status,sterilization,avatar&num=${num}&skip=${skip}&user_id=${humanStore.user_id}`,
           {},
           {},
           pass

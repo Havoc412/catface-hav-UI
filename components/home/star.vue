@@ -10,7 +10,7 @@
         :style="tagsStyles[index]"
         :class="{'tag-animation': animationFlag}" > <!--INFO @click="deep(index+1)"-->
         <!--TODO 增加 click -> detail -->
-        <starItem :url="item.head_img" :name="item.name"/>
+        <starItem :url="item.animal.head_img" :name="item.animal.name"/>
       </view>
     </view>
     <view class="star-btn flex-horizontal gap-5">
