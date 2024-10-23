@@ -4,35 +4,36 @@ export class Request {
   http(param) {
     const url = BASE_URL + param.url; // TODO 如果需要访问多台服务器，就需要修改这里
     const method = param.method;
-    let header = param.header || { // TODO 实际需要哪些参数？
-      // Connection: "keep-alive",
-      // Host: "localhost:20201",
+    let header = Object.assign(param.header , { 
+      Connection: "keep-alive",
+      Host: "localhost:20201",
       // "Access-Control-Allow-Headers":
       //   "Access-Control-Allow-Headers,Authorization,User-Agent, Keep-Alive, Content-Type, X-Requested-With,X-CSRF-Token,AccessToken,Token",
       // "Access-Control-Expose-Headers":
       //   "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type",
       // "Access-Control-Allow-Origin": "*",
       // "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE",
-    };
+    });
     const data = Object.assign(param.data || {});
     // const hideLoading = param.hideLoading || false; // info toast 的显示
     // Run
-    if (method == "POST") {
+    if (method == "POST" || method == "DELETE") {
       header = Object.assign(
         {
-          "content-type": "application/form-data",
+          "content-type": "multipart/form-data",
         },
-        param.hedaer
+        header
       );
     } else {
       // tag GET
       header = Object.assign(
         {
           "content-type": "application/json",
-        },
-        param.header
+        }, 
+        header
       );
     } 
+    // console.debug(method, header, data);
 
     return new Promise((resolve, reject) => {
       uni.request({
@@ -60,6 +61,3 @@ export class Request {
     });
   }
 }
-
-// export { default as file } from "./file";
-

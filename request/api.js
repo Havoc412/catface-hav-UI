@@ -13,7 +13,7 @@ const MESSAGE_DEFAULT = {
 };
 
 // { title, description }
-function checkAuth(message = MESSAGE_DEFAULT) {
+function checkAuth(message) {
   if (humanStore.isAuthenticated) return true;
   // INFO 路由守卫，通过直接跳转的方式；同时控制报错信息。
   uni.navigateTo({
@@ -31,14 +31,25 @@ export function get(url, header, data, pass=DEBUG, msg) {
     })
 }
 
-export function post(url, header, data, pass=DEBUG, msg) {
-    if (pass || !checkAuth()) {
-        return null;
-    }
-    return request({
+export function post(url, header, data, pass = DEBUG, msg = MESSAGE_DEFAULT) {
+  if (pass || checkAuth(msg)) {
+      return request({
         url: url,
         method: "POST",
         header: header,
-        data: data
-    })
+        data: data,
+      });
+  }
+}
+
+
+export function del(url, header, data, pass = DEBUG, msg = MESSAGE_DEFAULT) {
+  if (pass || checkAuth(msg)) {
+    return request({
+      url: url,
+      method: "DELETE",
+      header: header,
+      data: data,
+    });
+  }
 }

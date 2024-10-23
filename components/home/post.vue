@@ -93,9 +93,10 @@
         return formattedDate;
     })
 
-    function like() {
-        api.clickLike(flag.like);
-        // flag.like = !flag.like;
+    async function like() {
+        const res = await api.clickLike(props.id, flag.like);
+        console.debug(res);
+        flag.like = !flag.like;
     }
 
     function gotoDetial() {

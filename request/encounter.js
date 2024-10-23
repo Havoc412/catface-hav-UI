@@ -1,4 +1,4 @@
-import { get, post } from "./api"
+import { get, post, del } from "./api"
 
 import human from "../store/human";
 const humanStore = human();
@@ -23,8 +23,28 @@ const api = {
       return await get(`admin/encounter/${encounter_id}`, {}, {})
     },
 
-    async clickLike(encounter_id) {
-      return await post("", {}, {}, false)
+    async clickLike(encounter_id, oriStatus) {
+      console.debug("clickLike", encounter_id, oriStatus)
+      if (!oriStatus) {
+        return await post(
+          `admin/encounter/like`,
+          {},
+          {
+            user_id: humanStore.user_id,
+            encounter_id: encounter_id,
+          }
+        );
+      }
+      else {
+        return await del(
+          `admin/encounter/like`,
+          {},
+          {
+            user_id: humanStore.user_id,
+            encounter_id: encounter_id
+          }
+        );
+      }
     }
 }
 
