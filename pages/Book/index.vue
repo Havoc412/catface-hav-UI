@@ -125,6 +125,9 @@
 
     function gotoAddAnimal() {
         console.debug("gotoAddAnimal");
+        uni.navigateTo({
+            url: "/pages/AddAnimal/index"
+        })
     }
 
 </script>

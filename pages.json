@@ -80,7 +80,14 @@
       "style": {
         "navigationBarTitleText": "Login"
       }
-    }
+    },
+    // TAG 新增毛茸茸
+    {
+      "path": "pages/AddAnimal/index",
+      "style": {
+        "navigationBarTitleText": "Add Cat"
+      }
+    },
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
