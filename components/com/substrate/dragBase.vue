@@ -21,6 +21,8 @@
     import { ref, reactive, onMounted } from "vue";
 
     // store
+    import phoneInfor from "../../../store/phoneInfor";
+    const phoneInforStore = phoneInfor();   
 // DATA
     const props = defineProps({
 
