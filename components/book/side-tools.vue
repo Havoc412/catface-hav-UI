@@ -1,3 +1,4 @@
+<!--目前来看还是比较专用。 By Book/index -->
 <template>
     <view v-show="flag" class="container-btn flex-center-both" :style="{
         '--bg-color': props.bgColor,
