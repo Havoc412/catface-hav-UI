@@ -94,8 +94,7 @@
     })
 
     async function like() {
-        const res = await api.clickLike(props.id, flag.like);
-        console.debug(res);
+        api.clickLike(props.id, flag.like);
         flag.like = !flag.like;
     }
 

@@ -24,7 +24,6 @@ const api = {
     },
 
     async clickLike(encounter_id, oriStatus) {
-      console.debug("clickLike", encounter_id, oriStatus)
       if (!oriStatus) {
         return await post(
           `admin/encounter/like`,
