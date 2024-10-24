@@ -42,7 +42,8 @@
         startUnselectedList: {
             type: Array,
             default: () => []
-        }
+        },
+        refresh: Boolean,
     });
     const emits = defineEmits(['open']);
 
@@ -58,6 +59,15 @@
     
 // FUNC
     onMounted(() => {
+        init();
+    })
+    watch(() => props.refresh, (newVal) => {
+        init();
+    })
+    
+    function init() {
+        status.value = [];
+        selectedCnt.value = 0;
         for (let i=0; i<props.tagList.length; i++) {
             if (props.startUnselectedList.includes(i)) {
                 status.value.push(false);
@@ -68,8 +78,8 @@
             }
         }
         refresh();
-    })
-
+    }
+    
     // Style
     const colNum = 3;
     const getHeight = computed(() => {
@@ -110,6 +120,19 @@
         }
         refresh();
     }
+
+    function getSelectedList() {
+        // 如果处于全选状态，不需要过滤。
+        if (selectedAllFlag.value)
+            return "";
+        return status.value.map((item, index) => {
+            // 这里调整了 unknown 的真值；
+            const id = item ? index + 1 : null;
+            return id == props.tagList.length ? 0 : id;
+        }).filter(item => item !== null).join(',');
+    }
+
+    defineExpose({ getSelectedList });
 
 
 </script>

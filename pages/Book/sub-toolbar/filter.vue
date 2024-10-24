@@ -1,27 +1,35 @@
 <template>
     <view class="container-filter flex-vertical">
-        <tagBox title='学业状态' :tag-list="SchoolStatus_ZH" 
-            :startMode="true" :startUnselectedList="[2, 3]"
+        <tagBox ref="statusRef"
+            title='学业状态' :tag-list="SchoolStatus_ZH" 
+            :startMode="true" :startUnselectedList="[2, 3]" :refresh="refreshFlag"
         />
-        <tagBox title='性别' :tag-list="Gender_ZH" 
-            :startMode="true" 
+        <tagBox ref="genderRef"
+            title='性别' :tag-list="Gender_ZH" 
+            :startMode="true" :refresh="refreshFlag"
         />
-        <tagBox title='绝育状态' :tag-list="SterilizationStatus_ZH" 
-            :startMode="true" 
+        <tagBox ref="sterilizationRef"
+            title='绝育状态' :tag-list="SterilizationStatus_ZH" 
+            :startMode="true" :refresh="refreshFlag"
         />
-        <tagBox title='花色' :tag-list="Breed_ZH" 
-            :startMode="true" 
+        <tagBox ref="breedRef"
+            title='花色' :tag-list="Breed_ZH" 
+            :startMode="true" :refresh="refreshFlag"
         />
 
         <!--FUNC-->
         <view class="flex-center-horizontal btn-group ali">
-            <u-button :customStyle="{
+            <u-button
+                @click="refreshFlag = !refreshFlag"
+                :customStyle="{
                 padding: '10px 0',
                 borderRadius: '15px',
                 height: '40px',
                 border: 'solid 1px #666666'
             }"><span>重置</span></u-button>
-            <u-button :customStyle="{
+            <u-button 
+                @click="getFilterConditions"
+                :customStyle="{
                 padding: '10px 0',
                 borderRadius: '15px',
                 height: '40px',
@@ -42,9 +50,26 @@
 // DATA
     const props = defineProps({
     });
-    const emits = defineEmits(['close']);
+    const emits = defineEmits(['close', 'getFilterConditions']);
+    
+    const statusRef = ref(null);
+    const genderRef = ref(null);
+    const sterilizationRef = ref(null);
+    const breedRef = ref(null);
 
+    const refreshFlag = ref(false);
 // FUNC
+    function getFilterConditions() {
+        const conditions = {
+            status: statusRef.value.getSelectedList(),
+            gender: genderRef.value.getSelectedList(),
+            sterilization: sterilizationRef.value.getSelectedList(),
+            breed: breedRef.value.getSelectedList()
+        };
+        emits('getFilterConditions', conditions);
+        
+        emits('close')
+    }
 
 </script>
 

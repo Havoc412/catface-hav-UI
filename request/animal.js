@@ -17,7 +17,7 @@ const api = {
   async getAnimalBook(num, skip, filters, pass = true) {
     // TODO 这里的条件更加复杂，还是根据前端情况封装到一起。
     return await get(
-      `admin/animal?attrs=name,gender,status,sterilization,avatar&num=${num}&skip=${skip}&user_id=${humanStore.user_id}`,
+      `admin/animal?attrs=name,gender,status,sterilization,avatar&gender=${filters.gender}&status=${filters.status}&breed=${filters.breed}&sterilization=${filters.sterilization}&num=${num}&skip=${skip}&user_id=${humanStore.user_id}`,
       {},
       {},
       pass

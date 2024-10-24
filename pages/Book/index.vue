@@ -1,7 +1,7 @@
 <template>
+    <Header ref="headerRef"/>
     <view class="flex-center-vertical">
         <!--FUNC-->
-        <toolbar/>
         <statusWin v-if="flag.status.show" :status="flag.status.type"/>
         <view v-else class="flex-center-vertical">
             <view class="container-cats gap-10">
@@ -40,7 +40,7 @@
     import api from "../../request/animal";
 
     // com
-    import toolbar from "./toolbar.vue";
+    import Header from "./header.vue";
     import singleCat from "../../components/book/singleCat.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     import sideTools from "../../components/book/side-tools.vue";
@@ -68,8 +68,12 @@
             type: "loadding"
         },
         // TAG 新增毛茸茸组件
-        scrollTop: 0
+        scrollTop: 0,
+        toggleFilter: false,
+        
     })
+
+    const headerRef = ref(null);
 
 // FUNC
     onMounted( async() => {
@@ -77,8 +81,9 @@
     })
 
     async function getData(num, skip = 0) {
+        const filterConditions = headerRef.value.getFilterConditions();
         // TODO 完善筛选条件
-        const [res, err] = await api.getAnimalBook(num, skip, {}, true);
+        const [res, err] = await api.getAnimalBook(num, skip, filterConditions, true);
         if (err != null) {  // 错误处理
             flag.status.type = "error";
             return

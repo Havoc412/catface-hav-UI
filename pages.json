@@ -19,7 +19,8 @@
     {
       "path": "pages/Book/index",
       "style": {
-        "navigationBarTitleText": "Book"
+        "navigationBarTitleText": "Book",
+        "navigationStyle": "custom"
       }
     },
     {
