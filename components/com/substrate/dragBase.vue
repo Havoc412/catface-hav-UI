@@ -14,7 +14,7 @@
             @touchmove="handleTouchMove" 
             @touchend="handleTouchEnd"
             >
-            <image src="/static/icon/func/line.svg" style="width: 100rpx; height: 2vh;"/>
+            <image src="/static/icon/func/line.svg" style="width: 100rpx;"/>
         </view>
         <!--核心内容-->
         <scroll-view :scroll-y="true" 
@@ -23,13 +23,15 @@
             '--height': state.dragAreaHeight + 'vh'
         }">
             <slot></slot>
+            <placeHolder height="10"/>
         </scroll-view>
     </view>
 </template>
 
 <script setup>
     import { ref, reactive, onMounted } from "vue";
-
+    
+    import placeHolder from "../sub-tabbar/placeHolder.vue";
     // store
     import phoneInfor from "../../../store/phoneInfor";
     const phoneInforStore = phoneInfor();   
@@ -56,7 +58,7 @@
 
     const state = reactive({
         top: 200,
-        dragAreaHeight: 93
+        dragAreaHeight: 95
     })
     const vars = {
         touchStartY: 0,

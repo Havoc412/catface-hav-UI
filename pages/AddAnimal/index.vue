@@ -4,6 +4,7 @@
         <view class="photo-text">
             挑选一些精美的照片作为展示（数量：1~5）
         </view>
+        <!--TAG Drag Area-->
         <dragBase :drag-height="200">
             <view class="ali">
                 <up-form
@@ -120,7 +121,7 @@
                     </up-form-item>
                 
                 </up-form>
-                <!-- TODO 这个表单可收缩才好-->
+                <!-- 大多数情况下这些信息并不知道，这个表单可收缩才好-->
                 <up-form
                     labelPosition="left"
                     :model="data"
@@ -128,56 +129,66 @@
                         fontSize: '16px',
                     }"
                 >
-                    <up-divider :hairline="false" text="健康状态信息" lineColor="#888888"></up-divider>
+                    <up-divider :hairline="false" text="健康状态信息" lineColor="#888888"
+                        @click="flag.healthInfor = !flag.healthInfor">
+                        <template #suffix>
+                            <h-icon :name="flag.healthInfor ? 'arrow-down' : 'arrow-up'" size="14"/>
+                        </template>
+                    </up-divider>
                     <!-- Other body information -->
                     <!-- Sterilized -->
-                    <up-form-item
-                        label="绝育状态"
-                        prop="data.sterilization"
-                    >
-                        <up-radio-group v-model="data.sterilization">
-                            <up-radio
-                                :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                                v-for="(item, index) in SterilizationStatus"
-                                :key="index"
-                                :activeColor="item.color"
-                                :label="item.zh"
-                                :name="item.zh"
-                            ></up-radio>
-                        </up-radio-group>
-                    </up-form-item>
-                    <!-- Vaccine -->
-                    <up-form-item
-                        label="疫苗情况"
-                        prop="data.vaccination"
-                    >
-                        <up-radio-group v-model="data.vaccination">
-                            <up-radio
-                                :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                                v-for="(item, index) in VaccinationStatus"
-                                :key="index"
-                                :activeColor="item.color"
-                                :label="item.zh"
-                                :name="item.zh"
-                            ></up-radio>
-                        </up-radio-group>
-                    </up-form-item>
-                    <!-- deworming -->
-                    <up-form-item
-                        label="驱虫情况"
-                        prop="data.deworming"
-                    >
-                        <up-radio-group v-model="data.deworming">
-                            <up-radio
-                                :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                                v-for="(item, index) in DewormingStatus"
-                                :key="index"
-                                :activeColor="item.color"
-                                :label="item.zh"
-                                :name="item.zh"
-                            ></up-radio>
-                        </up-radio-group>
-                    </up-form-item>
+                    <view class="height-animation"
+                    :style="{
+                        'height': flag.healthInfor ? '400rpx' : '0'
+                    }">
+                        <up-form-item
+                            label="绝育状态"
+                            prop="data.sterilization"
+                        >
+                            <up-radio-group v-model="data.sterilization">
+                                <up-radio
+                                    :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                                    v-for="(item, index) in SterilizationStatus"
+                                    :key="index"
+                                    :activeColor="item.color"
+                                    :label="item.zh"
+                                    :name="item.zh"
+                                ></up-radio>
+                            </up-radio-group>
+                        </up-form-item>
+                        <!-- Vaccine -->
+                        <up-form-item
+                            label="疫苗情况"
+                            prop="data.vaccination"
+                        >
+                            <up-radio-group v-model="data.vaccination">
+                                <up-radio
+                                    :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                                    v-for="(item, index) in VaccinationStatus"
+                                    :key="index"
+                                    :activeColor="item.color"
+                                    :label="item.zh"
+                                    :name="item.zh"
+                                ></up-radio>
+                            </up-radio-group>
+                        </up-form-item>
+                        <!-- deworming -->
+                        <up-form-item
+                            label="驱虫情况"
+                            prop="data.deworming"
+                        >
+                            <up-radio-group v-model="data.deworming">
+                                <up-radio
+                                    :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                                    v-for="(item, index) in DewormingStatus"
+                                    :key="index"
+                                    :activeColor="item.color"
+                                    :label="item.zh"
+                                    :name="item.zh"
+                                ></up-radio>
+                            </up-radio-group>
+                        </up-form-item>
+                    </view>
                     <up-divider :hairline="false" :dot="true" lineColor="#888888"></up-divider>
                 </up-form>
             </view>
@@ -214,7 +225,6 @@
                 </view>
             </view>
         </dragBase>
-        
         <!--TAG Fixed 组件-->
         <up-picker
             :show="flag.breed"
@@ -301,6 +311,7 @@
         breed: false,
         breedHumanChange: true,
         age: false,
+        healthInfor: false,
     })
 
 // FUNC
@@ -379,8 +390,7 @@
 }
 
 .disabled {
-    /* opacity: .8;    */
-    /* background-color: #3749577f; */
+    color: #aaa;
 }
 
 .photo-text {
