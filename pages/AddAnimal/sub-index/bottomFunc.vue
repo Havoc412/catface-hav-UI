@@ -4,6 +4,9 @@
             <h-icon name="map-location" size="20"/>
             <view>标记地点</view>
             <view class="shrink"></view>
+            <h-btn variant="tonal">
+                经度：xxx；纬度：xxx
+            </h-btn>
             <h-icon name="arrow-right"/>
         </view>
         <view class="flex-center-horizontal gap-5 block">

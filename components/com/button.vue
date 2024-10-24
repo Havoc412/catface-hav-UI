@@ -136,7 +136,7 @@
 }
 
 .shape-default {
-    padding: 6px 2px;
+    padding: 6px;
 }
 
 .shape-circle {
