@@ -1,6 +1,6 @@
 <template>
     <view class="container-top flex-center-vertical">
-        <vearCarousel :img-list="data.photos" type="add"/>
+        <vearCarousel :img-list="data.photos" mode="add"/>
         <view class="photo-text">
             挑选一些精美的照片作为展示（数量：1~5）
         </view>

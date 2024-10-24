@@ -27,13 +27,13 @@
 			</swiper-item>
 			<!--INFO Add Mode 下增加一个占位符-->
 			<swiper-item
-				v-if="ModeAdd && props.imgList.length < props.imageMaxNum"
-				:class="currentIndex == props.imgList.length ? 'swiper-item' : 'swiper-item-side'"
+				v-if="ModeAdd && photosList.length < props.imageMaxNum"
+				:class="currentIndex == photosList.length ? 'swiper-item' : 'swiper-item-side'"
 			>
 				<!--TIP 这种方式设置 style-->
 				<image 
 					@click="addImage" 
-					:class="currentIndex == props.imgList.length ? 'item-img' : 'item-img-side'" 
+					:class="currentIndex == photosList.length ? 'item-img' : 'item-img-side'" 
 					:style="{
 						...(!dontFirstAnimation ? { animation: 'none' } : {}),
 						padding: '200rpx',
@@ -44,8 +44,9 @@
 				</image>
 			</swiper-item>
 		</swiper>
+		<!--底部的状态点-->
 		<view class="dot-container flex-center-both">
-			<template v-for="index in props.imgList.length" :key="index">
+			<template v-for="index in photosList.length" :key="index">
 				<!--从 1 开始枚举-->
 				<view :class="index == currentIndex + 1 ? 'dot-active' : 'dot'"/>
 			</template>
@@ -54,7 +55,7 @@
 </template>
 
 <script setup>
-	import { ref, reactive, computed } from 'vue'
+	import { ref, reactive, computed, onMounted, watch } from 'vue'
 
 	// 定义props
 	const props = defineProps({
@@ -68,7 +69,7 @@
 			type: String,
 			default: 'url'
 		},
-		type: {
+		mode: {
 			type: String,
 			default: 'default' // 'add'
 		},
@@ -88,10 +89,18 @@
 	const consts = reactive({
 		IMG_WIDTH: '630rpx',
 	})
+	const photosList = ref([]);
 
 // FUNC
+	onMounted(() => {
+		photosList.value = props.imgList;
+	})
+	watch(() => props.imgList, () => {
+		photosList.value = props.imgList;
+	})
+	
 	const ModeAdd = computed(() => {
-		return props.type == 'add';
+		return props.mode == 'add';
 	})
 	// 方法定义
 	const swiperChange = (e) => {
@@ -107,6 +116,7 @@
 
 	function addImage() {
 		// TODO 调用打开相册，然后把值传到上层，再通过 props 更新。
+		
 	}
 
 	
