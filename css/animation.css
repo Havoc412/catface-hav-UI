@@ -18,7 +18,7 @@
     }
 }
 
-.height-animation {
+.animation-height {
     /* INFO 需要配合 style 动态控制 height 的具体数值 */
     overflow: hidden;
     transition: height 0.3s ease-in-out;

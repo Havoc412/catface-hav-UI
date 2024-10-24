@@ -137,7 +137,7 @@
                     </up-divider>
                     <!-- Other body information -->
                     <!-- Sterilized -->
-                    <view class="height-animation"
+                    <view class="animation-height"
                     :style="{
                         'height': flag.healthInfor ? '400rpx' : '0'
                     }">
