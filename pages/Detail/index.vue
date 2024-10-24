@@ -34,7 +34,7 @@
     import api from "../../request/animal";
     import nginx from "../../request/nginx";
     import date from "../../utils/date";
-    import { gender_EN } from "../../common/consts";
+    import { Gender_EN } from "../../common/consts";
     // com
     import vearCarousel from "../../components/vear-carousel/vear-carousel.vue";
     import schoolStatus from "../../components/book/sub-cat/schoolStatus.vue";
@@ -79,7 +79,7 @@
     })
 
     const genderSvg = computed(() => {
-        let name = `gender-${gender_EN[data.value.gender - 1]}`;
+        let name = `gender-${Gender_EN[data.value.gender - 1]}`;
         return name;
     })
 

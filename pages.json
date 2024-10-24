@@ -87,7 +87,7 @@
       "style": {
         "navigationBarTitleText": "Add Cat"
       }
-    },
+    }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

@@ -1,5 +1,13 @@
 // TODO 之后这些基础的配置信息，通过 API 从后端换取一遍。
 
+// Func
+export const GetZhFields = (array) => {
+  return array.map((item) => item.zh);
+};
+export const GetEnFields = (array) => {
+  return array.map((item) => item.en);
+};
+
 // School Status
 export const SchoolStatus = [
   { zh: "在校", color: "#4caf50", en: "inschool" },
@@ -15,6 +23,9 @@ export const Gender = [
   { zh: "学姐/妹", color: "#ce86ab", en: "girl" },
   { zh: "不明", color: "#988fd0", en: "unknown" },
 ];
+
+export const Gender_EN = GetEnFields(Gender);
+export const Gender_ZH = GetZhFields(Gender);
 
 // Sterilization Status
 export const SterilizationStatus = [
@@ -146,10 +157,4 @@ export const Age = [
 // Max Data
 export const ENCOUNTER_MAX_NUM = 2;
 
-// Func
-export const GetZhFields = (array) => {
-  return array.map((item) => item.zh);
-};
-export const GetEnFields = (array) => {
-  return array.map((item) => item.en);
-};
+
