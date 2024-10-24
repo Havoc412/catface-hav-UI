@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-    import { ref, reactive, onMounted } from "vue";
+    import { ref, reactive, onMounted, watch } from "vue";
     
     import placeHolder from "../sub-tabbar/placeHolder.vue";
     // store
@@ -48,7 +48,9 @@
         startMode: { // 初始所在的位置；
             type: String,
             default: 'mid' // 'open' || 'close' || 'mid'
-        }
+        },
+        // 暴露的方法触发功能。
+        runFull: Boolean,
     });
     const emits = defineEmits(['open', 'close']);
 
@@ -165,6 +167,8 @@
         flag.full = false;
         flag.close = true;
     }
+
+    watch(() => props.runFull, lower)
 
 </script>
 

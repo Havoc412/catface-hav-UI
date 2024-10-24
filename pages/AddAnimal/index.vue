@@ -5,7 +5,7 @@
             挑选一些精美的照片作为展示（数量：1~5）
         </view>
         <!--TAG Drag Area-->
-        <dragBase :drag-height="200" start-mode="close">
+        <dragBase :drag-height="200" start-mode="close" :run-full="flag.runFull">
             <view class="ali">
                 <!-- TAG Main Form-->
                 <up-form
@@ -112,7 +112,12 @@
                             v-model="data.description"
                             placeholder="请输入 ta 的一些描述"
                             placeholderStyle="color: #888888"
+                            fixed
+                            count
+                            :maxlength="255"
                             clearable
+
+                            @focus="flag.runFull = !flag.runFull"
                         ></up-textarea>
                     </up-form-item>
                 
@@ -297,6 +302,7 @@
         breedHumanChange: true,
         age: false,
         healthInfor: false,
+        runFull: false,
     })
 
 // FUNC
