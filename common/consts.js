@@ -11,11 +11,14 @@ export const GetEnFields = (array) => {
 // School Status
 export const SchoolStatus = [
   { zh: "在校", color: "#4caf50", en: "inschool" },
-  { zh: "毕业", color: "#ff9800", en: "graduation" },
-  { zh: "退学", color: "#f44336", en: "missing" },
-  { zh: "喵星", color: "#673ab7", en: "catstar" },
-  { zh: "不明", color: "#cccccc", en: "unknown" },
+  { zh: "毕业", color: "#4af6ff", en: "graduation" },
+  { zh: "退学", color: "#ff9800", en: "missing" },
+  { zh: "喵星", color: "#f44336", en: "catstar" },
+  { zh: "不明", color: "#988fd0", en: "unknown" },
 ];
+
+export const SchoolStatus_EN = GetEnFields(SchoolStatus);
+export const SchoolStatus_ZH = GetZhFields(SchoolStatus);
 
 // Gender
 export const Gender = [
@@ -34,6 +37,9 @@ export const SterilizationStatus = [
   { zh: "不明", color: "#988fd0", en: "unknown" },
 ];
 
+export const SterilizationStatus_EN = GetEnFields(SterilizationStatus);
+export const SterilizationStatus_ZH = GetZhFields(SterilizationStatus);
+
 // Vaccination Status
 export const VaccinationStatus = [
   { zh: "未接种", color: "#ff7f50", en: "unvaccinated" },
@@ -41,6 +47,7 @@ export const VaccinationStatus = [
   { zh: "完全接种", color: "#32cd32", en: "fully_vaccinated" },
   { zh: "不明", color: "#988fd0", en: "unknown" },
 ];
+
 
 // Deworming Status
 export const DewormingStatus = [
@@ -51,7 +58,6 @@ export const DewormingStatus = [
 
 // Color
 export const Breed_ZH = [
-  "不明",
   "橘白",
   "奶牛",
   "白猫",
@@ -63,9 +69,9 @@ export const Breed_ZH = [
   "玳瑁",
   "简州",
   "彩狸",
+  "不明",
 ];
 export const Breed_EN = [
-  "unknown",
   "orgwhite",
   "milk",
   "white",
@@ -77,6 +83,7 @@ export const Breed_EN = [
   "tortoiseshell",
   "jianzhou",
   "color",
+  "unknown",
 ];
 
 // Enconter Level
@@ -90,19 +97,19 @@ export const encounterLevel = [
   {
     zh: "重大",
     en: "serious",
-    bg: "#FFD700",
-    font: "#000000"
-  },
-  {
-    zh: "标志",
-    en: "flag",
     bg: "#FF69B4",
     font: "#FFFFFF"
   },
   {
+    zh: "标志",
+    en: "flag",
+	bg: "#87CEFA",
+    font: "#000000"
+  },
+  {
     zh: "代办",
     en: "todo",
-    bg: "#87CEFA",
+	bg: "#FFD700",
     font: "#000000"
   },
   {
