@@ -15,7 +15,7 @@
 				<image 
 					@click="clickImg(item)" 
 					:class="currentIndex == index ? 'item-img' : 'item-img-side'" 
-					:src="item[urlKey]" 
+					:src="item" 
 					lazy-load 
 					:style="dontFirstAnimation ? 'animation: none;' : ''"
 					mode="aspectFit"
@@ -57,17 +57,13 @@
 <script setup>
 	import { ref, reactive, computed, onMounted, watch } from 'vue'
 
+	import api from '../../request/photo';
+
 	// 定义props
 	const props = defineProps({
 		imgList: {
 			type: Array,
-			default: () => [{
-				url: "/static/Qcat.png"
-			}]
-		},
-		urlKey: {
-			type: String,
-			default: 'url'
+			default: () => ["/static/Qcat.png"]
 		},
 		mode: {
 			type: String,
@@ -80,7 +76,7 @@
 		}
 	})
 	
-	const emits = defineEmits(['selected', 'clickImg']);
+	const emits = defineEmits(['selected', 'clickImg', 'addImage']);
 
 	// 定义响应式数据
 	const currentIndex = ref(0);
@@ -114,9 +110,19 @@
 		emits('clickImg', item, currentIndex.value);
 	}
 
-	function addImage() {
+	async function addImage() {
 		// TODO 调用打开相册，然后把值传到上层，再通过 props 更新。
-		
+		uni.chooseImage({
+			count: props.imageMaxNum, //默认9
+			sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+			sourceType: ['album'], //从相册选择；// INFO 在添加
+			success: async function (res) {
+				const files = res.tempFiles;
+				const paths = await api.UploadAnimalPhotos(files);
+				emits('addImage', paths);
+			}
+		});
+
 	}
 
 	

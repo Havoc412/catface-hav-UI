@@ -1,6 +1,6 @@
 <template>
     <view class="container-top flex-center-vertical">
-        <vearCarousel :img-list="data.photos" mode="add"/>
+        <vearCarousel :img-list="data.photos" mode="add" @addImage="addImage"/>
         <view class="photo-text">
             挑选一些精美的照片作为展示（数量：1~5）
         </view>
@@ -233,6 +233,8 @@
 
     import { Gender, SchoolStatus, SterilizationStatus, VaccinationStatus, DewormingStatus } from "../../common/consts";
     import { extractIntFromSize } from "../../utils/string";
+
+    import nginx from "../../request/nginx";
     // com
     import vearCarousel from "../../components/vear-carousel/vear-carousel.vue";
     import dragBase from "../../components/com/substrate/dragBase.vue";
@@ -315,6 +317,16 @@
         data.age.week = e.value[2];
         data.age.day = e.value[3];
         flag.age = false;
+    }
+
+    function addImage(paths) {
+        if(!paths)  return;
+        const newFullPath = paths.map(path => {
+            return nginx.catsPhotosTemp(path)
+        })
+        
+        data.photos = data.photos.concat(newFullPath);
+        console.debug(data.photos);
     }
     
     // TAG 业务
