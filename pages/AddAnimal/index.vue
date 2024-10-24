@@ -119,6 +119,7 @@
 
                             @focus="flag.runFull = !flag.runFull"
                         ></up-textarea>
+                        <!--TODO Tags 相关的内容放到这里。-->
                     </up-form-item>
                 
                 </up-form>
@@ -194,9 +195,9 @@
                 </up-form>
             </view>
             <!-- INFO Func-->
-            <!--Tag 业务逻辑 UI -->
             <bottomFunc/>
             <placeHolder height="190" type="rpx"/>
+            <!--Tag 业务逻辑 UI -->
             <view class="flex-center-horizontal gap-5 block mt-10">
                 <view class="flex-center-horizontal gap-5 container-btn-left"
                     @click="storeData"
