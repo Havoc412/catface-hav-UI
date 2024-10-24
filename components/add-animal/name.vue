@@ -9,7 +9,7 @@
             marginRight: '5px'
         }"
     ></up-input>
-    <h-btn variant="tonal" icon="com-more_deep" @click="flag = !flag">
+    <h-btn variant="text" icon="com-more_deep" @click="flag = !flag">
         <menuFloat mode="text" :list="MenuList" :show="flag"/>
     </h-btn>
 </template>
