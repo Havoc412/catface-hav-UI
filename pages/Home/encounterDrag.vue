@@ -285,6 +285,15 @@
                 data.right.push(item);
                 vars.heightRight += height;
             }
+
+            // TEST 
+            if (vars.heightLeft <= vars.heightRight) {
+                data.left.push(item);
+                vars.heightLeft += height;
+            } else {
+                data.right.push(item);
+                vars.heightRight += height;
+            }
         })
 
         flag.status.show = false;

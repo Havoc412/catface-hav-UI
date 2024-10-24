@@ -1,7 +1,7 @@
 <template>
     <view class="container-top flex-center-vertical">
         <vearCarousel :img-list="data.photos" type="add"/>
-        <dragBase>
+        <dragBase :drag-height="250">
             <up-form
                 labelPosition="left"
                 :model="data"
@@ -124,7 +124,7 @@
                     fontSize: '16px',
                 }"
             >
-                <up-divider :hairline="false" text="选填" lineColor="#888888"></up-divider>
+                <up-divider :hairline="false" text="健康状态信息" lineColor="#888888"></up-divider>
                 <!-- Other body information -->
                 <!-- Sterilized -->
                 <up-form-item

@@ -11,10 +11,16 @@
             @touchmove="handleTouchMove" 
             @touchend="handleTouchEnd"
             >
-            <image src="/static/icon/func/line.svg" style="width: 100rpx; height: 40rpx;"/>
+            <image src="/static/icon/func/line.svg" style="width: 100rpx; height: 1vh;"/>
         </view>
         <!--核心内容-->
-        <slot></slot>
+        <scroll-view :scroll-y="true" 
+            @scrolltolower="lower" @scrolltoupper="upper"
+            class="container-waterfall" :style="{
+            '--height': state.dragAreaHeight + 'vh'
+        }">
+            <slot></slot>
+        </scroll-view>
     </view>
 </template>
 
@@ -29,23 +35,29 @@
         padding: {
             type: String,
             default: "30rpx"
+        },
+        dragHeight: {  // 收缩到最小状态时，流出的区域高度
+            type: Number,
+            default: 40
         }
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(['open', 'close']);
 
     const consts = {
         TOP_INIT: 250,
         TOP_MIN: 5,
         THRESHOLD_DOWN: 200,
         THRESHOLD_UP: -70,
-        DRAG_HEIGHT: 40,
+        DRAG_HEIGHT: props.dragHeight,
     }
 
     const state = reactive({
         top: 200,
+        dragAreaHeight: 93
     })
     const vars = {
         touchStartY: 0,
+        
     }
     const flag = reactive({
         close: false,
@@ -108,6 +120,20 @@
         event.stopPropagation();
     }
 
+    function lower() {
+        if (!flag.full) {
+            state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
+            flag.full = true;
+        }
+    }
+
+    function upper() {
+        if(flag.full) {
+            state.top = consts.TOP_INIT;
+            flag.full = false;
+        }
+    }
+
 </script>
 
 <style scoped>
@@ -125,6 +151,10 @@
     padding: var(--padding);
 
     transition: top 0.5s ease;
+}
+
+.container-waterfall {
+    height: var(--height);
 }
 
 </style>        
