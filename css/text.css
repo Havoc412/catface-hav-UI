@@ -12,3 +12,7 @@
     white-space: pre-wrap; /* 保持空白符序列，但文本会换行到下一行 */
     word-wrap: break-word; /* 在长单词或 URL 地址内部进行换行 */
 }
+
+.ali {
+    font-family: Alimama ShuHeiTi;
+}

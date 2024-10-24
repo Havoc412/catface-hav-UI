@@ -1,181 +1,186 @@
 <template>
     <view class="container-top flex-center-vertical">
         <vearCarousel :img-list="data.photos" type="add"/>
-        <dragBase :drag-height="250">
-            <up-form
-                labelPosition="left"
-                :model="data"
-                :rules="rules"
-                :labelStyle="{
-                    fontSize: '20px',
-                    whiteSpace: 'nowrap',
-                }"
-            >
-                <!-- Name -->
-                <up-form-item
-                    label="名字"
-                    prop="data.name"
+        <view class="photo-text">
+            挑选一些精美的照片作为展示（数量：1~5）
+        </view>
+        <dragBase :drag-height="200">
+            <view class="ali">
+                <up-form
+                    labelPosition="left"
+                    :model="data"
+                    :rules="rules"
+                    :labelStyle="{
+                        fontSize: '20px',
+                        whiteSpace: 'nowrap',
+                    }"
                 >
-                    <up-input
-                        v-model="data.name"
-                        placeholder="为 ta 起一个好听的名字"
-                        placeholderStyle="color: #888888"
-                        clearable
-                    ></up-input>
-                </up-form-item>
-                <!-- Gender -->
-                <up-form-item
-                    label="性别"
-                    prop="data.gender"
-                >
-                    <up-radio-group v-model="data.gender" @change="groupChange">
-                        <up-radio
-                            :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                            v-for="(item, index) in Gender"
-                            :key="index"
-                            :activeColor="item.color"
-                            :label="item.zh"
-                            :name="item.zh"
-                        ></up-radio>
-                    </up-radio-group>
-                </up-form-item>
-                <!-- Breed -->
-                <up-form-item
-                    label="花色"
-                    prop="data.breed"
-                    @click="flag.breed = true"
-                >
-                    <view class="block relative">
+                    <!-- Name -->
+                    <up-form-item
+                        label="名字"
+                        prop="data.name"
+                    >
                         <up-input
-                            v-model="data.breed"
-                            placeholder="请选择 ta 的花色"
+                            v-model="data.name"
+                            placeholder="为 ta 起一个好听的名字"
                             placeholderStyle="color: #888888"
-                            disabledColor="transparent"
-                        >
-                            <template #suffix v-if="!flag.breedHumanChange">
-                                <!--TODO 等 full body 的模型做好后再修改。-->
-                                <view class="warn-breed">模型根据面部推断，有误请改</view>
-                            </template>
-                        </up-input>
-                        <!--tip 因为 up-input disabled 之后会阻断 click，所以在上层覆盖一个透明的按钮作为遮罩-->
-                        <h-btn text="" variant="text"
-                                :customStyle="{
-                                position: 'absolute', 
-                                top: 0, left: 0,
-                                width: '100%',
-                                height: '100%', 
-                                background: 'transparent', 
-                                border: 'none'
-                            }" @click="flag.breed = true"
-                        ></h-btn>
-                    </view>
-                </up-form-item>
-                <!-- Status -->
-                <up-form-item
-                    label="学业"
-                    prop="data.status"
-                >
-                    <up-radio-group v-model="data.status" @change="statusChange">
-                        <up-radio
-                            :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                            v-for="(item, index) in SchoolStatus"
-                            :key="index"
-                            :activeColor="item.color"
-                            :label="item.zh"
-                            :name="item.zh"
-                        ></up-radio>
-                    </up-radio-group>
-                </up-form-item>
-                <!-- Age -->
-                <up-form-item
-                    label="年龄"
-                    prop="data.age"
-                    @click="flag.age = true"
-                >
-                    <up-input
-                        v-model="ageLinkShow"
-                        placeholder="请输入 ta 的年龄"
-                        placeholderStyle="color: #888888"
-                        clearable
-                    ></up-input>
-                    
-                </up-form-item>
+                            clearable
+                        ></up-input>
+                    </up-form-item>
+                    <!-- Gender -->
+                    <up-form-item
+                        label="性别"
+                        prop="data.gender"
+                    >
+                        <up-radio-group v-model="data.gender">
+                            <up-radio
+                                :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                                v-for="(item, index) in Gender"
+                                :key="index"
+                                :activeColor="item.color"
+                                :label="item.zh"
+                                :name="item.zh"
+                            ></up-radio>
+                        </up-radio-group>
+                    </up-form-item>
+                    <!-- Breed -->
+                    <up-form-item
+                        label="花色"
+                        prop="data.breed"
+                        @click="flag.breed = true"
+                    >
+                        <view class="block relative">
+                            <up-input
+                                v-model="data.breed"
+                                placeholder="请选择 ta 的花色"
+                                placeholderStyle="color: #888888"
+                                disabledColor="transparent"
+                            >
+                                <template #suffix v-if="!flag.breedHumanChange">
+                                    <!--TODO 等 full body 的模型做好后再修改。-->
+                                    <view class="warn-breed">模型根据面部推断，有误请改</view>
+                                </template>
+                            </up-input>
+                            <!--tip 因为 up-input disabled 之后会阻断 click，所以在上层覆盖一个透明的按钮作为遮罩-->
+                            <h-btn text="" variant="text"
+                                    :customStyle="{
+                                    position: 'absolute', 
+                                    top: 0, left: 0,
+                                    width: '100%',
+                                    height: '100%', 
+                                    background: 'transparent', 
+                                    border: 'none'
+                                }" @click="flag.breed = true"
+                            ></h-btn>
+                        </view>
+                    </up-form-item>
+                    <!-- Status -->
+                    <up-form-item
+                        label="学业"
+                        prop="data.status"
+                    >
+                        <up-radio-group v-model="data.status">
+                            <up-radio
+                                :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                                v-for="(item, index) in SchoolStatus"
+                                :key="index"
+                                :activeColor="item.color"
+                                :label="item.zh"
+                                :name="item.zh"
+                            ></up-radio>
+                        </up-radio-group>
+                    </up-form-item>
+                    <!-- Age -->
+                    <up-form-item
+                        label="年龄"
+                        prop="data.age"
+                        @click="flag.age = true"
+                    >
+                        <up-input
+                            v-model="ageLinkShow"
+                            placeholder="请输入 ta 的年龄"
+                            placeholderStyle="color: #888888"
+                            clearable
+                        ></up-input>
+                        
+                    </up-form-item>
 
-                <!-- Des -->
-                <up-divider :hairline="false" :dot="true" lineColor="#888888"></up-divider>
-                <up-form-item
-                    label="描述"
-                    prop="data.description"
+                    <!-- Des -->
+                    <up-divider :hairline="false" :dot="true" lineColor="#888888"></up-divider>
+                    <up-form-item
+                        label="描述"
+                        prop="data.description"
+                    >
+                        <up-textarea
+                            v-model="data.description"
+                            placeholder="请输入 ta 的一些描述"
+                            placeholderStyle="color: #888888"
+                            clearable
+                        ></up-textarea>
+                    </up-form-item>
+                
+                </up-form>
+                <!-- TODO 这个表单可收缩才好-->
+                <up-form
+                    labelPosition="left"
+                    :model="data"
+                    :labelStyle="{
+                        fontSize: '16px',
+                    }"
                 >
-                    <up-textarea
-                        v-model="data.description"
-                        placeholder="请输入 ta 的一些描述"
-                        placeholderStyle="color: #888888"
-                        clearable
-                    ></up-textarea>
-                </up-form-item>
-            
-            </up-form>
-            <!-- TODO 这个表单可收缩才好-->
-            <up-form
-                labelPosition="left"
-                :model="data"
-                :labelStyle="{
-                    fontSize: '16px',
-                }"
-            >
-                <up-divider :hairline="false" text="健康状态信息" lineColor="#888888"></up-divider>
-                <!-- Other body information -->
-                <!-- Sterilized -->
-                <up-form-item
-                    label="绝育状态"
-                    prop="data.sterilization"
-                >
-                    <up-radio-group v-model="data.sterilization" @change="statusChange">
-                        <up-radio
-                            :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                            v-for="(item, index) in SterilizationStatus"
-                            :key="index"
-                            :activeColor="item.color"
-                            :label="item.zh"
-                            :name="item.zh"
-                        ></up-radio>
-                    </up-radio-group>
-                </up-form-item>
-                <!-- Vaccine -->
-                <up-form-item
-                    label="疫苗情况"
-                    prop="data.vaccination"
-                >
-                    <up-radio-group v-model="data.vaccination" @change="statusChange">
-                        <up-radio
-                            :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                            v-for="(item, index) in VaccinationStatus"
-                            :key="index"
-                            :activeColor="item.color"
-                            :label="item.zh"
-                            :name="item.zh"
-                        ></up-radio>
-                    </up-radio-group>
-                </up-form-item>
-                <!-- deworming -->
-                <up-form-item
-                    label="驱虫情况"
-                    prop="data.deworming"
-                >
-                    <up-radio-group v-model="data.deworming" @change="statusChange">
-                        <up-radio
-                            :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                            v-for="(item, index) in DewormingStatus"
-                            :key="index"
-                            :activeColor="item.color"
-                            :label="item.zh"
-                            :name="item.zh"
-                        ></up-radio>
-                    </up-radio-group>
-                </up-form-item>
-                <up-divider :hairline="false" :dot="true" lineColor="#888888"></up-divider>
-            </up-form>
+                    <up-divider :hairline="false" text="健康状态信息" lineColor="#888888"></up-divider>
+                    <!-- Other body information -->
+                    <!-- Sterilized -->
+                    <up-form-item
+                        label="绝育状态"
+                        prop="data.sterilization"
+                    >
+                        <up-radio-group v-model="data.sterilization">
+                            <up-radio
+                                :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                                v-for="(item, index) in SterilizationStatus"
+                                :key="index"
+                                :activeColor="item.color"
+                                :label="item.zh"
+                                :name="item.zh"
+                            ></up-radio>
+                        </up-radio-group>
+                    </up-form-item>
+                    <!-- Vaccine -->
+                    <up-form-item
+                        label="疫苗情况"
+                        prop="data.vaccination"
+                    >
+                        <up-radio-group v-model="data.vaccination">
+                            <up-radio
+                                :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                                v-for="(item, index) in VaccinationStatus"
+                                :key="index"
+                                :activeColor="item.color"
+                                :label="item.zh"
+                                :name="item.zh"
+                            ></up-radio>
+                        </up-radio-group>
+                    </up-form-item>
+                    <!-- deworming -->
+                    <up-form-item
+                        label="驱虫情况"
+                        prop="data.deworming"
+                    >
+                        <up-radio-group v-model="data.deworming">
+                            <up-radio
+                                :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                                v-for="(item, index) in DewormingStatus"
+                                :key="index"
+                                :activeColor="item.color"
+                                :label="item.zh"
+                                :name="item.zh"
+                            ></up-radio>
+                        </up-radio-group>
+                    </up-form-item>
+                    <up-divider :hairline="false" :dot="true" lineColor="#888888"></up-divider>
+                </up-form>
+            </view>
             <!-- INFO Func-->
             <view class="flex-center-vertical gap-5 block">
                 <view class="flex-center-horizontal gap-5 block">
@@ -190,10 +195,22 @@
                     <view class="shrink"></view>
                     <h-icon name="arrow-right"/>
                 </view>
-
-                <view class="flex-center-horizontal gap-5 block">
-                    <h-icon name="post-store"/>
-                    <view>上传</view>
+                <!--Tag 业务逻辑 UI -->
+                <view class="flex-center-horizontal gap-5 block mt-10">
+                    <view class="flex-center-horizontal gap-5 container-btn-left"
+                        @click="storeData"
+                    >
+                        <h-icon name="post-store" size="21"/>
+                        <view>保存草稿</view>
+                    </view>
+                    <view class="flex-center-both container-btn-right shrink"
+                        :class="{
+                            'disabled': true
+                        }"
+                        @click="submitData"
+                    >
+                        提交信息
+                    </view>
                 </view>
             </view>
         </dragBase>
@@ -296,14 +313,6 @@
         }
         return parts.join('-');
     })
-
-    const groupChange = (n) => {
-        console.debug('groupChange', n, data.gender);
-    };
-
-    const statusChange = (n) => {
-        console.debug('statusChange', n)
-    }
     const selectBreed = (e) => {
         data.breed = e.value[0];
         flag.breed = false;
@@ -316,13 +325,21 @@
         data.age.day = e.value[3];
         flag.age = false;
     }
+    
+    // TAG 业务
+    function storeData() {
+        // TODO 保存到数据库
+    }
+
+    function submitData() {
+        // TODO 提交到数据库
+    }
 
 </script>
 
 <style scoped>
 
 .container-top {
-    font-family: Alimama ShuHeiTi;
     margin: 0 10rpx;
 }
 
@@ -337,6 +354,38 @@
 .warn-breed-choose {
     color: #777;
     font-size: 25rpx;
+}
+
+.container-btn-left {
+    background-color: #DAE2E6;
+    
+    color: #333;
+    font-size: 13px;
+    
+    padding: 10px 15px;
+    height: 40px;
+    border-radius: 20px;
+}
+
+.container-btn-right {
+    background-color: #374957;
+
+    font-family: Alimama ShuHeiTi;
+    color: #fff;
+    font-size: 20px;
+
+    height: 40px;
+    border-radius: 20px;
+}
+
+.disabled {
+    /* opacity: .8;    */
+    /* background-color: #3749577f; */
+}
+
+.photo-text {
+    font-family: Alimama ShuHeiTi;
+    color: #888;
 }
 
 </style>

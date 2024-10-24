@@ -1,17 +1,20 @@
 <template>
     <view class="drag-area flex-center-vertical shrink z-8" :style="{
         '--top': state.top + 'px',
-        '--padding': props.padding
+        '--padding': '0 ' + props.padding
     }"> <!--INFO 主要就是依靠 fixed + top 来实现拖动的效果。-->
         <!--拖动杆-->
-        <view :style="{
-            'margin-bottom': flag.close ? '15px' : '0'
-        }"
+        <view
+            class="flex-center-both"
+            :style="{
+                'padding-bottom': flag.close ? '15px' : '0',
+                'height': '5vh'
+            }"
             @touchstart="handleTouchStart" 
             @touchmove="handleTouchMove" 
             @touchend="handleTouchEnd"
             >
-            <image src="/static/icon/func/line.svg" style="width: 100rpx; height: 1vh;"/>
+            <image src="/static/icon/func/line.svg" style="width: 100rpx; height: 2vh;"/>
         </view>
         <!--核心内容-->
         <scroll-view :scroll-y="true" 
