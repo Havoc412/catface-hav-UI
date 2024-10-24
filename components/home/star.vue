@@ -4,7 +4,8 @@
     <view id="container" class="tagBall" 
       @touchstart="handleTouchStart" 
       @touchmove="handleTouchMove" 
-      @touchend="handleTouchEnd"> <!--BUG @touchmove.prevent wx 会导致 touchmove 无效-->
+      @touchend="handleTouchEnd"
+    > <!--BUG @touchmove.prevent wx 会导致 touchmove 无效-->
       <view v-for="(item, index) in nameList" :key="index" 
         class="tag flex-center-vertical" 
         :style="tagsStyles[index]"
@@ -62,36 +63,36 @@
   let touchStartX, touchStartY;
   // list 
   const nameList = ref([ // INFO 样例是 25 个
-    { HeadImg: "0.jpg", name: "斜刘海" },
-    { HeadImg: "1.jpg", name: "小北" },
-    { HeadImg: "3.jpg", name: "发发" },
-    { HeadImg: "4.jpg", name: "猪皮" },
-    { HeadImg: "5.jpg", name: "软软" },
-    { HeadImg: "8.jpg", name: "囧橘" },
-    { HeadImg: "0.jpg", name: "斜刘海" },
-    { HeadImg: "1.jpg", name: "小北" },
-    { HeadImg: "3.jpg", name: "发发" },
-    { HeadImg: "4.jpg", name: "猪皮" },
-    { HeadImg: "5.jpg", name: "软软" },
-    { HeadImg: "8.jpg", name: "囧橘" },
-    { HeadImg: "0.jpg", name: "斜刘海" },
-    { HeadImg: "1.jpg", name: "小北" },
-    { HeadImg: "3.jpg", name: "发发" },
-    { HeadImg: "4.jpg", name: "猪皮" },
-    { HeadImg: "5.jpg", name: "软软" },
-    { HeadImg: "8.jpg", name: "囧橘" },
-    { HeadImg: "0.jpg", name: "斜刘海" },
-    { HeadImg: "1.jpg", name: "小北" },
-    { HeadImg: "3.jpg", name: "发发" },
-    { HeadImg: "4.jpg", name: "猪皮" },
-    { HeadImg: "5.jpg", name: "软软" },
-    { HeadImg: "8.jpg", name: "囧橘" },
-    { HeadImg: "0.jpg", name: "斜刘海" },
-    { HeadImg: "1.jpg", name: "小北" },
-    { HeadImg: "3.jpg", name: "发发" },
-    { HeadImg: "4.jpg", name: "猪皮" },
-    { HeadImg: "5.jpg", name: "软软" },
-    { HeadImg: "8.jpg", name: "囧橘" },
+    { animal: { head_img: "0.jpg", name: "斜刘海" }},
+    { animal: { head_img: "1.jpg", name: "小北" }},
+    { animal: { head_img: "3.jpg", name: "发发" }},
+    { animal: { head_img: "4.jpg", name: "猪皮" }},
+    { animal: { head_img: "5.jpg", name: "软软" }},
+    { animal: { head_img: "8.jpg", name: "囧橘" }},
+        { animal: { head_img: "0.jpg", name: "斜刘海" }},
+    { animal: { head_img: "1.jpg", name: "小北" }},
+    { animal: { head_img: "3.jpg", name: "发发" }},
+    { animal: { head_img: "4.jpg", name: "猪皮" }},
+    { animal: { head_img: "5.jpg", name: "软软" }},
+    { animal: { head_img: "8.jpg", name: "囧橘" }},
+        { animal: { head_img: "0.jpg", name: "斜刘海" }},
+    { animal: { head_img: "1.jpg", name: "小北" }},
+    { animal: { head_img: "3.jpg", name: "发发" }},
+    { animal: { head_img: "4.jpg", name: "猪皮" }},
+    { animal: { head_img: "5.jpg", name: "软软" }},
+    { animal: { head_img: "8.jpg", name: "囧橘" }},
+        { animal: { head_img: "0.jpg", name: "斜刘海" }},
+    { animal: { head_img: "1.jpg", name: "小北" }},
+    { animal: { head_img: "3.jpg", name: "发发" }},
+    { animal: { head_img: "4.jpg", name: "猪皮" }},
+    { animal: { head_img: "5.jpg", name: "软软" }},
+    { animal: { head_img: "8.jpg", name: "囧橘" }},
+        { animal: { head_img: "0.jpg", name: "斜刘海" }},
+    { animal: { head_img: "1.jpg", name: "小北" }},
+    { animal: { head_img: "3.jpg", name: "发发" }},
+    { animal: { head_img: "4.jpg", name: "猪皮" }},
+    { animal: { head_img: "5.jpg", name: "软软" }},
+    { animal: { head_img: "8.jpg", name: "囧橘" }},
   ]);
 
   let tags = [];

@@ -3,6 +3,7 @@ import { BASE_NGINX_URL } from "../common/setting";
 import human from "../store/human";
 const humanStore = human();
 function fetchUrl(fileName, dir='') {
+  if (!fileName) return;
   // 去除 fileName 开头的多余斜杠
   const normalizedFileName = fileName.replace(/^\\+/, "").replace(/\\/g, "/");
   return `${BASE_NGINX_URL}${dir}/${normalizedFileName}`;
