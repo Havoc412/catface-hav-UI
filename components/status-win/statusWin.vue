@@ -1,6 +1,10 @@
 <template>
-    <view class="container-loadding flex-center-both">
-        <loaddingCat v-if="flag.loadding" loadding size="300rpx"/>
+    <view v-show="!flag.hide" class="container-loadding flex-center-both">
+        <loaddingCat v-if="flag.loadding" 
+            loadding 
+            :loaddingText="props.loaddingText"
+            size="300rpx"
+        />
         <err v-if="flag.err"/>
     </view>
 </template>
@@ -17,12 +21,18 @@
       status: {
         type: String,
         default: "loadding"
-      }  
+      },
+      loaddingText: {
+        type: String,
+        default: "Loading"
+      }
     })
     
     const flag = reactive({
         loadding: false,
-        err: false
+        err: false,
+        
+        hide: false,
     })
 
 // FUNC
@@ -33,7 +43,8 @@
 
     function checkStatus() {
         // TODO 如果样式过多，可以先全部设为 false，然后 case 改其中一个为 true
-         switch (props.status) {
+        flag.hide = false;
+        switch (props.status) {
             case "loadding":  // TODO 尽量避免硬编码
                 flag.loadding = true;
                 flag.err = false;
@@ -43,8 +54,7 @@
                 flag.err = true;
                 break;
             default:
-                flag.loadding = false;
-                flag.err = false;
+                flag.hide = true;
                 break;
         }
     }

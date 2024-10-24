@@ -38,10 +38,15 @@
 						...(!dontFirstAnimation ? { animation: 'none' } : {}),
 						padding: '200rpx',
 					}"
-					src="/static/icon/com/plus_thin.svg" 
+					:src="status.upload === 'nothing' ? '/static/icon/com/plus_thin.svg': ''" 
 					lazy-load 
 					mode="aspectFit">
 				</image>
+				<!--正好自带一个遮罩了-->
+				<statusWin 
+					:status="status.upload"
+					loaddingText="上传中"
+				/>
 			</swiper-item>
 		</swiper>
 		<!--底部的状态点-->
@@ -67,7 +72,11 @@
 	import { ref, reactive, computed, onMounted, watch } from 'vue'
 
 	import api from '../../request/photo';
+	
+	// com
+	import statusWin from '../status-win/statusWin.vue';
 
+// DATA
 	// 定义props
 	const props = defineProps({
 		imgList: {
@@ -96,6 +105,10 @@
 	})
 	const photosList = ref([]);
 
+	const status = reactive({
+		upload: 'nothing'
+	})
+
 // FUNC
 	onMounted(() => {
 		photosList.value = props.imgList;
@@ -121,6 +134,7 @@
 
 	async function addImage() {
 		// TODO 调用打开相册，然后把值传到上层，再通过 props 更新。
+		status.upload = 'loadding';
 		uni.chooseImage({
 			count: props.imageMaxNum, //默认9
 			sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
@@ -128,10 +142,18 @@
 			success: async function (res) {
 				const files = res.tempFiles;
 				const paths = await api.UploadAnimalPhotos(files);
+				status.upload = 'nothing';
 				emits('addImage', paths);
+			},
+			fail: function (err) {
+				console.error(err);
+				uni.showToast({
+					title: '图片选择失败',
+					icon: 'none'
+				})
+				status.upload = 'err';
 			}
 		});
-
 	}
 
 	
