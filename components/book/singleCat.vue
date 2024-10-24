@@ -7,7 +7,7 @@
                 error-icon="/static/error.svg"
             />  <!--INFO 素材来源于网络-->
             <view class="contanier-heart flex-center-both absolute z-0" @click.stop>
-                <h-icon :name="heartSvg" size="18" @click="flag.heart = !flag.heart"/>
+                <h-icon :name="heartSvg" size="18" @click="like"/>
             </view>
         </view>
         <view class="flex-center-horizontal gap-5">
@@ -23,6 +23,8 @@
 
 <script setup>
     import { ref, reactive, computed } from "vue";
+
+    import api from "../../request/animal";
 
     import { Gender, GetEnFields } from "../../common/consts";
     const gender_EN = GetEnFields(Gender);
@@ -82,6 +84,11 @@
             return name;
         }
     })
+
+    async function like() {
+        api.clickLike(props.id, flag.heart);
+        flag.heart = !flag.heart;
+    }
 
 </script>
 
