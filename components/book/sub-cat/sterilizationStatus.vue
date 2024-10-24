@@ -7,7 +7,7 @@
 <script setup>
     import { reactive, onMounted } from "vue";
     import color from "@/css/theme/index.module.scss";
-    import { sterilizationStatus_EN, sterilizationStatus_ZH } from "../../../common/consts";
+    import { GetZhFields, GetEnFields, SterilizationStatus  } from "../../../common/consts";
     // store
 // DATA
     const props = defineProps({
@@ -18,8 +18,8 @@
     });
     const emits = defineEmits([]);
 
-    const STATUS_ZH = sterilizationStatus_ZH;
-    const STATUS_EN = sterilizationStatus_EN;
+    const STATUS_ZH = GetZhFields(SterilizationStatus);
+    const STATUS_EN = GetEnFields(SterilizationStatus);
 
     const data = reactive({
         text: "不明",

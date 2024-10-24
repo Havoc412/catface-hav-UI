@@ -1,7 +1,7 @@
 // TODO 之后这些基础的配置信息，通过 API 从后端换取一遍。
 
 // School Status
-export const schoolStatus = [
+export const SchoolStatus = [
   { zh: "在校", color: "#4caf50", en: "inschool" },
   { zh: "毕业", color: "#ff9800", en: "graduation" },
   { zh: "退学", color: "#f44336", en: "missing" },
@@ -10,21 +10,21 @@ export const schoolStatus = [
 ];
 
 // Gender
-export const gender = [
+export const Gender = [
   { zh: "学长/弟", color: "#8bc0c6", en: "boy" },
   { zh: "学姐/妹", color: "#ce86ab", en: "girl" },
   { zh: "不明", color: "#988fd0", en: "unknown" },
 ];
 
 // Sterilization Status
-export const sterilizationStatus = [
+export const SterilizationStatus = [
   { zh: "未绝育", color: "#ff7f50", en: "unsterilized" },
   { zh: "已绝育", color: "#32cd32", en: "sterilized" },
   { zh: "不明", color: "#988fd0", en: "unknown" },
 ];
 
 // Vaccination Status
-export const vaccinationStatus = [
+export const VaccinationStatus = [
   { zh: "未接种", color: "#ff7f50", en: "unvaccinated" },
   { zh: "部分接种", color: "#ffa500", en: "partially_vaccinated" },
   { zh: "完全接种", color: "#32cd32", en: "fully_vaccinated" },
@@ -32,14 +32,14 @@ export const vaccinationStatus = [
 ];
 
 // Deworming Status
-export const dewormingStatus = [
+export const DewormingStatus = [
   { zh: "未驱虫", color: "#ff7f50", en: "undewormed" },
   { zh: "已驱虫", color: "#32cd32", en: "dewormed" },
   { zh: "不明", color: "#988fd0", en: "unknown" },
 ];
 
 // Color
-export const breed_ZH = [
+export const Breed_ZH = [
   "不明",
   "橘白",
   "奶牛",
@@ -53,7 +53,7 @@ export const breed_ZH = [
   "简州",
   "彩狸",
 ];
-export const breed_EN = [
+export const Breed_EN = [
   "unknown",
   "orgwhite",
   "milk",
@@ -145,3 +145,11 @@ export const Age = [
 
 // Max Data
 export const ENCOUNTER_MAX_NUM = 2;
+
+// Func
+export const GetZhFields = (array) => {
+  return array.map((item) => item.zh);
+};
+export const GetEnFields = (array) => {
+  return array.map((item) => item.en);
+};

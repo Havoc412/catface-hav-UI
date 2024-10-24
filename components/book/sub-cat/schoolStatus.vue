@@ -7,7 +7,7 @@
 <script setup>
     import { reactive, onMounted } from "vue";
     import color from "@/css/theme/index.module.scss";
-    import { schoolStatus_ZH, schoolStatus_EN } from "../../../common/consts";
+    import { GetZhFields, GetEnFields, SchoolStatus } from "../../../common/consts";
     // store
 // DATA
     const props = defineProps({
@@ -19,8 +19,8 @@
     const emits = defineEmits([]);
 
     // ZH 与 EN 一一对应
-    const STATUS_ZH = schoolStatus_ZH;
-    const STATUS_EN = schoolStatus_EN;
+    const STATUS_ZH = GetZhFields(SchoolStatus);
+    const STATUS_EN = GetEnFields(SchoolStatus);
 
     const data = reactive({
         text: "不明",

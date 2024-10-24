@@ -31,7 +31,7 @@
                     <up-radio-group v-model="data.gender" @change="groupChange">
                         <up-radio
                             :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                            v-for="(item, index) in gender"
+                            v-for="(item, index) in Gender"
                             :key="index"
                             :activeColor="item.color"
                             :label="item.zh"
@@ -78,7 +78,7 @@
                     <up-radio-group v-model="data.status" @change="statusChange">
                         <up-radio
                             :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                            v-for="(item, index) in schoolStatus"
+                            v-for="(item, index) in SchoolStatus"
                             :key="index"
                             :activeColor="item.color"
                             :label="item.zh"
@@ -134,7 +134,7 @@
                     <up-radio-group v-model="data.sterilization" @change="statusChange">
                         <up-radio
                             :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                            v-for="(item, index) in sterilizationStatus"
+                            v-for="(item, index) in SterilizationStatus"
                             :key="index"
                             :activeColor="item.color"
                             :label="item.zh"
@@ -150,7 +150,7 @@
                     <up-radio-group v-model="data.vaccination" @change="statusChange">
                         <up-radio
                             :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                            v-for="(item, index) in vaccinationStatus"
+                            v-for="(item, index) in VaccinationStatus"
                             :key="index"
                             :activeColor="item.color"
                             :label="item.zh"
@@ -159,21 +159,21 @@
                     </up-radio-group>
                 </up-form-item>
                 <!-- deworming -->
-                <!-- <up-form-item
+                <up-form-item
                     label="驱虫情况"
                     prop="data.deworming"
                 >
                     <up-radio-group v-model="data.deworming" @change="statusChange">
                         <up-radio
                             :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                            v-for="(item, index) in dewormingStatus"
+                            v-for="(item, index) in DewormingStatus"
                             :key="index"
                             :activeColor="item.color"
                             :label="item.zh"
                             :name="item.zh"
                         ></up-radio>
                     </up-radio-group>
-                </up-form-item> -->
+                </up-form-item>
                 <up-divider :hairline="false" :dot="true" lineColor="#888888"></up-divider>
             </up-form>
             <!-- INFO Func-->
@@ -201,7 +201,7 @@
         <!--TAG Fixed 组件-->
         <up-picker
             :show="flag.breed"
-            :columns="[breed_ZH]"
+            :columns="[Breed_ZH]"
             title="请选择猫猫花色"
             :closeOnClickOverlay="true"
             @cancel="flag.breed=false"
@@ -230,7 +230,7 @@
 <script setup>
     import { ref, reactive, computed } from "vue";
 
-    import { gender, breed_ZH, Age, schoolStatus, sterilizationStatus, vaccinationStatus, dewormingStatus } from "../../common/consts";
+    import { Gender, Breed_ZH, Age, SchoolStatus, SterilizationStatus, VaccinationStatus, DewormingStatus } from "../../common/consts";
     import { extractIntFromSize } from "../../utils/string";
     // com
     import vearCarousel from "../../components/vear-carousel/vear-carousel.vue";

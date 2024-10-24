@@ -1,9 +1,9 @@
 <template>
     <view class="container-filter flex-vertical">
-        <tagBox title='在校状态' :tag-list="schoolStatus_ZH" :closeFlag="true"/>
-        <tagBox title='性别' :tag-list="gender_ZH" :closeFlag="true"/>
-        <tagBox title='绝育状态' :tag-list="sterilizationStatus_ZH" :closeFlag="true"/>
-        <tagBox title='花色' :tag-list="color_ZH" :closeFlag="true"/>
+        <tagBox title='在校状态' :tag-list="GetZhFields(SchoolStatus)" :closeFlag="true"/>
+        <tagBox title='性别' :tag-list="GetZhFields(Gender)" :closeFlag="true"/>
+        <tagBox title='绝育状态' :tag-list="GetZhFields(SterilizationStatus)" :closeFlag="true"/>
+        <tagBox title='花色' :tag-list="Breed_ZH" :closeFlag="true"/>
         <view class="flex-center-horizontal btn-group">
             <u-button :customStyle="{
                 padding: '10px 0',
@@ -25,7 +25,7 @@
 <script setup>
     import { ref } from "vue";
     import color from "@/css/theme/index.module.scss";
-    import { schoolStatus_ZH, gender_ZH, sterilizationStatus_ZH, color_ZH } from "../../../common/consts";
+    import { GetZhFields, SchoolStatus, Gender, SterilizationStatus, Breed_ZH } from "../../../common/consts";
     // store
     import tagBox from "../../../components/com/tag-second/tagBox.vue";
 

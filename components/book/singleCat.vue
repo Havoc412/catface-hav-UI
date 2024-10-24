@@ -24,7 +24,8 @@
 <script setup>
     import { ref, reactive, computed } from "vue";
 
-    import { gender_EN } from "../../common/consts";
+    import { Gender, GetEnFields } from "../../common/consts";
+    const gender_EN = GetEnFields(Gender);
     // com
     import schoolStatus from "./sub-cat/schoolStatus.vue";
     import sterilizationStatus from "./sub-cat/sterilizationStatus.vue";
