@@ -207,6 +207,7 @@
                     <h-icon name="arrow-right"/>
                 </view>
                 <!--Tag 业务逻辑 UI -->
+                <placeHolder height="195" type="rpx"/>
                 <view class="flex-center-horizontal gap-5 block mt-10">
                     <view class="flex-center-horizontal gap-5 container-btn-left"
                         @click="storeData"
@@ -262,6 +263,8 @@
     // com
     import vearCarousel from "../../components/vear-carousel/vear-carousel.vue";
     import dragBase from "../../components/com/substrate/dragBase.vue";
+
+    import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     // store
 
 // DATA

@@ -1,6 +1,6 @@
 <template>
     <view class="container-place" :style="{
-        '--height': height + 'px'
+        '--height': height + props.type
     }"></view>
 </template>
 
@@ -12,6 +12,10 @@
         height: {
             type: String,
             default: "70"
+        },
+        type: {
+            type: String,
+            default: "px"
         }
     });
     const emits = defineEmits([]);
