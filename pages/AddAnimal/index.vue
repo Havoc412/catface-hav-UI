@@ -110,7 +110,7 @@
                     >
                         <up-textarea
                             v-model="data.description"
-                            placeholder="请输入 ta 的一些描述"
+                            placeholder="简单介绍介绍 ta 吧！"
                             placeholderStyle="color: #888888"
                             fixed
                             count

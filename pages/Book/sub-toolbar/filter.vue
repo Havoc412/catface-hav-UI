@@ -27,7 +27,7 @@
     import color from "@/css/theme/index.module.scss";
     import { GetZhFields, SchoolStatus, Gender, SterilizationStatus, Breed_ZH } from "../../../common/consts";
     // store
-    import tagBox from "../../../components/com/tag-second/tagBox.vue";
+    import tagBox from "../../../components/tag/group/tagBox.vue";
 
 // DATA
     const props = defineProps({

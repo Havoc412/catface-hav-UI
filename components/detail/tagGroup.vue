@@ -1,14 +1,13 @@
 <template>
     <view class="flex-horizontal gap-10">
         <template v-for="(item, index) in decodeTagList" :key="index">
-            <tag :text="item"/>
+            <h-tag :text="item"/>
         </template>
     </view>
 </template>
 
 <script setup>
     import { computed } from "vue";
-    import tag from "../com/tag.vue";
     // store
 // DATA
     const props = defineProps({

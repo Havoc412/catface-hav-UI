@@ -33,7 +33,7 @@ import * as Pinia from 'pinia'
 import tabbar from "./components/com/tabbar.vue";
 import vtButton from "./components/com/button.vue";
 import svgIcon from "./components/com/svgIcon.vue";
-import tag from "./components/com/tag.vue";
+import tag from "./components/tag/tag.vue";
 
 
 export function createApp() {

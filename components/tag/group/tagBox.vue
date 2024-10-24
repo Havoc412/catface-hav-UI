@@ -6,8 +6,8 @@
         </view>
         <!--content-->
         <view class="tags-container" :style="{'height': openFlag ? getHeight : '0'}">
-            <t-tag v-for="(text, index) in props.tagList" :key="index" 
-                :text="text"
+            <h-tag v-for="(text, index) in props.tagList" :key="index" 
+                :text="text" mode="hollow"
             />
         </view>
     </view>
@@ -16,7 +16,6 @@
 <script setup>
     import { ref, computed, watch } from "vue";
     // com
-    import tTag from "./tagSecond.vue";
     // store
 
 // DATA
