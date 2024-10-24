@@ -11,7 +11,7 @@ function fetchUrl(fileName, dir='') {
 export default {
   catsHead: (fileName) => fetchUrl(fileName, "catsHead"),
   catsAvatar: (fileName) => fetchUrl(fileName, "catsAvatar"),
-  catsPhotos: (anm_id, fileName) => fetchUrl(fileName, `catsPhotos/${anm_id}`),
+  catsPhotos: (anm_id, fileName) => fetchUrl(fileName, `catsPhotos/anm_${anm_id}`),
   encounterAvatar: (fileName) => fetchUrl(fileName, "encounterAvatar"),
   encounterPhotos: (user_id, fileName) =>
     fetchUrl(fileName, `encounterPhotos/hum_${user_id}`),

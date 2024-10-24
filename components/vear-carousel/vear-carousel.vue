@@ -18,7 +18,7 @@
 					:src="item" 
 					lazy-load 
 					:style="dontFirstAnimation ? 'animation: none;' : ''"
-					mode="aspectFit"
+					mode="aspectFill"
 				/>
 				<view class="absolute" 
 					:class="currentIndex == index ? 'shadow-pre' : 'shadow-pre-side'"
@@ -50,6 +50,15 @@
 				<!--从 1 开始枚举-->
 				<view :class="index == currentIndex + 1 ? 'dot-active' : 'dot'"/>
 			</template>
+		</view>
+		<!--Func-->
+		<view class="absolute" :style="{
+			right: '20rpx',
+			bottom: '5rpx'
+		}">
+			<h-btn icon="com-more_deep">
+				<!--TODO 切换图片展示方式。-->
+			</h-btn>
 		</view>
 	</view>
 </template>

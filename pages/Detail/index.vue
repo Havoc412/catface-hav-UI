@@ -47,10 +47,7 @@
     import tabbar from "../../components/detail/tabbar.vue";
     // store
 // DATA
-    const imgList = ref([{
-        url: '/static/Qcat.png',
-        id: 1
-    }])
+    const imgList = ref('/static/Qcat.png')
 
     const data = ref({  // TODO 之后采用骨架图
         name: '毛茸茸名字',
@@ -89,10 +86,7 @@
         const photos = data.value.photos.split(',');
         photos.forEach((element, index) => {
             const url = nginx.catsPhotos(AnmID.value, element);
-            imgList.value.push({
-                url: url,
-                id: index + 1
-            });
+            imgList.value.push(url);
         });
         console.debug(imgList.value);
     }
