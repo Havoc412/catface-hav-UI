@@ -1,7 +1,7 @@
 <!--复刻一下 vuetify-btn-->
 <template>
     <!-- <Ripple> -->
-        <view class="base flex-center-both" :class="classObject" :style="getOutsideStyle"
+        <view class="container-btn flex-center-both" :class="classObject" :style="getOutsideStyle"
             @touchstart="handleTouchStart" @touchend="handleTouchEnd" @click="emits('click')">
             <slot name="prefix">
                 <h-icon v-if="props.preIcon" :name="props.preIcon" :size="props.iconSize"/>
@@ -126,7 +126,7 @@
 
 <style scoped>
 
-.base {
+.container-btn {
     gap: 5px;
     background-color: #fff;
     height: inherit;
