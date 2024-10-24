@@ -7,6 +7,7 @@
         <!--TAG Drag Area-->
         <dragBase :drag-height="200" start-mode="close">
             <view class="ali">
+                <!-- TAG Main Form-->
                 <up-form
                     labelPosition="left"
                     :model="data"
@@ -21,12 +22,7 @@
                         label="名字"
                         prop="data.name"
                     >
-                        <up-input
-                            v-model="data.name"
-                            placeholder="为 ta 起一个好听的名字"
-                            placeholderStyle="color: #888888"
-                            clearable
-                        ></up-input>
+                        <name/>
                     </up-form-item>
                     <!-- Gender -->
                     <up-form-item
@@ -99,7 +95,7 @@
                     >
                         <up-input
                             v-model="ageLinkShow"
-                            placeholder="请输入 ta 的年龄"
+                            placeholder="估计一下 ta 的年龄"
                             placeholderStyle="color: #888888"
                             clearable
                         ></up-input>
@@ -121,7 +117,7 @@
                     </up-form-item>
                 
                 </up-form>
-                <!-- 大多数情况下这些信息并不知道，这个表单可收缩才好-->
+                <!-- TAG Health ；大多数情况下这些信息并不知道，这个表单可收缩才好 -->
                 <up-form
                     labelPosition="left"
                     :model="data"
@@ -263,7 +259,8 @@
     // com
     import vearCarousel from "../../components/vear-carousel/vear-carousel.vue";
     import dragBase from "../../components/com/substrate/dragBase.vue";
-
+    
+    import name from "../../components/add-animal/name.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     // store
 

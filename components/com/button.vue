@@ -4,12 +4,12 @@
         <view class="base flex-center-both" :class="classObject" :style="getOutsideStyle"
             @touchstart="handleTouchStart" @touchend="handleTouchEnd" @click="emits('click')">
             <slot name="prefix">
-                <u-icon v-if="props.preIcon" :name="props.preIcon" :size="props.iconSize"></u-icon>
+                <h-icon v-if="props.preIcon" :name="props.preIcon" :size="props.iconSize"/>
             </slot>
             <view class="vertical-flex">
                 <slot name="topfix">
-                    <u-icon v-if="props.icon" :name="props.icon" :size="props.iconSize"></u-icon>
-                    <u-icon v-if="props.topIcon" :name="props.topIcon" :size="props.iconSize"></u-icon>
+                    <h-icon v-if="props.icon" :name="props.icon" :size="props.iconSize"/>
+                    <h-icon v-if="props.topIcon" :name="props.topIcon" :size="props.iconSize"/>
                 </slot>
                 <slot>
                     <!--选中icon属性时，默认只有icon-->
@@ -18,7 +18,7 @@
                 </slot>
             </view>
             <slot name="suffix">
-                <u-icon v-if="props.sufIcon" :name="props.sufIcon" :size="props.iconSize"></u-icon>
+                <h-icon v-if="props.sufIcon" :name="props.sufIcon" :size="props.iconSize"/>
             </slot>
         </view>
     <!-- </Ripple> -->
