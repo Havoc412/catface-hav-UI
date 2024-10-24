@@ -29,7 +29,7 @@
 <script setup>
     import { watch, reactive } from "vue";
 
-    import { Breed_ZH, Age } from "../../common/consts";
+    import { Breed_ZH, Age } from "../../../common/consts";
     // store
 // DATA
     const props = defineProps({

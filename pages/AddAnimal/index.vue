@@ -194,36 +194,23 @@
                 </up-form>
             </view>
             <!-- INFO Func-->
-            <view class="flex-center-vertical gap-10 block">
-                <view class="flex-center-horizontal gap-5 block">
-                    <h-icon name="map-location" size="20"/>
-                    <view>标记地点</view>
-                    <view class="shrink"></view>
-                    <h-icon name="arrow-right"/>
+            <!--Tag 业务逻辑 UI -->
+            <bottomFunc/>
+            <placeHolder height="190" type="rpx"/>
+            <view class="flex-center-horizontal gap-5 block mt-10">
+                <view class="flex-center-horizontal gap-5 container-btn-left"
+                    @click="storeData"
+                >
+                    <h-icon name="post-store" size="21"/>
+                    <view>保存草稿</view>
                 </view>
-                <view class="flex-center-horizontal gap-5 block">
-                    <h-icon name="catface-paw" size="20"/>
-                    <view>录入猫脸</view>
-                    <view class="shrink"></view>
-                    <h-icon name="arrow-right"/>
-                </view>
-                <!--Tag 业务逻辑 UI -->
-                <placeHolder height="190" type="rpx"/>
-                <view class="flex-center-horizontal gap-5 block mt-10">
-                    <view class="flex-center-horizontal gap-5 container-btn-left"
-                        @click="storeData"
-                    >
-                        <h-icon name="post-store" size="21"/>
-                        <view>保存草稿</view>
-                    </view>
-                    <view class="flex-center-both container-btn-right shrink"
-                        :class="{
-                            'disabled': true
-                        }"
-                        @click="submitData"
-                    >
-                        提交信息
-                    </view>
+                <view class="flex-center-both container-btn-right shrink"
+                    :class="{
+                        'disabled': true
+                    }"
+                    @click="submitData"
+                >
+                    提交信息
                 </view>
             </view>
         </dragBase>
@@ -250,7 +237,8 @@
     import dragBase from "../../components/com/substrate/dragBase.vue";
     
     import name from "../../components/add-animal/name.vue";
-    import pickerGroup from "./pickerGroup.vue";
+    import pickerGroup from "./sub-index/pickerGroup.vue";
+    import bottomFunc from "./sub-index/bottomFunc.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     // store
 
