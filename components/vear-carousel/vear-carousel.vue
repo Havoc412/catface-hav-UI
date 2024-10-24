@@ -9,7 +9,7 @@
 			@change="swiperChange">
 			<swiper-item 
 				:class="currentIndex == index ? 'swiper-item' : 'swiper-item-side'" 
-				v-for="(item, index) in props.imgList" :key="item[props.urlKey]">
+				v-for="(item, index) in props.imgList" :key="index">
 				<!--TODO 更好的展示效果，对 up-image 兼容-->
 				<!--TIP 这个 dontFirstAnimation 一个很好的机制。-->
 				<image 
@@ -57,7 +57,7 @@
 			</template>
 		</view>
 		<!--Func-->
-		<view class="absolute" :style="{
+		<view class="absolute z-0" :style="{
 			right: '20rpx',
 			bottom: '5rpx'
 		}">
@@ -124,7 +124,7 @@
 	const swiperChange = (e) => {
 		dontFirstAnimation.value = false;
 		currentIndex.value = e.detail.current;
-		console.debug(currentIndex.value);
+		// console.debug(currentIndex.value);
 	}
 
 	const clickImg = (item) => {
@@ -132,11 +132,12 @@
 		emits('clickImg', item, currentIndex.value);
 	}
 
+	// 添加图片
 	async function addImage() {
 		// TODO 调用打开相册，然后把值传到上层，再通过 props 更新。
 		status.upload = 'loadding';
 		uni.chooseImage({
-			count: props.imageMaxNum, //默认9
+			count: props.imageMaxNum - props.imgList.length, //默认9
 			sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
 			sourceType: ['album'], //从相册选择；// INFO 在添加
 			success: async function (res) {
