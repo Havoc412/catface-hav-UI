@@ -27,7 +27,7 @@
     
     const name = ref("");
     const MenuList = [
-        { text: '增加别名' },
+        { text: '增加别名' },   // TODO
         { text: 'AI 取名' },  // TODO
     ]
     const flag = ref(false);

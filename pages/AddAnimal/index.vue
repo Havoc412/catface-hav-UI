@@ -22,7 +22,7 @@
                         label="名字"
                         prop="data.name"
                     >
-                        <name/>
+                        <name @name="(name) => { data.name = name; }"/>
                     </up-form-item>
                     <!-- Gender -->
                     <up-form-item
@@ -222,45 +222,30 @@
                 </view>
             </view>
         </dragBase>
-        <!--TAG Fixed 组件-->
-        <up-picker
-            :show="flag.breed"
-            :columns="[Breed_ZH]"
-            title="请选择猫猫花色"
-            :closeOnClickOverlay="true"
-            @cancel="flag.breed=false"
-            @confirm="selectBreed"
-        ><!--改了官方的源码，加了一个插槽-->
-            <template #top>
-                <view class="warn-breed-choose flex-center-both">暂时只支持以下花色</view>
-            </template>
-        </up-picker>
-        <up-picker
-            :show="flag.age"
-            :columns="Age"
-            title="请估计毛茸茸的年龄"
-            :closeOnClickOverlay="true"
-            @cancel="flag.age=false"
-            @confirm="selectAge"
-        >
-            <template #top>
-                <!--TODO 不到一个月，3个月左右，不到一岁，1岁多-->
-                <view class="warn-breed-choose flex-center-both">TODO 一些常见值</view>
-            </template>
-        </up-picker>
+        <pickerGroup
+            :breedShow="flag.breed"
+            :ageShow="flag.age"
+            
+            @close-breed="flag.breed = false"
+            @close-age="flag.age = false"
+
+            @select-breed="selectBreed"
+            @select-age="selectAge"
+        />
     </view>
 </template>
 
 <script setup>
     import { ref, reactive, computed } from "vue";
 
-    import { Gender, Breed_ZH, Age, SchoolStatus, SterilizationStatus, VaccinationStatus, DewormingStatus } from "../../common/consts";
+    import { Gender, SchoolStatus, SterilizationStatus, VaccinationStatus, DewormingStatus } from "../../common/consts";
     import { extractIntFromSize } from "../../utils/string";
     // com
     import vearCarousel from "../../components/vear-carousel/vear-carousel.vue";
     import dragBase from "../../components/com/substrate/dragBase.vue";
     
     import name from "../../components/add-animal/name.vue";
+    import pickerGroup from "./pickerGroup.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     // store
 
