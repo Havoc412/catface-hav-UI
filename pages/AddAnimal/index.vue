@@ -5,7 +5,7 @@
             挑选一些精美的照片作为展示（数量：1~5）
         </view>
         <!--TAG Drag Area-->
-        <dragBase :drag-height="200">
+        <dragBase :drag-height="200" start-mode="close">
             <view class="ali">
                 <up-form
                     labelPosition="left"
@@ -193,7 +193,7 @@
                 </up-form>
             </view>
             <!-- INFO Func-->
-            <view class="flex-center-vertical gap-5 block">
+            <view class="flex-center-vertical gap-10 block">
                 <view class="flex-center-horizontal gap-5 block">
                     <h-icon name="map-location" size="20"/>
                     <view>标记地点</view>
@@ -207,7 +207,7 @@
                     <h-icon name="arrow-right"/>
                 </view>
                 <!--Tag 业务逻辑 UI -->
-                <placeHolder height="195" type="rpx"/>
+                <placeHolder height="190" type="rpx"/>
                 <view class="flex-center-horizontal gap-5 block mt-10">
                     <view class="flex-center-horizontal gap-5 container-btn-left"
                         @click="storeData"

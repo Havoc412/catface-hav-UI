@@ -44,6 +44,10 @@
         dragHeight: {  // 收缩到最小状态时，流出的区域高度
             type: Number,
             default: 40
+        },
+        startMode: { // 初始所在的位置；
+            type: String,
+            default: 'mid' // 'open' || 'close' || 'mid'
         }
     });
     const emits = defineEmits(['open', 'close']);
@@ -67,6 +71,8 @@
     const flag = reactive({
         close: false,
         full: false,  // drag 部分是否完全展开
+
+        firstMidByCloseMode: props.startMode === 'close',  // 当 close 模式下，第一次 lower 时进入 mid 状态。
     })
 
 // FUNC
@@ -74,6 +80,11 @@
         flag.close = false;
         flag.full = false;
         state.top = consts.TOP_INIT;
+
+        if(props.startMode == 'close')
+            close();
+        else if(props.startMode == 'open')
+            lower();
     })
     
     // TAG # Drag Handler
@@ -106,13 +117,11 @@
                 flag.close = false;
                 emits('open');
             } else {
-                state.top = phoneInforStore.phoneHeight - consts.DRAG_HEIGHT;
+                state.top = phoneInforStore.phoneHeight - consts.DRAG_HEIGHT; // close
             }
         } else {
             if (dif > consts.THRESHOLD_DOWN) {
-                state.top = phoneInforStore.phoneHeight - consts.DRAG_HEIGHT;
-                flag.full = false;
-                flag.close = true;
+                close();
                 emits('close');
             } else if(dif < consts.THRESHOLD_UP) {
                 state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
@@ -126,6 +135,12 @@
     }
 
     function lower() {
+        if (flag.firstMidByCloseMode) {
+            flag.firstMidByCloseMode = false;
+            mid();
+            return;
+        }
+        
         if (!flag.full) {
             state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
             flag.full = true;
@@ -137,6 +152,18 @@
             state.top = consts.TOP_INIT;
             flag.full = false;
         }
+    }
+
+    function mid() {
+        state.top = consts.TOP_INIT;
+        flag.full = false;
+        flag.close = false;
+    }
+
+    function close() {
+        state.top = phoneInforStore.phoneHeight - consts.DRAG_HEIGHT;
+        flag.full = false;
+        flag.close = true;
     }
 
 </script>
