@@ -6,6 +6,9 @@
             </view>
         </template>
         <chipEditable v-if="editableMode && data.length < props.maxNum" light @textFinish="addText"/>
+        <view v-if="infoIcon" class="flex-center-both" @click="emits('info')">
+            <h-icon name="tool-info" size="17"/>
+        </view>
     </view>
 </template>
 
@@ -31,9 +34,10 @@
         maxNum: {
             type: Number,
             default: 3
-        }
+        },
+        infoIcon: Boolean
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(['info']);
 
     const data = ref(props.list);
 

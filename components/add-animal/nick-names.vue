@@ -1,16 +1,17 @@
 <template>
-    <view class="flex-center-horizontal">
-        <chipGroup mode="editable"/>
-        <view>
-            <h-icon name="tool-info" size="18"/>
-        </view>
-    </view>
+    <chipGroup mode="editable" infoIcon @info="flag = true"/>
+    <up-overlay opacity=".1" :show="flag" @click="flag = false">
+        <blockBase>
+            别名最多三个，按住拖动可删除。
+        </blockBase>
+    </up-overlay>
 </template>
 
 <script setup>
     import { ref } from "vue";
 
     import chipGroup from "../com/chip/chipGroup.vue";
+    import blockBase from "../com/substrate/blockBase.vue";
     // store
 // DATA
     const props = defineProps({
@@ -18,6 +19,7 @@
     });
     const emits = defineEmits([]);
 
+    const flag = ref(false);
 // FUNC
 
 </script>
