@@ -21,13 +21,17 @@
     >
         <template #top>
             <!--TODO 不到一个月，3个月左右，不到一岁，1岁多-->
-            <view class="warn-breed-choose flex-center-both">TODO 一些常见值</view>
+            <view class="flex-center-horizontal" style="padding: 0 20px;">
+                <template v-for="(item, index) in commonAge" :key="index">
+                    <h-btn variant="outlined" :text="item.text" @click="emits('selectAge', item)"/>
+                </template>
+            </view>
         </template>
     </up-picker>
 </template>
 
 <script setup>
-    import { watch, reactive } from "vue";
+    import { watch, reactive, ref } from "vue";
 
     import { Breed_ZH, Age } from "../../../common/consts";
     // store
@@ -42,6 +46,14 @@
         breed: false,
         age: false
     })
+
+    const commonAge = [  // 给一些简单常见的年龄，方便用户选择
+        { text: '不到1个月', value: ["0", "0", "0", '3周'] },
+        { text: '1个月', value: ["0", "0", '1个月', "0"] },
+        { text: '3个月', value: ["0", "0", '3个月', "0"] },
+        { text: '1岁', value: ["0", '1岁', "0", "0"] },
+        { text: '1岁半', value: ["0", '1岁', '6个月', "0"] },
+    ]
 // FUNC
     watch(() => props.breedShow, (value) => {
         flag.breed = value;
