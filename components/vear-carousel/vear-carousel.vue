@@ -69,7 +69,7 @@
 		</view>
 	</view>
 	<!--UPDATE 省事，但是牺牲一定的性能。-->
-	<preview v-if="flag.preview" 
+	<preview v-if="flag.preview" :mode="props.mode"
 		:urls="props.imgList" :current-index="currentIndex" 
 		@close="flag.preview = false"
 	/>

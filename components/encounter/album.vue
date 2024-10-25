@@ -34,6 +34,7 @@
 // FUNC
     const changeIndex = (index) => {
         currentIndex.value = index.current;
+        emits('change', currentIndex.value)
     }
 
 </script>
