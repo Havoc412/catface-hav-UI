@@ -33,7 +33,7 @@
                         label="别称"
                         prop="data.nick_names"
                     >
-                        <nick-name mode="editable"/>
+                        <nick-names/>
                     </up-form-item>
                     <!-- Gender -->
                     <up-form-item
@@ -252,7 +252,7 @@
     import dragBase from "../../components/com/substrate/dragBase.vue";
     
     import name from "../../components/add-animal/name.vue";
-    import nickName from "../../components/com/chip/chipGroup.vue";
+    import nickNames from "../../components/add-animal/nick-names.vue";
     import pickerGroup from "./sub-index/pickerGroup.vue";
     import bottomFunc from "./sub-index/bottomFunc.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";

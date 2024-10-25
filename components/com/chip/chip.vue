@@ -1,10 +1,11 @@
 <!--INFO 因为暂时用不到 原项目 chip 的长按功能，就先使用一个简化的版本就好。-->
 <template>
-    <view class="flex-center-both basic" 
-    :class="[props.shape]"
-    :style="{
-        '--bg-color': props.bgColor,
-        '--font-color': props.color
+    <view class="flex-center-both basic default"
+        @click="click"
+        :class="[props.shape]"
+        :style="{
+            '--bg-color': selectFlag ? props.bgColor : 'transparent',
+            '--font-color': selectFlag ? props.color : '#ccc'
     }">
         <slot> <!--放一个 slot，增加灵活性-->
             {{ props.text }}
@@ -33,10 +34,33 @@
             type: String,
             default: "rectangle"
         },
+        // TAG Light
+        light: {  // 是否保持常亮 light-hold
+            type: Boolean,
+            default: false
+        },
+        lightStart: {   // lightFlag 的初始值； // info 优先级 light > lightSrart
+            type: Boolean,
+            default: false
+        },
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(['select', 'unselect']);
+
+    const selectFlag = ref(props.light | props.lightStart);
 
 // FUNC
+    function click() {
+        if(props.light)  // 保持常亮
+            return;
+        
+        selectFlag.value = !selectFlag.value;
+        
+        if (selectFlag.value) {
+            emits('select', props.text);
+        } else {
+            emits('unselect', props.text);
+        }
+    }
 
 </script>
 
@@ -67,5 +91,10 @@
 .square {
     padding: 10px 5px;
 }
+
+.default {
+    border: solid 1px #cccccc;
+}
+
 
 </style>        

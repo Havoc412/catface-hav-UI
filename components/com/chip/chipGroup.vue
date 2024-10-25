@@ -2,10 +2,10 @@
     <view class="container-chip-group" :class="{'scroll': props.scroll}">
         <template v-for="(item, index) in data" :key="index">
             <view class="item">
-                <h-chip :text="item"/>
+                <h-chip :text="item" :light="editableMode" @select="" @unselect=""/>
             </view>
         </template>
-        <chipEditable v-if="editableMode" @textFinish="(text) => { data.push(text); }"/>
+        <chipEditable v-if="editableMode && data.length < props.maxNum" light @textFinish="addText"/>
     </view>
 </template>
 
@@ -41,6 +41,12 @@
     const editableMode = computed(() => {
         return props.mode === 'editable';
     });
+
+    function addText(text) {
+        if (data.value.includes(text))
+            return;
+        data.value.push(text);
+    }
 
 </script>
 
