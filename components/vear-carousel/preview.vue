@@ -70,6 +70,8 @@
 
     function setFront() {
         emits('setFront', currentIndex.value);
+        currentIndex.value = 0;
+        refresh.value = !refresh.value;
     }
 
 </script>
