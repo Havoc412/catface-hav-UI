@@ -170,7 +170,6 @@
 			complete: function (res) {
 				// BUG 也无法收到 PC 端的 ‘取消’
 				console.debug(res);
-				resolve('nothing'); // resolve
 			}
 		});
 	});
