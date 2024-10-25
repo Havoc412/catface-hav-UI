@@ -2,19 +2,27 @@
     <view class="container-filter flex-vertical">
         <tagBox ref="statusRef"
             title='学业状态' :tag-list="SchoolStatus_ZH" 
-            :startMode="true" :startUnselectedList="[2, 3]" :refresh="refreshFlag"
+            :startMode="true" 
+            :startUnselectedList="stringToNumberArray(props.statusCache.status)"
+            :refresh="refreshFlag"
         />
         <tagBox ref="genderRef"
             title='性别' :tag-list="Gender_ZH" 
-            :startMode="true" :refresh="refreshFlag"
+            :startMode="true"
+            :startUnselectedList="stringToNumberArray(props.statusCache.gender)"
+            :refresh="refreshFlag"
         />
         <tagBox ref="sterilizationRef"
             title='绝育状态' :tag-list="SterilizationStatus_ZH" 
-            :startMode="true" :refresh="refreshFlag"
+            :startMode="true"
+            :startUnselectedList="stringToNumberArray(props.statusCache.sterilization)"
+            :refresh="refreshFlag"
         />
         <tagBox ref="breedRef"
             title='花色' :tag-list="Breed_ZH" 
-            :startMode="true" :refresh="refreshFlag"
+            :startMode="true" 
+            :startUnselectedList="stringToNumberArray(props.statusCache.breed)"
+            :refresh="refreshFlag"
         />
 
         <!--FUNC-->
@@ -43,12 +51,23 @@
 <script setup>
     import { ref } from "vue";
     import color from "@/css/theme/index.module.scss";
+
+    import { stringToNumberArray } from "../../../utils/string";
     import { SchoolStatus_ZH, SterilizationStatus_ZH, Gender_ZH, Breed_ZH } from "../../../common/consts";
     // store
     import tagBox from "../../../components/tag/group/tagBox.vue";
 
 // DATA
     const props = defineProps({
+        statusCache: {
+            type: Object,
+            default: () => ({
+                status: "0,1,2",
+                gender: "",
+                breed: "",
+                sterilization: ""
+            })
+        }
     });
     const emits = defineEmits(['close', 'getFilterConditions']);
     

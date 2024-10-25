@@ -1,5 +1,5 @@
 <template>
-    <Header ref="headerRef"/>
+    <Header ref="headerRef" @filterConditionsChange="filterConditionsChange"/>
     <view class="flex-center-vertical">
         <!--FUNC-->
         <statusWin v-if="flag.status.show" :status="flag.status.type"/>
@@ -77,6 +77,8 @@
 
 // FUNC
     onMounted( async() => {
+        flag.status.type = "loadding";
+        flag.status.show = true;
         data.catsList = await getData(10);
     })
 
@@ -95,6 +97,12 @@
         flag.status.show = false;
         
         return res;
+    }
+
+    async function filterConditionsChange() {
+        flag.status.type = "loadding";
+        flag.status.show = true;
+        data.catsList = await getData(10);
     }
 
     function loadmore() {

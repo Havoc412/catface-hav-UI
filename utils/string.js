@@ -31,3 +31,17 @@ export function extractIntFromSize(sizeStr) {
 //         console.error(error);
 //     }
 // });
+
+export function stringToNumberArray(str) {
+    if (!str) {
+      return [];
+    }
+    // 使用逗号分割字符串，并使用 map 将每个元素转换为数字
+    return str.split(',').map(Number);
+}
+
+// // // TEST 测试示例
+// let result = stringToNumberArray("1,2,3");
+// console.log(result); // 输出: [1, 2, 3]
+// result = stringToNumberArray("");
+// console.log(result);

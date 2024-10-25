@@ -66,18 +66,32 @@
     })
     
     function init() {
-        status.value = [];
-        selectedCnt.value = 0;
-        for (let i=0; i<props.tagList.length; i++) {
-            if (props.startUnselectedList.includes(i)) {
-                status.value.push(false);
-                selectedAllFlag.value = false;
-            } else {
-                status.value.push(true);
-                selectedCnt.value += 1;
-            }
+        if (props.startUnselectedList.length === 0) {
+            status.value = Array(props.tagList.length).fill(true);
+            selectedCnt.value = props.tagList.length;
+        } else {
+            status.value = Array(props.tagList.length).fill(false); // 初始化 status 数组，所有元素为 false
+            selectedCnt.value = 0;
+            // INFO 这里需要反向解析；对应 getSelectedList；
+            props.startUnselectedList.forEach(item => {
+                if (item === 0)
+                    status.value[props.tagList.length - 1] = true;
+                else
+                    status.value[item - 1] = true;
+            })
         }
         refresh();
+    }
+
+    function getSelectedList() {
+        // 如果处于全选状态，不需要过滤。
+        if (selectedAllFlag.value)
+            return "";
+        return status.value.map((item, index) => {
+            // INFO 这里调整了 unknown 的真值；
+            const id = item ? index + 1 : null;
+            return id == props.tagList.length ? 0 : id;
+        }).filter(item => item !== null).join(',');
     }
     
     // Style
@@ -88,7 +102,7 @@
     });
     
     const selectedAllFlag = computed(() => {
-        return selectedCnt.value === props.tagList.length;
+        return selectedCnt.value >= props.tagList.length;
     });
 
 
@@ -121,19 +135,9 @@
         refresh();
     }
 
-    function getSelectedList() {
-        // 如果处于全选状态，不需要过滤。
-        if (selectedAllFlag.value)
-            return "";
-        return status.value.map((item, index) => {
-            // 这里调整了 unknown 的真值；
-            const id = item ? index + 1 : null;
-            return id == props.tagList.length ? 0 : id;
-        }).filter(item => item !== null).join(',');
-    }
 
+    // 对外暴露。
     defineExpose({ getSelectedList });
-
 
 </script>
 
