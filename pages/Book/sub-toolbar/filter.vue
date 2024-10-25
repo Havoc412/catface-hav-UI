@@ -1,5 +1,9 @@
 <template>
     <view class="container-filter flex-vertical">
+        <view class="flex-center-vertical gap-5">
+            <view class="ali"># 条件过滤</view>
+            <tip>选择后点击下方【完成】</tip>
+        </view>
         <tagBox ref="statusRef"
             title='学业状态' :tag-list="SchoolStatus_ZH" 
             :startMode="true" 
@@ -55,7 +59,9 @@
     import { stringToNumberArray } from "../../../utils/string";
     import { SchoolStatus_ZH, SterilizationStatus_ZH, Gender_ZH, Breed_ZH } from "../../../common/consts";
     // store
+    import tip from "../../../components/com/tip.vue";
     import tagBox from "../../../components/tag/group/tagBox.vue";
+
 
 // DATA
     const props = defineProps({
