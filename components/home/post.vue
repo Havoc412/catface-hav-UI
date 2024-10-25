@@ -1,8 +1,12 @@
 <template>
     <view class="container-post" @click="gotoDetial">
-        <image :src="nginx.encounterAvatar(props.url)" class="img" :style="{
+        <image :src="data.avatar" 
+            class="img" :style="{
             '--height': props.height + 'rpx'
-        }"/>
+            }"
+            mode="widthFix"
+            @error="imageError"
+        />
         <view class="flex-vertical container-info gap-5">
             <view>{{ props.title }}</view>
             <view class="flex-horizontal gap-1 block" @click.stop>
@@ -72,6 +76,9 @@
     const flag = reactive({
         like: props.like
     })
+    const data = reactive({
+        avatar: nginx.encounterAvatar(props.url)
+    })
 
 // FUNC
     const likeSvg = computed(() => {
@@ -102,6 +109,10 @@
         uni.navigateTo({
             url: "/pages/Encounter/detail?id=" + props.id
         })
+    }
+
+    function imageError() {
+        data.avatar = "/static/error.png";
     }
 
 </script> 
