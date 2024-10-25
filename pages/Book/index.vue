@@ -1,5 +1,5 @@
 <template>
-    <Header ref="headerRef" @filterConditionsChange="filterConditionsChange"/>
+    <Header ref="headerRef" @filterConditionsChange="filterConditionsChange" @add="gotoAddAnimal"/>
     <view class="flex-center-vertical">
         <!--FUNC-->
         <statusWin v-if="flag.status.show" :status="flag.status.type"/>

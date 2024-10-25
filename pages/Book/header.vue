@@ -1,8 +1,9 @@
 <!--INFO 实际还是 Toolsbar，放置到 Header 的空间位置。-->
 <template>
     <view class="flex-horizontal gap-10 container-tool z-9">
-        <h-icon name="com-list" @click="flag.list = true"/>
-        <h-icon name="com-filter" @click="flag.filter = true"/>
+        <h-icon name="tool-list" @click="flag.list = true"/>
+        <h-icon name="tool-filter" @click="flag.filter = true"/>
+        <h-icon name="tool-add" @click="emits('add')"/>
         <view class="shrink"/>
     </view>
     <placeHolder height="40"/>  <!--INFO sticky 在 wx 中失效，用这种方式手动 fixed 模拟了一下-->
@@ -33,7 +34,7 @@
     const props = defineProps({
         toggleFilter: Boolean
     });
-    const emits = defineEmits(['filterConditionsChange']);
+    const emits = defineEmits(['filterConditionsChange', 'add']);
 
     const flag = reactive({
         list: false,
