@@ -1,7 +1,7 @@
 <template>
-    <view class="relative">
+    <view class="relative block">
         <text class="absolute num-text flex-center-both">{{ currentIndex+1 }}/{{ length }}</text>
-        <u-swiper :list="list" height="500" radius="5" @change="changeIndex">
+        <u-swiper :list="props.list" :current="currentIndex" height="500" radius="5" :autoplay="false" @change="changeIndex">
             <template #indicator>
                 <view class="flex-center-horizontal gap-5">
                     <view v-for="index in length" class="dot" :class="{'dot-light': index-1 === currentIndex}"></view>
@@ -17,18 +17,23 @@
     // store
 // DATA
     const props = defineProps({
+        currentIndex: {
+            type: Number,
+            default: 0
+        },
         list: {
             type: Array,
-            default: () => []
+            default: () => ([])
         },
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(['change']);
     // flag
-    const currentIndex = ref(0);
+    const currentIndex = ref(props.currentIndex);
     const length = computed(() => props.list.length);
 
 // FUNC
     const changeIndex = (index) => {
+        console.debug(curId.value);
         currentIndex.value = index.current;
     }
 

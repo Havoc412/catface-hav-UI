@@ -9,18 +9,20 @@
 			@change="swiperChange">
 			<swiper-item 
 				:class="currentIndex == index ? 'swiper-item' : 'swiper-item-side'" 
-				v-for="(item, index) in props.imgList" :key="index">
+				v-for="(item, index) in props.imgList" :key="index"
+				>
 				<!--TODO 更好的展示效果，对 up-image 兼容-->
 				<!--TIP 这个 dontFirstAnimation 一个很好的机制。-->
 				<image 
-					@click="clickImg(item)" 
 					:class="currentIndex == index ? 'item-img' : 'item-img-side'" 
 					:src="item" 
 					lazy-load 
 					:style="dontFirstAnimation ? 'animation: none;' : ''"
 					mode="aspectFill"
 				/>
-				<view class="absolute" 
+				<view  
+					@click="showImage" 
+					class="absolute" 
 					:class="currentIndex == index ? 'shadow-pre' : 'shadow-pre-side'"
 					:style="dontFirstAnimation ? 'animation: none;' : ''" 
 				/>
@@ -66,6 +68,11 @@
 			</h-btn>
 		</view>
 	</view>
+	<!--UPDATE 省事，但是牺牲一定的性能。-->
+	<preview v-if="flag.preview" 
+		:urls="props.imgList" :current-index="currentIndex" 
+		@close="flag.preview = false"
+	/>
 </template>
 
 <script setup>
@@ -75,6 +82,7 @@
 	
 	// com
 	import statusWin from '../status-win/statusWin.vue';
+	import preview from './preview.vue';
 
 // DATA
 	// 定义props
@@ -94,7 +102,7 @@
 		}
 	})
 	
-	const emits = defineEmits(['selected', 'clickImg', 'addImage']);
+	const emits = defineEmits(['selected', 'addImage']);
 
 	// 定义响应式数据
 	const currentIndex = ref(0);
@@ -106,7 +114,11 @@
 	const photosList = ref([]);
 
 	const status = reactive({
-		upload: 'nothing'
+		upload: 'nothing',
+	})
+
+	const flag = reactive({
+		preview: false,
 	})
 
 // FUNC
@@ -124,12 +136,7 @@
 	const swiperChange = (e) => {
 		dontFirstAnimation.value = false;
 		currentIndex.value = e.detail.current;
-		// console.debug(currentIndex.value);
-	}
-
-	const clickImg = (item) => {
-		// 使用$emit向父组件传递事件
-		emits('clickImg', item, currentIndex.value);
+		console.debug(currentIndex.value);
 	}
 
 	// 添加图片
@@ -151,28 +158,32 @@
 	function chooseImageWrapper(options) {
 		return new Promise((resolve, reject) => {
 			uni.chooseImage({
-			...options,
-			success: async function (res) {
-				const files = res.tempFiles;
-				const paths = await api.UploadAnimalPhotos(files);
-				emits('addImage', paths);
-				resolve('nothing'); // resolve
-			},
-			fail: function (err) {
-				console.error(err);
-				uni.showToast({
-				title: '图片选择失败',
-				icon: 'none'
-				});
-				status.value.upload = 'err';
-				reject('err'); // 失败时 reject
-			},
-			complete: function (res) {
-				// BUG 也无法收到 PC 端的 ‘取消’
-				console.debug(res);
-			}
+				...options,
+				success: async function (res) {
+					const files = res.tempFiles;
+					const paths = await api.UploadAnimalPhotos(files);
+					emits('addImage', paths);
+					resolve('nothing'); // resolve
+				},
+				fail: function (err) {
+					console.error(err);
+					uni.showToast({
+					title: '图片选择失败',
+					icon: 'none'
+					});
+					status.value.upload = 'err';
+					reject('err'); // 失败时 reject
+				},
+				complete: function (res) {
+					// BUG 也无法收到 PC 端的 ‘取消’
+					console.debug(res);
+				}
+			});
 		});
-	});
+	}
+
+	function showImage() {
+		flag.preview = true;
 	}
 
 	
