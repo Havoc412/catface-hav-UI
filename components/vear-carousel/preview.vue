@@ -3,7 +3,7 @@
 -->
 <template>
     <up-overlay opacity="1"
-        :show="flag.show" @click="close">
+        :show="flag" @click="close">
         <view class="flex-center-both" style="height: 100%;">
             <view class="absolute" style="top: 15rpx; left: 15rpx">
                 <h-icon name="com-close_light" :size="35"/>
@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-    import { ref, reactive } from "vue";
+    import { ref } from "vue";
     // store
     // com
     import Halbum from "../encounter/album.vue";
@@ -29,19 +29,21 @@
         currentIndex: {
             type: Number,
             default: 1
+        },
+        mode: {
+            type: String,
+            default: 'default' // addAnimal
         }
     });
     const emits = defineEmits(['close']);
 
-    const flag = reactive({
-        show: true
-    })
+    const flag = ref(true);
 
     const currntIndex = ref(props.currentIndex)  // TIP 过深的传递，reactive 到 album 就失效了
 
 // FUNC
     function close() {
-        flag.show = false;
+        flag.value = false;
         emits('close');
     }
 

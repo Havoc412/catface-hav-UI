@@ -33,7 +33,6 @@
 
 // FUNC
     const changeIndex = (index) => {
-        console.debug(curId.value);
         currentIndex.value = index.current;
     }
 
