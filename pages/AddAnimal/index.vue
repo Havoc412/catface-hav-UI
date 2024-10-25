@@ -22,7 +22,18 @@
                         label="名字"
                         prop="data.name"
                     >
-                        <name @name="(name) => { data.name = name; }"/>
+                        <name 
+                            @nickNames="flag.nickNames = true"
+                            @name="(name) => { data.name = name; }"
+                        />
+                    </up-form-item>
+                    <!--Nick Name--> <!--TODO 如何不那么显眼？-->
+                    <up-form-item
+                        v-if="flag.nickNames"
+                        label="别称"
+                        prop="data.nick_names"
+                    >
+                        <nick-name mode="editable"/>
                     </up-form-item>
                     <!-- Gender -->
                     <up-form-item
@@ -107,6 +118,7 @@
                     <up-form-item
                         label="描述"
                         prop="data.description"
+                        labelPosition="top"
                     >
                         <up-textarea
                             v-model="data.description"
@@ -240,6 +252,7 @@
     import dragBase from "../../components/com/substrate/dragBase.vue";
     
     import name from "../../components/add-animal/name.vue";
+    import nickName from "../../components/com/chip/chipGroup.vue";
     import pickerGroup from "./sub-index/pickerGroup.vue";
     import bottomFunc from "./sub-index/bottomFunc.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
@@ -268,6 +281,7 @@
         sterilization: '不明',
         vaccination: '不明',
         deworming: '不明',
+        nick_names: [],
     })
     const rules = reactive({
         'data.name': {
@@ -294,6 +308,7 @@
         age: false,
         healthInfor: false,
         runFull: false,
+        nickNames: false,
     })
 
 // FUNC

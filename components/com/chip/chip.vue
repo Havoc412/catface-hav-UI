@@ -1,6 +1,8 @@
 <!--INFO 因为暂时用不到 原项目 chip 的长按功能，就先使用一个简化的版本就好。-->
 <template>
-    <view class="flex-center-both basic" :style="{
+    <view class="flex-center-both basic" 
+    :class="[props.shape]"
+    :style="{
         '--bg-color': props.bgColor,
         '--font-color': props.color
     }">
@@ -21,12 +23,16 @@
         },
         bgColor: {
             type: String,
-            default: "#fff"
+            default: "#DAE2E6"
         },
         color: {
             type: String,
             default: "#000"
-        }
+        },
+        shape: {
+            type: String,
+            default: "rectangle"
+        },
     });
     const emits = defineEmits([]);
 
@@ -52,6 +58,14 @@
     flex-shrink: 0;
     flex-basis: auto;
     white-space: nowrap;
+}
+
+.rectangle {
+    padding: 10px;
+}
+
+.square {
+    padding: 10px 5px;
 }
 
 </style>        

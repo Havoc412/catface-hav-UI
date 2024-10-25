@@ -10,7 +10,7 @@
         }"
     ></up-input>
     <h-btn variant="text" icon="com-more_deep" @click="flag = !flag">
-        <menuFloat mode="text" :list="MenuList" :show="flag"/>
+        <menuFloat mode="text" :list="MenuList" :show="flag" @choose="(id) => funcGoto(id)"/>
     </h-btn>
 </template>
 
@@ -23,7 +23,7 @@
 // DATA
     const props = defineProps({
     });
-    const emits = defineEmits(['name']);
+    const emits = defineEmits(['name', 'nickNames']);
     
     const name = ref("");
     const MenuList = [
@@ -31,7 +31,24 @@
         { text: 'AI 取名' },  // TODO
     ]
     const flag = ref(false);
+    
 // FUNC
+    function funcGoto(id) {
+        switch(id) {
+            case 0: {
+                console.log('add alias');
+                emits('nickNames');
+                break;
+            }
+            case 1: {
+                console.log('AI name');
+                break;
+            }
+            default: {
+                console.log('default');
+            }
+        }
+    }
 
 </script>
 

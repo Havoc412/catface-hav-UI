@@ -34,6 +34,7 @@ import tabbar from "./components/com/tabbar.vue";
 import vtButton from "./components/com/button.vue";
 import svgIcon from "./components/com/svgIcon.vue";
 import tag from "./components/tag/tag.vue";
+import chip from './components/com/chip/chip.vue';
 
 
 export function createApp() {
@@ -57,6 +58,7 @@ export function createApp() {
   app.component("h-btn", vtButton);
   app.component("h-icon", svgIcon);
   app.component("h-tag", tag);
+  app.component("h-chip", chip);
 
   return {
     app,
