@@ -134,27 +134,46 @@
 
 	// 添加图片
 	async function addImage() {
-		// TODO 调用打开相册，然后把值传到上层，再通过 props 更新。
-		status.upload = 'loadding';
-		uni.chooseImage({
-			count: props.imageMaxNum - props.imgList.length, //默认9
-			sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-			sourceType: ['album'], //从相册选择；// INFO 在添加
+		try {
+			status.upload = 'loadding'
+			const res = await chooseImageWrapper({
+				count: props.imageMaxNum - props.imgList.length, // 默认9
+				sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+				sourceType: ['album'] // 从相册选择
+			});
+			status.upload = res;
+		} catch (err) {
+			console.error(err);
+		}
+	}
+
+	// 封装 chooseImage 为返回 Promise 的函数
+	function chooseImageWrapper(options) {
+		return new Promise((resolve, reject) => {
+			uni.chooseImage({
+			...options,
 			success: async function (res) {
 				const files = res.tempFiles;
 				const paths = await api.UploadAnimalPhotos(files);
-				status.upload = 'nothing';
 				emits('addImage', paths);
+				resolve('nothing'); // resolve
 			},
 			fail: function (err) {
 				console.error(err);
 				uni.showToast({
-					title: '图片选择失败',
-					icon: 'none'
-				})
-				status.upload = 'err';
+				title: '图片选择失败',
+				icon: 'none'
+				});
+				status.value.upload = 'err';
+				reject('err'); // 失败时 reject
+			},
+			complete: function (res) {
+				// BUG 也无法收到 PC 端的 ‘取消’
+				console.debug(res);
+				resolve('nothing'); // resolve
 			}
 		});
+	});
 	}
 
 	
