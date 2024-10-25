@@ -1,7 +1,7 @@
 <template>
     <view class="relative">
         <text class="absolute num-text flex-center-both">{{ currentIndex+1 }}/{{ length }}</text>
-        <u-swiper :list="fetchFullPhotoUrls" height="500" radius="10" @change="changeIndex">
+        <u-swiper :list="list" height="500" radius="5" @change="changeIndex">
             <template #indicator>
                 <view class="flex-center-horizontal gap-5">
                     <view v-for="index in length" class="dot" :class="{'dot-light': index-1 === currentIndex}"></view>
@@ -14,7 +14,6 @@
 <script setup>
     import { ref, computed } from "vue";
 
-    import nginx from "../../request/nginx";
     // store
 // DATA
     const props = defineProps({
@@ -22,10 +21,6 @@
             type: Array,
             default: () => []
         },
-        userId: {
-            type: Number,
-            default: 0
-        }
     });
     const emits = defineEmits([]);
     // flag
@@ -35,15 +30,7 @@
 // FUNC
     const changeIndex = (index) => {
         currentIndex.value = index.current;
-        // console.debug(index, currentIndex.value);    
     }
-
-    const fetchFullPhotoUrls = computed(() => {
-        const fullUrls = props.list.map((fileName) => {
-            return nginx.encounterPhotos(props.userId, fileName);
-        })
-        return fullUrls;
-    })
 
 </script>
 

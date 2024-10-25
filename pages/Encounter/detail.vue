@@ -1,7 +1,7 @@
 <template>
     <view class="flex-vertical">
         <relation :human="data.user" :animals="data.animals"/>
-        <album :user-id="data.user.id" :list="data.encounter.photos_list"/>
+        <album :list="fetchFullPhotoUrls"/>
         <view class="flex-vertical container-info gap-10">
             <view class="flex-horizontal">
                 <text class="title">{{ data.encounter.title }}</text>
@@ -18,10 +18,11 @@
 </template>
 
 <script setup>
-    import { ref, reactive } from "vue";
+    import { ref, reactive, computed } from "vue";
     import { onLoad } from "@dcloudio/uni-app";
 
     import api from "../../request/encounter";
+    import nginx from "../../request/nginx";
 
     // com
     import relation from "../../components/encounter/relation.vue";
@@ -52,6 +53,13 @@
     onLoad( async(params) => {
         EncounterID.value = +params.id;
         data.value = await api.getEncounterDetail(EncounterID.value)
+    })
+
+    const fetchFullPhotoUrls = computed(() => {
+        const fullUrls = data.value['encounter']['photos_list'].map((fileName) => {
+            return nginx.encounterPhotos(data.value['user']['id'], fileName);
+        })
+        return fullUrls;
     })
 
 </script> 
