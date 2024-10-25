@@ -9,12 +9,12 @@
                 <h-icon name="com-close_light" :size="35"/>
             </view>
             <view class="block" @click.stop>
-                <Halbum :list="props.urls" :currentIndex="currentIndex" @change="changeIndex"/>
+                <album :refresh="refresh" :list="props.urls" :currentIndex="currentIndex" @change="changeIndex"/>
             </view>
             <view v-if="addMode" class="absolute" style="bottom: 15rpx; right: 15rpx">
                 <view class="flex-center-horizontal gap-10" @click.stop>
-                    <h-btn v-if="currntIndex > 0" variant="tonal" pre-icon="arrow-front">设为首图</h-btn>
-                    <h-btn v-if="props.urls.length > 1" variant="tonal" pre-icon="tool-delete_thin">删除</h-btn>
+                    <h-btn v-if="currentIndex > 0" variant="tonal" pre-icon="arrow-front" @click="setFront">设为首图</h-btn>
+                    <h-btn v-if="props.urls.length > 1" variant="tonal" pre-icon="tool-delete_thin" @click="deleteImage">删除</h-btn>
                 </view>
             </view>
         </view>
@@ -25,7 +25,7 @@
     import { ref, computed } from "vue";
     // store
     // com
-    import Halbum from "../encounter/album.vue";
+    import album from "../encounter/album.vue";
 // DATA
     const props = defineProps({
         urls: {
@@ -41,11 +41,12 @@
             default: 'default' // add
         }
     });
-    const emits = defineEmits(['close']);
+    const emits = defineEmits(['close', 'delete', 'setFront']);
 
     const flag = ref(true);
+    const refresh = ref(false);
 
-    const currntIndex = ref(props.currentIndex)  // TIP 过深的传递，reactive 到 album 就失效了
+    const currentIndex = ref(props.currentIndex)  // TIP 过深的传递，reactive 到 album 就失效了
 // FUNC
     function close() {
         flag.value = false;
@@ -57,7 +58,18 @@
     })
 
     function changeIndex(index) {
-        currntIndex.value = index;
+        currentIndex.value = index;
+    }
+
+    function deleteImage() {
+        emits('delete', currentIndex.value);
+        if (currentIndex.value > 0)
+            currentIndex.value -= 1
+        refresh.value = !refresh.value;
+    }
+
+    function setFront() {
+        emits('setFront', currentIndex.value);
     }
 
 </script>

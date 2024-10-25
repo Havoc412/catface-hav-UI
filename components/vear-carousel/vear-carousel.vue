@@ -68,10 +68,13 @@
 			</h-btn>
 		</view>
 	</view>
+	
 	<!--UPDATE 省事，但是牺牲一定的性能。-->
 	<preview v-if="flag.preview" :mode="props.mode"
 		:urls="props.imgList" :current-index="currentIndex" 
 		@close="flag.preview = false"
+		@delete="(index) => { emits('delete', index); }"
+		@setFront="(index) => { emits('setFront', index); }"
 	/>
 </template>
 
@@ -102,7 +105,7 @@
 		}
 	})
 	
-	const emits = defineEmits(['selected', 'addImage']);
+	const emits = defineEmits(['selected', 'addImage', 'delete', 'setFront']);
 
 	// 定义响应式数据
 	const currentIndex = ref(0);
@@ -136,7 +139,6 @@
 	const swiperChange = (e) => {
 		dontFirstAnimation.value = false;
 		currentIndex.value = e.detail.current;
-		console.debug(currentIndex.value);
 	}
 
 	// 添加图片

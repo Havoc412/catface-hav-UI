@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-    import { ref, computed } from "vue";
+    import { ref, computed, watch } from "vue";
 
     // store
 // DATA
@@ -25,6 +25,7 @@
             type: Array,
             default: () => ([])
         },
+        refresh: Boolean
     });
     const emits = defineEmits(['change']);
     // flag
@@ -32,6 +33,10 @@
     const length = computed(() => props.list.length);
 
 // FUNC
+    watch(() => props.refresh, (newVal) => {
+        currentIndex.value = props.currentIndex;
+    })
+
     const changeIndex = (index) => {
         currentIndex.value = index.current;
         emits('change', currentIndex.value)
