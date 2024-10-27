@@ -68,7 +68,7 @@
         statusCache: {
             type: Object,
             default: () => ({
-                status: "0,1,2",
+                status: "1,2",
                 gender: "",
                 breed: "",
                 sterilization: ""
