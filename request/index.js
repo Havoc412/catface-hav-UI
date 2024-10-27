@@ -1,4 +1,4 @@
-import { BASE_URL } from "../common/setting";
+import { BASE_URL, CAT_FACE_URL } from "../common/setting";
 
 export class Request {
   http(param) {
@@ -6,7 +6,7 @@ export class Request {
     const method = param.method;
     let header = Object.assign(param.header , { 
       Connection: "keep-alive",
-      Host: "localhost:20201",
+      // Host: "localhost:20201",
       // "Access-Control-Allow-Headers":
       //   "Access-Control-Allow-Headers,Authorization,User-Agent, Keep-Alive, Content-Type, X-Requested-With,X-CSRF-Token,AccessToken,Token",
       // "Access-Control-Expose-Headers":

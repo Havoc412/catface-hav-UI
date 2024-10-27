@@ -48,6 +48,13 @@
                 @submit="submit"
             />
         </view>
+        <view class="flex-center-vertical">
+            <view class="flex-center-horizontal gap-5">
+                <h-icon name="tool-info"/>
+                <view class="attation">小护提醒！</view>
+            </view>
+            <up-image src="/static/info/danger.jpg" radius="5"/>
+        </view>
     </view>
     <!--一些辅助用 悬浮窗-->
     <notice-win v-if="noticeList.length > 0" :notices="noticeList"/>
@@ -57,7 +64,7 @@
 <script setup>
     import { ref, reactive } from "vue";
 
-    import { BASE_URL } from "../../common/setting";
+    import { CAT_FACE_URL } from "../../common/setting";
 
     // com
     import catItem from "../../components/catface/catItem.vue";
@@ -139,7 +146,7 @@
             return;
         }
         uni.uploadFile({
-            url: BASE_URL + 'api/cnn/add_cat/',
+            url: CAT_FACE_URL + 'api/cnn/add_cat/',
             filePath: file_url.value,
             name: 'file',
             formData: {
@@ -216,6 +223,12 @@
         position: fixed;
         right: 30rpx;
         bottom: 120rpx;
+    }
+
+    .attation {
+        font-family: Alimama ShuHeiTi;
+        color: #ff4c55;
+        font-size: 30px;
     }
 
 </style>        

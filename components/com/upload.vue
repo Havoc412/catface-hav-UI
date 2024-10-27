@@ -55,7 +55,8 @@
   // struct
   import { Cat } from "../../models/catInfor";
   // consts
-  import { BASE_URL } from "../../common/setting";
+  import { CAT_FACE_URL } from "../../common/setting";
+  const BASE_URL = CAT_FACE_URL;
   import { Ecnn } from "../../ErrCode/errmsg";
 
 // DATA
