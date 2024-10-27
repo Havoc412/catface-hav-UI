@@ -108,7 +108,6 @@
                             v-model="ageLinkShow"
                             placeholder="估计一下 ta 的年龄"
                             placeholderStyle="color: #888888"
-                            clearable
                         ></up-input>
                         
                     </up-form-item>
@@ -327,10 +326,11 @@
         flag.breedHumanChange = true;
     }
     const selectAge = (e) => {
+        console.debug(e.value);
         data.age.year = e.value[0];
         data.age.month = e.value[1];
-        data.age.week = e.value[2];
-        data.age.day = e.value[3];
+        data.age.week = e.value[2] || "0"; // 提高鲁棒性。
+        data.age.day = e.value[3] || "0";
         flag.age = false;
     }
 
@@ -378,11 +378,6 @@
 
     font-size: 25rpx;
     color: #777;
-}
-
-.warn-breed-choose {
-    color: #777;
-    font-size: 25rpx;
 }
 
 .container-btn-left {
