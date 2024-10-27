@@ -4,6 +4,7 @@
         :columns="[Breed_ZH]"
         title="请选择猫猫花色"
         :closeOnClickOverlay="true"
+        @close="emits('closeBreed')"
         @cancel="emits('closeBreed')"
         @confirm="(e) => emits('selectBreed', e)"
     ><!--改了官方的源码，加了一个插槽-->
@@ -16,6 +17,7 @@
         :columns="Age"
         title="请估计毛茸茸的年龄"
         :closeOnClickOverlay="true"
+        @close="emits('closeAge')"
         @cancel="emits('closeAge')"
         @confirm="(e) => emits('selectAge', e)"
     >
