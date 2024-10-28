@@ -12,9 +12,9 @@
             <view class="warn-breed-choose flex-center-both">暂时只支持以下花色</view>
         </template>
     </up-picker>
-    <!--TIP ref="agePickerRef"-->
     <!--BUG :defaultIndex="flag.ageDetail ? [0, 0, 0, 0] : [0, 0]" 会导致每一次都得重新选-->
     <up-picker
+        ref="agePickerRef"
         :show="flag.age"
         :columns="AgeChoosedShow"
         title="请估计毛茸茸的年龄"
@@ -23,6 +23,7 @@
         @close="emits('closeAge')"
         @cancel="emits('closeAge')"
         @confirm="(e) => emits('selectAge', e)"
+        @change="changeHandler"
     >
         <template #top>
             <!--TODO 不到一个月，3个月左右，不到一岁，1岁多-->
@@ -38,9 +39,14 @@
                 <view class="shrink"/>
                 <h-btn 
                     :icon="!flag.ageDetail ? 'tool-choose_more_thin' : 'tool-choose_less_thin'"
+                    :disabled="flag.dateChooseMode"
                     @click="flag.ageDetail = !flag.ageDetail"
                 />
-                <h-btn icon="tool-date"/>
+                <!--UPDATE 暂时想不到合适的变化 ICON-->
+                <h-btn
+                    icon="tool-date" 
+                    @click="flag.dateChooseMode = !flag.dateChooseMode"
+                />
             </view>
         </template>
 
@@ -48,9 +54,10 @@
 </template>
 
 <script setup>
-    import { watch, reactive, ref, computed } from "vue";
+    import { watch, reactive, ref, computed, onMounted } from "vue";
 
     import { Breed_ZH, Age } from "../../../common/consts";
+    import { DateChooseInit, MouthChooseInit, DayChooseInit } from "../../../utils/date";
     // store
 // DATA
     const props = defineProps({
@@ -63,6 +70,7 @@
         breed: false,
         age: false,
         ageDetail: false, // 年龄栏是否显示详细？
+        dateChooseMode: false, // 启用，日期选择方式。
     })
 
     const commonAge = [  // 给一些简单常见的年龄，方便用户选择
@@ -73,24 +81,72 @@
         { text: '1岁半', value: ["0", '1岁', '6个月', "0"] },
     ]
 
+    const agePickerRef = ref(null);
+    const AgeChoosedShow = ref(Age.slice(0, 2));  // TIP up-picker 不兼容 null 处理。
+
 // FUNC
+    // onMounted(() => {  // Init
+    //     AgeChoosedShow.value = Age.slice(0, 2);  // 初始，放置最简单的选择。
+    //     flag.breed = false;
+    //     flag.age = false;
+    //     flag.ageDetail = false;
+    //     flag.dateChooseMode = false;
+    // })
+
     watch(() => props.breedShow, (value) => {
         flag.breed = value;
     })
     watch(() => props.ageShow, (value) => {
         flag.age = value;
     })
-
-    const AgeChoosedShow = computed(() => {
-        return flag.ageDetail ? Age : Age.slice(0, 2);
+    watch(() => flag.ageDetail, AgeDetailChange)
+    watch(() => flag.dateChooseMode, () => {
+        if (agePickerRef.value) // onMounted 时， Ref 还没有准备好。
+            agePickerRef.value.setIndexs([0, 0, 0, 0], false); // 全部恢复为 0 状态，前者优先，多余无效。
+        if (!flag.dateChooseMode) {
+            AgeDetailChange();
+        } else {
+            AgeChoosedShow.value = DateChooseInit();
+        }
     })
 
-    // TIP 通过这种方式可以外部调用 Picker 的状态。
-    // const agePickerRef = ref(null);
-    // onMounted(() => {
-    //     console.log("pickerGroup mounted");
-    //     agePickerRef.value.setIndexs([1, 1, 1, 1], false);
-    // })
+    function AgeDetailChange() {
+        // 由于 dateChoose Mode 下，ageDetail 不会改变，由此简化。
+        AgeChoosedShow.value = flag.ageDetail ? DateChooseInit() : Age;
+    }
+
+    const changeHandler = (e) => {
+        // INFO 年月日的自适应变动。
+        if(!flag.dateChooseMode) return;
+        const {
+            columnIndex,
+            value,
+            values,
+            index,
+            indexs,
+        } = e;
+        switch(columnIndex) { // UPDATE 或许可以优化一下重复的部分。
+            case 0: {
+                // Mouth
+                AgeChoosedShow.value[1] = MouthChooseInit(value[0]);
+                AgeChoosedShow.value[2] = DayChooseInit(value[0], value[1]);
+                const newMouthIndex = AgeChoosedShow.value[1].indexOf(value[1]);
+                let newDayIndex = AgeChoosedShow.value[2].indexOf(value[2]);
+                if (newDayIndex < 0) newDayIndex = 0;
+                agePickerRef.value.setIndexs([indexs[0], newMouthIndex, newDayIndex], true);
+                break;
+            }
+            case 1: {
+                AgeChoosedShow.value[2] = DayChooseInit(value[0], value[1]);
+                let newDayIndex = AgeChoosedShow.value[2].indexOf(value[2]);
+                if (newDayIndex < 0) newDayIndex = 0;
+                agePickerRef.value.setIndexs([indexs[0], indexs[1], newDayIndex], true);
+                break;
+            }
+            case 2: {};                
+            default: break;
+        }
+    }
 
 </script>
 

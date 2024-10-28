@@ -41,10 +41,77 @@ function calculateAge(birthday, accuracyFlag = false) {
   } else return `${days}天`;
 }
 
-export default {
-    calculateAge
+function DayChooseInit(year, month) {
+  // 将字符串形式的年月转换为数字
+  const selectedYear = parseInt(year.replace("年", ""), 10);
+  const selectedMonth = parseInt(month.replace("月", ""), 10);
+
+  // 获取当前日期
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1; // 月份从0开始，所以加1
+  
+  let days;
+  if (selectedYear === currentYear && selectedMonth === currentMonth) {
+    // 如果选择的年月与当前年月相同，则生成的日期数组只包含到当前日期
+    const currentDay = currentDate.getDate();
+    days = Array.from({ length: currentDay }, (_, i) => `${i + 1}日`);
+  } else {
+    // 创建一个 Date 对象来获取该月的天数
+    const date = new Date(selectedYear, selectedMonth, 0);
+    const daysInMonth = date.getDate();
+    // 否则生成该月的所有日期
+    days = Array.from({ length: daysInMonth }, (_, i) => `${i + 1}日`);
+  }
+
+  return days.reverse();
 }
 
+function MouthChooseInit(year) {
+  console.debug(year);
+  // 获取当前年份和月份
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+
+  const yearInt = parseInt(year.replace("年", ""), 10);
+
+  let months;
+  if (yearInt === currentYear) {
+    const currentMonth = currentDate.getMonth() + 1; // 月份从0开始，所以加1
+    months = Array.from({ length: currentMonth }, (_, i) => `${i + 1}月`);
+  } else {
+    months = Array.from({ length: 12 }, (_, i) => `${i + 1}月`);
+  }
+
+  // 反转数组，实现从大到小的排列
+  return months.reverse();
+}
+
+function DateChooseInit() {
+  // 获取当前年份
+  const currentYear = new Date().getFullYear();
+  // 生成年份数组并加上 "年"
+  const years = Array.from(
+    { length: 20 },
+    (_, i) => `${currentYear - i}年`
+  );
+  // 月份数组并加上 "月"
+  const months = MouthChooseInit(`${currentYear}年`)
+  // 生成日期数组并加上 "日"
+  const days = DayChooseInit(`${currentYear}年`, `${months[0]}月`);
+
+  return [years, months, days];
+}
+
+export {
+    calculateAge,
+    DateChooseInit,  // 第一次，获取今日的逻辑
+    MouthChooseInit,
+    DayChooseInit,
+}
+// TEST - 2: DateChooseInit
+// console.log(DateChooseInit());
+// TEST - 1: calculateAge
 // console.log(calculateAge("2010-01-01")); // 应该输出 "13岁"
 // console.log(calculateAge("2010-06-01", true)); // 应该输出 "12岁 10个月"
 // console.log(calculateAge("2010-07-01")); // 应该输出 "13岁"
