@@ -2,7 +2,7 @@
 <template>
     <!-- <Ripple> -->
         <view class="container-btn flex-center-both" :class="classObject" :style="getOutsideStyle"
-            @touchstart="handleTouchStart" @touchend="handleTouchEnd" @click="emits('click')">
+            @touchstart="handleTouchStart" @touchend="handleTouchEnd" @click="click">
             <slot name="prefix">
                 <h-icon v-if="props.preIcon" :name="props.preIcon" :size="props.iconSize"/>
             </slot>
@@ -121,6 +121,11 @@
             ...props.customStyle,   // 外部优先级高，覆盖前者。
         }
     })
+
+    // Emits
+    function click() {
+        if(!props.disabled) emits('click');
+    }
 
 </script>
 
