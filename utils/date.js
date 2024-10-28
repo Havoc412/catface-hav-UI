@@ -28,7 +28,7 @@ function calculateAge(birthday, accuracyFlag = false) {
       years--;
       months = 11;
     }
-  }
+}
 
   // OUTPUT 多样化输出
   if (years > 0) {

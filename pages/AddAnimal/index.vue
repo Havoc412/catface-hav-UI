@@ -105,7 +105,7 @@
                         @click="flag.age = true"
                     >
                         <up-input
-                            v-model="ageLinkShow"
+                            v-model="dataShow.ageLinkShow"
                             placeholder="估计一下 ta 的年龄"
                             placeholderStyle="color: #888888"
                         ></up-input>
@@ -273,6 +273,7 @@
             month: '0',
             week: '0',
             day: '0',
+            birthday: ''
         },
         status: '在校',
         description: '',
@@ -310,27 +311,47 @@
         nickNames: false,
     })
 
-// FUNC
-    const ageLinkShow = computed(() => {
-        const fullAge = [data.age.year, data.age.month, data.age.week, data.age.day];
-        const parts = [];
-        for(let i = 0; i < fullAge.length; i++) {
-            if(extractIntFromSize(fullAge[i]) > 0)
-                parts.push(fullAge[i]);
-        }
-        return parts.join('-');
+    const dataShow = reactive({
+        ageLinkShow: ""
     })
+
+// FUNC
+    // const ageLinkShow = computed(() => {
+    //     const fullAge = [data.age.year, data.age.month, data.age.week, data.age.day];
+    //     const parts = [];
+    //     for(let i = 0; i < fullAge.length; i++) {
+    //         if(extractIntFromSize(fullAge[i]) > 0)
+    //             parts.push(fullAge[i]);
+    //     }
+    //     return parts.join('-');
+    // })
     const selectBreed = (e) => {
         data.breed = e.value[0];
         flag.breed = false;
         flag.breedHumanChange = true;
     }
-    const selectAge = (e) => {
+    const selectAge = (e, dateModeFlag) => {
         console.debug(e.value);
-        data.age.year = e.value[0];
-        data.age.month = e.value[1];
-        data.age.week = e.value[2] || "0"; // 提高鲁棒性。
-        data.age.day = e.value[3] || "0";
+        const parts = [];
+        if (!dateModeFlag) {
+            data.age.year = e.value[0];
+            data.age.month = e.value[1];
+            data.age.week = e.value[2] || "0"; // 提高鲁棒性。
+            data.age.day = e.value[3] || "0";
+
+            // show
+            const fullAge = [data.age.year, data.age.month, data.age.week, data.age.day];
+            for(let i = 0; i < fullAge.length; i++) {
+                if(extractIntFromSize(fullAge[i]) > 0)
+                    parts.push(fullAge[i]);
+            }
+            dataShow.ageLinkShow = parts.join('-');
+        } else {
+            data.birthday = e.value; // TODO 转化为 date 格式。
+            // show
+            dataShow.ageLinkShow = e.value.join('-')
+        }
+
         flag.age = false;
     }
 

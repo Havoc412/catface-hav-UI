@@ -22,7 +22,7 @@
         :toolbarRightSlot="true"
         @close="emits('closeAge')"
         @cancel="emits('closeAge')"
-        @confirm="(e) => emits('selectAge', e)"
+        @confirm="(e) => emits('selectAge', e, flag.dateChooseMode)"
         @change="changeHandler"
     >
         <template #top>
@@ -112,7 +112,7 @@
 
     function AgeDetailChange() {
         // 由于 dateChoose Mode 下，ageDetail 不会改变，由此简化。
-        AgeChoosedShow.value = flag.ageDetail ? DateChooseInit() : Age;
+        AgeChoosedShow.value = flag.ageDetail ? Age : Age.slice(0, 2);
     }
 
     const changeHandler = (e) => {
