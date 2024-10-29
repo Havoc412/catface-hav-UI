@@ -5,7 +5,7 @@
             :loaddingText="props.loaddingText"
             size="300rpx"
         />
-        <err v-if="flag.err"/>
+        <err v-if="flag.err" @click="emits('reload')"/>
     </view>
 </template>
 
@@ -30,7 +30,8 @@
         type: String,
         default: "full" // block // INFO full 全屏； block 区块  // TODO block 暂时没有设定特殊点。
       }
-    })
+    });
+    const emits = defineEmits(['reload']);
     
     const flag = reactive({
         loadding: false,

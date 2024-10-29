@@ -2,7 +2,7 @@
     <Header ref="headerRef" @filterConditionsChange="filterConditionsChange" @add="gotoAddAnimal"/>
     <view class="flex-center-vertical">
         <!--FUNC-->
-        <statusWin v-if="flag.status.show" :status="flag.status.type"/>
+        <statusWin v-if="flag.status.show" :status="flag.status.type" @reload="init()"/>
         <view v-else class="flex-center-vertical">
             <view class="container-cats gap-10">
                 <template v-for="(item, index) in data.catsList">
@@ -77,10 +77,14 @@
 
 // FUNC
     onMounted( async() => {
+        await init();
+    })
+
+    async function init() {
         flag.status.type = "loadding";
         flag.status.show = true;
         data.catsList = await getData(10);
-    })
+    }
 
     async function getData(num, skip = 0) {
         const filterConditions = headerRef.value.getFilterConditions();
