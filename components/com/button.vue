@@ -177,7 +177,7 @@
 }
 
 .disabled {
-    opacity: .7;
+    opacity: .6;
 }
 
 </style>
