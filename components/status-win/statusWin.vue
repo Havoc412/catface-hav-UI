@@ -1,5 +1,5 @@
 <template>
-    <view v-show="!flag.hide" class="container-loadding flex-center-both">
+    <view v-show="!flag.hide" class="container-loadding flex-center-both" :class="props.mode">
         <loaddingCat v-if="flag.loadding" 
             loadding 
             :loaddingText="props.loaddingText"
@@ -25,6 +25,10 @@
       loaddingText: {
         type: String,
         default: "Loading"
+      },
+      mode: {
+        type: String,
+        default: "full" // block // INFO full 全屏； block 区块  // TODO block 暂时没有设定特殊点。
       }
     })
     
@@ -64,14 +68,17 @@
 <style scoped>
 
 .container-loadding {
+    width: 100%;
+    user-select:none;
+    z-index: 2000;
+    overflow:hidden
+}
+
+.full {
     position: fixed;
     left: 0;
     top:  0;
     height: 100%;
-    width: 100%;
-    user-select:none;
-    z-index: 1000;
-    overflow:hidden
 }
 
 </style>        

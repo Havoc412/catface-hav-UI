@@ -22,7 +22,7 @@
                 class="container-waterfall" :style="{
                 '--height': state.waterfallHeight + 'vh'
             }">
-                <statusWin v-if="flag.status.show" :status="flag.status.type"/>
+                <statusWin v-if="flag.status.show" mode="block" :status="flag.status.type"/>
                 <view v-else class="flex-top-horizontal gap-10">
                     <view class="flex-vertical gap-10">
                         <template v-for="(item, index) in data.left" :key="index">
@@ -286,14 +286,14 @@
                 vars.heightRight += height;
             }
 
-            // TEST 
-            if (vars.heightLeft <= vars.heightRight) {
-                data.left.push(item);
-                vars.heightLeft += height;
-            } else {
-                data.right.push(item);
-                vars.heightRight += height;
-            }
+            // // TEST *2
+            // if (vars.heightLeft <= vars.heightRight) {
+            //     data.left.push(item);
+            //     vars.heightLeft += height;
+            // } else {
+            //     data.right.push(item);
+            //     vars.heightRight += height;
+            // }
         })
 
         flag.status.show = false;
