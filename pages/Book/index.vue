@@ -29,7 +29,7 @@
         </view>
     </view>
     <!-- UPDATE 感觉不是很有必要，同时可以放到 tools 内部。 <up-back-top :scroll-top="flag.scrollTop" top="100"/> -->
-    <sideTools :scroll-top="flag.scrollTop" :load-status="flag.loadmore" @add="gotoAddAnimal"/>"
+    <sideTools :scroll-top="flag.scrollTop" :load-status="flag.loadmore" @add="gotoAddAnimal"/>
     <h-tabbar/>
 </template>
 
