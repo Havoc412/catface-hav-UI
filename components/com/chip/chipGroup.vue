@@ -31,9 +31,13 @@
             type: Boolean,
             default: false
         },
-        maxNum: {
+        maxNum: {  // 超过就不会展示 editChip 这个组件；
             type: Number,
             default: 3
+        },
+        maxSingleLen: { // 每个标签的最大长度；由 addText(text) 判断 text 的长度；
+            type: Number,
+            default: 10
         },
         infoIcon: Boolean
     });
@@ -49,6 +53,10 @@
     function addText(text) {
         if (data.value.includes(text))
             return;
+        else if (text.length >= props.maxSingleLen) {
+            // TODO 前端展示“超过10字，无效”
+            return;            
+        }
         data.value.push(text);
     }
 

@@ -2,7 +2,8 @@
     <chipGroup mode="editable" infoIcon @info="flag = true"/>
     <up-overlay opacity=".1" :show="flag" @click="flag = false">
         <blockBase>
-            别名最多三个，按住拖动可删除。
+            别名最多三个，每个别名最多10个字。<br/>
+            按住拖动到指定位置即可删除。
         </blockBase>
     </up-overlay>
 </template>
