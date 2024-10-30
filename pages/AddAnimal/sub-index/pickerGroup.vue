@@ -35,6 +35,8 @@
         <template #top>
             <!--TODO 不到一个月，3个月左右，不到一岁，1岁多-->
             <view class="flex-center-horizontal" style="padding: 0 20px;">
+                <!--UPDATE 虽然现在这里只有一个选择，偏移导致看起来怪怪的，
+                但是之后添加狗狗，所以倒也无妨。-->
                 <template v-for="(item, index) in commonAge" :key="index">
                     <h-btn variant="outlined" :text="item.text" @click="emits('selectAge', item)"/>
                 </template>
