@@ -374,6 +374,7 @@
     // TAG additional functions
     function getPoi(poi) {
         data.poi = poi;
+        console.debug(data.poi);
     }
     
     // TAG 业务

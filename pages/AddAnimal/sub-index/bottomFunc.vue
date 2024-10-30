@@ -50,7 +50,7 @@
     })
 // FUNC
     async function getPoi() {
-        // TODO 鉴定权限
+        // TODO 鉴定定位权限
         const poi = await GetPoi();
         if(poi)
             emits('getPoi', poi);
