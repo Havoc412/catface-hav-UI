@@ -5,7 +5,7 @@
             sub-text="请选择最相近"
         />
         <view>
-
+            <!--TODO 添加样例图片到图床-->
         </view>
     </overlayBase>
 </template>
