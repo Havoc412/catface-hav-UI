@@ -316,15 +316,6 @@
     })
 
 // FUNC
-    // const ageLinkShow = computed(() => {
-    //     const fullAge = [data.age.year, data.age.month, data.age.week, data.age.day];
-    //     const parts = [];
-    //     for(let i = 0; i < fullAge.length; i++) {
-    //         if(extractIntFromSize(fullAge[i]) > 0)
-    //             parts.push(fullAge[i]);
-    //     }
-    //     return parts.join('-');
-    // })
     const selectBreed = (e) => {
         data.breed = e.value[0];
         flag.breed = false;

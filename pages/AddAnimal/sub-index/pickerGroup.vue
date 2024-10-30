@@ -9,7 +9,14 @@
         @confirm="(e) => emits('selectBreed', e)"
     ><!--改了官方的源码，加了一个插槽-->
         <template #top>
-            <view class="warn-breed-choose flex-center-both">暂时只支持以下花色</view>
+                <view class="warn-breed-choose flex-center-both">暂时只支持以下花色</view>
+        </template>
+
+        <template #tools>
+            <view class="flex-center-vertical gap-10" style="padding: 10px;">
+                <view class="shrink"/>
+                <h-btn icon="tool-question_thin" @click="flag.breedExample = true"/>
+            </view>
         </template>
     </up-picker>
     <!--BUG :defaultIndex="flag.ageDetail ? [0, 0, 0, 0] : [0, 0]" 会导致每一次都得重新选-->
@@ -49,8 +56,8 @@
                 />
             </view>
         </template>
-
     </up-picker>
+    <breedExample v-if="flag.breedExample" @close="flag.breedExample = false"/>
 </template>
 
 <script setup>
@@ -58,6 +65,9 @@
 
     import { Breed_ZH, Age } from "../../../common/consts";
     import { DateChooseInit, MouthChooseInit, DayChooseInit } from "../../../utils/date";
+
+    // com
+    import breedExample from "./sub-picker/breed-example.vue";
     // store
 // DATA
     const props = defineProps({
@@ -71,6 +81,7 @@
         age: false,
         ageDetail: false, // 年龄栏是否显示详细？
         dateChooseMode: false, // 启用，日期选择方式。
+        breedExample: false, // 启用，花色介绍窗口
     })
 
     const commonAge = [  // 给一些简单常见的年龄，方便用户选择
