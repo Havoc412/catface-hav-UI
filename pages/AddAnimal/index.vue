@@ -40,7 +40,7 @@
                         label="性别"
                         prop="data.gender"
                     >
-                        <up-radio-group v-model="data.gender">
+                        <up-radio-group v-model="dataShow.gender">
                             <up-radio
                                 :customStyle="{marginBottom: '8px', marginRight: '20px'}"
                                 v-for="(item, index) in Gender"
@@ -59,7 +59,7 @@
                     >
                         <view class="block relative">
                             <up-input
-                                v-model="data.breed"
+                                v-model="dataShow.breed"
                                 placeholder="请选择 ta 的花色"
                                 placeholderStyle="color: #888888"
                                 disabledColor="transparent"
@@ -87,7 +87,7 @@
                         label="学业"
                         prop="data.status"
                     >
-                        <up-radio-group v-model="data.status">
+                        <up-radio-group v-model="dataShow.status">
                             <up-radio
                                 :customStyle="{marginBottom: '8px', marginRight: '20px'}"
                                 v-for="(item, index) in SchoolStatus"
@@ -158,7 +158,7 @@
                             label="绝育状态"
                             prop="data.sterilization"
                         >
-                            <up-radio-group v-model="data.sterilization">
+                            <up-radio-group v-model="dataShow.sterilization">
                                 <up-radio
                                     :customStyle="{marginBottom: '8px', marginRight: '20px'}"
                                     v-for="(item, index) in SterilizationStatus"
@@ -174,7 +174,7 @@
                             label="疫苗情况"
                             prop="data.vaccination"
                         >
-                            <up-radio-group v-model="data.vaccination">
+                            <up-radio-group v-model="dataShow.vaccination">
                                 <up-radio
                                     :customStyle="{marginBottom: '8px', marginRight: '20px'}"
                                     v-for="(item, index) in VaccinationStatus"
@@ -190,7 +190,7 @@
                             label="驱虫情况"
                             prop="data.deworming"
                         >
-                            <up-radio-group v-model="data.deworming">
+                            <up-radio-group v-model="dataShow.deworming">
                                 <up-radio
                                     :customStyle="{marginBottom: '8px', marginRight: '20px'}"
                                     v-for="(item, index) in DewormingStatus"
@@ -244,6 +244,7 @@
 
     import { Gender, SchoolStatus, SterilizationStatus, VaccinationStatus, DewormingStatus } from "../../common/consts";
     import { extractIntFromSize } from "../../utils/string";
+    import { calculateBirthday } from "../../utils/date";
 
     import nginx from "../../request/nginx";
     // com
@@ -262,30 +263,31 @@
         subFontSize: 14,
     }
 
-    const data = reactive({
-        photos: [],
-        
+    const data = reactive({  // 用于访问 API 的格式化后的数据
+        // user_id 由 API 补充；
         name: '',
-        gender: '不明',
-        breed: '', 
-        age: {
-            year: '0',
-            month: '0',
-            week: '0',
-            day: '0',
-            birthday: ''
-        },
-        status: '在校',
+
+        birthday: '',  // eg. 2024-10-05
         description: '',
-        
-        sterilization: '不明',
-        vaccination: '不明',
-        deworming: '不明',
+
+        photos: [],
         nick_names: [],
         
         poi: {},
     })
-    const rules = reactive({
+    const dataShow = reactive({  // 前端展示用的数据。
+        // 直到最后访问 API 的时候，处理为 uint8 等数据。
+        ageLinkShow: "",
+        gender: '不明',
+        breed: '',
+        status: '在校',
+
+        sterilization: '不明',
+        vaccination: '不明',
+        deworming: '不明',
+    })
+    
+    const rules = reactive({ // TODO 暂时没有用到。
         'data.name': {
             type: 'string',
             required: true,
@@ -313,43 +315,47 @@
         nickNames: false,
     })
 
-    const dataShow = reactive({
-        ageLinkShow: ""
-    })
-
 // FUNC
     const selectBreed = (e) => {
-        data.breed = e.value[0];
+        dataShow.breed = e.value[0];
         flag.breed = false;
         flag.breedHumanChange = true;
     }
     const selectAge = (e, dateModeFlag) => {
         console.debug(e.value);
-        const parts = [];
         if (!dateModeFlag) {
-            data.age.year = e.value[0];
-            data.age.month = e.value[1];
-            data.age.week = e.value[2] || "0"; // 提高鲁棒性。
-            data.age.day = e.value[3] || "0";
-
             // show
-            const fullAge = [data.age.year, data.age.month, data.age.week, data.age.day];
-            for(let i = 0; i < fullAge.length; i++) {
-                if(extractIntFromSize(fullAge[i]) > 0)
-                    parts.push(fullAge[i]);
+            const parts = [];
+            const intAge = [];  // 只保留 int 的数组；
+            for(let i = 0; i < e.value.length; i++) {
+                const item = extractIntFromSize(e.value[i]);
+                intAge.push(item);
+                if(item > 0)
+                    parts.push(e.value[i]);
             }
             dataShow.ageLinkShow = parts.join('-');
+        
+            // format
+            const [year, month, week = 0, day = 0] = intAge;
+            data.birthday = calculateBirthday(year, month, week, day);
         } else {
-            data.birthday = e.value; // TODO 转化为 date 格式。
             // show
             dataShow.ageLinkShow = e.value.join('-')
+
+            // format
+            let [year, month, day] = e.value;
+            year = extractIntFromSize(year);
+            month = extractIntFromSize(month).toString().padStart(2, '0');  // TIP fix 1 -> 01 这样的作用
+            day = extractIntFromSize(day).toString().padStart(2, '0');
+            data.birthday = `${year}-${month}-${day}`;
         }
+        console.debug(data.birthday);
 
         flag.age = false;
     }
 
 
-    // TAG Images
+    // TAG Images；Photos
     function addImage(paths) {
         if(!paths)  return;
         const newFullPath = paths.map(path => {
@@ -373,13 +379,13 @@
 
     // TAG additional functions
     function getPoi(poi) {
-        data.poi = poi;
+        data.poi = poi;  // 接受一个 { latitude: xx, longitude: xx};
         console.debug(data.poi);
     }
     
     // TAG 业务
     function storeData() {
-        // TODO 保存到数据库
+        // TODO 缓存本地？但是有效性如何？会不会被清理，何时被清理。
     }
 
     function submitData() {

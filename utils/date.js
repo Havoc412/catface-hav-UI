@@ -41,6 +41,43 @@ function calculateAge(birthday, accuracyFlag = false) {
   } else return `${days}天`;
 }
 
+function calculateBirthday(year, month, week, day) {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth(); // 月份从 0 开始，所以 11 表示 12 月
+  const currentDay = now.getDate();
+
+  // 计算出生年份
+  let birthYear = currentYear - year;
+
+  // 计算出生月份
+  let birthMonth = currentMonth - month;
+  if (birthMonth < 0) {
+    birthMonth += 12;
+    birthYear -= 1; // 减去一年
+  }
+
+  // 计算出生日 & 周数
+  const days = day + week * 7;
+  let birthDay = currentDay - days;
+  if (birthDay < 0) {
+    birthMonth -= 1;
+    if (birthMonth < 0) {
+      birthMonth += 12;
+      birthYear -= 1; // 减去一年
+    }
+    // 获取上一个月的天数
+    const daysInLastMonth = new Date(birthYear, birthMonth + 1, 0).getDate();
+    birthDay += daysInLastMonth;
+  }
+
+  // 创建生日日期对象
+  const birthdayDate = new Date(birthYear, birthMonth, birthDay);
+
+  // 格式化日期
+  return `${birthdayDate.getFullYear()}-${String(birthdayDate.getMonth() + 1).padStart(2, '0')}-${String(birthdayDate.getDate()).padStart(2, '0')}`;
+}
+
 function DayChooseInit(year, month) {
   // 将字符串形式的年月转换为数字
   const selectedYear = parseInt(year.replace("年", ""), 10);
@@ -105,10 +142,18 @@ function DateChooseInit() {
 
 export {
     calculateAge,
+    calculateBirthday,
     DateChooseInit,  // 第一次，获取今日的逻辑
     MouthChooseInit,
     DayChooseInit,
 }
+// TEST - 3: calculateBirthday
+// console.log(calculateBirthday(0, 0, 0, 0));
+// console.log(calculateBirthday(0, 10, 0, 0));
+// console.log(calculateBirthday(0, 10, 0, 31));
+// console.log(calculateBirthday(1, 0, 0, 5));
+// console.log(calculateBirthday(1, 0, 0, 30));
+// console.log(calculateBirthday(1, 9, 0, 30));
 // TEST - 2: DateChooseInit
 // console.log(DateChooseInit());
 // TEST - 1: calculateAge
