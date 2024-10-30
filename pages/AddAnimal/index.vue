@@ -206,7 +206,7 @@
                 </up-form>
             </view>
             <!-- INFO Func-->
-            <bottomFunc/>
+            <bottomFunc @getPoi="getPoi"/>
             <placeHolder height="190" type="rpx"/>
             <!--Tag 业务逻辑 UI -->
             <view class="flex-center-horizontal gap-5 block mt-10">
@@ -282,6 +282,8 @@
         vaccination: '不明',
         deworming: '不明',
         nick_names: [],
+        
+        poi: {},
     })
     const rules = reactive({
         'data.name': {
@@ -346,6 +348,8 @@
         flag.age = false;
     }
 
+
+    // TAG Images
     function addImage(paths) {
         if(!paths)  return;
         const newFullPath = paths.map(path => {
@@ -365,6 +369,11 @@
             const [item] = data.photos.splice(index, 1);
              data.photos.unshift(item);
         }
+    }
+
+    // TAG additional functions
+    function getPoi(poi) {
+        data.poi = poi;
     }
     
     // TAG 业务

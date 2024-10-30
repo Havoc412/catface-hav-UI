@@ -49,9 +49,11 @@
         // TODO 存储得到的数据，解析后展示在前端。
     })
 // FUNC
-    function getPoi() {
+    async function getPoi() {
         // TODO 鉴定权限
-        GetPoi();
+        const poi = await GetPoi();
+        if(poi)
+            emits('getPoi', poi);
     };
 
 </script>
