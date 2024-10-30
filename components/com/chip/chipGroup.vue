@@ -41,7 +41,7 @@
         },
         infoIcon: Boolean
     });
-    const emits = defineEmits(['info']);
+    const emits = defineEmits(['info', 'change']);
 
     const data = ref(props.list);
 
@@ -58,6 +58,8 @@
             return;            
         }
         data.value.push(text);
+        // Send to Top
+        emits('change', data.value);
     }
 
 </script>

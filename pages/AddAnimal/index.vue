@@ -33,7 +33,7 @@
                         label="别称"
                         prop="data.nick_names"
                     >
-                        <nick-names/>
+                        <nick-names @change="(nickNames) => { data.extra.nick_names = nickNames; }"/>
                     </up-form-item>
                     <!-- Gender -->
                     <up-form-item
@@ -242,7 +242,11 @@
 <script setup>
     import { ref, reactive, computed } from "vue";
 
-    import { Gender, SchoolStatus, SterilizationStatus, VaccinationStatus, DewormingStatus } from "../../common/consts";
+    import { 
+        getAttrIndex, 
+        Gender, SchoolStatus, SterilizationStatus, VaccinationStatus, DewormingStatus,
+        Gender_ZH, SchoolStatus_ZH, SterilizationStatus_ZH, VaccinationStatus_ZH, DewormingStatus_ZH, Breed_ZH
+    } from "../../common/consts";
     import { extractIntFromSize } from "../../utils/string";
     import { calculateBirthday } from "../../utils/date";
 
@@ -266,14 +270,26 @@
     const data = reactive({  // 用于访问 API 的格式化后的数据
         // user_id 由 API 补充；
         name: '',
-
+        breed: 0,
+        gender: 0,
+        status: 1,
+        
         birthday: '',  // eg. 2024-10-05
         description: '',
+        healthy: {
+            sterilization: 0,
+            vaccination: 0,
+            deworming: 0,
+        },
 
         photos: [],
-        nick_names: [],
-        
+                
         poi: {},
+        
+        extra: {
+            nick_names: [],
+            tags: []
+        }
     })
     const dataShow = reactive({  // 前端展示用的数据。
         // 直到最后访问 API 的时候，处理为 uint8 等数据。
@@ -382,6 +398,10 @@
         data.poi = poi;  // 接受一个 { latitude: xx, longitude: xx};
         console.debug(data.poi);
     }
+
+    function catFace() {
+        
+    }
     
     // TAG 业务
     function storeData() {
@@ -389,6 +409,15 @@
     }
 
     function submitData() {
+        // STAGE-1 Format
+        data.breed = getAttrIndex(dataShow.breed, Breed_ZH);
+        data.gender = getAttrIndex(dataShow.gender, Gender_ZH);
+        data.status = getAttrIndex(dataShow.status, SchoolStatus_ZH);
+        data.healthy.sterilization = getAttrIndex(dataShow.sterilization, SterilizationStatus_ZH);
+        data.healthy.vaccination = getAttrIndex(dataShow.vaccination, VaccinationStatus_ZH);
+        data.healthy.deworming = getAttrIndex(dataShow.deworming, DewormingStatus_ZH);
+        console.info(data);
+        // STAGE-2 提交
         // TODO 提交到数据库
     }
 

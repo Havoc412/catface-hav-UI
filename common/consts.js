@@ -1,12 +1,35 @@
 // TODO 之后这些基础的配置信息，通过 API 从后端换取一遍。
 
-// Func
+/**
+ * @feature '不明' 是一个很特别的存在，在数据库中最好存到 0 位（方便后续扩展），但在前端展示中应该放到最后。
+ * 所以就需要前端对此进行一个转换，需要格外注意。
+ * 
+ * 比如下面 Gender，在数据库中存储的就是 { 0：不明，1：学长；2：学姐 } 这样的形式。
+ */
+
+// Func； 顶部函数
 export const GetZhFields = (array) => {
   return array.map((item) => item.zh);
 };
 export const GetEnFields = (array) => {
   return array.map((item) => item.en);
 };
+
+export function getAttrIndex(value, array) { // UPDATE 目前只是 ZH 版本；
+  if (value == '不明')
+    return 0;
+  return array.indexOf(value) + 1;
+}
+
+// Gender
+export const Gender = [
+  { zh: "学长/弟", color: "#8bc0c6", en: "boy" },
+  { zh: "学姐/妹", color: "#ce86ab", en: "girl" },
+  { zh: "不明", color: "#988fd0", en: "unknown" },
+];
+
+export const Gender_EN = GetEnFields(Gender);
+export const Gender_ZH = GetZhFields(Gender);
 
 // School Status
 export const SchoolStatus = [
@@ -19,16 +42,6 @@ export const SchoolStatus = [
 
 export const SchoolStatus_EN = GetEnFields(SchoolStatus);
 export const SchoolStatus_ZH = GetZhFields(SchoolStatus);
-
-// Gender
-export const Gender = [
-  { zh: "学长/弟", color: "#8bc0c6", en: "boy" },
-  { zh: "学姐/妹", color: "#ce86ab", en: "girl" },
-  { zh: "不明", color: "#988fd0", en: "unknown" },
-];
-
-export const Gender_EN = GetEnFields(Gender);
-export const Gender_ZH = GetZhFields(Gender);
 
 // Sterilization Status
 export const SterilizationStatus = [
@@ -48,6 +61,8 @@ export const VaccinationStatus = [
   { zh: "不明", color: "#988fd0", en: "unknown" },
 ];
 
+export const VaccinationStatus_EN = GetEnFields(VaccinationStatus);
+export const VaccinationStatus_ZH = GetZhFields(VaccinationStatus);
 
 // Deworming Status
 export const DewormingStatus = [
@@ -55,6 +70,9 @@ export const DewormingStatus = [
   { zh: "已驱虫", color: "#32cd32", en: "dewormed" },
   { zh: "不明", color: "#988fd0", en: "unknown" },
 ];
+
+export const DewormingStatus_EN = GetEnFields(DewormingStatus);
+export const DewormingStatus_ZH = GetZhFields(DewormingStatus);
 
 // Color
 export const Breed_ZH = [

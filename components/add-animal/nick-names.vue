@@ -1,5 +1,5 @@
 <template>
-    <chipGroup mode="editable" infoIcon @info="flag = true"/>
+    <chipGroup mode="editable" infoIcon @change="(values) => { emits('change', values) }" @info="flag = true"/>
     <up-overlay opacity=".1" :show="flag" @click="flag = false">
         <blockBase>
             别名最多三个，每个别名最多10个字。<br/>
@@ -18,7 +18,7 @@
     const props = defineProps({
 
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(['change']);
 
     const flag = ref(false);
 // FUNC
