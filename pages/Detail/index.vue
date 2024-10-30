@@ -1,7 +1,7 @@
 <template>
     <!--TODO 之后采用骨架图来填充 加载-->
     <view class="flex-vertical container-top">
-        <vearCarousel :img-list="imgList" url-key="url"/>
+        <vearCarousel :img-list="imgList"/>
         <view class="flex-vertical infor-container gap-5 relative">
             <view class="flex-center-horizontal gap-10">
                 <view class="flex-bottom-horizontal gap-10">
