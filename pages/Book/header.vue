@@ -96,6 +96,7 @@
 
 .container-tool {
     padding: 10px;
+    padding-bottom: 0;
 }
 
 </style>        
