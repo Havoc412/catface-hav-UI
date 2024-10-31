@@ -22,6 +22,13 @@ export function getAttrIndex(value, array) { // UPDATE 目前只是 ZH 版本；
   return array.indexOf(value) + 2;
 }
 
+export function getFrontIndex(backIndex, arrayLength) {
+  if(backIndex == 1)
+    return arrayLength - 1;  // 不明在最后
+  else
+    return backIndex - 2;
+}
+
 // Gender
 export const Gender = [
   { zh: "学长/弟", color: "#8bc0c6", en: "boy" },

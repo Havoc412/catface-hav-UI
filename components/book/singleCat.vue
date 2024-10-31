@@ -26,8 +26,7 @@
 
     import api from "../../request/animal";
 
-    import { Gender, GetEnFields } from "../../common/consts";
-    const gender_EN = GetEnFields(Gender);
+    import { Gender_EN, getFrontIndex } from "../../common/consts";
     // com
     import schoolStatus from "./sub-cat/schoolStatus.vue";
     import sterilizationStatus from "./sub-cat/sterilizationStatus.vue";
@@ -80,7 +79,7 @@
         if(typeof props.gender === 'string')
             return `gender-${props.gender}`;
         else {
-            let name = `gender-${gender_EN[props.gender - 1]}`;
+            const name = `gender-${Gender_EN[getFrontIndex(props.gender, Gender_EN.length)]}`;
             return name;
         }
     })
@@ -112,6 +111,7 @@
 
 .name {
     font-family: Alimama ShuHeiTi;
+    font-weight: bold;
     font-size: 17px;
 }
 

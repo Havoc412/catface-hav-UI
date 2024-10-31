@@ -10,7 +10,6 @@
             </view>
         </template>
     </headerBase>
-    <placeHolder height="40"/>  <!--INFO sticky 在 wx 中失效，用这种方式手动 fixed 模拟了一下-->
     <!--INFO safeAreaInsetTop 在 wx 中不需要-->
     <u-popup 
         :show="flag.list" 
