@@ -61,7 +61,6 @@
     function clickEntrance() {
         if (clickNum == 0) {
             setTimeout(() => {
-                console.debug(clickNum);
                 if(clickNum == 1) {
                     click();
                 } else if(clickNum >= 2) {

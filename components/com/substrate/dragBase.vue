@@ -1,6 +1,6 @@
 <template>
     <view class="drag-area flex-center-vertical shrink z-8" :style="{
-        '--top': state.top + 'px',
+        '--top': state.top + 'rpx',
         '--padding': '0 ' + props.padding
     }"> <!--INFO 主要就是依靠 fixed + top 来实现拖动的效果。-->
         <!--拖动杆-->
@@ -34,6 +34,7 @@
     import placeHolder from "../sub-tabbar/placeHolder.vue";
     // store
     import phoneInfor from "../../../store/phoneInfor";
+import { computed } from "vue";
     const phoneInforStore = phoneInfor();   
 // DATA
     const props = defineProps({
@@ -41,9 +42,14 @@
             type: String,
             default: "30rpx"
         },
-        dragHeight: {  // 收缩到最小状态时，流出的区域高度
+        closeSelfHeight: {  // 收缩到最小状态时，流出的区域高度
             type: Number,
-            default: 40
+            default: 0,
+            required: true,
+        },
+        closeTopHeight: {  // close 状态下，上方预留的空间。// INFO 相当于两种模式，非 0 为有效。
+            type: Number,
+            default: 0
         },
         startMode: { // 初始所在的位置；
             type: String,
@@ -55,16 +61,17 @@
     const emits = defineEmits(['open', 'close']);
 
     const consts = {
-        TOP_INIT: 250,
+        TOP_INIT: 300,
         TOP_MIN: 5,
         THRESHOLD_DOWN: 200,
         THRESHOLD_UP: -70,
         DRAG_HEIGHT: props.dragHeight,
+        CLOSE_TOP: 0,
     }
 
     const state = reactive({
         top: 200,
-        dragAreaHeight: 95
+        dragAreaHeight: 95,
     })
     const vars = {
         touchStartY: 0,
@@ -82,6 +89,11 @@
         flag.close = false;
         flag.full = false;
         state.top = consts.TOP_INIT;
+
+        if(props.closeTopHeight > 0)
+            consts.CLOSE_TOP = props.closeTopHeight;
+        else
+            consts.CLOSE_TOP = phoneInforStore.phoneHeightRpx - consts.DRAG_HEIGHT;
 
         if(props.startMode == 'close')
             close();
@@ -109,7 +121,7 @@
         // UPDATE 这里的逻辑之后再细化一下
         if(flag.close) {
             if(touchEndY < consts.TOP_INIT) {
-                state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
+                state.top = consts.TOP_MIN;
                 flag.full = true;
                 flag.close = false;
                 emits('open');
@@ -119,14 +131,14 @@
                 flag.close = false;
                 emits('open');
             } else {
-                state.top = phoneInforStore.phoneHeight - consts.DRAG_HEIGHT; // close
+                state.top = consts.CLOSE_TOP; // close
             }
         } else {
             if (dif > consts.THRESHOLD_DOWN) {
                 close();
                 emits('close');
             } else if(dif < consts.THRESHOLD_UP) {
-                state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
+                state.top = consts.TOP_MIN;
                 flag.full = true;
             } else {
                 state.top = consts.TOP_INIT;
@@ -144,7 +156,7 @@
         }
         
         if (!flag.full) {
-            state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
+            state.top = consts.TOP_MIN;
             flag.full = true;
         }
     }
@@ -163,7 +175,7 @@
     }
 
     function close() {
-        state.top = phoneInforStore.phoneHeight - consts.DRAG_HEIGHT;
+        state.top = consts.CLOSE_TOP;
         flag.full = false;
         flag.close = true;
     }

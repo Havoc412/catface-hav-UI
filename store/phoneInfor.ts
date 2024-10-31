@@ -18,6 +18,9 @@ export default defineStore("phoneStore", {
       // 用于 rpx ~ px 转换
       return this.phoneWidth / 750;  // INFO 单位 n px ~ 1 rpx
     },
+    phoneHeightRpx() {
+      return this.phoneHeight / this.phoneWidth * 750;
+    },
     // halfWidth() {
     //   const postWidth = extractIntFromSize(consts['post-width']);
     //   // console.debug('post-width:', postWidth, consts['post-width']);
@@ -28,8 +31,8 @@ export default defineStore("phoneStore", {
   actions: {
     setPhoneInfor(phoneInfor) {
       this.statusBarHeight = phoneInfor.statusBarHeight;
-      this.phoneWidth = phoneInfor.windowWidth;
-      this.phoneHeight = phoneInfor.windowHeight;
+      this.phoneWidth = phoneInfor.windowWidth; // || phoneInfor.screenWidth;
+      this.phoneHeight = phoneInfor.windowHeight; // || phoneInfor.screenHeight;
     },
     cal_menu_Location: function (id: number, num: number, menuWidth: number) {
       // num 中第 id 个目标。 menuWidth：rpx

@@ -5,7 +5,7 @@
             挑选一些精美的照片作为展示（数量：1~5）
         </view>
         <!--TAG Drag Area-->
-        <dragBase :drag-height="200" start-mode="close" :run-full="flag.runFull">
+        <dragBase :closeTopHeight="1100" start-mode="close" :run-full="flag.runFull">
             <view class="ali">
                 <!-- TAG Main Form-->
                 <up-form
@@ -14,6 +14,7 @@
                     :rules="rules"
                     :labelStyle="{
                         fontSize: '20px',
+                        fontWeight: 'bold',
                         whiteSpace: 'nowrap',
                     }"
                 >
@@ -474,6 +475,7 @@
 
 .photo-text {
     font-family: Alimama ShuHeiTi;
+    font-weight: bold;
     color: #888;
 }
 
