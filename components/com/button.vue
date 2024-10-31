@@ -1,12 +1,12 @@
 <!--复刻一下 vuetify-btn-->
 <template>
     <!-- <Ripple> -->
-        <view class="container-btn flex-center-horizontal" :class="classObject" :style="getOutsideStyle"
+        <view class="container-btn flex-center-both" :class="classObject" :style="getOutsideStyle"
             @touchstart="handleTouchStart" @touchend="handleTouchEnd" @click="click">
             <slot name="prefix">
                 <h-icon v-if="props.preIcon" :name="props.preIcon" :size="props.iconSize"/>
             </slot>
-            <view class="flex-center-both">
+            <view class="flex-center-vertical">
                 <slot name="topfix">
                     <h-icon v-if="props.icon" :name="props.icon" :size="props.iconSize"/>
                     <h-icon v-if="props.topIcon" :name="props.topIcon" :size="props.iconSize"/>

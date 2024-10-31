@@ -13,14 +13,14 @@
                     :model="data"
                     :rules="rules"
                     :labelStyle="{
-                        fontSize: '20px',
+                        fontSize: '18px',
                         fontWeight: 'bold',
                         whiteSpace: 'nowrap',
                     }"
                 >
                     <!-- Name -->
                     <up-form-item
-                        label="名字"
+                        label="名字*"
                         prop="data.name"
                     >
                         <name 
@@ -54,7 +54,7 @@
                     </up-form-item>
                     <!-- Breed -->
                     <up-form-item
-                        label="花色"
+                        label="花色*"
                         prop="data.breed"
                         @click="flag.breed = true"
                     >
@@ -235,20 +235,23 @@
                     <!--TODO 之后再做-->
                     <view>保存草稿</view>
                 </view>
-                <h-btn
-                    text="提交信息"
-                    :customStyle="{
-                        'background-color': '#374957',
-                        'font-family': 'Alimama ShuHeiTi',
-                        'color': '#fff',
-                        'font-size': '20px',
-                        'height': '40px',
-                        'border-radius': '20px',
-                        'flex': 1,
-                    }"
-                    :disabled="!submitAbled"
-                    @click="submitData"
-                />
+                <view class="shrink">
+                    <!--wx 中放到 btn 中的 flex：1 无效，故外套-->
+                    <h-btn
+                        text="提交信息"
+                        :customStyle="{
+                            'background-color': '#374957',
+                            'font-family': 'Alimama ShuHeiTi',
+                            'font-weight': 'bold',
+                            'color': '#fff',
+                            'font-size': '20px',
+                            'height': '40px',
+                            'border-radius': '20px',
+                        }"
+                        :disabled="!submitAbled"
+                        @click="submitData"
+                    />
+                </view>
             </view>
         </dragBase>
         <pickerGroup
