@@ -1,5 +1,47 @@
+/**
+ * @brief 鉴权模块
+ * @from https://blog.csdn.net/mossbaoo/article/details/116240044
+ */
+function checkOpenGPSService() {
+  let flag = true;
+
+	let systemType = uni.getSystemInfoSync().platform;
+  console.debug(systemType);
+	// 安卓
+	if (systemType === 'android') {
+		var context = plus.android.importClass('android.content.Context');
+		var locationManager = plus.android.importClass('android.location.LocationManager');
+		var main = plus.android.runtimeMainActivity();
+		var mainSvr = main.getSystemService(context.LOCATION_SERVICE);
+
+		if (!mainSvr.isProviderEnabled(locationManager.GPS_PROVIDER)) {
+      flag = false;
+			uni.showModal({
+				title: '提示',
+				content: '请打开定位服务功能',
+				showCancel: false,
+				success() {
+					if (!mainSvr.isProviderEnabled(locationManager.GPS_PROVIDER)) {
+						var Intent = plus.android.importClass('android.content.Intent');
+						var Settings = plus.android.importClass('android.provider.Settings');
+						var intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+						main.startActivity(intent); // 打开系统设置定位服务功能页面
+					} else {
+						console.log('定位服务功能已开启');
+					}
+				}
+			});
+		}
+	}
+  // TODO 其他模式都先直接跳过了。
+  return flag;
+}
+ 
+
 export function GetPoi(timeout = 1000) {
   console.debug("POI");
+  // if (!checkOpenGPSService())
+      // return;
 
   // 创建一个超时的 Promise
   const timeoutPromise = new Promise((resolve, reject) => {

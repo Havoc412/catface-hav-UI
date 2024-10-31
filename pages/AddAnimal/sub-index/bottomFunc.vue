@@ -9,7 +9,8 @@
                     <h-icon name="com-light" size="16"/>
                     标记位置让信息更准确！
                 </view>
-                <view v-else>经度：xxx；纬度：xxx</view>
+                <!--TODO 更好的反馈方式-->
+                <view class="why" v-else>经度：{{ data.poi.longitude.toFixed(1) }}；纬度：{{ data.poi.latitude.toFixed(1) }}</view>
             </h-btn>
             <h-icon name="arrow-right"/>
         </view>
@@ -45,15 +46,22 @@
         catface: false,
     })
     
-    const date = reactive({
-        // TODO 存储得到的数据，解析后展示在前端。
+    const data = reactive({
+        poi: {
+            longitude: 0,
+            latitude: 0
+        }
     })
 // FUNC
     async function getPoi() {
         // TODO 鉴定定位权限
-        const poi = await GetPoi();
-        if(poi)
+        data.poi = await GetPoi();
+        if(data.poi) {
+            flag.poi = true;
             emits('getPoi', poi);
+        } else {
+            // TODO 错误处理
+        }
     };
 
 </script>
