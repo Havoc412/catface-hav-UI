@@ -42,11 +42,11 @@ import { computed } from "vue";
             type: String,
             default: "30rpx"
         },
-        closeSelfHeightFir: {  // 收缩到最小状态时，流出的区域高度
+        closeSelfHeightSec: {  // 收缩到最小状态时，流出的区域高度
             type: Number,
             default: 0,
         },
-        closeTopHeightSec: {  // close 状态下，上方预留的空间。// INFO 相当于两种模式，非 0 为有效。
+        closeTopHeightFir: {  // close 状态下，上方预留的空间。// INFO 相当于两种模式，非 0 为有效。
             type: Number,
             default: 0
         },
@@ -64,8 +64,7 @@ import { computed } from "vue";
         TOP_MIN: 5,
         THRESHOLD_DOWN: 200,
         THRESHOLD_UP: -70,
-        DRAG_HEIGHT: props.dragHeight,
-        CLOSE_TOP: 0,
+        CLOSE_TOP: 600,
     }
 
     const state = reactive({
@@ -89,10 +88,10 @@ import { computed } from "vue";
         flag.full = false;
         state.top = consts.TOP_INIT;
 
-        if(props.closeTopHeight > 0)
-            consts.CLOSE_TOP = props.closeTopHeight;
+        if(props.closeTopHeightFir > 0)
+            consts.CLOSE_TOP = props.closeTopHeightFir;
         else
-            consts.CLOSE_TOP = phoneInforStore.phoneHeightRpx - consts.DRAG_HEIGHT;
+            consts.CLOSE_TOP = phoneInforStore.phoneHeightRpx - props.closeSelfHeightSec;
 
         if(props.startMode == 'close')
             close();
