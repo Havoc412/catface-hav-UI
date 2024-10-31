@@ -262,7 +262,7 @@
     import nginx from "../../request/nginx";
     import api from "../../request/animal";
     // com
-    import vearCarousel from "../../components/vear-carousel/vear-carousel.vue";
+    import vearCarousel from "../../components/vear-carousel/vearCarousel.vue";
     import dragBase from "../../components/com/substrate/dragBase.vue";
     
     import name from "../../components/add-animal/name.vue";

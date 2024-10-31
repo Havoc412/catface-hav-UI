@@ -36,7 +36,7 @@
     import { calculateAge } from "../../utils/date";
     import { Gender_EN } from "../../common/consts";
     // com
-    import vearCarousel from "../../components/vear-carousel/vear-carousel.vue";
+    import vearCarousel from "../../components/vear-carousel/vearCarousel.vue";
     import schoolStatus from "../../components/book/sub-cat/schoolStatus.vue";
     import sterilizationStatus from "../../components/book/sub-cat/sterilizationStatus.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";

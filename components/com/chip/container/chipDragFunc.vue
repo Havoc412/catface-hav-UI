@@ -14,7 +14,7 @@
             </view>
         </view>
         <movable-area class="container-full">
-            <movable-view :x="x" :y="y" direction="all" @change="onChange">
+            <movable-view ref="dragViewRef" :x="x" :y="y" direction="all" @change="onChange" @click.stop="console.debug('click')">
                 <view class="flex-center-both">
                     <h-chip :text="props.text" light/>
                 </view>
@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-    import { ref } from "vue";
+    import { onMounted, ref } from "vue";
     // store
 // DATA
     const props = defineProps({
@@ -46,7 +46,16 @@
     const x = ref(props.pageX);
     const y = ref(props.pageY + 20);  // 奇怪的矫正。
 
+    const dragViewRef = ref(null);
+
 // FUNC
+    onMounted(() => {
+        if(dragViewRef.value) {
+            console.debug("dragViewRef", dragViewRef.value);
+            dragViewRef.value.$el.longPress();
+        }
+    })
+
     function onChange(e) {
         x.value = e.detail.x;
         y.value = e.detail.y;

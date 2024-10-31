@@ -70,7 +70,7 @@
 	</view>
 	
 	<!--UPDATE 省事，但是牺牲一定的性能。-->
-	<preview v-if="flag.preview" :mode="props.mode"
+	<imagesPreview v-if="flag.preview" :mode="props.mode"
 		:urls="props.imgList" :current-index="currentIndex" 
 		@close="flag.preview = false"
 		@delete="(index) => { emits('delete', index); }"
@@ -85,7 +85,7 @@
 	
 	// com
 	import statusWin from '../status-win/statusWin.vue';
-	import preview from './preview.vue';
+	import imagesPreview from './imagesPreview.vue';
 
 // DATA
 	// 定义props
