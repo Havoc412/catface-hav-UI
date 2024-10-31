@@ -42,7 +42,7 @@ export const Gender_ZH = GetZhFields(Gender);
 // School Status
 export const SchoolStatus = [
   { zh: "在校", color: "#4caf50", en: "inschool" },
-  { zh: "毕业", color: "#4af6ff", en: "graduation" },
+  { zh: "毕业", color: "#47b1ff", en: "graduation" },
   { zh: "退学", color: "#ff9800", en: "missing" },
   { zh: "喵星", color: "#f44336", en: "catstar" },
   { zh: "不明", color: "#988fd0", en: "unknown" },

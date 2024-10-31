@@ -158,7 +158,7 @@
 
 .btn:active, .btn.fade-out {
     background-color: var(--active-color);
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, .3);
+    box-shadow: 0px 0px 10px var(--active-color);
 }
 
 .default {

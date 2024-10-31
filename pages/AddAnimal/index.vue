@@ -71,8 +71,9 @@
                                 </template>
                             </up-input>
                             <!--tip 因为 up-input disabled 之后会阻断 click，所以在上层覆盖一个透明的按钮作为遮罩-->
-                            <h-btn text="" variant="text"
-                                    :customStyle="{
+                            <h-btn 
+                                text="" variant="text" radius="5" activeColor="transparent"
+                                :customStyle="{
                                     position: 'absolute', 
                                     top: 0, left: 0,
                                     width: '100%',
@@ -105,14 +106,27 @@
                         prop="data.age"
                         @click="flag.age = true"
                     >
-                        <up-input
-                            v-model="dataShow.ageLinkShow"
-                            placeholder="估计一下 ta 的年龄"
-                            placeholderStyle="color: #888888"
-                        ></up-input>
-                        
+                        <view class="block relative">
+                            <up-input
+                                v-model="dataShow.ageLinkShow"
+                                
+                                placeholder="估计一下 ta 的年龄"
+                                placeholderStyle="color: #888888"
+                            ></up-input>
+                            <!--tip 因为 up-input disabled 之后会阻断 click，所以在上层覆盖一个透明的按钮作为遮罩-->
+                            <h-btn 
+                                text="" variant="text" radius="5" activeColor="transparent"
+                                :customStyle="{
+                                    position: 'absolute', 
+                                    top: 0, left: 0,
+                                    width: '100%',
+                                    height: '100%', 
+                                    background: 'transparent', 
+                                    border: 'none'
+                                }" @click="flag.age = true"
+                            ></h-btn>
+                        </view>
                     </up-form-item>
-
                     <!-- Des -->
                     <up-divider :hairline="false" :dot="true" lineColor="#888888"></up-divider>
                     <up-form-item
