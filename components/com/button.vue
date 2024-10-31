@@ -6,7 +6,7 @@
             <slot name="prefix">
                 <h-icon v-if="props.preIcon" :name="props.preIcon" :size="props.iconSize"/>
             </slot>
-            <view class="vertical-flex">
+            <view class="flex-center-vertical">
                 <slot name="topfix">
                     <h-icon v-if="props.icon" :name="props.icon" :size="props.iconSize"/>
                     <h-icon v-if="props.topIcon" :name="props.topIcon" :size="props.iconSize"/>
@@ -67,7 +67,7 @@
         },
         radius: {
             type: [String, Number],
-            default: 15
+            default: 30
         },
         // bigger Style
         customStyle: {
@@ -169,13 +169,6 @@
 
 .tonal {
     background-color: #f9f9f9;
-}
-
-.vertical-flex {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-	justify-content: center;
 }
 
 .disabled {

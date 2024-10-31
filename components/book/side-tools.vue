@@ -3,7 +3,7 @@
     <view v-show="flag" class="container-btn flex-center-both" :style="{
         '--bg-color': props.bgColor,
         '--right': props.right + 'rpx',
-        '--bottom': props.bottom + 'rpx'
+        '--bottom': props.bottom + 'rpx',
     }" @click="emits('add')">
         <h-icon name="com-plus_m" size="20"/>
     </view>
@@ -64,6 +64,8 @@
     bottom: var(--bottom);
     
     padding: 15px;
+    width: 50px;
+    height: 50px;
 
     background-color: var(--bg-color);
     border-radius:  50%;
