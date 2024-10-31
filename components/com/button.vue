@@ -63,7 +63,7 @@
         },
         activeColor: {  // 动画激活时，显示的颜色。
             type: String,
-            default: "#dadada"
+            default: "#dddddd"
         },
         radius: {
             type: [String, Number],
@@ -151,7 +151,7 @@
 
 .btn:active, .btn.fade-out {
     background-color: var(--active-color);
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, .5);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .3);
 }
 
 .default {

@@ -1,17 +1,19 @@
 <template>
-    <up-input
-        v-model="name"
-        placeholder="为 ta 起一个好听的名字"
-        placeholderStyle="color: #888888"
-        clearable
-        @blur="emits('name', name)"
-        :customStyle="{
-            marginRight: '5px'
-        }"
-    ></up-input>
-    <h-btn variant="text" icon="com-more_deep" @click="flag = !flag">
-        <menuFloat mode="text" :list="MenuList" :show="flag" @choose="(id) => funcGoto(id)"/>
-    </h-btn>
+    <view class="flex-center-horizontal block">
+        <up-input
+            v-model="name"
+            placeholder="为 ta 起一个好听的名字"
+            placeholderStyle="color: #888888"
+            clearable
+            @blur="emits('name', name)"
+            :customStyle="{
+                marginRight: '5px'
+            }"
+        ></up-input>
+        <h-btn variant="text" icon="com-more_deep" @click="flag = !flag">
+            <menuFloat mode="text" :list="MenuList" :show="flag" @choose="(id) => funcGoto(id)"/>
+        </h-btn>
+    </view>
 </template>
 
 <script setup>
