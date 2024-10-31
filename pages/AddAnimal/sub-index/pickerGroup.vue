@@ -50,7 +50,7 @@
                     :icon="!flag.ageDetail ? 'tool-choose_more_thin' : 'tool-choose_less_thin'"
                     :disabled="flag.dateChooseMode"
                     shape="circle"
-                    @click="flag.ageDetail = !flag.ageDetail"
+                    @click="changeAgeDetail"
                 />
                 <!--UPDATE 暂时想不到合适的变化 ICON-->
                 <h-btn
@@ -124,6 +124,12 @@
             AgeChoosedShow.value = DateChooseInit();
         }
     })
+
+    function changeAgeDetail() {
+        if (agePickerRef.value) // onMounted 时， Ref 还没有准备好。
+            agePickerRef.value.setIndexs([0, 0, 0, 0], false); // 全部恢复为 0 状态，前者优先，多余无效。
+        flag.ageDetail = !flag.ageDetail
+    }
 
     function AgeDetailChange() {
         // 由于 dateChoose Mode 下，ageDetail 不会改变，由此简化。

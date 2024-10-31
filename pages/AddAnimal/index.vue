@@ -5,7 +5,7 @@
             挑选一些精美的照片作为展示（数量：1~5）
         </view>
         <!--TAG Drag Area-->
-        <dragBase :closeTopHeight="1100" start-mode="close" :run-full="flag.runFull">
+        <dragBase :closeTopHeightSec="1100" start-mode="close" :run-full="flag.runFull">
             <view class="ali">
                 <!-- TAG Main Form-->
                 <up-form

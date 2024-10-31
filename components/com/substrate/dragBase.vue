@@ -42,12 +42,11 @@ import { computed } from "vue";
             type: String,
             default: "30rpx"
         },
-        closeSelfHeight: {  // 收缩到最小状态时，流出的区域高度
+        closeSelfHeightFir: {  // 收缩到最小状态时，流出的区域高度
             type: Number,
             default: 0,
-            required: true,
         },
-        closeTopHeight: {  // close 状态下，上方预留的空间。// INFO 相当于两种模式，非 0 为有效。
+        closeTopHeightSec: {  // close 状态下，上方预留的空间。// INFO 相当于两种模式，非 0 为有效。
             type: Number,
             default: 0
         },
