@@ -6,6 +6,7 @@
                     :text="item" :light="editableMode" :hidden="index == longPressIndex"
                     @select="" 
                     @unselect=""
+                    @doubleClick="deleteText"
                     @longpress="(touched) => longpress(touched, item, index)"
                 />
             </view>
@@ -65,6 +66,11 @@
         }
         data.value.push(text);
         // Send to Top
+        emits('change', data.value);
+    }
+
+    function deleteText(text) {
+        data.value = data.value.filter((item) => item != text);
         emits('change', data.value);
     }
 

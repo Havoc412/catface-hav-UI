@@ -7,7 +7,7 @@
             '--font-color': selectFlag ? props.color : '#ccc',
             'opacity': props.hidden ? .3 : 1,
         }"
-        @click="click"
+        @click="clickEntrance"
         @long-press="longpress"
         @touchend="touchend"
     >
@@ -50,13 +50,29 @@
         // TAG hidden
         hidden: Boolean,
     });
-    const emits = defineEmits(['select', 'unselect', 'longPress']);
+    const emits = defineEmits(['select', 'unselect', 'longPress', 'doubleClick']);
 
     const selectFlag = ref(props.light | props.lightStart);
-
+    
+    let clickNum = 0;
     let islongPress = false;
 
 // FUNC
+    function clickEntrance() {
+        if (clickNum == 0) {
+            setTimeout(() => {
+                console.debug(clickNum);
+                if(clickNum == 1) {
+                    click();
+                } else if(clickNum >= 2) {
+                    emits('doubleClick', props.text);
+                }
+                clickNum = 0;
+            }, 250);
+        }
+        clickNum += 1;
+    }
+    
     function click() {
         if(props.light || islongPress)  // 保持常亮
             return;
