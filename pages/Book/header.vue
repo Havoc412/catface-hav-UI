@@ -1,11 +1,15 @@
 <!--INFO 实际还是 Toolsbar，放置到 Header 的空间位置。-->
 <template>
-    <view class="flex-horizontal gap-10 container-tool z-9">
-        <h-icon name="tool-list" @click="flag.list = true"/>
-        <h-icon name="tool-filter" @click="flag.filter = true"/>
-        <h-icon name="tool-add" @click="emits('add')"/>
-        <view class="shrink"/>
-    </view>
+    <headerBase bgColor="#DAE2E6">
+        <template #prefix>
+            <view class="flex-horizontal gap-10 container-tool z-9">
+                <h-icon name="tool-list" @click="flag.list = true"/>
+                <h-icon name="tool-filter" @click="flag.filter = true"/>
+                <h-icon name="tool-add" @click="emits('add')"/>
+                <view class="shrink"/>
+            </view>
+        </template>
+    </headerBase>
     <placeHolder height="40"/>  <!--INFO sticky 在 wx 中失效，用这种方式手动 fixed 模拟了一下-->
     <!--INFO safeAreaInsetTop 在 wx 中不需要-->
     <u-popup :show="flag.list" mode="right" overlayOpacity="0.3" :customStyle="{
@@ -26,6 +30,7 @@
 <script setup>
     import { ref, reactive, onMounted, watch } from "vue";
     // com
+    import headerBase from "../../components/com/substrate/headerBase.vue";
     import list from "./sub-toolbar/list.vue";
     import Filter from "./sub-toolbar/filter.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
@@ -77,13 +82,7 @@
 <style scoped>
 
 .container-tool {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-
     padding: 10px;
-    background-color: #DAE2E6;
 }
 
 </style>        

@@ -1,35 +1,35 @@
 <template>
     <!--因为需要不同的zIndex-->
     <!-- <view class="sticky"> -->
-        <view class="flex-vertical block container pd-5 top-container z-8" 
-        :class="{'transparent': props.bgTransparent}" 
+    <view class="flex-vertical block container-header pd-5 top-container z-8" 
         :style="{
             '--status-height': phoneInforStore.statusBarHeight.toString() + 'px',
+            '--bg-color': props.bgColor
         }">
-        <!--bug 感觉 pd-5 没有生效-->
+    <!--bug 感觉 pd-5 没有生效-->
+        <view class="flex-center-horizontal">
             <view class="flex-center-horizontal">
-                <view class="flex-center-horizontal">
-                    <!--info 默认的返回键-->
-                    <u-icon v-if="!props.backDelete" @click="back"
-                        class="flex-center-both top-icon" size="18" :name="iconPath.left">
-                    </u-icon>
-                    <slot name="prefix"></slot>
-                </view>
-                <view class="flex-center-both shrink"> <!--info delete shrink-->
-                    <slot name="midfix"></slot>
-                </view>
-                <view class="flex-center-horizontal">
-                    <slot name="suffix"></slot>
-                </view>
+                <!--info 默认的返回键-->
+                <!-- <u-icon v-if="!props.backDelete" @click="back"
+                    class="flex-center-both top-icon" size="18" :name="iconPath.left">
+                </u-icon> -->
+                <slot name="prefix"></slot>
+            </view>
+            <view class="flex-center-both shrink"> <!--info delete shrink-->
+                <slot name="midfix"></slot>
+            </view>
+            <view class="flex-center-horizontal">
+                <slot name="suffix"></slot>
             </view>
         </view>
-        <!--info 一个附加的下部窗口-->
-        <view class="flod-container block"
-            :class="{
-                [setFlodWinZIndex]: true
-            }">
-            <slot name="flodfix"></slot>
-        </view>
+    </view>
+    <!--info 一个附加的下部窗口-->
+    <view class="flod-container block"
+        :class="{
+            [setFlodWinZIndex]: true
+        }">
+        <slot name="flodfix"></slot>
+    </view>
 </template>
 
 <script setup>
@@ -37,21 +37,19 @@
     // store
     import usePhoneInfor from "@/store/phoneInfor";
     const phoneInforStore = usePhoneInfor();
-    import { useArrowsIconPath } from "@/store/dataBase";
-    const iconPath = useArrowsIconPath();
 // DATA
     const props = defineProps({
         backDelete: {
             type: Boolean,
             default: false
         },
-        bgTransparent: {
-            type: Boolean,
-            default: false
-        },
         flodZIndexTop: {
             type: String,
             default: "0"
+        },
+        bgColor: {
+            type: String,
+            default: "transparent"
         }
     });
     const emits = defineEmits([]);
@@ -70,15 +68,10 @@
 
 <style scoped>
 
-.container {
+.container-header {
     position: sticky;
     top: 0px;
-
-    background-color: #fff;
-}
-
-.transparent {
-    background-color: transparent;
+    background-color: var(--bg-color);
 }
 
 .top-icon {
