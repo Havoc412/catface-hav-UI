@@ -147,7 +147,7 @@
 	// 添加图片
 	async function addImage() {
 		try {
-			status.upload = 'loadding'
+			status.upload = 'loadding';
 			const res = await chooseImageWrapper({
 				count: props.imageMaxNum - props.imgList.length, // 默认9
 				sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -165,7 +165,7 @@
 			uni.chooseImage({
 				...options,
 				success: async function (res) {
-					const files = res.tempFiles;
+					const files = res.tempFilePaths;
 					const paths = await api.UploadAnimalPhotos(files);
 					emits('addImage', paths);
 					resolve('nothing'); // resolve

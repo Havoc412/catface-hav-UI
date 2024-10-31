@@ -6,32 +6,35 @@ const humanStore = human();
 async function uploadFiles(files, dirPath="") {
     const uploadPromises = files.map((file) => {
         return new Promise((resolve, reject) => {
-        uni.uploadFile({
-            url: BASE_URL + "admin/upload/files",
-            file: file,
-            name: "file",
-            formData: {
-                dir_name: dirPath
-            },
-            success: (response) => {
+            uni.uploadFile({
+              url: BASE_URL + "admin/upload/files",
+              filePath: file,
+              name: "file",
+              formData: {
+                dir_name: dirPath,
+              },
+              success: (response) => {
                 try {
-                    const parsedData = JSON.parse(response.data);
-                    if (parsedData.code >= 200 && parsedData.code < 300) {
+                  const parsedData = JSON.parse(response.data);
+                  if (parsedData.code >= 200 && parsedData.code < 300) {
+                    // console.info("photo success:", parsedData.data.path);
                     resolve(parsedData.data.path);
-                    } else {
+                  } else {
                     console.info("Request bug - success:", parsedData);
-                    reject(new Error("Upload failed with code: " + parsedData.code));
-                    }
+                    reject(
+                      new Error("Upload failed with code: " + parsedData.code)
+                    );
+                  }
                 } catch (error) {
-                    console.error("解析 JSON 失败:", error);
-                    reject(error);
+                  console.error("解析 JSON 失败:", error);
+                  reject(error);
                 }
-            },
-            fail: (err) => {
+              },
+              fail: (err) => {
                 console.error("Upload failed:", err);
                 reject(err);
-            },
-        });
+              },
+            });
         });
     });
 

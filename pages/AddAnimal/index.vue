@@ -1,6 +1,6 @@
 <template>
     <view class="container-top flex-center-vertical">
-        <vearCarousel :img-list="data.photos" mode="add" @addImage="addImage" @delete="deleteImage" @setFront="setFront"/>
+        <vearCarousel :img-list="dataShow.photos" mode="add" @addImage="addImage" @delete="deleteImage" @setFront="setFront"/>
         <view class="photo-text">
             挑选一些精美的照片作为展示（数量：1~5）
         </view>
@@ -329,6 +329,8 @@
         breed: '',
         status: '在校',
 
+        photos: [],
+        
         sterilization: '不明',
         vaccination: '不明',
         deworming: '不明',
@@ -418,12 +420,15 @@
     // TAG Images；Photos
     function addImage(paths) {
         if(!paths)  return;
+        data.photos = data.photos.concat(paths);
+        
+        // 展示用临时路径。
         const newFullPath = paths.map(path => {
             return nginx.catsPhotosTemp(path)
         })
         
-        data.photos = data.photos.concat(newFullPath);
-        console.debug(data.photos);
+        dataShow.photos = dataShow.photos.concat(newFullPath);
+        console.debug(dataShow.photos, data.photos);
     }
 
     function deleteImage(index) {
