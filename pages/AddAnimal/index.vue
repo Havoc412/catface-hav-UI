@@ -155,12 +155,15 @@
                     :model="data"
                     :labelStyle="{
                         fontSize: '16px',
+                        fontWeight: 'bold'
                     }"
                 >
                     <up-divider :hairline="false" text="健康状态信息" lineColor="#888888"
                         @click="flag.healthInfor = !flag.healthInfor">
                         <template #suffix>
-                            <h-icon :name="flag.healthInfor ? 'arrow-down' : 'arrow-up'" size="14"/>
+                            <view style="margin-right: 15px;">
+                                <h-icon :name="flag.healthInfor ? 'arrow-down_thin_x' : 'arrow-up_thin_x'" size="14"/>
+                            </view>
                         </template>
                     </up-divider>
                     <!-- Other body information -->
