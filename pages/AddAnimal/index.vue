@@ -477,7 +477,7 @@
         } else {
             flag.show = false;
             // 然后跳转进详细页。
-            uni.navigateTo({
+            uni.redirectTo({
                 url: `/pages/Detail/index?id=${res.anm_id}`
             })
         }
