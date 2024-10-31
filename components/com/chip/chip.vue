@@ -1,12 +1,16 @@
 <!--INFO 因为暂时用不到 原项目 chip 的长按功能，就先使用一个简化的版本就好。-->
 <template>
     <view class="flex-center-both basic default"
-        @click="click"
         :class="[props.shape]"
         :style="{
             '--bg-color': selectFlag ? props.bgColor : 'transparent',
-            '--font-color': selectFlag ? props.color : '#ccc'
-    }">
+            '--font-color': selectFlag ? props.color : '#ccc',
+            'opacity': props.hidden ? .3 : 1,
+        }"
+        @click="click"
+        @long-press="longpress"
+        @touchend="touchend"
+    >
         <slot> <!--放一个 slot，增加灵活性-->
             {{ props.text }}
         </slot>
@@ -43,16 +47,21 @@
             type: Boolean,
             default: false
         },
+        // TAG hidden
+        hidden: Boolean,
     });
-    const emits = defineEmits(['select', 'unselect']);
+    const emits = defineEmits(['select', 'unselect', 'longPress']);
 
     const selectFlag = ref(props.light | props.lightStart);
 
+    let islongPress = false;
+
 // FUNC
     function click() {
-        if(props.light)  // 保持常亮
+        if(props.light || islongPress)  // 保持常亮
             return;
         
+        console.debug('click');
         selectFlag.value = !selectFlag.value;
         
         if (selectFlag.value) {
@@ -61,6 +70,22 @@
             emits('unselect', props.text);
         }
     }
+
+    function longpress(e) {
+        // console.debug('longpress', e);
+        islongPress = true;
+        emits('longPress', e['type']);
+        // TODO  如果有使用者同时长按多个... 如何屏蔽？
+        // e.changedTouches 是一个 Array[]，其中包括 
+    }
+
+    function touchend() {
+        // 避免随后就触发 click 事件。 // UPDATE what's better ?
+        setTimeout(() => {
+            islongPress = false;
+        }, 200);
+    }
+    
 
 </script>
 

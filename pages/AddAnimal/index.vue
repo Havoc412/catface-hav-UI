@@ -244,7 +244,7 @@
             @select-age="selectAge"
         />
         <!--状态加载-->
-        <statusWin v-if="flag.status.show" :status="flag.status.type"/>
+        <!-- <statusWin v-if="flag.status.show" :status="flag.status.type"/> -->
     </view>
 </template>
 

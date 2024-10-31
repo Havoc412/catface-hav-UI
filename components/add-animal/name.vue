@@ -4,6 +4,7 @@
         placeholder="为 ta 起一个好听的名字"
         placeholderStyle="color: #888888"
         clearable
+        focus
         @blur="emits('name', name)"
         :customStyle="{
             marginRight: '5px'

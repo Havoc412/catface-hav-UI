@@ -2,7 +2,12 @@
     <view class="container-chip-group" :class="{'scroll': props.scroll}">
         <template v-for="(item, index) in data" :key="index">
             <view class="item">
-                <h-chip :text="item" :light="editableMode" @select="" @unselect=""/>
+                <h-chip
+                    :text="item" :light="editableMode" :hidden="index == longPressIndex"
+                    @select="" 
+                    @unselect=""
+                    @longpress="(touched) => longpress(touched, item, index)"
+                />
             </view>
         </template>
         <chipEditable v-if="editableMode && data.length < props.maxNum" light @textFinish="addText"/>
@@ -41,9 +46,10 @@
         },
         infoIcon: Boolean
     });
-    const emits = defineEmits(['info', 'change']);
+    const emits = defineEmits(['info', 'change', 'longpress']);
 
     const data = ref(props.list);
+    const longPressIndex = ref(-1); // INFO 因为一次只允许拖动一个，所以用一个 id 来标记目标就比较方便。
 
 // FUNC
     const editableMode = computed(() => {
@@ -60,6 +66,11 @@
         data.value.push(text);
         // Send to Top
         emits('change', data.value);
+    }
+
+    function longpress(touched, text, index) {
+        longPressIndex.value = index;
+        emits('longpress', touched, text);
     }
 
 </script>
