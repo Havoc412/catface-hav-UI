@@ -9,13 +9,13 @@
         @confirm="(e) => emits('selectBreed', e)"
     ><!--改了官方的源码，加了一个插槽-->
         <template #top>
-                <view class="warn-breed-choose flex-center-both">暂时只支持以下花色</view>
+            <view class="warn-breed-choose flex-center-both">暂时只支持以下花色</view>
         </template>
 
         <template #tools>
             <view class="flex-center-vertical gap-10" style="padding: 10px;">
                 <view class="shrink"/>
-                <h-btn icon="tool-question_thin" @click="flag.breedExample = true"/>
+                <h-btn icon="tool-question_thin" shape="circle" @click="flag.breedExample = true"/>
             </view>
         </template>
     </up-picker>
@@ -49,11 +49,13 @@
                 <h-btn 
                     :icon="!flag.ageDetail ? 'tool-choose_more_thin' : 'tool-choose_less_thin'"
                     :disabled="flag.dateChooseMode"
+                    shape="circle"
                     @click="flag.ageDetail = !flag.ageDetail"
                 />
                 <!--UPDATE 暂时想不到合适的变化 ICON-->
                 <h-btn
-                    icon="tool-date" 
+                    icon="tool-date"
+                    shape="circle"
                     @click="flag.dateChooseMode = !flag.dateChooseMode"
                 />
             </view>

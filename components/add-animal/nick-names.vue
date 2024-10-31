@@ -5,7 +5,7 @@
     />
     <up-overlay opacity=".1" :show="flag.info" @click="flag.info = false">
         <blockBase>
-            别名最多三个，每个别名最多10个字。<br/>
+            别名最多3个，每个别名最多10个字。<br/>
             双击标签即可删除。
         </blockBase>
     </up-overlay>
@@ -20,7 +20,7 @@
     import chipGroup from "../com/chip/chipGroup.vue";
     import blockBase from "../com/substrate/blockBase.vue";
 
-    import chipDragFunc from "../com/chip/container/chipDragFunc.vue";
+    // import chipDragFunc from "../com/chip/container/chipDragFunc.vue";
     // store
 // DATA
     const props = defineProps({

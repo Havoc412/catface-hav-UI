@@ -1,5 +1,5 @@
 <template>
-    <view class="flex-center-both" style="height: 100%;">
+    <view class="flex-center-both" style="height: 100vh;">
         <view class="container-block">
             <slot></slot>
         </view>
@@ -23,11 +23,13 @@
 
 .container-block {
     font-family: Alimama ShuHeiTi;
+    font-weight: bold;
     
     padding: 20px;
-
-    background-color: #fff;
     border-radius: 15px;
+    
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, .3);
 }
 
 </style>        

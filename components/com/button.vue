@@ -1,12 +1,12 @@
 <!--复刻一下 vuetify-btn-->
 <template>
     <!-- <Ripple> -->
-        <view class="container-btn flex-center-both" :class="classObject" :style="getOutsideStyle"
+        <view class="container-btn flex-center-horizontal" :class="classObject" :style="getOutsideStyle"
             @touchstart="handleTouchStart" @touchend="handleTouchEnd" @click="click">
             <slot name="prefix">
                 <h-icon v-if="props.preIcon" :name="props.preIcon" :size="props.iconSize"/>
             </slot>
-            <view class="flex-center-vertical">
+            <view class="flex-center-both">
                 <slot name="topfix">
                     <h-icon v-if="props.icon" :name="props.icon" :size="props.iconSize"/>
                     <h-icon v-if="props.topIcon" :name="props.topIcon" :size="props.iconSize"/>
@@ -14,7 +14,7 @@
                 <slot>
                     <!--选中icon属性时，默认只有icon-->
                     <!--todo 丰富文本内容的样式-->
-                    <text v-if="!props.icon">{{ props.text }}</text>   
+                    <view v-if="!props.icon">{{ props.text }}</view>   
                 </slot>
             </view>
             <slot name="suffix">
@@ -57,6 +57,10 @@
             type: String,
             default: "16"
         },
+        btnSize: {
+            type: String,
+            default: "28"
+        },
         animationClose: {
             type: Boolean,
             default: false
@@ -67,7 +71,7 @@
         },
         radius: {
             type: [String, Number],
-            default: 30
+            default: 15
         },
         // bigger Style
         customStyle: {
@@ -119,6 +123,8 @@
         return {
             '--border-radius': props.radius.toString() + 'px',
             '--active-color': props.activeColor,
+            '--width': props.btnSize + 'px', // 在 shape-circle 下有效。
+            '--height': props.btnSize + 'px',
             ...props.customStyle,   // 外部优先级高，覆盖前者。
         }
     })
@@ -135,7 +141,6 @@
 .container-btn {
     gap: 5px;
     background-color: #fff;
-    height: inherit;
     border-radius: var(--border-radius);
 
     transition: background-color 0.2s ease;
@@ -146,7 +151,9 @@
 }
 
 .shape-circle {
-    padding: 4px;
+    padding: 6px;
+    width: var(--width);
+    height: var(--height);
 }
 
 .btn:active, .btn.fade-out {

@@ -50,7 +50,7 @@
         // TAG hidden
         hidden: Boolean,
     });
-    const emits = defineEmits(['select', 'unselect', 'longPress', 'doubleClick']);
+    const emits = defineEmits(['click', 'select', 'unselect', 'longPress', 'doubleClick']);
 
     const selectFlag = ref(props.light | props.lightStart);
     
@@ -62,6 +62,7 @@
         if (clickNum == 0) {
             setTimeout(() => {
                 if(clickNum == 1) {
+                    emits('click');
                     click();
                 } else if(clickNum >= 2) {
                     emits('doubleClick', props.text);
