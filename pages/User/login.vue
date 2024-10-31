@@ -67,6 +67,7 @@
 .name {
     font-size: 25px;
     font-family: Alimama ShuHeiTi;
+    font-weight: bold;
 }
 
 </style>        
