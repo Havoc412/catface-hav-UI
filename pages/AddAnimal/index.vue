@@ -265,7 +265,7 @@
             @select-age="selectAge"
         />
         <!--状态加载-->
-        <!-- <statusWin v-if="flag.status.show" :status="flag.status.type"/> -->
+        <statusWin v-if="flag.status.show" :status="flag.status.type"/>
     </view>
 </template>
 
@@ -291,6 +291,7 @@
     import pickerGroup from "./sub-index/pickerGroup.vue";
     import bottomFunc from "./sub-index/bottomFunc.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
+    import statusWin from "../../components/status-win/statusWin.vue";
     // store
 
 // DATA
@@ -364,7 +365,7 @@
         nickNames: false,
         
         status: {
-            show: true,
+            show: false,
             type: "loadding"
         },
     })
@@ -457,7 +458,7 @@
         // TODO 缓存本地？但是有效性如何？会不会被清理，何时被清理。
     }
 
-    function submitData() {
+    async function submitData() {
         // STAGE-1 Format
         data.breed = getAttrIndex(dataShow.breed, Breed_ZH);
         data.gender = getAttrIndex(dataShow.gender, Gender_ZH);
@@ -467,8 +468,19 @@
         data.healthy.deworming = getAttrIndex(dataShow.deworming, DewormingStatus_ZH);
         console.info(data);
         // STAGE-2 提交
-        
-        // TODO 提交到数据库
+        flag.status = 'loadding';
+        flag.show = true;
+        const [res, err] = await api.addAnimal(data);
+        if (err) {
+            flag.status = 'err';
+            // TODO 错误处理
+        } else {
+            flag.show = false;
+            // 然后跳转进详细页。
+            uni.navigateTo({
+                url: `/pages/Detail/index?id=${res.anm_id}`
+            })
+        }
     }
 
 </script>
