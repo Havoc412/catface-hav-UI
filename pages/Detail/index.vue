@@ -103,6 +103,7 @@
 
 .name {
     font-family: Alimama ShuHeiTi;
+    font-weight: bold;
     font-size: 24px;
 }
 
@@ -116,6 +117,7 @@
 
 .intro {
     font-family: Alimama ShuHeiTi;
+    font-weight: bold;
 }
 
 </style>        

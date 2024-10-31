@@ -42,11 +42,11 @@
 
 .container-encounter-mini {
     padding: 0 30rpx;
-
 }
 
 .title {
     font-family: Alimama ShuHeiTi;
+    font-weight: bold;
     font-size: 24px;
 }
 

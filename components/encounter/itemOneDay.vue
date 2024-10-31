@@ -33,6 +33,7 @@
 
 .date {
     font-family: Alimama ShuHeiTi;
+    font-weight: bold;
     font-size: 18px;
 }
 
