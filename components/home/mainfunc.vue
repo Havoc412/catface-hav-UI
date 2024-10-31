@@ -1,3 +1,4 @@
+
 <template>
     <view class="container-mf flex-center-horizontal">
         <template v-for="(item, index) in FuncList">

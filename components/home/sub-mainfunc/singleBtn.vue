@@ -34,7 +34,8 @@
 
 .text {
     font-family: Alimama ShuHeiTi;
-    font-size: 10px;
+    font-weight: bold;
+    font-size: 14px;
 }
 
 </style>        

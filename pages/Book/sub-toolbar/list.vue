@@ -1,7 +1,7 @@
 <template>
-    <view class="container flex-vertical">
+    <view class="container-list flex-vertical">
         <!--TODO 之后换个提示效果-->
-        <view style="font-family: Alimama ShuHeiTi;">显示与否</view>
+        <view class="bold" style="font-family: Alimama ShuHeiTi;"># 显示与否</view>
         <template v-for="(item, index) in ITEMS">
             <view class="flex-center-horizontal">
                 <view>{{ item }}</view>
@@ -21,6 +21,7 @@
             <u-button :customStyle="{
                 padding: '10px 0',
                 borderRadius: '15px',
+                fontWeight: 'bold',
                 height: '40px',
                 backgroundColor: color['main-deep'],
                 color: '#ffffff'
@@ -51,7 +52,7 @@
 
 <style scoped>
 
-.container {
+.container-list {
     padding: 20px;
 
     width: 70vw;
@@ -62,8 +63,6 @@
     background-color: #fff;
     border-bottom-left-radius: 20px;
     
-    font-weight: bold;
-
     /* transition: width 0.5s ease-in-out; */
 }
 
@@ -83,4 +82,5 @@
 span {
     font-size: 16px;    
 }
+
 </style>

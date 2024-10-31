@@ -1,7 +1,7 @@
 <template>
     <view class="container-filter flex-vertical">
-        <view class="flex-center-vertical gap-5">
-            <view class="ali"># 条件过滤</view>
+        <view class="flex-vertical gap-5">
+            <view class="ali bold"># 条件过滤</view>
             <tip>选择后点击下方【完成】</tip>
         </view>
         <tagBox ref="statusRef"
@@ -43,6 +43,7 @@
                 @click="getFilterConditions"
                 :customStyle="{
                 padding: '10px 0',
+                fontWeight: 'bold',
                 borderRadius: '15px',
                 height: '40px',
                 backgroundColor: color['main-deep'],

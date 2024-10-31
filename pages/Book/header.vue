@@ -12,17 +12,31 @@
     </headerBase>
     <placeHolder height="40"/>  <!--INFO sticky 在 wx 中失效，用这种方式手动 fixed 模拟了一下-->
     <!--INFO safeAreaInsetTop 在 wx 中不需要-->
-    <u-popup :show="flag.list" mode="right" overlayOpacity="0.3" :customStyle="{
-        borderBottomLeftRadius: '20px'
-    }" @close="flag.list = false">
+    <u-popup 
+        :show="flag.list" 
+        mode="right" 
+        overlayOpacity="0.3"
+        safeAreaInsetTop
+        :customStyle="{
+            borderBottomLeftRadius: '20px'
+        }" 
+        @close="flag.list = false"
+    >
         <list/>
     </u-popup>
     <!--UPDATE u-popup 的状态会直接销毁，所以里面的选项需要外部来管理一下。
     https://uiadmin.net/uview-plus/components/popup.html：官方看起来是没有对应的接口，我就先外部实现一下。
     -->
-    <u-popup :show="flag.filter" mode="right" overlayOpacity="0.3" :customStyle="{
-        borderBottomLeftRadius: '20px'
-    }" @close="flag.filter = false">
+    <u-popup 
+        :show="flag.filter" 
+        mode="right" 
+        overlayOpacity="0.3" 
+        safeAreaInsetTop
+        :customStyle="{
+            borderBottomLeftRadius: '20px'
+        }" 
+        @close="flag.filter = false"
+    >
         <Filter :statusCache="data.filterConditions" @close="flag.filter = false" @getFilterConditions="filterConditionsChange"/>
     </u-popup>
 </template>
