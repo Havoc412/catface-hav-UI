@@ -214,16 +214,23 @@
                     @click="storeData"
                 >
                     <h-icon name="post-store" size="21"/>
+                    <!--TODO 之后再做-->
                     <view>保存草稿</view>
                 </view>
-                <view class="flex-center-both container-btn-right shrink"
-                    :class="{
-                        'disabled': true
+                <h-btn
+                    text="提交信息"
+                    :customStyle="{
+                        'background-color': '#374957',
+                        'font-family': 'Alimama ShuHeiTi',
+                        'color': '#fff',
+                        'font-size': '20px',
+                        'height': '40px',
+                        'border-radius': '20px',
+                        'flex': 1,
                     }"
+                    :disabled="!submitAbled"
                     @click="submitData"
-                >
-                    提交信息
-                </view>
+                />
             </view>
         </dragBase>
         <pickerGroup
@@ -236,6 +243,8 @@
             @select-breed="selectBreed"
             @select-age="selectAge"
         />
+        <!--状态加载-->
+        <statusWin v-if="flag.status.show" :status="flag.status.type"/>
     </view>
 </template>
 
@@ -251,6 +260,7 @@
     import { calculateBirthday } from "../../utils/date";
 
     import nginx from "../../request/nginx";
+    import api from "../../request/animal";
     // com
     import vearCarousel from "../../components/vear-carousel/vear-carousel.vue";
     import dragBase from "../../components/com/substrate/dragBase.vue";
@@ -272,7 +282,7 @@
         name: '',
         breed: 0,
         gender: 0,
-        status: 1,
+        status: 0,
         
         birthday: '',  // eg. 2024-10-05
         description: '',
@@ -329,6 +339,11 @@
         healthInfor: false,
         runFull: false,
         nickNames: false,
+        
+        status: {
+            show: true,
+            type: "loadding"
+        },
     })
 
 // FUNC
@@ -369,6 +384,14 @@
 
         flag.age = false;
     }
+
+    // TAG rules
+    const submitAbled = computed(() => {
+        // INFO 必须手填的信息：Name、Breed、Description、
+        return data.name !== ''
+            && dataShow.breed !== ''
+            && data.photos.length !== 0;
+    })
 
 
     // TAG Images；Photos
@@ -418,6 +441,7 @@
         data.healthy.deworming = getAttrIndex(dataShow.deworming, DewormingStatus_ZH);
         console.info(data);
         // STAGE-2 提交
+        
         // TODO 提交到数据库
     }
 
@@ -446,21 +470,6 @@
     padding: 10px 15px;
     height: 40px;
     border-radius: 20px;
-}
-
-.container-btn-right {
-    background-color: #374957;
-
-    font-family: Alimama ShuHeiTi;
-    color: #fff;
-    font-size: 20px;
-
-    height: 40px;
-    border-radius: 20px;
-}
-
-.disabled {
-    color: #aaa;
 }
 
 .photo-text {

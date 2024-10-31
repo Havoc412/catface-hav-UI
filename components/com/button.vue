@@ -105,6 +105,7 @@
     }
     // classObject
     const classObject = computed(() => {
+        // TODO 要是之后能直接获取外部的 class 就好了。
         return {
             'btn': !props.animationClose,
             'fade-out': isFadingOut.value && !props.animationClose,
@@ -150,6 +151,7 @@
 
 .btn:active, .btn.fade-out {
     background-color: var(--active-color);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .5);
 }
 
 .default {

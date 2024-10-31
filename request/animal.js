@@ -4,7 +4,7 @@ import human from "../store/human";
 const humanStore = human();
 
 const api = {
-  // INFO 这两个函数默认【通过】
+  // INFO 这两个函数默认【通过：无需鉴权】
   async getAnimalStar(num, skip, pass = true) {
     return await get(
       `admin/animal?attrs=head_img,name&num=${num}&skip=${skip}`,
@@ -15,7 +15,6 @@ const api = {
   },
 
   async getAnimalBook(num, skip, filters, pass = true) {
-    // TODO 这里的条件更加复杂，还是根据前端情况封装到一起。
     return await get(
       `admin/animal?attrs=name,gender,status,sterilization,avatar&gender=${filters.gender}&status=${filters.status}&breed=${filters.breed}&sterilization=${filters.sterilization}&num=${num}&skip=${skip}&user_id=${humanStore.user_id}`,
       {},
@@ -35,7 +34,13 @@ const api = {
   async getAnimalDetail(id) {
     return await get(`admin/animal/${id}`, {}, {});
   },
-
+  
+  /**
+   * 喜欢/取消喜欢 两个 API 放到一起。
+   * @param {*} animal_id 
+   * @param {*} oriStatus 
+   * @returns 
+   */
   async clickLike(animal_id, oriStatus) {
     if (!oriStatus) {
       return await post(
@@ -57,6 +62,25 @@ const api = {
       )
     }
   },
+  
+  async addAnimal(data) {
+    return await post(
+      `admin/animal`,
+      {},
+      {
+        user_id: humanStore.user_id,  // 补充 User_id 的参数。
+        ...data,
+      }
+    )
+      .then((data) => {
+        // TIP 增加一个状态的返回值，模仿 Go 函数的写法
+        return [data, null];
+      })
+      .catch((error) => {
+        console.log("Animal.js", error);
+        return [error, true];
+      });
+  }
 };
 
 export default api;

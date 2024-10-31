@@ -3,8 +3,9 @@
 /**
  * @feature '不明' 是一个很特别的存在，在数据库中最好存到 0 位（方便后续扩展），但在前端展示中应该放到最后。
  * 所以就需要前端对此进行一个转换，需要格外注意。
+ * 注意 id 从 1 开始，这是 MySQL 中的默认配置，同时与 Go 中 json 的 omitempty 特性是一致的。
  * 
- * 比如下面 Gender，在数据库中存储的就是 { 0：不明，1：学长；2：学姐 } 这样的形式。
+ * 比如下面 Gender，在数据库中存储的就是 { 1：不明，2：学长；3：学姐 } 这样的形式。
  */
 
 // Func； 顶部函数
@@ -17,8 +18,8 @@ export const GetEnFields = (array) => {
 
 export function getAttrIndex(value, array) { // UPDATE 目前只是 ZH 版本；
   if (value == '不明')
-    return 0;
-  return array.indexOf(value) + 1;
+    return 1;
+  return array.indexOf(value) + 2;
 }
 
 // Gender
