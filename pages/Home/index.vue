@@ -7,7 +7,7 @@
             <!--不启用的时候，无需渲染-->
             <star v-if="flag.star"/>
         </view>
-        <!--fixed 形式的拖动栏-->v
+        <!--fixed 形式的拖动栏-->
         <encounterDrag @close="closeDrag" @mid="openDrag" @full="fullDrag"/>
     </view>
 	<h-tabbar :bottom="state.tabbarBottom"/>
@@ -59,7 +59,7 @@
 <style scoped>
 
 .container-top {
-    height: 100vh;
+    height: Calc(100vh - 40px);
 }
 
 </style>

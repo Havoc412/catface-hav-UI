@@ -1,11 +1,12 @@
 <template>
     <!--因为需要不同的zIndex-->
     <!-- <view class="sticky"> -->
-    <view class="flex-vertical block container-header pd-5 top-container z-8" 
+    <view class="flex-vertical block container-header pd-5 top-container z-8"
         :style="{
             '--status-height': phoneInforStore.statusBarHeight.toString() + 'px',
             '--bg-color': props.bgColor,
-            '--opacity': props.opacity.toString()
+            '--opacity': props.opacity.toString(),
+            '--position': props.position
         }">
     <!--bug 感觉 pd-5 没有生效-->
         <view class="flex-center-horizontal">
@@ -55,6 +56,10 @@
         opacity: {
             type: Number,
             default: 1
+        },
+        position: {
+            type: String,
+            default: "sticky"
         }
     });
     const emits = defineEmits([]);
@@ -74,7 +79,7 @@
 <style scoped>
 
 .container-header {
-    position: sticky;
+    position: var(--position);
     top: 0px;
     background-color: var(--bg-color);
     opacity: var(--opacity);

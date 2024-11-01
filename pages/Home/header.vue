@@ -1,5 +1,5 @@
 <template>
-    <headerBase :opacity="props.opacity" :bgColor="color['main-light']">
+    <headerBase :opacity="props.opacity" :bgColor="color['main-light']" position="fixed">
         <template #prefix>
             <view class="flex-horizontal gap-10 container-tool z-9">
                 <h-icon name="tool-filter" @click="flag.filter = true"/>
