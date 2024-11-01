@@ -18,7 +18,10 @@
                 'width': '100rpx'
             }"/> -->
         </view>
-        <view class="mt-20 flex-vertical gap-5">
+        <view class="flex-vertical gap-5" :class="{
+            'mt-20': !flag.close,
+            'mt-50': flag.close,
+        }">
             <view class="flex-center-horizontal block">
                 <tabGroup :tab-list="consts.TAB_LIST" :hiddenTrigger="!flag.full"/>
             </view>
@@ -92,7 +95,7 @@
             HEIGHT: 20 // rpx
         },
         BASE_BORDER_RADIUS_INIT: 24,
-        TAB_LIST: ['最新', '关注', '热门']
+        TAB_LIST: ['最新', '关注', '热门'],
     }
     const state = reactive({
         top: 200,
