@@ -11,16 +11,14 @@
 
 <script setup>
     import { ref, computed, watch } from "vue";
+	import { onPageScroll } from '@dcloudio/uni-app'
+
     // store
     
 // DATA
     const props = defineProps({
         // func
-        scrollTop: {
-            type: Number,
-            default: 0
-        },
-        loadStatus: {
+        loadStatus: {  // 外部数据加载状态。
             type: String,
             default: 'loading'
         },
@@ -45,14 +43,16 @@
     const nomore = computed(() => {
         return props.loadStatus === 'nomore';
     })
-    
-    watch(() => props.scrollTop, (newVal, oldVal) => {
+
+    onPageScroll((e) => {
         // TIP 【触发时机】当向下翻动了很多，然后又向上移动的时候。
-        if(newVal > oldVal || !nomore)
+        if (e.scrollTop > flag.scrollTop || !nomore)
             flag.value = false;
         else
             flag.value = true;
-    })
+        // reload
+        flag.scrollTop = e.scrollTop;
+    });
 
 </script>
 

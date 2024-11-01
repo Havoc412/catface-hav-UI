@@ -29,13 +29,13 @@
         </view>
     </view>
     <!-- UPDATE 感觉不是很有必要，同时可以放到 tools 内部。 <up-back-top :scroll-top="flag.scrollTop" top="100"/> -->
-    <sideTools :scroll-top="flag.scrollTop" :load-status="flag.loadmore" @add="gotoAddAnimal"/>
+    <sideTools :load-status="flag.loadmore" @add="gotoAddAnimal"/>
     <h-tabbar/>
 </template>
 
 <script setup>
     import { ref, reactive, onMounted } from "vue";
-	import { onReachBottom, onPageScroll } from '@dcloudio/uni-app'
+	import { onReachBottom } from '@dcloudio/uni-app'
 
     import api from "../../request/animal";
 
@@ -43,7 +43,7 @@
     import Header from "./header.vue";
     import singleCat from "../../components/book/singleCat.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
-    import sideTools from "../../components/book/side-tools.vue";
+    import sideTools from "../../components/com/side-tools.vue";
 
     import statusWin from "../../components/status-win/statusWin.vue";
     // store
@@ -68,7 +68,6 @@
             type: "loadding"
         },
         // TAG 新增毛茸茸组件
-        scrollTop: 0,
         toggleFilter: false,
         
     })
@@ -127,10 +126,6 @@
             flag.loadmore = 'loadmore';
         }, 1000);
     })
-
-    onPageScroll((e) => {
-        flag.scrollTop = e.scrollTop;
-    });
 
     // TAG Router
     function gotoDetial(id) {
