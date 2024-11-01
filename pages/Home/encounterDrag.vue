@@ -18,7 +18,7 @@
                 'width': '100rpx'
             }"/> -->
         </view>
-        <view class="flex-vertical gap-5" :class="{
+        <view class="flex-vertical gap-10" :class="{
             'mt-5': flag.full,
             'mt-20': !flag.full && !flag.close,
             'mt-50': flag.close,
@@ -91,7 +91,7 @@ import { onUnmounted } from "vue";
     
     const consts = {
         TOP_INIT: 250,
-        TOP_MIN: 40,
+        TOP_MIN: 45,
         THRESHOLD_DOWN: 200,
         THRESHOLD_UP: -70,
         DRAG_HEIGHT: 40,

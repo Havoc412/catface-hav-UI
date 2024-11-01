@@ -25,7 +25,7 @@
         tabList: Array,
         hiddenTrigger: Boolean,
     });
-    const emits = defineEmits(["changeIndex"]);
+    const emits = defineEmits(['changeIndex']);
 
     const consts = {
         HEIGHT_INIT: 30,
@@ -43,15 +43,6 @@
         if(index != tabIndex.value) {
             tabIndex.value = index;
             emits("changeIndex", index);
-        }
-        else if(index == 0) {
-            // info 再次点击 地点项
-            // uni.chooseLocation({
-            //     success: function(res) {
-                    
-            //     }
-            // })
-            // uni.navigateTo({ url: '/components/linzq-citySelect/linzq-citySelect' })
         }
     }
 

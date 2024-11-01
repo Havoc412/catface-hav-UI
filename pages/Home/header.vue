@@ -58,7 +58,7 @@
 
 .container-tool {
     padding: 10px;
-    padding-bottom: 0;
+    padding-bottom: 5px;
 }
 
 </style>        
