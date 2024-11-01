@@ -10,19 +10,21 @@
 </template>
 
 <script setup>
-    import { ref, computed, watch } from "vue";
+    import { ref, computed, watch, onMounted } from "vue";
 	import { onPageScroll } from '@dcloudio/uni-app'
 
     // store
     
 // DATA
     const props = defineProps({
-        // func
-        loadStatus: {  // 外部数据加载状态。
-            type: String,
-            default: 'loading'
+        // data
+        scrollTop: { // Used by scrollView, not Page
+            type: Number,
+            default: 0
         },
-        mustReadAll: Boolean, // 要求阅读全部，然后才显示。
+        // func
+        status: [String, Number, Boolean], // 外部的某种状态 // INFO 但是自然要求类型相同。
+        mustStatus: [String, Number, Boolean], // 要求的值
         // Style
         right: {
             type: [String, Number],
@@ -40,20 +42,34 @@
     const emits = defineEmits(['add']);
 
     const flag = ref(false);
+    const scrollTop = ref(0);
 // FUNC
-    const nomore = computed(() => { // INFO 配合 Book 实现添加前需要看完已有的条件。
-        return props.loadStatus === 'nomore';
+    onMounted(() => {
+        if (typeof props.status != typeof props.mustStatus)
+            return console.error('[Book] add-btn: status 和 mustStatus 类型不一致。'); 
+    });
+
+    const checkStatus = computed(() => {
+        return props.status != props.mustStatus;
+    })
+
+    watch(() => props.scrollTop, (newVal) => {
+        checkShow(newVal);
     })
 
     onPageScroll((e) => {
-        // TIP 【触发时机】当向下翻动了很多，然后又向上移动的时候。
-        if (e.scrollTop > flag.scrollTop || (props.mustReadAll && !nomore))
+        checkShow(e.scrollTop);
+    });
+
+    function checkShow(newVal) {
+        // TIP 【触发时机】当向下翻动了很多，然后又向上移动的时候
+        if (checkStatus.value || newVal > scrollTop.value)
             flag.value = false;
         else
             flag.value = true;
         // reload
-        flag.scrollTop = e.scrollTop;
-    });
+        scrollTop.value = newVal;
+    }
 
 </script>
 

@@ -28,7 +28,8 @@
             </view>
             <scroll-view 
                 :scroll-y="true"
-                @scrolltolower="lower" @scrolltoupper="upper" @scroll=""
+                @scrolltolower="lower" @scrolltoupper="upper"
+                @scroll="(e) => { data.scrollTop = e.detail.scrollTop; }"
                 class="container-waterfall" :style="{
                     '--height': state.waterfallHeight + 'vh'
                 }"
@@ -58,7 +59,7 @@
                 </view>
             </scroll-view>
         </view>
-        <sideTools @add=""/>
+        <sideTools :scrollTop="data.scrollTop" :status="flag.full" :mustStatus="true" @add=""/>
         <placeHolder/>
     </view>
 </template>
@@ -201,7 +202,8 @@
     // TAG ## Waterfall
     const data = reactive({
         left: [],
-        right: []
+        right: [],
+        scrollTop: 0,
     })
 
     onMounted(() => {
