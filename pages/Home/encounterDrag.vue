@@ -19,13 +19,15 @@
             }"/> -->
         </view>
         <view class="flex-vertical gap-5" :class="{
-            'mt-20': !flag.close,
+            'mt-5': flag.full,
+            'mt-20': !flag.full && !flag.close,
             'mt-50': flag.close,
         }">
             <view class="flex-center-horizontal block">
                 <tabGroup :tab-list="consts.TAB_LIST" :hiddenTrigger="!flag.full"/>
             </view>
-            <scroll-view :scroll-y="true" 
+            <scroll-view 
+                :scroll-y="true"
                 @scrolltolower="lower" @scrolltoupper="upper"
                 class="container-waterfall" :style="{
                 '--height': state.waterfallHeight + 'vh'
@@ -35,19 +37,21 @@
                     <view class="flex-vertical gap-10">
                         <template v-for="(item, index) in data.left" :key="index">
                             <post :id="item.id" :user-id="item.user_id"
-                            :url="item.url" :title="item.title" 
-                            :userAvatar="item.userAvatar" :userName="item.userName" 
-                            :time="item.time" :like="item.like" 
-                            :height="item.adoptHeight"/>
+                                :url="item.url" :title="item.title" 
+                                :userAvatar="item.userAvatar" :userName="item.userName" 
+                                :time="item.time" :like="item.like" 
+                                :height="item.adoptHeight"
+                            />
                         </template>
                     </view>
                     <view class="flex-vertical gap-10">
                         <template v-for="(item, index) in data.right" :key="index">
                             <post :id="item.id" :user-id="item.user_id"
-                            :url="item.url" :title="item.title" 
-                            :userAvatar="item.userAvatar" :userName="item.userName" 
-                            :time="item.time" :like="item.like" 
-                            :height="item.adoptHeight"/>
+                                :url="item.url" :title="item.title" 
+                                :userAvatar="item.userAvatar" :userName="item.userName" 
+                                :time="item.time" :like="item.like" 
+                                :height="item.adoptHeight"
+                            />
                         </template>
                     </view>
                 </view>
@@ -96,6 +100,7 @@
         },
         BASE_BORDER_RADIUS_INIT: 24,
         TAB_LIST: ['最新', '关注', '热门'],
+        THRESHOLD_MOVE_TO_UP: 400,
     }
     const state = reactive({
         top: 200,
@@ -211,10 +216,11 @@
     function handleTouchStart(event) {
         vars.touchStartY = event.changedTouches[0].pageY;
         event.stopPropagation();
-        // emits('touchstart');
     }
     function handleTouchMove(event) {
         const touchMoveY = event.changedTouches[0].pageY;
+        // if(vars.touchStartY - touchMoveY > consts.THRESHOLD_MOVE_TO_UP)
+        //     full();
         // ReLoad
         state.top = Math.max(consts.TOP_MIN, touchMoveY);
         event.stopPropagation();
