@@ -28,10 +28,11 @@
             </view>
             <scroll-view 
                 :scroll-y="true"
-                @scrolltolower="lower" @scrolltoupper="upper"
+                @scrolltolower="lower" @scrolltoupper="upper" @scroll=""
                 class="container-waterfall" :style="{
-                '--height': state.waterfallHeight + 'vh'
-            }">
+                    '--height': state.waterfallHeight + 'vh'
+                }"
+            >
                 <statusWin v-if="flag.status.show" mode="block" :status="flag.status.type"/>
                 <view v-else class="flex-top-horizontal gap-10">
                     <view class="flex-vertical gap-10">
@@ -57,6 +58,7 @@
                 </view>
             </scroll-view>
         </view>
+        <sideTools @add=""/>
         <placeHolder/>
     </view>
 </template>
@@ -64,9 +66,11 @@
 <script setup>
     import { ref, reactive, onMounted } from "vue";
 
+    // com
     import scssConsts from "@/common/consts.module.scss";
     import { extractIntFromSize } from "@/utils/string";
 
+    import sideTools from "../../components/com/side-tools.vue";
     import tabGroup from "../../components/home/tabGroup.vue";
     import post from "../../components/home/post.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";

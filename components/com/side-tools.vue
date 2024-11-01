@@ -22,6 +22,7 @@
             type: String,
             default: 'loading'
         },
+        mustReadAll: Boolean, // 要求阅读全部，然后才显示。
         // Style
         right: {
             type: [String, Number],
@@ -40,13 +41,13 @@
 
     const flag = ref(false);
 // FUNC
-    const nomore = computed(() => {
+    const nomore = computed(() => { // INFO 配合 Book 实现添加前需要看完已有的条件。
         return props.loadStatus === 'nomore';
     })
 
     onPageScroll((e) => {
         // TIP 【触发时机】当向下翻动了很多，然后又向上移动的时候。
-        if (e.scrollTop > flag.scrollTop || !nomore)
+        if (e.scrollTop > flag.scrollTop || (props.mustReadAll && !nomore))
             flag.value = false;
         else
             flag.value = true;
