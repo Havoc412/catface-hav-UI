@@ -54,7 +54,7 @@
         },
         opacity: {
             type: Number,
-            default: 0
+            default: 1
         }
     });
     const emits = defineEmits([]);
