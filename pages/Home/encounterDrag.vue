@@ -327,15 +327,13 @@
         loadmore();
         
         if (!flag.full) {
-            state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
-            flag.full = true;
+            full();
         }
     }
 
     function upper() {
         if(flag.full) {
-            state.top = consts.TOP_INIT;
-            flag.full = false;
+            mid();
         }
     }
     
