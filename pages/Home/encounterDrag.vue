@@ -65,7 +65,7 @@
 </template>
 
 <script setup>
-    import { ref, reactive, onMounted } from "vue";
+    import { ref, reactive, onMounted, watch } from "vue";
 
     // com
     import scssConsts from "@/common/consts.module.scss";
@@ -83,6 +83,7 @@
     import api from "../../request/encounter";
 // DATA
     import { ENCOUNTER_MAX_NUM } from "../../common/consts";
+import { onUnmounted } from "vue";
     const props = defineProps({
         
     });
@@ -116,7 +117,8 @@
         touchStartY: 0,
         // # Waterfall
         heightLeft: 0,
-        heightRight: 0
+        heightRight: 0,
+        fullFirstUpper: false,  // INFO 当处于 full 状态，会抵消一次 upper，然后如果接收到任意二次向上，则执行 mid；
     }
     const flag = reactive({
         status: {
@@ -263,6 +265,8 @@
         state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
         flag.full = true;
 
+        vars.fullFirstUpper = true;  // INIT
+
         state.baseBorderRadius = 0;
         emits('full');
     }
@@ -344,6 +348,11 @@
     }
 
     function upper() {
+        if (vars.fullFirstUpper) {
+            vars.fullFirstUpper = false;
+            return;
+        }
+
         if(flag.full) {
             mid();
         }
