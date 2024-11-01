@@ -42,7 +42,7 @@
   })
   const emits = defineEmits(['touchstart']);
   // const
-  const RADIUS = 500;  // UPDATE 换为 rpx 单位了
+  const RADIUS = 450;  // UPDATE 换为 rpx 单位了
   const RADIUS_BIGGER = 210;  // 暂时没有用到。
   const FALL_LENGTH = 700;  // scale 有关
 
