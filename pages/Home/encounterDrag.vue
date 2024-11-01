@@ -1,6 +1,6 @@
 <!--INFO 这里的 DrageArea 是最开始的尝试版，所以没有封装起来。-->
 <template>
-    <view class="drag-area flex-center-vertical shrink z-8" :style="{
+    <view class="drag-area flex-center-vertical shrink z-7" :style="{
         '--top': state.top + 'px',
         '--base-border-radius': state.baseBorderRadius + 'px'
     }"> <!--INFO 主要就是依靠 fixed + top 来实现拖动的效果。-->
@@ -78,7 +78,7 @@
     
     const consts = {
         TOP_INIT: 250,
-        TOP_MIN: 0,
+        TOP_MIN: 40,
         THRESHOLD_DOWN: 200,
         THRESHOLD_UP: -70,
         DRAG_HEIGHT: 40,
