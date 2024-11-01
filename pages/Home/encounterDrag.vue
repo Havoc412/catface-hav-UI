@@ -1,6 +1,8 @@
+<!--INFO 这里的 DrageArea 是最开始的尝试版，所以没有封装起来。-->
 <template>
     <view class="drag-area flex-center-vertical shrink z-8" :style="{
-        '--top': state.top + 'px'
+        '--top': state.top + 'px',
+        '--base-border-radius': state.baseBorderRadius + 'px'
     }"> <!--INFO 主要就是依靠 fixed + top 来实现拖动的效果。-->
         <!--拖动杆-->
         <view :style="{
@@ -68,11 +70,11 @@
     const props = defineProps({
         
     });
-    const emits = defineEmits(['close', 'open']);
+    const emits = defineEmits(['close', 'mid', 'full']);
     
     const consts = {
         TOP_INIT: 250,
-        TOP_MIN: 5,
+        TOP_MIN: 0,
         THRESHOLD_DOWN: 200,
         THRESHOLD_UP: -70,
         DRAG_HEIGHT: 40,
@@ -84,11 +86,13 @@
         TITLE: {  // 简单的估算，超过 THRESHOLD_LEN 个字符就增加 HEIGHT 的高度。
             THRESHOLD_LEN: 13,
             HEIGHT: 20 // rpx
-        }
+        },
+        BASE_BORDER_RADIUS_INIT: 24,
     }
     const state = reactive({
         top: 200,
         waterfallHeight: 85,
+        baseBorderRadius: 24,
     })
     const vars = {
         touchStartY: 0,
@@ -209,41 +213,53 @@
     };
     function handleTouchEnd(event) {
         const touchEndY = event.changedTouches[0].pageY;
-        
         const dif = touchEndY - vars.touchStartY;
-
-        console.info(dif);
         
         // UPDATE 这里的逻辑之后再细化一下
         if(flag.close) {
             if(touchEndY < consts.TOP_INIT) {
-                state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
-                flag.full = true;
                 flag.close = false;
-                emits('open');
+                full();
             } else if(dif < 0) {
-                state.top = consts.TOP_INIT;
-                flag.full = false;
                 flag.close = false;
-                emits('open');
+                mid();
             } else {
-                state.top = phoneInforStore.phoneHeight - consts.DRAG_HEIGHT;
+                close();
             }
         } else {
             if (dif > consts.THRESHOLD_DOWN) {
-                state.top = phoneInforStore.phoneHeight - consts.DRAG_HEIGHT;
-                flag.full = false;
                 flag.close = true;
-                emits('close');
+                close();
             } else if(dif < consts.THRESHOLD_UP) {
-                state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
-                flag.full = true;
+                full();
             } else {
-                state.top = consts.TOP_INIT;
-                flag.full = false;
+                mid();
             }
         }
         event.stopPropagation();
+    }
+
+    function full() {
+        state.top = consts.TOP_MIN + phoneInforStore.statusBarHeight;
+        flag.full = true;
+
+        state.baseBorderRadius = 0;
+        emits('full');
+    }
+
+    function mid() {
+        state.top = consts.TOP_INIT;
+        flag.full = false;
+
+        state.baseBorderRadius = consts.BASE_BORDER_RADIUS_INIT;
+        emits('mid');
+    }
+    function close() {
+        state.top = phoneInforStore.phoneHeight - consts.DRAG_HEIGHT;
+        flag.full = false;
+        state.baseBorderRadius = consts.BASE_BORDER_RADIUS_INIT;
+
+        emits('close');
     }
 
     // TAG # Waterfall
@@ -313,14 +329,6 @@
             state.top = consts.TOP_INIT;
             flag.full = false;
         }
-        // else {  // UPDATE 这个的触发条件是 变动为 0 的状态，不是特别有用。
-        //     if(flag.twiceClose) { // 第二次下滑的时候
-        //         state.top = phoneInforStore.phoneHeight - consts.DRAG_HEIGHT;
-        //         flag.close = true;
-        //         emits('close');
-        //     }
-        //     flag.twiceClose = !flag.twiceClose;
-        // }
     }
     
 </script>
@@ -335,7 +343,7 @@
     width: 100vw;
     
     background-color: #fff;
-    border-radius: 24px 24px 0 0;
+    border-radius: var(--base-border-radius) ;  /** 简化，实际下方会被挡住。 */
 
     transition: top 0.5s ease;
 }

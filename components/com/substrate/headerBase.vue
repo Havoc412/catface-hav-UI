@@ -4,7 +4,8 @@
     <view class="flex-vertical block container-header pd-5 top-container z-8" 
         :style="{
             '--status-height': phoneInforStore.statusBarHeight.toString() + 'px',
-            '--bg-color': props.bgColor
+            '--bg-color': props.bgColor,
+            '--opacity': props.opacity.toString()
         }">
     <!--bug 感觉 pd-5 没有生效-->
         <view class="flex-center-horizontal">
@@ -50,6 +51,10 @@
         bgColor: {
             type: String,
             default: "transparent"
+        },
+        opacity: {
+            type: Number,
+            default: 0
         }
     });
     const emits = defineEmits([]);
@@ -72,6 +77,9 @@
     position: sticky;
     top: 0px;
     background-color: var(--bg-color);
+    opacity: var(--opacity);
+
+    transition: all .3s;
 }
 
 .top-icon {

@@ -10,7 +10,6 @@
             </view>
         </template>
     </headerBase>
-    <!--INFO safeAreaInsetTop 在 wx 中不需要-->
     <u-popup 
         :show="flag.list" 
         mode="right" 
