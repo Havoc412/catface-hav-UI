@@ -1,6 +1,6 @@
 <!--INFO 实际还是 Toolsbar，放置到 Header 的空间位置。-->
 <template>
-    <headerBase bgColor="#DAE2E6">
+    <headerBase :bgColor="color['main-light']">
         <template #prefix>
             <view class="flex-horizontal gap-10 container-tool z-9">
                 <h-icon name="tool-list" @click="flag.list = true"/>
@@ -43,10 +43,11 @@
 <script setup>
     import { ref, reactive, onMounted, watch } from "vue";
     // com
+    import color from "@/css/theme/index.module.scss";
+
     import headerBase from "../../components/com/substrate/headerBase.vue";
     import list from "./sub-toolbar/list.vue";
     import Filter from "./sub-toolbar/filter.vue";
-    import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     // store
 // DATA
     const props = defineProps({
