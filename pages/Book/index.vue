@@ -29,7 +29,7 @@
         </view>
     </view>
     <!-- UPDATE 感觉不是很有必要，同时可以放到 tools 内部。 <up-back-top :scroll-top="flag.scrollTop" top="100"/> -->
-    <sideTools mustReadAll :load-status="flag.loadmore" @add="gotoAddAnimal"/>
+    <sideTools :status="flag.loadmore" mustStatus="nomore" @add="gotoAddAnimal"/>
     <h-tabbar/>
 </template>
 
@@ -49,6 +49,14 @@
     // store
 
 // DATA
+    const consts = {
+        NUM_INIT: 6,
+        NUM_SINGLE: 6
+    }
+    const state = {
+        skip: 0,
+    }
+
     const data = reactive({
         catsList: [ // Example
             // {name: "斜刘海", gender: "female", status: "inschool", sterilization: "sterilized", avatar: "0.jpg"},
@@ -69,8 +77,8 @@
         },
         // TAG 新增毛茸茸组件
         toggleFilter: false,
-        
     })
+
 
     const headerRef = ref(null);
 
@@ -82,7 +90,7 @@
     async function init() {
         flag.status.type = "loadding";
         flag.status.show = true;
-        data.catsList = await getData(10);
+        data.catsList = await getData(consts.NUM_INIT);
     }
 
     async function getData(num, skip = 0) {
@@ -91,12 +99,13 @@
         const [res, err] = await api.getAnimalBook(num, skip, filterConditions, true);
         if (err != null) {  // 错误处理
             flag.status.type = "error";
-            return
+            return [];
         }
         // check more
         if(res.length < num)
             flag.loadmore = 'nomore';
 
+        state.skip += res.length;
         flag.status.show = false;
         
         return res;
@@ -105,12 +114,14 @@
     async function filterConditionsChange() {
         flag.status.type = "loadding";
         flag.status.show = true;
-        data.catsList = await getData(10);
+        data.catsList = await getData(consts.NUM_INIT);
     }
 
-    function loadmore() {
+    async function loadmore() {
         // TODO 这里后续请求 API
         console.info("loadmore");
+        const res = await getData(consts.NUM_SINGLE, state.skip);
+        data.catsList = data.catsList.concat(res);
     }
 
     // Life
@@ -122,9 +133,9 @@
 
         loadmore();
 
-        setTimeout(() => {
-            flag.loadmore = 'loadmore';
-        }, 1000);
+        // setTimeout(() => {
+        //     flag.loadmore = 'loadmore';
+        // }, 1000);
     })
 
     // TAG Router
