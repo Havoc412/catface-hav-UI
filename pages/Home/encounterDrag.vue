@@ -5,7 +5,7 @@
         '--base-border-radius': state.baseBorderRadius + 'px'
     }"> <!--INFO 主要就是依靠 fixed + top 来实现拖动的效果。-->
         <!--拖动杆-->
-        <view :style="{
+        <view class="fixed" :style="{
             'margin-bottom': flag.close ? '15px' : '0'
         }"
             @touchstart="handleTouchStart" 
@@ -18,7 +18,10 @@
                 'width': '100rpx'
             }"/> -->
         </view>
-        <view>
+        <view class="mt-20 flex-vertical gap-5">
+            <view class="flex-center-horizontal block">
+                <tabGroup :tab-list="consts.TAB_LIST" :hiddenTrigger="!flag.full"/>
+            </view>
             <scroll-view :scroll-y="true" 
                 @scrolltolower="lower" @scrolltoupper="upper"
                 class="container-waterfall" :style="{
@@ -57,6 +60,7 @@
     import scssConsts from "@/common/consts.module.scss";
     import { extractIntFromSize } from "@/utils/string";
 
+    import tabGroup from "../../components/home/tabGroup.vue";
     import post from "../../components/home/post.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     import statusWin from "../../components/status-win/statusWin.vue";
@@ -88,6 +92,7 @@
             HEIGHT: 20 // rpx
         },
         BASE_BORDER_RADIUS_INIT: 24,
+        TAB_LIST: ['最新', '关注', '热门']
     }
     const state = reactive({
         top: 200,
