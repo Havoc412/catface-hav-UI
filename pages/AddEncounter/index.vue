@@ -1,10 +1,26 @@
 <template>
-    <view class="flex-center-vertical container-top">
+    <view class="flex-vertical container-top">
         <photoGroup mode="add" :imgList="dataShow.photos" @addImage="addImage" @delete="deleteImage" @setFront="setFront"/>
         <view class="block pd-10" style="padding-top: 0;">
             <up-divider dot lineColor="#000"/>
 
-            <up-textarea :border="'none'" v-model="data.content" height="400rpx" focus placeholder="在这里记录你的奇遇！">
+            <up-textarea 
+                v-model="data.content" 
+
+                placeholder="在这里记录你的奇遇！"
+                :placeholderStyle="JSON.stringify({
+                    color: '#888888',
+                    fontSize: '18px',
+                    fontWeight: 'bold'
+                })"
+                :customStyle="{
+                    fontWeight: 'bold'
+                }"
+                fontSize="20"
+                border="none"
+                height="400rpx" 
+                focus
+            >
             </up-textarea>
 
             <view class="flex-center-horizontal">
@@ -13,11 +29,21 @@
                 <h-btn variant="text" icon="flex-full" iconSize="24" @click=""/>
             </view>
 
-            <up-divider dot lineColor="#000"/>
+            <up-divider dot lineColor="#000" marginTD="5"/>
+            <!--Title-->
             <up-input
-                placeholder="起一个标题吧。"
-                border="none"
                 v-model="data.title"
+
+                placeholder="起一个标题吧。"
+                :placeholderStyle="JSON.stringify({
+                    color: '#888888',
+                    fontWeight: 'bold'
+                })"
+                border="none"
+                :customStyle="{
+                    fontWeight: 'bold'
+                }"
+                fontSize="18"
                 clearable
                 @change=""
             >
@@ -30,9 +56,13 @@
                 </template>
 
             </up-input>
-            <up-divider dot lineColor="#000"/>
+            <up-divider dot lineColor="#000" marginTD="5"/>
+
 
             <bottomFunc/>
+        </view>
+
+        <view class="container-bottom">
             <bottomSubmit bgColorLeft="#fff"/>
         </view>
     </view>
@@ -97,6 +127,14 @@
 .container-top {
     width: 100vw;
 
+}
+
+.container-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
 }
 
 </style>        
