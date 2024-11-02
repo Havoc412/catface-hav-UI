@@ -8,10 +8,19 @@
                 <up-icon name="plus" :color="color['main-deep']" size="30"></up-icon>
             </view>
             <template v-for="(item, index) in props.imgList" :key="index">
-                <up-image lazy-load :src="item" :radius="props.radius" :height="props.size + 'px'" :width="props.size + 'px'"/>
+                <up-image lazy-load :src="item" :radius="props.radius" :height="props.size + 'px'" :width="props.size + 'px'"
+                    @click="showImage(index)"
+                />
             </template>
         </view>
     </scroll-view>
+    
+    <imagesPreview v-if="flag.preview" :mode="props.mode"
+        :urls="props.imgList" :current-index="currentIndex"
+        @close="flag.preview = false"
+		@delete="(index) => { emits('delete', index); }"
+		@setFront="(index) => { emits('setFront', index); }"
+    />
 </template>
 
 <script setup>
@@ -19,6 +28,9 @@
 
     import color from "@/css/theme/index.module.scss";
     import api from "../../request/photo";
+
+    // com
+    import imagesPreview from "../vear-carousel/imagesPreview.vue";
     // store
 // DATA
     const props = defineProps({
@@ -48,18 +60,17 @@
 			default: 5
 		}
     });
-    const emits = defineEmits(['addImage']);
+    const emits = defineEmits(['addImage', 'delete', 'setFront']);
 
+	const currentIndex = ref(0);
     const status = reactive({
 		upload: 'nothing',
 	})
-
     const flag = reactive({
 		preview: false,
 	})
 
 // FUNC
-
    	// 添加图片
 	async function addImage() {
 		try {
@@ -103,7 +114,8 @@
 		});
 	}
 
-	function showImage() {
+	function showImage(index) {
+        currentIndex.value = index;
 		flag.preview = true;
 	}
 

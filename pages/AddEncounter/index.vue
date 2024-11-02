@@ -1,6 +1,6 @@
 <template>
     <view class="flex-center-vertical container-top">
-        <photoGroup mode="add" :imgList="dataShow.photos" @addImage="addImage"/>
+        <photoGroup mode="add" :imgList="dataShow.photos" @addImage="addImage" @delete="deleteImage" @setFront="setFront"/>
         <up-divider :hairline="true" lineColor="#000"/>
         123
     </view>
@@ -24,6 +24,8 @@
     })
 
 // FUNC
+
+    // TAG Image
     function addImage(paths) {
         if(!paths)  return;
         data.photos = data.photos.concat(paths);
@@ -37,6 +39,16 @@
         
         dataShow.photos = dataShow.photos.concat(newFullPath);
         console.debug(dataShow.photos, data.photos);
+    }
+    function deleteImage(index) {
+        data.photos.splice(index, 1)
+    }
+
+    function setFront(index) {
+        if (index !== -1) {
+            const [item] = data.photos.splice(index, 1);
+            data.photos.unshift(item);
+        }
     }
 
 
