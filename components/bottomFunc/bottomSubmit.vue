@@ -1,6 +1,8 @@
 <template>
     <view class="flex-center-horizontal gap-5 block mt-10">
-        <view class="flex-center-horizontal gap-5 container-btn-left"
+        <view class="flex-center-horizontal gap-5 container-btn-left" :style="{
+            '--bg-color-left': props.bgColorLeft
+        }"
             @click="emits('storeData')"
         >
             <h-icon name="post-store" size="21"/>
@@ -36,7 +38,10 @@
             type: Boolean,
             default: false
         },
-
+        bgColorLeft: {
+            type: String,
+            default: '#DAE2E6'
+        }
     });
     const emits = defineEmits(['submitData', 'storeData']);
 
@@ -47,7 +52,7 @@
 <style scoped>
 
 .container-btn-left {
-    background-color: #DAE2E6;
+    background-color: var(--bg-color-left);
     
     color: #333;
     font-size: 13px;
