@@ -224,7 +224,7 @@
                 </up-form>
             </view>
             <!-- INFO Func-->
-            <bottomFunc @getPoi="getPoi"/>
+            <bottomFunc poi catface @getPoi="getPoi"/>
             <placeHolder height="190" type="rpx"/>
             <!--Tag 业务逻辑 UI -->
             <view class="flex-center-horizontal gap-5 block mt-10">
@@ -289,7 +289,7 @@
     import name from "../../components/add-animal/name.vue";
     import nickNames from "../../components/add-animal/nick-names.vue";
     import pickerGroup from "./sub-index/pickerGroup.vue";
-    import bottomFunc from "./sub-index/bottomFunc.vue";
+    import bottomFunc from "../../components/bottomFunc/bottomFunc.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     import statusWin from "../../components/status-win/statusWin.vue";
     // store

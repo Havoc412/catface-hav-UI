@@ -1,6 +1,6 @@
 <template>
     <view class="flex-center-vertical gap-10 block">
-        <view class="flex-center-horizontal gap-5 block" @click="getPoi">
+        <view v-if="props.poi" class="flex-center-horizontal gap-5 block" @click="getPoi">
             <h-icon name="map-location" size="20"/>
             <view>标记地点</view>
             <view class="shrink"></view>
@@ -14,7 +14,7 @@
             </h-btn>
             <h-icon name="arrow-right"/>
         </view>
-        <view class="flex-center-horizontal gap-5 block">
+        <view v-if="props.catface" class="flex-center-horizontal gap-5 block">
             <h-icon name="catface-paw" size="20"/>
             <view>录入猫脸</view>
             <view class="shrink"></view>
@@ -33,11 +33,18 @@
 <script setup>
     import { reactive } from "vue";
 
-    import { GetPoi } from "../../../utils/poi";
+    import { GetPoi } from "../../utils/poi";
     // store
 // DATA
     const props = defineProps({
-
+        poi: {
+            type: Boolean,
+            default: true
+        },
+        catface: {
+            type: Boolean,
+            default: false
+        }
     });
     const emits = defineEmits(['getPoi']);
 
