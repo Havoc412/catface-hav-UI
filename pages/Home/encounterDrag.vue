@@ -18,13 +18,15 @@
                 'width': '100rpx'
             }"/> -->
         </view>
-        <view class="flex-vertical gap-10" :class="{
+        <view class="flex-vertical gap-10 block" :class="{
             'mt-5': flag.full,
             'mt-20': !flag.full && !flag.close,
             'mt-50': flag.close,
         }">
             <view class="flex-center-horizontal block">
-                <tabGroup :tab-list="consts.TAB_LIST" :hiddenTrigger="!flag.full"/>
+                <tabGroup :tab-list="consts.TAB_LIST" :hiddenTrigger="!flag.full"
+                    @changeIndex="(index) => { data.modeIndex = index; }"
+                />
             </view>
             <scroll-view 
                 :scroll-y="true"
@@ -65,7 +67,7 @@
 </template>
 
 <script setup>
-    import { ref, reactive, onMounted, watch } from "vue";
+    import { ref, reactive, onMounted, watch, onUnmounted } from "vue";
 
     // com
     import scssConsts from "@/common/consts.module.scss";
@@ -83,7 +85,6 @@
     import api from "../../request/encounter";
 // DATA
     import { ENCOUNTER_MAX_NUM } from "../../common/consts";
-import { onUnmounted } from "vue";
     const props = defineProps({
         
     });
@@ -107,6 +108,9 @@ import { onUnmounted } from "vue";
         BASE_BORDER_RADIUS_INIT: 24,
         TAB_LIST: ['最新', '关注', '热门'],
         THRESHOLD_MOVE_TO_UP: 400,
+
+        NUM_INIT: 8,
+        NUM_SINGLE: 10
     }
     const state = reactive({
         top: 200,
@@ -118,6 +122,7 @@ import { onUnmounted } from "vue";
         // # Waterfall
         heightLeft: 0,
         heightRight: 0,
+        skip: 0,
         fullFirstUpper: false,  // INFO 当处于 full 状态，会抵消一次 upper，然后如果接收到任意二次向上，则执行 mid；
     }
     const flag = reactive({
@@ -201,26 +206,107 @@ import { onUnmounted } from "vue";
         },
     ]
 
-    // TAG ## Waterfall
+    // TAG 状态记录
     const data = reactive({
         left: [],
         right: [],
         scrollTop: 0,
+
+        modeIndex: 0,  // default: 0; liked: 1; ...
     })
 
     onMounted(() => {
+        // 布局相关
+        state.top = consts.TOP_INIT;
         flag.close = false;
         flag.full = false;
-        state.top = consts.TOP_INIT;
-
-        data.left = [];
-        data.right = [];
-
-        loadmore(15);
+        // waterfull 相关
+        init();
+        loadmore(consts.NUM_INIT);
     })
     
 // FUNC
-    // TAG # Drag Handler
+    watch(() => data.modeIndex, () => {
+        init();
+        console.debug(data.modeIndex);
+        switch(data.modeIndex) { // 假设这里还有各种初始化。
+            // TODO
+        }
+        loadmore(consts.NUM_INIT);
+    })
+
+    function init() {
+        flag.status.type = 'loadding';
+        flag.status.show = true;
+
+        data.left = [];
+        data.right = [];
+        vars.skip = 0;
+        vars.heightLeft = 0;
+        vars.heightRight = 0;
+    }
+    
+    // TAG 业务逻辑函数
+    async function loadmore(num = consts.NUM_SINGLE, skip = vars.skip) {
+        if(flag.status.type == 'nomore') {
+            console.info("No more data.");
+            return
+        }
+
+        const res = await getData(num, skip);
+        res.forEach( (item) => {
+            let height = item.adoptHeight;
+            // min
+            if (vars.heightLeft <= vars.heightRight) {
+                data.left.push(item);
+                vars.heightLeft += height;
+            } else {
+                data.right.push(item);
+                vars.heightRight += height;
+            }
+        })
+        vars.skip += res.length;
+        flag.status.show = false;
+    }
+
+    // Waterfall
+    async function getData(num, skip) {
+        let modeStr = "";
+        switch(data.modeIndex) {
+            case 1: modeStr = "liked"; break;
+            case 2: modeStr = "hot"; break;
+            default: modeStr = "";
+        }
+
+        // INFO 通过这种方式实现未登录的限量  // TODO 之后测试，以及报错信息的传值
+        const [res, err] = await api.getEncounterList(num, skip, modeStr, skip > ENCOUNTER_MAX_NUM)
+        if (err != null) {
+            flag.status.type = 'error';
+            return []
+        }
+        if(res.length < num)
+            flag.status.type = 'nomore'
+        
+        const fetchedData = res.map((item) => {
+            // img info
+            let height = Math.round(item.height / item.width * consts.POST.WIDTH);
+            if (height < consts.POST.MIN_HEIGHT) {
+                height = consts.POST.MIN_HEIGHT;
+            } else if (height > consts.POST.HEIGHT_MAX) {
+                height = consts.POST.HEIGHT_MAX;
+            }
+            if (item.title.length > consts.TITLE.THRESHOLD_LEN) {
+                height += consts.TITLE.HEIGHT;
+            }
+            item.adoptHeight = height;  // INFO rpx
+            return item;
+        })
+
+        return fetchedData;
+    }
+
+    // TAG UI 交互处理函数。
+    // Drag Handler
     function handleTouchStart(event) {
         vars.touchStartY = event.changedTouches[0].pageY;
         event.stopPropagation();
@@ -285,59 +371,6 @@ import { onUnmounted } from "vue";
 
         emits('close');
     }
-
-    // TAG # Waterfall
-    async function loadmore(num, skip = 0) {
-        if(flag.status.type == 'nomore')
-            return
-        
-        // INFO 通过这种方式实现限量  // TODO 之后测试，以及报错信息的传值
-        const [res, err] = await api.getEncounterList(num, skip, skip > ENCOUNTER_MAX_NUM)
-        if (err != null) {
-            flag.status.type = 'error';
-            return
-        }
-
-        if(res.length < num)
-            flag.status.type = 'nomore'
-
-        console.debug(res);
-        
-        res.forEach((item) => {
-            // img info
-            let height = Math.round(item.height / item.width * consts.POST.WIDTH);
-            if (height < consts.POST.MIN_HEIGHT) {
-                height = consts.POST.MIN_HEIGHT;
-            } else if (height > consts.POST.HEIGHT_MAX) {
-                height = consts.POST.HEIGHT_MAX;
-            }
-            if (item.title.length > consts.TITLE.THRESHOLD_LEN) {
-                height += consts.TITLE.HEIGHT;
-            }
-            // console.debug(item.height, item.width, height)
-            item.adoptHeight = height;  // INFO rpx
-
-            // min
-            if (vars.heightLeft <= vars.heightRight) {
-                data.left.push(item);
-                vars.heightLeft += height;
-            } else {
-                data.right.push(item);
-                vars.heightRight += height;
-            }
-
-            // // TEST *2
-            // if (vars.heightLeft <= vars.heightRight) {
-            //     data.left.push(item);
-            //     vars.heightLeft += height;
-            // } else {
-            //     data.right.push(item);
-            //     vars.heightRight += height;
-            // }
-        })
-
-        flag.status.show = false;
-    }
     
     function lower() {
         loadmore();
@@ -347,8 +380,7 @@ import { onUnmounted } from "vue";
         }
     }
 
-    let timer;
-
+    let timer; // 和 upper 紧密相关。
     function upper() {
         if (vars.fullFirstUpper) {
             vars.fullFirstUpper = false;
@@ -377,6 +409,7 @@ import { onUnmounted } from "vue";
     left: 0;
     
     width: 100vw;
+    padding: 0 12px;
     
     background-color: #fff;
     border-radius: var(--base-border-radius) ;  /** 简化，实际下方会被挡住。 */
