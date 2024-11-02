@@ -57,7 +57,7 @@
 
     const fetchFullPhotoUrls = computed(() => {
         const fullUrls = data.value['encounter']['photos_list'].map((fileName) => {
-            return nginx.encounterPhotos(data.value['user']['id'], fileName);
+            return nginx.encounterPhotos(fileName, data.value['user']['id']);
         })
         return fullUrls;
     })

@@ -50,6 +50,10 @@ async function uploadFiles(files, dirPath="") {
 const api = {
     async UploadAnimalPhotos(files) {
         return await uploadFiles(files, `catsPhotos/hum_${humanStore.user_id}`);
+    },
+
+    async UploadEncounterPhotos(files) {
+        return await uploadFiles(files, `encounterPhotos/hum_${humanStore.user_id}`);
     }
 };
 
