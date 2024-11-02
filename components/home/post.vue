@@ -46,6 +46,7 @@
             type: String,
             default: "/static/dog.jpg"
         },
+        useAnimalAvatar: Boolean,  // 启用 Animal 的 Avatar
         title: {
             type: String,
             default: "默认标题"
@@ -77,7 +78,7 @@
         like: props.like
     })
     const data = reactive({
-        avatar: nginx.encounterAvatar(props.url)
+        avatar: props.useAnimalAvatar ? nginx.catsAvatar(props.url) : nginx.encounterAvatar(props.url),
     })
 
 // FUNC

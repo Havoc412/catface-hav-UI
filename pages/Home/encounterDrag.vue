@@ -39,8 +39,8 @@
                     <view class="flex-vertical gap-10">
                         <template v-for="(item, index) in data.left" :key="index">
                             <post :id="item.id" :user-id="item.user_id"
-                                :url="item.url" :title="item.title" 
-                                :userAvatar="item.userAvatar" :userName="item.userName" 
+                                :url="item.url" :useAnimalAvatar="item.use_animal_avatar" :title="item.title" 
+                                :userAvatar="item.user_avatar" :userName="item.user_name" 
                                 :time="item.time" :like="item.like" 
                                 :height="item.adoptHeight"
                             />
@@ -49,8 +49,8 @@
                     <view class="flex-vertical gap-10">
                         <template v-for="(item, index) in data.right" :key="index">
                             <post :id="item.id" :user-id="item.user_id"
-                                :url="item.url" :title="item.title" 
-                                :userAvatar="item.userAvatar" :userName="item.userName" 
+                                :url="item.url" :useAnimalAvatar="item.use_animal_avatar" :title="item.title" 
+                                :userAvatar="item.user_avatar" :userName="item.user_name"
                                 :time="item.time" :like="item.like" 
                                 :height="item.adoptHeight"
                             />
