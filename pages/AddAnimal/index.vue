@@ -433,13 +433,15 @@
     }
 
     function deleteImage(index) {
-        data.photos.splice(index, 1)
+        data.photos.splice(index, 1);
+        dataShow.photos.splice(index, 1);
     }
 
     function setFront(index) {
         if (index !== -1) {
             const [item] = data.photos.splice(index, 1);
-             data.photos.unshift(item);
+            data.photos.unshift(item);
+            dataShow.photos.unshift(dataShow.photos.splice(index, 1)[0]);
         }
     }
 
