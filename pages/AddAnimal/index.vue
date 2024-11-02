@@ -227,32 +227,11 @@
             <bottomFunc poi catface @getPoi="getPoi"/>
             <placeHolder height="190" type="rpx"/>
             <!--Tag 业务逻辑 UI -->
-            <view class="flex-center-horizontal gap-5 block mt-10">
-                <view class="flex-center-horizontal gap-5 container-btn-left"
-                    @click="storeData"
-                >
-                    <h-icon name="post-store" size="21"/>
-                    <!--TODO 之后再做-->
-                    <view>保存草稿</view>
-                </view>
-                <view class="shrink">
-                    <!--wx 中放到 btn 中的 flex：1 无效，故外套-->
-                    <h-btn
-                        text="提交信息"
-                        :customStyle="{
-                            'background-color': '#374957',
-                            'font-family': 'Alimama ShuHeiTi',
-                            'font-weight': 'bold',
-                            'color': '#fff',
-                            'font-size': '20px',
-                            'height': '40px',
-                            'border-radius': '20px',
-                        }"
-                        :disabled="!submitAbled"
-                        @click="submitData"
-                    />
-                </view>
-            </view>
+            <bottomSubmit 
+                :submitAbled="submitAbled"
+                @storeData="storeData"
+                @submitData="submitData"
+            /> 
         </dragBase>
         <pickerGroup
             :breedShow="flag.breed"
@@ -289,9 +268,11 @@
     import name from "../../components/add-animal/name.vue";
     import nickNames from "../../components/add-animal/nick-names.vue";
     import pickerGroup from "./sub-index/pickerGroup.vue";
-    import bottomFunc from "../../components/bottomFunc/bottomFunc.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     import statusWin from "../../components/status-win/statusWin.vue";
+
+    import bottomFunc from "../../components/bottomFunc/bottomFunc.vue";
+    import bottomSubmit from "../../components/bottomFunc/bottomSubmit.vue";
     // store
 
 // DATA
@@ -499,17 +480,6 @@
 
     font-size: 25rpx;
     color: #777;
-}
-
-.container-btn-left {
-    background-color: #DAE2E6;
-    
-    color: #333;
-    font-size: 13px;
-    
-    padding: 10px 15px;
-    height: 40px;
-    border-radius: 20px;
 }
 
 .photo-text {
