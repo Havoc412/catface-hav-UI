@@ -61,7 +61,7 @@
                 </view>
             </scroll-view>
         </view>
-        <sideTools :scrollTop="data.scrollTop" :status="flag.full" :mustStatus="true" @add=""/>
+        <sideTools :scrollTop="data.scrollTop" :status="flag.full" :mustStatus="true" @add="gotoAddEncounter"/>
         <placeHolder/>
     </view>
 </template>
@@ -398,6 +398,13 @@
     onUnmounted(() => {
         clearTimeout(timer);
     })
+
+    // router
+    function gotoAddEncounter() {
+        uni.navigateTo({
+            url: "/pages/AddEncounter/index"
+        })
+    }
     
 </script>
 

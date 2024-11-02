@@ -7,7 +7,7 @@
                     color: color['main-light'],
                     'font-weight': 'bold',
                     'padding': '3px 10px',
-                }"/>
+                }" @click="gotoAddEncounter"/>
                 <h-icon name="tool-filter" @click="flag.filter = true"/>
                 <h-icon :name="flexSvg" @click="changeFlexMode"/>
             </view>
@@ -56,6 +56,13 @@
     function changeFlexMode() {
         flag.flexMode = !flag.flexMode;
         emits('changeFlexMode', flag.flexMode);
+    }
+
+    // router
+    function gotoAddEncounter() {
+        uni.navigateTo({
+            url: "/pages/AddEncounter/index"
+        })
     }
 
 </script>

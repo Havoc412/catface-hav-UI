@@ -88,6 +88,13 @@
       "style": {
         "navigationBarTitleText": "Add Cat"
       }
+    },
+    // TAG 新增路遇
+    {
+      "path": "pages/AddEncounter/index",
+      "style": {
+        "navigationBarTitleText": "Add Encounter"
+      }
     }
   ],
   "globalStyle": {
