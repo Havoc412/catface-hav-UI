@@ -1,8 +1,10 @@
 <template>
     <view class="flex-center-vertical container-top">
         <photoGroup mode="add" :imgList="dataShow.photos" @addImage="addImage" @delete="deleteImage" @setFront="setFront"/>
-        <up-divider :hairline="true" lineColor="#000"/>
-        123
+        <view class="block pd-10" style="padding-top: 0;">
+            <up-divider dot lineColor="#000"/>
+            <up-textarea v-model="data.content" placeholder="在这里记录你的奇遇！" ></up-textarea>
+        </view>
     </view>
 </template>
 
@@ -17,6 +19,7 @@
 
     const data = reactive({
         photos: [],
+        content: "",
     })
 
     const dataShow = reactive({
@@ -57,5 +60,9 @@
 
 <style scoped>
 
+.container-top {
+    width: 100vw;
+
+}
 
 </style>        

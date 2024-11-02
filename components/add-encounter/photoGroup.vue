@@ -1,6 +1,6 @@
 <template>
     <scroll-view scroll-x="true">
-        <view class="flex-horizontal gap-5 pd-15">
+        <view class="flex-horizontal gap-5 pd-15" style="padding-bottom: 0;">
             <view v-if="props.mode == 'add'" class="add-container flex-center-both" :style="{
                 '--size': props.size + 'px',
                 '--radius': props.radius + 'px',
