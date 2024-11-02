@@ -1,32 +1,44 @@
 <template>
     <view class="flex-vertical container-top">
-        <photoGroup mode="add" :imgList="dataShow.photos" @addImage="addImage" @delete="deleteImage" @setFront="setFront"/>
+        <photoGroup 
+            mode="add" 
+            :size="flag.textArea ? consts.PHOTO_SIZE_MIN : consts.PHOTO_SIZE_INIT"
+            :imgList="dataShow.photos" 
+            @addImage="addImage" 
+            @delete="deleteImage" 
+            @setFront="setFront"
+        />
         <view class="block pd-10" style="padding-top: 0;">
             <up-divider dot lineColor="#000"/>
 
-            <up-textarea 
-                v-model="data.content" 
+            <view class="flex-vertical gap-10">
+                <up-textarea 
+                    v-model="data.content" 
 
-                placeholder="在这里记录你的奇遇！"
-                :placeholderStyle="JSON.stringify({
-                    color: '#888888',
-                    fontSize: '18px',
-                    fontWeight: 'bold'
-                })"
-                :customStyle="{
-                    fontWeight: 'bold'
-                }"
-                fontSize="20"
-                border="none"
-                height="400rpx" 
-                focus
-            >
-            </up-textarea>
+                    placeholder="在这里记录你的奇遇！"
+                    :placeholderStyle="JSON.stringify({
+                        color: '#888888',
+                        fontSize: '18px',
+                        fontWeight: 'bold'
+                    })"
+                    :customStyle="{
+                        fontWeight: 'bold'
+                    }"
+                    fontSize="20"
+                    border="none"
+                    height="400rpx" 
+                    focus
 
-            <view class="flex-center-horizontal">
-                <h-tag text="#话题" mode="hollow" startSelected/>
-                <view class="shrink"/>
-                <h-btn variant="text" icon="flex-full" iconSize="24" @click=""/>
+                    @focus="flag.textArea = true"
+                    @blur="flag.textArea = false"
+                >
+                </up-textarea>
+
+                <view class="flex-center-horizontal">
+                    <h-tag text="#话题" mode="hollow" startSelected/>
+                    <view class="shrink"/>
+                    <h-btn variant="text" icon="flex-full" iconSize="24" @click=""/>
+                </view>
             </view>
 
             <up-divider dot lineColor="#000" marginTD="5"/>
@@ -79,6 +91,10 @@
     import bottomSubmit from "../../components/bottomFunc/bottomSubmit.vue";
     // store
 // DATA
+    const consts = {
+        PHOTO_SIZE_INIT: 160,
+        PHOTO_SIZE_MIN: 120,
+    }
 
     const data = reactive({
         photos: [],
@@ -88,6 +104,12 @@
 
     const dataShow = reactive({
         photos: [],
+    })
+
+    const flag = reactive({
+        textArea: false,
+        // 提交按钮
+        submitAbled: false,
     })
 
 // FUNC

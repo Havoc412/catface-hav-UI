@@ -1,6 +1,6 @@
 <template>
     <scroll-view scroll-x="true">
-        <view class="flex-horizontal gap-5 pd-15" style="padding-bottom: 0;">
+        <view class="flex-horizontal gap-5 pd-15 animation-all" style="padding-bottom: 0;">
             <view v-if="props.mode == 'add'" class="add-container flex-center-both" :style="{
                 '--size': props.size + 'px',
                 '--radius': props.radius + 'px',
@@ -8,7 +8,14 @@
                 <up-icon name="plus" :color="color['main-deep']" size="30"></up-icon>
             </view>
             <template v-for="(item, index) in props.imgList" :key="index">
-                <up-image lazy-load :src="item" :radius="props.radius" :height="props.size + 'px'" :width="props.size + 'px'"
+                <image class="animation-all image-container" lazy-load 
+                    mode="aspectFill"
+                    :src="item"
+                    :style="{
+                        '--radius': props.radius + 'px',
+                        '--height': props.size + 'px',
+                        '--width': props.size + 'px'
+                    }"
                     @click="showImage(index)"
                 />
             </template>
@@ -129,6 +136,13 @@
     border-radius: var(--radius);
 
     background-color: #ffffffd0;
+    transition: all 0.3s ease;
+}
+
+.image-container {
+    border-radius: var(--radius);
+    height: var(--height);
+    width: var(--width);
 }
 
 </style>        
