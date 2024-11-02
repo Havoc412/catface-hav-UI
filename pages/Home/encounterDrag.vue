@@ -347,9 +347,14 @@ import { onUnmounted } from "vue";
         }
     }
 
+    let timer;
+
     function upper() {
         if (vars.fullFirstUpper) {
             vars.fullFirstUpper = false;
+            timer = setTimeout(() => {
+                vars.fullFirstUpper = true;
+            }, 2000); // INFO 两秒内允许双滑关闭，
             return;
         }
 
@@ -357,6 +362,10 @@ import { onUnmounted } from "vue";
             mid();
         }
     }
+
+    onUnmounted(() => {
+        clearTimeout(timer);
+    })
     
 </script>
 
