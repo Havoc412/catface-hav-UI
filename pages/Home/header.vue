@@ -2,6 +2,12 @@
     <headerBase :opacity="props.opacity" :bgColor="color['main-light']" position="fixed">
         <template #prefix>
             <view class="flex-horizontal gap-10 container-tool z-9">
+                <h-btn text="发布路遇" :customStyle="{
+                    'background-color': color['main-deep'],
+                    color: color['main-light'],
+                    'font-weight': 'bold',
+                    'padding': '3px 10px',
+                }"/>
                 <h-icon name="tool-filter" @click="flag.filter = true"/>
                 <h-icon :name="flexSvg" @click="changeFlexMode"/>
             </view>
