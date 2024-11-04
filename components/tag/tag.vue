@@ -1,3 +1,4 @@
+<!--暂时主要就是在 Filter 中使用，其他都是在用 chip-->
 <template>
     <view 
         class="flex-center-both" 
@@ -68,7 +69,7 @@
     font-family: SourceHanSansCN;
     font-weight: 300;
 
-    padding: 8px 0;
+    padding: 8px;
     height: 30px;
 
     border-radius: 10px;
