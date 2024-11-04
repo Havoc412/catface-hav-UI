@@ -1,16 +1,20 @@
 <template>
-    <h-chip :light="props.light" :styleMode="props.styleMode"
-        @click="inputFlag = true">
+    <h-chip 
+        :light="props.light" 
+        :styleMode="props.styleMode"
+        @click="inputFlag = true"
+    >
         <view class="flex-center-both container"
             :style="{
                 '--width': inputWidth
             }"
-            >
-            <h-icon v-if="!inputFlag" name="com-plus_thin" size="16"/>
+        >
+            <h-icon v-if="!inputFlag && props.mode=='icon'" name="com-plus_thin" size="16"/>
             <input v-else 
                 class="input"
+                :focus="props.focus"
                 :value="props.inputValue"
-                focus 
+                :placeholder="props.mode == 'text' ? props.placeholder : ''"
                 @input="handleInput"
                 @blur="handleBlur"
             />
@@ -27,7 +31,18 @@
             type: Boolean,
             default: false
         },
-        styleMode: String,
+        mode: {
+            type: String,
+            default: 'icon' // text ;
+        },
+        placeholder: {
+            type: String,
+            default: "输入"
+        },
+        styleMode: {
+            type: String,
+            default: "full"
+        },
         clearTrigger: { // info 通过反转来触发 clear
             type: Boolean,
             default: false
@@ -35,7 +50,11 @@
         uneditable: {
             type: Boolean
         },
-        inputValue: String
+        inputValue: String,
+        focus: {
+            type: Boolean,
+            default: true
+        },
     });
     const emits = defineEmits(['textFinish']);
     const inputValue = ref("");

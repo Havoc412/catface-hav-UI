@@ -1,5 +1,13 @@
 <template>
     <view class="container-chip-group" :class="{'scroll': props.scroll}">
+        <chipEditable v-if="editableMode && data.length < props.maxNum && props.ediPosMode == 'prefix'" 
+            light 
+            :mode="props.ediMode"
+            :styleMode="props.ediStyleMode" 
+            :placeholder="props.placeholder"
+            :focus="props.ediFocus"
+            @textFinish="addText"
+        />
         <template v-for="(item, index) in data" :key="index">
             <view class="item">
                 <h-chip
@@ -14,7 +22,14 @@
                 />
             </view>
         </template>
-        <chipEditable v-if="editableMode && data.length < props.maxNum" light :styleMode="props.styleMode" @textFinish="addText"/>
+        <chipEditable v-if="editableMode && data.length < props.maxNum && props.ediPosMode == 'suffix'" 
+            light 
+            :mode="props.ediMode"
+            :styleMode="props.ediStyleMode" 
+            :placeholder="props.placeholder"
+            :focus="props.ediFocus"
+            @textFinish="addText"
+        />
         <view v-if="infoIcon" class="flex-center-both" @click="emits('info')">
             <h-icon name="tool-info" size="17"/>
         </view>
@@ -32,9 +47,17 @@
             type: String,
             default: "default" // default || editable
         },
-        styleMode: {
+        ediPosMode: {
             type: String,
-            default: "full"
+            default: "suffix" // prefix 放置在前或者后
+        },
+        ediMode: {
+            type: String,
+            default: 'icon'
+        },
+        placeholder: {
+            type: String,
+            default: "输入"
         },
         list: {
             type: Array,
@@ -52,7 +75,20 @@
             type: Number,
             default: 10
         },
-        infoIcon: Boolean
+        infoIcon: Boolean, // 是否显示 INFO icon
+        // TAG 前后两种 chip 的样式风格，
+        ediStyleMode: {
+            type: String,
+            default: "full"
+        },
+        styleMode: {
+            type: String,
+            default: "full"
+        },
+        ediFocus: {
+            type: Boolean,
+            default: true
+        }
     });
     const emits = defineEmits(['info', 'change', 'longpress']);
 

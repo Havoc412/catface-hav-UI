@@ -35,7 +35,14 @@
                 </up-textarea>
 
                 <view class="flex-center-horizontal">
-                    <h-chip text="#话题" styleMode="hollow" :color="color['main-deep']" light/>
+                    <!-- <h-chip text="#话题" styleMode="hollow" :color="color['main-deep']" light/> -->
+                    <chipGroup 
+                        mode="editable"
+                        ediMode="text"
+                        ediStyleModd="hollow"
+                        placeholder="话题"
+                        :ediFocus="false"
+                    />
                     <view class="shrink"/>
                     <h-btn variant="text" icon="flex-full" iconSize="24" @click=""/>
                 </view>
@@ -89,6 +96,7 @@
     import photoGroup from "../../components/add-encounter/photoGroup.vue";
     import bottomFunc from "../../components/bottomFunc/bottomFunc.vue";
     import bottomSubmit from "../../components/bottomFunc/bottomSubmit.vue";
+    import chipGroup from "../../components/com/chip/chipGroup.vue";
     // store
 // DATA
     const consts = {
