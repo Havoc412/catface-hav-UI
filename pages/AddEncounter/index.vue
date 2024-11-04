@@ -35,7 +35,7 @@
                 </up-textarea>
 
                 <view class="flex-center-horizontal">
-                    <h-tag text="#话题" mode="hollow" startSelected/>
+                    <h-chip text="#话题" styleMode="hollow" :color="color['main-deep']" light/>
                     <view class="shrink"/>
                     <h-btn variant="text" icon="flex-full" iconSize="24" @click=""/>
                 </view>

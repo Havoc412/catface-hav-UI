@@ -1,7 +1,11 @@
 <!--INFO 因为暂时用不到 原项目 chip 的长按功能，就先使用一个简化的版本就好。-->
 <template>
-    <view class="flex-center-both basic default"
-        :class="[props.shape]"
+    <view class="flex-center-both basic"
+        :class="{
+            ['style-' + props.styleMode]: true,
+            ['shape-' + props.shape]: true,
+            'default': selectFlag
+        }"
         :style="{
             '--bg-color': selectFlag ? props.bgColor : 'transparent',
             '--font-color': selectFlag ? props.color : '#ccc',
@@ -19,16 +23,23 @@
 
 <script setup>
     import { ref } from "vue";
+
+    import color from "@/css/theme/index.module.scss";
     // store
 // DATA
     const props = defineProps({
+        styleMode: {
+            type: String,
+            default: 'full'  // INFO hollow
+            // INFO hollow 模式下，border 和 font 采取同一个颜色。
+        },
         text: {
             type: [String, Number],
             default: "日常"
         },
         bgColor: {
             type: String,
-            default: "#DAE2E6"
+            default: color['main-light']
         },
         color: {
             type: String,
@@ -111,7 +122,6 @@
     padding: 10px;
     height: 30px;
 
-    background-color: var(--bg-color);
     border-radius: 10rpx;
 
     color: var(--font-color);
@@ -125,16 +135,25 @@
     white-space: nowrap;
 }
 
-.rectangle {
+.style-full {
+    background-color: var(--bg-color);
+}
+
+.style-hollow {
+    background-color: var(--bg-color);
+    border: solid 1px var(--font-color); /* 边框 采用 Font 的颜色。 */
+}
+
+.shape-rectangle {
     padding: 10px;
 }
 
-.square {
+.shape-square {
     padding: 10px 5px;
 }
 
-.default {
-    border: solid 1px #cccccc;
+.defualt {
+    border: solid 1px #CCC; /* 边框 采用 Font 的颜色。 */
 }
 
 

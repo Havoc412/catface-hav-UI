@@ -3,7 +3,10 @@
         <template v-for="(item, index) in data" :key="index">
             <view class="item">
                 <h-chip
-                    :text="item" :light="editableMode" :hidden="index == longPressIndex"
+                    :text="item" 
+                    :light="editableMode" 
+                    :hidden="index == longPressIndex"
+                    :styleMode="props.styleMode"
                     @select="" 
                     @unselect=""
                     @doubleClick="deleteText"
@@ -11,7 +14,7 @@
                 />
             </view>
         </template>
-        <chipEditable v-if="editableMode && data.length < props.maxNum" light @textFinish="addText"/>
+        <chipEditable v-if="editableMode && data.length < props.maxNum" light :styleMode="props.styleMode" @textFinish="addText"/>
         <view v-if="infoIcon" class="flex-center-both" @click="emits('info')">
             <h-icon name="tool-info" size="17"/>
         </view>
@@ -28,6 +31,10 @@
         mode: {
             type: String,
             default: "default" // default || editable
+        },
+        styleMode: {
+            type: String,
+            default: "full"
         },
         list: {
             type: Array,

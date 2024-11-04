@@ -1,5 +1,5 @@
 <template>
-    <h-chip :light="props.light" :kind="props.kind"
+    <h-chip :light="props.light" :styleMode="props.styleMode"
         @click="inputFlag = true">
         <view class="flex-center-both container"
             :style="{
@@ -27,7 +27,7 @@
             type: Boolean,
             default: false
         },
-        kind: String,
+        styleMode: String,
         clearTrigger: { // info 通过反转来触发 clear
             type: Boolean,
             default: false
