@@ -39,8 +39,7 @@
     <up-overlay opacity=".1" :show="flag.info" @click="flag.info = false">
         <blockBase>
             <slot name="info">
-                别名最多3个，每个别名最多10个字。<br/>
-                双击标签即可删除。
+                这里输出 INFO 信息。
             </slot>
         </blockBase>
     </up-overlay>
@@ -133,6 +132,7 @@
 
     function deleteText(text) {
         data.value = data.value.filter((item) => item != text);
+        // TODO 重名报错
         emits('change', data.value);
     }
 
@@ -156,7 +156,6 @@
 <style scoped>
 
 .container-chip-group {
-    width: 100%;    /* mark 块级元素 */
     display: flex;
     flex-wrap: wrap;
     gap: 9px;
@@ -170,7 +169,5 @@
 .item {
     flex-shrink: 0; /* 防止子控件缩放 */
 }
-
-
 
 </style>        

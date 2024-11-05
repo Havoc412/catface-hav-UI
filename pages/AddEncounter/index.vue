@@ -33,7 +33,6 @@
                 >
                 </up-textarea>
                 <view class="flex-center-horizontal">
-                    <!-- <h-chip text="#话题" styleMode="hollow" :color="color['main-deep']" light/> -->
                     <chipGroup 
                         mode="editable"
                         ediMode="text"
@@ -42,15 +41,16 @@
                         placeholder="话题"
                         :ediFocus="false"
                         styleMode="topic"
+                        :maxNum="5"
                         topicMode
                         infoIcon
                     >
                         <template #info>
-                            话题最多5个，<br/>
-                            双击话题即可删除。
+                            话题最多5个，每个话题不超过10字。<br/>
+                            双击蓝色话题即可删除。
                         </template>
                     </chipGroup>
-                    <view class="shrink"/>
+                    <!-- <view class="shrink"/> -->
                     <h-btn variant="text" icon="flex-full" iconSize="24" @click=""/>
                 </view>
             </view>
