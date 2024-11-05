@@ -1,5 +1,7 @@
 <template>
-    <view class="text-default">
+    <view class="text-default" :style="{
+        '--font-size': props.fontSize + 'px'
+    }">
         <slot>
             {{ text }}
         </slot>
@@ -14,6 +16,10 @@
         text: {
             type: String,
             default: "提示用浅色文本，样式主要通过外部设定"  // TODO 外部设定样式。
+        },
+        fontSize: {
+            type: [String, Number],
+            default: 13
         }
     });
     const emits = defineEmits([]);
@@ -26,7 +32,7 @@
 
 .text-default {
     color: #999999;
-    font-size: 13px;
+    font-size: var(--font-size);
 }
 
 </style>        

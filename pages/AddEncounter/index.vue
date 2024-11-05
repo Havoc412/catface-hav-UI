@@ -8,8 +8,9 @@
             @delete="deleteImage" 
             @setFront="setFront"
         />
+        <animals/>
         <view class="block pd-10" style="padding-top: 0;">
-            <up-divider dot lineColor="#000"/>
+            <up-divider dot lineColor="#000" marginTD="5"/>
 
             <view class="flex-vertical gap-10">
                 <up-textarea 
@@ -29,7 +30,7 @@
                     focus
 
                     @focus="flag.textArea = true"
-                    @blur="flag.textArea = false"
+                    @blur="finishContent"
                 >
                 </up-textarea>
                 <view class="flex-center-horizontal">
@@ -86,22 +87,27 @@
 
             </up-input>
             <up-divider dot lineColor="#000" marginTD="5"/>
-            <bottomFunc/>
+            <bottomFunc @getPoi="getPoi"/>
         </view>
 
         <view class="container-bottom">
-            <bottomSubmit bgColorLeft="#fff"/>
+            <bottomSubmit 
+                bgColorLeft="#fff"
+                :submitAbled="submitAbled"
+                @submitData="submitData"
+            />
         </view>
     </view>
 </template>
 
 <script setup>
-    import { reactive } from "vue";
+    import { reactive, computed } from "vue";
 
     import color from "@/css/theme/index.module.scss";
     import nginx from "../../request/nginx";
     // com
     import photoGroup from "../../components/add-encounter/photoGroup.vue";
+    import animals from "./sub-index/animals.vue";
     import bottomFunc from "../../components/bottomFunc/bottomFunc.vue";
     import bottomSubmit from "../../components/bottomFunc/bottomSubmit.vue";
     import chipGroup from "../../components/com/chip/chipGroup.vue";
@@ -113,9 +119,15 @@
     }
 
     const data = reactive({
+        // user_id 交给 api.js
+        animals_id: [],  // TODO 需要一个智能方便的表单 3fr
         photos: [],
-        content: "",
         title: "",
+        content: "",
+        poi: {},
+        extra: {
+            topics: [],
+        }
     })
 
     const dataShow = reactive({
@@ -129,6 +141,10 @@
     })
 
 // FUNC
+    // TAG Rules
+    const submitAbled = computed(() => {
+        return data.content !== ''; // TODO animals_id
+    })
 
     // TAG Image
     function addImage(paths) {
@@ -155,6 +171,23 @@
             data.photos.unshift(item);
             dataShow.photos.unshift(dataShow.photos.splice(index, 1)[0]);
         }
+    }
+
+    // TAG Content && Title
+    function finishContent() {
+        flag.textArea = false;
+        if (data.content !== '' && data.title == '') {
+            // TODO API 默认自动生成一次？
+        }
+    }
+
+    // TAG additional functions
+    function getPoi(poi) {
+        data.poi = poi;  // 接受一个 { latitude: xx, longitude: xx};
+    }
+
+    // TAG Submit
+    function submitData() {
     }
 
 
