@@ -78,11 +78,22 @@
                 @change=""
             >
                 <template #suffix>
-                    <h-btn text="AI小结" :customStyle="{
+                    <btnLoadding 
+                        :trigger="flag.titleBtn"
+                        text="AI小结"
+                        :customStyle="{
+                            'background-color': color['main-deep'],
+                            color: '#fff',
+                            'font-weight': 'bold',
+                        }"
+                        @click="generateTitle"
+                        @cancel=""
+                    />
+                    <!-- <h-btn text="AI小结" :customStyle="{
                         'background-color': color['main-deep'],
                         color: '#fff',
                         'font-weight': 'bold',
-                    }" @click=""/>
+                    }" @click=""/> -->
                 </template>
 
             </up-input>
@@ -112,6 +123,7 @@
     import bottomFunc from "../../components/bottomFunc/bottomFunc.vue";
     import bottomSubmit from "../../components/bottomFunc/bottomSubmit.vue";
     import chipGroup from "../../components/com/chip/chipGroup.vue";
+    import btnLoadding from "../../components/com/button/variant/btn-loadding.vue";
     // store
 // DATA
     const consts = {
@@ -139,6 +151,7 @@
         textArea: false,
         // 提交按钮
         submitAbled: false,
+        titleBtn: false,
     })
 
 // FUNC
@@ -178,14 +191,14 @@
     function finishContent() {
         flag.textArea = false;
         if (data.content !== '' && data.title == '') {
+            flag.titleBtn = true;
             generateTitle();
         }
     }
 
     async function generateTitle() {
-        console.debug("start generate title");
         data.title = await api.getTitle(data.content);
-        console.debug(data.title);
+        flag.titleBtn = false;
     }
 
     // TAG additional functions
