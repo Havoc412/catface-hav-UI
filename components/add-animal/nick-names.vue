@@ -1,14 +1,12 @@
 <template>
     <chipGroup mode="editable" infoIcon 
         @change="(values) => { emits('change', values) }" 
-        @info="flag.info = true"
-    />
-    <up-overlay opacity=".1" :show="flag.info" @click="flag.info = false">
-        <blockBase>
+    >
+        <template #info>
             别名最多3个，每个别名最多10个字。<br/>
             双击标签即可删除。
-        </blockBase>
-    </up-overlay>
+        </template>
+    </chipGroup>
     <!-- <up-overlay opacity=".3" :show="flag.delete" @click="flag.delete = false">
         <chipDragFunc :text="deleteDrag.text" :pageX="deleteDrag.pageX" :pageY="deleteDrag.pageY"/>
     </up-overlay> -->
@@ -18,7 +16,6 @@
     import { reactive } from "vue";
 
     import chipGroup from "../com/chip/chipGroup.vue";
-    import blockBase from "../com/substrate/blockBase.vue";
 
     // import chipDragFunc from "../com/chip/container/chipDragFunc.vue";
     // store
@@ -27,11 +24,6 @@
 
     });
     const emits = defineEmits(['change']);
-
-    const flag = reactive({
-        info: false,
-        // delete: false,
-    });
 
     // const deleteDrag = reactive({
     //     text: "",
