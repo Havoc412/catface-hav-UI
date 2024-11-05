@@ -44,6 +44,9 @@
                         :maxNum="5"
                         topicMode
                         infoIcon
+                        containerWidthPrecent="90"
+                        @focus="flag.textArea = true"
+                        @blur="flag.textArea = false"
                     >
                         <template #info>
                             话题最多5个，每个话题不超过10字。<br/>

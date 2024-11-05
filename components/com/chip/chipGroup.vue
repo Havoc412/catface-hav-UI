@@ -1,5 +1,7 @@
 <template>
-    <view class="container-chip-group" :class="{'scroll': props.scroll}">
+    <view class="container-chip-group" :class="{'scroll': props.scroll}" :style="{
+        '--container-width': props.containerWidthPrecent + '%',
+    }">
         <chipEditable v-if="editableMode && data.length < props.maxNum && props.ediPosMode == 'prefix'" 
             light 
             :mode="props.ediMode"
@@ -8,6 +10,8 @@
             :focus="props.ediFocus"
             :pretext="ediChipPreText"
             @textFinish="addText"
+            @focus="emits('focus')"
+            @blur="emits('blur')"
         />
         <template v-for="(item, index) in data" :key="index">
             <view class="item">
@@ -31,6 +35,8 @@
             :focus="props.ediFocus"
             :pretext="ediChipPreText"
             @textFinish="addText"
+            @focus="emits('focus')"
+            @blur="emits('blur')"
         />
         <view v-if="infoIcon" class="flex-center-both" @click="clickInfo">
             <h-icon name="tool-info" size="17"/>
@@ -87,6 +93,10 @@
             type: Number,
             default: 10
         },
+        containerWidthPrecent: {  // 由于自动换行的效果需要限定宽度，但是直接设为 100% 不适配所有情况，
+            type: [String, Number],
+            default: "100"
+        },
         // TAG 前后两种 chip 的样式风格，
         ediStyleMode: {
             type: String,
@@ -104,7 +114,7 @@
         infoIcon: Boolean, // 是否显示 INFO icon
         topicMode: Boolean,  // 控制 edi addText 之后，增加一个  [# ] 的前缀；同时改变 ediChip 的样式。
     });
-    const emits = defineEmits(['info', 'change', 'longpress']);
+    const emits = defineEmits(['info', 'change', 'longpress', 'focus', 'blur']);
 
     const data = ref(props.list);
     const longPressIndex = ref(-1); // INFO 因为一次只允许拖动一个，所以用一个 id 来标记目标就比较方便。
@@ -119,13 +129,15 @@
     });
 
     function addText(text) {
+        if (props.topicMode)
+            text = '# ' + text;
         if (data.value.includes(text))
             return;
         else if (text.length >= props.maxSingleLen) {
             // TODO 前端展示“超过10字，无效”
             return;            
         }
-        data.value.push((props.topicMode ? '# ' : '') + text);
+        data.value.push(text);
         // Send to Top
         emits('change', data.value);
     }
@@ -156,6 +168,7 @@
 <style scoped>
 
 .container-chip-group {
+    width: var(--container-width);
     display: flex;
     flex-wrap: wrap;
     gap: 9px;

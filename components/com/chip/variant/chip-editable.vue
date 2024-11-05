@@ -18,6 +18,7 @@
                     :focus="props.focus"
                     :value="inputValue"
                     :placeholder="props.mode == 'text' ? props.placeholder : ''"
+                    @focus="emits('focus')"
                     @input="handleInput"
                     @blur="handleBlur"
                 />
@@ -65,7 +66,7 @@
             default: ""
         }
     });
-    const emits = defineEmits(['textFinish']);
+    const emits = defineEmits(['textFinish', 'focus', 'blur']);
     const inputValue = ref("");
 
     // flag
@@ -100,6 +101,7 @@
             emits("textFinish", inputValue.value);
             clear();
         }
+        emits('blur');
     }
 
     // Style
