@@ -105,6 +105,7 @@
 
     import color from "@/css/theme/index.module.scss";
     import nginx from "../../request/nginx";
+    import api from "../../request/nlp";
     // com
     import photoGroup from "../../components/add-encounter/photoGroup.vue";
     import animals from "./sub-index/animals.vue";
@@ -177,8 +178,14 @@
     function finishContent() {
         flag.textArea = false;
         if (data.content !== '' && data.title == '') {
-            // TODO API 默认自动生成一次？
+            generateTitle();
         }
+    }
+
+    async function generateTitle() {
+        console.debug("start generate title");
+        data.title = await api.getTitle(data.content);
+        console.debug(data.title);
     }
 
     // TAG additional functions

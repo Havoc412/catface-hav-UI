@@ -31,7 +31,7 @@ import * as Pinia from 'pinia'
 
 // info 自定义全局组件
 import tabbar from "./components/com/tabbar.vue";
-import vtButton from "./components/com/button.vue";
+import vtButton from "./components/com/button/button.vue";
 import svgIcon from "./components/com/svgIcon.vue";
 import tag from "./components/tag/tag.vue";
 import chip from './components/com/chip/chip.vue';
