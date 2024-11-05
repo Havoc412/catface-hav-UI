@@ -14,7 +14,6 @@
             <view class="flex-vertical gap-10">
                 <up-textarea 
                     v-model="data.content" 
-
                     placeholder="在这里记录你的奇遇！"
                     :placeholderStyle="JSON.stringify({
                         color: '#888888',
@@ -33,16 +32,24 @@
                     @blur="flag.textArea = false"
                 >
                 </up-textarea>
-
                 <view class="flex-center-horizontal">
                     <!-- <h-chip text="#话题" styleMode="hollow" :color="color['main-deep']" light/> -->
                     <chipGroup 
                         mode="editable"
                         ediMode="text"
-                        ediStyleModd="hollow"
+                        ediStyleMode="hollow"
+                        ediPosMode="prefix"
                         placeholder="话题"
                         :ediFocus="false"
-                    />
+                        styleMode="topic"
+                        topicMode
+                        infoIcon
+                    >
+                        <template #info>
+                            话题最多5个，<br/>
+                            双击话题即可删除。
+                        </template>
+                    </chipGroup>
                     <view class="shrink"/>
                     <h-btn variant="text" icon="flex-full" iconSize="24" @click=""/>
                 </view>
@@ -76,8 +83,6 @@
 
             </up-input>
             <up-divider dot lineColor="#000" marginTD="5"/>
-
-
             <bottomFunc/>
         </view>
 

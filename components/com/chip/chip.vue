@@ -30,7 +30,7 @@
     const props = defineProps({
         styleMode: {
             type: String,
-            default: 'full'  // INFO hollow
+            default: 'full'  // INFO hollow、topic
             // INFO hollow 模式下，border 和 font 采取同一个颜色。
         },
         text: {
@@ -142,6 +142,11 @@
 .style-hollow {
     background-color: var(--bg-color);
     border: solid 1px var(--font-color); /* 边框 采用 Font 的颜色。 */
+}
+
+.style-topic {
+  color: #009ace;
+  font-style: italic; /* 斜体 */
 }
 
 .shape-rectangle {

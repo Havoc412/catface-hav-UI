@@ -6,24 +6,29 @@
     >
         <view class="flex-center-both container"
             :style="{
-                '--width': inputWidth
+                '--width': inputWidth,
+                '--min-width': minWidth
             }"
         >
             <h-icon v-if="!inputFlag && props.mode=='icon'" name="com-plus_thin" size="16"/>
-            <input v-else 
-                class="input"
-                :focus="props.focus"
-                :value="props.inputValue"
-                :placeholder="props.mode == 'text' ? props.placeholder : ''"
-                @input="handleInput"
-                @blur="handleBlur"
-            />
+            <view v-else class="block flex-center-both">
+                <span v-if="props.pretext" class="pretext">{{props.pretext}}</span>
+                <input
+                    class="input"
+                    :focus="props.focus"
+                    :value="inputValue"
+                    :placeholder="props.mode == 'text' ? props.placeholder : ''"
+                    @input="handleInput"
+                    @blur="handleBlur"
+                />
+            </view>
         </view>
     </h-chip>
 </template>
 
 <script setup>
     import { ref, computed, watch } from "vue";
+
     // store
 // DATA
     const props = defineProps({
@@ -43,18 +48,22 @@
             type: String,
             default: "full"
         },
-        clearTrigger: { // info 通过反转来触发 clear
+        clearTrigger: { // info 通过反转来触发 clear；
             type: Boolean,
             default: false
         },
         uneditable: {
             type: Boolean
         },
-        inputValue: String,
+        inputValue: String,  // question ?
         focus: {
             type: Boolean,
             default: true
         },
+        pretext: {  // 固定在输入框前面的文本；
+            type: String,
+            default: ""
+        }
     });
     const emits = defineEmits(['textFinish']);
     const inputValue = ref("");
@@ -64,8 +73,7 @@
     
 // FUNC
     const inputWidth = computed(() => {
-        // console.info(inputValue.value.length * 15);
-        return (inputValue.value.length * 15).toString() + 'px';
+        return ((props.pretext.length + inputValue.value.length) * 15).toString() + 'px';
     })
 
     watch(() => props.clearTrigger, clear);
@@ -87,26 +95,34 @@
     }
     const handleBlur = () => {
         if(inputValue.value == "")
-            inputFlag.value = false;
+            inputFlag.value = false;  // INFO 原本 ICON 模式的自消除实现方式，就是简单的直接依靠 两个组件的替换渲染。
         else {
             emits("textFinish", inputValue.value);
             clear();
         }
-            
     }
+
+    // Style
+    const minWidth = computed(() => {  // TIP 使用最小宽度来适配 placeholder 的长度。
+        return ((props.pretext.length + props.placeholder.length) * 12).toString() + 'px';
+    })
 
 </script>
 
 <style scoped>
 
 .container {
-    min-width: 30px;
+    min-width: var(--min-width);
     width: var(--width);
     transition: width .2s ease; /* bug 输入时有一定的抖动，em... */
 }
 
 .input {
     font-size: 14px;
+}
+
+.pretext {
+    white-space: pre;
 }
 
 </style>        
