@@ -199,7 +199,6 @@
     async function generateTitle() {
         // STAGE Check
         if (data.content.length == 0) {
-            // TODO
             flag.titleBtn = false;
             TOAST("请先描述你的路遇。")
             return;
