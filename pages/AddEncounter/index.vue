@@ -15,7 +15,7 @@
             <view class="flex-vertical gap-10">
                 <up-textarea 
                     v-model="data.content" 
-                    placeholder="在这里记录你的奇遇！"
+                    placeholder="在这里记录你的路遇！"
                     :placeholderStyle="JSON.stringify({
                         color: '#888888',
                         fontSize: '18px',
@@ -114,7 +114,7 @@
 <script setup>
     import { reactive, computed } from "vue";
 
-    import { notice } from "../../utils/notice";
+    import { TOAST } from "../../utils/notice";
     import color from "@/css/theme/index.module.scss";
     import nginx from "../../request/nginx";
     import api from "../../request/nlp";
@@ -201,7 +201,7 @@
         if (data.content.length == 0) {
             // TODO
             flag.titleBtn = false;
-            notice("请先描述你的路遇。")
+            TOAST("请先描述你的路遇。")
             return;
         }
         // Run
