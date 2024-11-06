@@ -29,7 +29,7 @@ export default defineStore("book", {
       this.sterilization = status[2];
     },
     setFlex(status: Number[]) {
-      this.flex = status[0];
+      this.threeColumn = status[0];
     },
     getSchoolStatus() {
       return [this.gender, this.school, this.sterilization];
@@ -41,6 +41,7 @@ export default defineStore("book", {
       this.gender = CompomentFlagDefault[0];
       this.school = CompomentFlagDefault[1];
       this.sterilization = CompomentFlagDefault[2];
+
       this.threeColumn = FlexFlagDefault[0];
     },
   },
