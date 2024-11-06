@@ -108,6 +108,8 @@
                 @submitData="submitData"
             />
         </view>
+        <!--状态加载-->
+        <statusWin v-if="flag.status.show" :status="flag.status.type" loaddingText="上传中"/>
     </view>
 </template>
 
@@ -125,6 +127,7 @@
     import bottomSubmit from "../../components/bottomFunc/bottomSubmit.vue";
     import chipGroup from "../../components/com/chip/chipGroup.vue";
     import btnLoadding from "../../components/com/button/variant/btn-loadding.vue";
+    import statusWin from "../../components/status-win/statusWin.vue";
     // store
 // DATA
     const consts = {
@@ -153,6 +156,11 @@
         // 提交按钮
         submitAbled: false,
         titleBtn: false,
+        // StatusWin
+        status: {
+            show: false,
+            type: "loadding"
+        },
     })
 
 // FUNC
