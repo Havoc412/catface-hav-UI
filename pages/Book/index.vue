@@ -1,12 +1,12 @@
 <template>
     <Header ref="headerRef" @filterConditionsChange="filterConditionsChange" @add="gotoAddAnimal"/>
-    <view class="flex-center-vertical" :style="{
-        '--grid-template-columns': ['repeat(' + (bookStore.threeColumn ? 3 : 2) + ', 1fr)']
-    }">
+    <view class="flex-center-vertical">
         <!--FUNC-->
         <statusWin v-if="flag.status.show" :status="flag.status.type" @reload="init()"/>
         <view v-else class="flex-center-vertical">
-            <view class="container-cats gap-10">
+            <view class="container-cats gap-10"  :style="{
+                '--grid-template-columns': ['repeat(' + (bookStore.threeColumn ? 3 : 2) + ', 1fr)']
+            }">
                 <template v-for="(item, index) in data.catsList">
                     <littleCat v-if="bookStore.threeColumn" 
                         :id="item.animal.id" 
