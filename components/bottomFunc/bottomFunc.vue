@@ -65,7 +65,7 @@
         data.poi = await GetPoi();
         if(data.poi) {
             flag.poi = true;
-            emits('getPoi', poi);
+            emits('getPoi', data.poi);
         } else {
             // TODO 错误处理
         }
