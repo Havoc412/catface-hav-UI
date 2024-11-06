@@ -14,7 +14,7 @@
                         :gender="item.animal.gender"
                         :schoolStatus="item.animal.schoolStatus" 
                         :sterilizationStatus="item.animal.sterilizationStatus"
-                        :department="item.animal.departmentvv"
+                        :department="item.animal.department"
                         :url="item.animal.avatar" 
                         :like="item.like"
                         @click="gotoDetial"
