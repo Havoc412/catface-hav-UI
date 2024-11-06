@@ -2,34 +2,57 @@
     <view class="container-list flex-vertical">
         <view class="bold" style="font-family: Alimama ShuHeiTi;">
             # 组件显示
-            <h-tip>仅双列大图模式下有效</h-tip>
+            <h-tip>仅【双列大图】模式下有效</h-tip>
         </view>
         <template v-for="(item, index) in CompomentItems">
             <view class="flex-center-horizontal">
                 <view>{{ item }}</view>
                 <up-switch v-model="compomentFlag[index]"
                     size="28" :activeColor="color['main-deep']"
-                    @change="reverseSwitch(index)"
+                    @change="reverseCompSwitch(index)"
                 />
             </view>
         </template>
         <view class="bold" style="font-family: Alimama ShuHeiTi;">
             # 布局
-            <h-tip>默认为双列大图</h-tip>
+            <h-tip>默认为【双列大图】</h-tip>
         </view>
         <template v-for="(item, index) in FlexItems">
             <view class="flex-center-horizontal">
                 <view>{{ item }}</view>
                 <up-switch v-model="flexFlag[index]"
                     size="28" :activeColor="color['main-deep']"
-                    @change=""
+                    @change="reverseFlexSwitch(index)"
                 />
             </view>
         </template>
         <up-divider :hairline="false" lineColor="#888888" marginTD="0"/>
-        <!--TODO Example Show-->
+        <!-- Example Show; 根据不同的控制区域，展示不同的显示效果 -->
         <view class="flex-center-both">
-            <singleCat ctlMode="props" :compomentStatus="compomentFlag"/>
+            <singleCat v-if="flag.changeAreaTag === consts.COMPOMENT" ctlMode="props" :compomentStatus="compomentFlag"/>
+            <view v-if="flag.changeAreaTag === consts.FLEX" class="block flex-center-horizontal gap-5">
+                <!--INFO 由于转换时， skeleton 宽度无法自适应，所以采取两个大组件。-->
+                <template v-if="!flexFlag[0]" v-for="item in 2">
+                    <up-skeleton 
+                        :title="false" 
+                        :loading="true" 
+                        :animate="true"
+                        :rows="4" 
+                        :rowsWidth="['100%', '100%', '100%', '100%']" 
+                        :rowsHeight="['150px', '20px', '150px', '20px']" >
+                    </up-skeleton>
+                </template>
+                <template v-else v-for="item in 3">
+                    <up-skeleton 
+                        :title="false" 
+                        :loading="true" 
+                        :animate="true"
+                        :rows="3" 
+                        :rowsWidth="['100%', '100%', '100%']" 
+                        :rowsHeight="flexFlag[0] ? '80px' : '160px'" >
+                    </up-skeleton>
+                </template>
+            </view>
         </view>
         <!--底部按钮-->
         <view class="flex-center-horizontal btn-group">
@@ -62,6 +85,11 @@
     const bookStore = book();
 
 // DATA
+    const consts = {
+        COMPOMENT: 'compoment',
+        FLEX: 'flex'
+    }
+
     const props = defineProps({
     });
     const emits = defineEmits(['close']);
@@ -73,14 +101,23 @@
     const FlexItems = bookStore.FlexItems;
     const flexFlag = ref([]);
 
+    const flag = reactive({
+        changeAreaTag: consts.COMPOMENT,  // 当改动 不同区域 内容时，展示 Flex 不同的效果。
+    })
+
 // FUNC
     onMounted(() => {
         compomentFlag.value = bookStore.getSchoolStatus();
         flexFlag.value = bookStore.getFlex();
     })
 
-    function reverseSwitch(index) {
+    function reverseCompSwitch(index) {
         // BUG 组件内部通过绑定的方式，已经进行了一次修改，这里没必要动。 // compomentFlag.value[index] = !compomentFlag.value[index];
+        flag.changeAreaTag = consts.COMPOMENT;  // 
+    }
+
+    function reverseFlexSwitch(index) {
+        flag.changeAreaTag = consts.FLEX;
     }
 
     // TAG BTN * 2
