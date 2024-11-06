@@ -93,7 +93,13 @@
     {
       "path": "pages/AddEncounter/index",
       "style": {
-        "navigationBarTitleText": "Add Encounter"
+        "navigationBarTitleText": "记录路遇"
+      }
+    },
+    {
+      "path": "pages/AddEncounter/selectAnm",
+      "style": {
+        "navigationBarTitleText": "选择目标毛茸茸！"
       }
     }
   ],

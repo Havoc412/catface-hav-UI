@@ -8,7 +8,7 @@
             @delete="deleteImage" 
             @setFront="setFront"
         />
-        <animals/>
+        <animals @click="gotoSelectAnm"/>
         <view class="block pd-10" style="padding-top: 0;">
             <up-divider dot lineColor="#000" marginTD="5"/>
 
@@ -228,6 +228,13 @@
     function submitData() {
     }
 
+
+    // router
+    function gotoSelectAnm() {
+        uni.navigateTo({
+            url: '/pages/AddEncounter/selectAnm'
+        })
+    }
 
 </script>
 

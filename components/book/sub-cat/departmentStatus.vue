@@ -5,6 +5,7 @@
 </template>
 
 <script setup>
+
 import { reactive, onMounted } from "vue";
 import color from "@/css/theme/index.module.scss";
 import { Departments_EN, Departments_ZH } from "../../../common/consts";

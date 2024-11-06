@@ -8,6 +8,8 @@
         <view class="flex-horizontal gap-5">
             <view class="name">{{ props.name }}</view>
             <h-icon v-show="bookStore.gender" :name="genderSvg" size="15"/>
+            <view class="shrink"/>
+            <department-status mode="ellipsis" :type="props.department" />
         </view>
     </view>
 </template>
@@ -17,6 +19,8 @@
 
     import nginx from "../../request/nginx";
     import { Gender_EN, getFrontIndex } from "../../common/consts";
+    // com
+    import departmentStatus from "./sub-cat/departmentStatus.vue";
     // store
     import book from "../../store/book";
     const bookStore = book();
@@ -37,6 +41,10 @@
         gender: {
             type: [String, Number],
             default: "boy"
+        },
+        department: {
+            type: [String, Number],
+            default: "other"
         },
         // sterilizationStatus: {
         //     type: [String, Number],
