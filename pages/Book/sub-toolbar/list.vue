@@ -64,7 +64,8 @@
 
 // FUNC
     onMounted(() => {
-        reset();
+        compomentFlag.value = bookStore.getSchoolStatus();
+        flexFlag.value = bookStore.getFlex();
     })
 
     function reverseSwitch(index) {
