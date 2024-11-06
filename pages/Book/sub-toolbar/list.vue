@@ -28,7 +28,9 @@
         </template>
         <up-divider :hairline="false" lineColor="#888888" marginTD="0"/>
         <!--TODO Example Show-->
-
+        <view class="flex-center-both">
+            <singleCat ctlMode="props" :compomentStatus="compomentFlag"/>
+        </view>
         <!--底部按钮-->
         <view class="flex-center-horizontal btn-group">
             <u-button :customStyle="{
@@ -51,7 +53,10 @@
 
 <script setup>
     import { ref, reactive, onMounted } from "vue";
+
     import color from "../../../css/theme/index.module.scss";
+    // com
+    import singleCat from "../../../components/book/singleCat.vue";
     // store
     import book from "../../../store/book";  // INFO 这里的状态管理，是依靠 pinia 的全局变量。
     const bookStore = book();

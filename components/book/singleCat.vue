@@ -2,7 +2,7 @@
     <view class="flex-vertical gap-10" @click="emits('click', props.id)">
         <view class="container-img relative">
             <up-image 
-                :src="nginx.catsAvatar(props.url)" 
+                :src="propsMode ? props.url : nginx.catsAvatar(props.url)" 
                 height="250" width="350rpx" mode="aspectFill" radius="25"
                 error-icon="/static/error.svg"
             />  <!--INFO 素材来源于网络-->
@@ -12,11 +12,11 @@
         </view>
         <view class="flex-center-horizontal gap-5">
             <view class="name">{{ props.name }}</view>
-            <!--BUG 好像会覆盖 TOP-->
-            <h-icon v-show="bookStore.gender" :name="genderSvg" size="18"/>
+            <!--INFO 不同显示的样式-->
+            <h-icon v-show="propsMode ? props.compomentStatus[0] : bookStore.gender" :name="genderSvg" size="18"/>
             <view class="shrink"/>
-            <school-status v-show="bookStore.school" :type="props.schoolStatus"/>
-            <sterilization-status v-show="bookStore.sterilization" :type="props.sterilizationStatus"/>
+            <school-status v-show="propsMode ? props.compomentStatus[1] : bookStore.school" :type="props.schoolStatus"/>
+            <sterilization-status v-show="propsMode ? props.compomentStatus[2] : bookStore.sterilization" :type="props.sterilizationStatus"/>
         </view>
     </view>
 </template>
@@ -36,6 +36,10 @@
     const bookStore = book();
 // DATA
     const props = defineProps({
+        ctlMode: {
+            type: String,
+            default: "default" // INFO 默认采取 Book 的状态控制，获取启用 props 的控制。
+        },
         id: {
             type: Number,
             default: 0
@@ -58,12 +62,14 @@
         },
         url: {
             type: String,
-            default: "/static/dog.jpg"
+            default: "/static/err.svg"
         },
         like: {
             type: Boolean,
             default: false
-        }
+        },
+        // TAG ctl by props
+        compomentStatus: Array,  // 一个 []Boolean; ctlMode = 'props' 下有效。
     });
     const emits = defineEmits(['click']);
 
@@ -72,6 +78,7 @@
     })
 
 // FUNC
+    // STYLE
     const heartSvg = computed(() => {
         return `com-heart${flag.heart ? "_active" : ""}`;
     })
@@ -84,9 +91,18 @@
         }
     })
 
+    // Mode
+    const propsMode = computed(() => {
+        return props.ctlMode === 'props';
+    })
+
+    // Flag
     async function like() {
-        api.clickLike(props.id, flag.heart);
         flag.heart = !flag.heart;
+
+        if (propsMode.value)
+            return;
+        api.clickLike(props.id, flag.heart);
     }
 
 </script>
