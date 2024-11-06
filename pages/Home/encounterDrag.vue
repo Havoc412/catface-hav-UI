@@ -266,7 +266,6 @@
             }
         })
         vars.skip += res.length;
-        flag.status.show = false;
     }
 
     // Waterfall
@@ -287,6 +286,8 @@
         if(res.length < num)
             flag.status.type = 'nomore'
         
+
+        //  STAGE success，fetch data
         const fetchedData = res.map((item) => {
             // img info
             let height = Math.round(item.height / item.width * consts.POST.WIDTH);
@@ -301,6 +302,7 @@
             item.adoptHeight = height;  // INFO rpx
             return item;
         })
+        flag.status.show = false;  // 获取成功，关闭 StatusWin
 
         return fetchedData;
     }
