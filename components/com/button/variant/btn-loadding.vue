@@ -28,7 +28,7 @@
     });
     const emits = defineEmits(['click', 'cencel']);
 
-    const flag = ref(false);
+    const flag = ref(false); // 状态控制由外部 API 状态来做。
 // FUNC
     watch(() => props.trigger, (newVal) => {
         flag.value = newVal;
@@ -36,10 +36,8 @@
 
     function click() {
         if (flag.value) {
-            flag.value = false;
             emits('cencel');
         } else {
-            flag.value = true;
             emits('click');
         }
     }

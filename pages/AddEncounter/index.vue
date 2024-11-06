@@ -87,7 +87,7 @@
                             'font-weight': 'bold',
                         }"
                         @click="generateTitle"
-                        @cancel=""
+                        @cancel="flag.titleBtn = false"
                     />
                     <!-- <h-btn text="AI小结" :customStyle="{
                         'background-color': color['main-deep'],
@@ -114,6 +114,7 @@
 <script setup>
     import { reactive, computed } from "vue";
 
+    import { notice } from "../../utils/notice";
     import color from "@/css/theme/index.module.scss";
     import nginx from "../../request/nginx";
     import api from "../../request/nlp";
@@ -191,13 +192,23 @@
     function finishContent() {
         flag.textArea = false;
         if (data.content !== '' && data.title == '') {
-            flag.titleBtn = true;
             generateTitle();
         }
     }
 
     async function generateTitle() {
-        data.title = await api.getTitle(data.content);
+        // STAGE Check
+        if (data.content.length == 0) {
+            // TODO
+            flag.titleBtn = false;
+            notice("请先描述你的路遇。")
+            return;
+        }
+        // Run
+        flag.titleBtn = true;
+        const title = await api.getTitle(data.content);
+        if(flag.titleBtn)
+            data.title = title;
         flag.titleBtn = false;
     }
 
