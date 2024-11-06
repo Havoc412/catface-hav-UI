@@ -1,12 +1,24 @@
 <template>
     <Header ref="headerRef" @filterConditionsChange="filterConditionsChange" @add="gotoAddAnimal"/>
-    <view class="flex-center-vertical">
+    <view class="flex-center-vertical" :style="{
+        '--grid-template-columns': ['repeat(' + (bookStore.threeColumn ? 3 : 2) + ', 1fr)']
+    }">
         <!--FUNC-->
         <statusWin v-if="flag.status.show" :status="flag.status.type" @reload="init()"/>
         <view v-else class="flex-center-vertical">
             <view class="container-cats gap-10">
                 <template v-for="(item, index) in data.catsList">
-                    <singleCat
+                    <littleCat v-if="bookStore.threeColumn" 
+                        :id="item.animal.id" 
+                        :name="item.animal.name" 
+                        :gender="item.animal.gender"
+                        :schoolStatus="item.animal.schoolStatus" 
+                        :sterilizationStatus="item.animal.sterilizationStatus"
+                        :url="item.animal.avatar" 
+                        :like="item.like"
+                        @click="gotoDetial"
+                    />
+                    <singleCat v-else
                         :id="item.animal.id"
                         :name="item.animal.name"
                         :gender="item.animal.gender"
@@ -34,19 +46,22 @@
 </template>
 
 <script setup>
-    import { ref, reactive, onMounted } from "vue";
+    import { ref, reactive, onMounted, watch } from "vue";
 	import { onReachBottom } from '@dcloudio/uni-app'
 
     import api from "../../request/animal";
 
     // com
     import Header from "./header.vue";
+    import littleCat from "../../components/book/littleCat.vue";
     import singleCat from "../../components/book/singleCat.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     import sideTools from "../../components/com/side-tools.vue";
 
     import statusWin from "../../components/status-win/statusWin.vue";
     // store
+    import book from "../../store/book";
+    const bookStore = book();
 
 // DATA
     const consts = {
@@ -79,7 +94,6 @@
         toggleFilter: false,
     })
 
-
     const headerRef = ref(null);
 
 // FUNC
@@ -95,7 +109,6 @@
 
     async function getData(num, skip = 0) {
         const filterConditions = headerRef.value.getFilterConditions();
-        // TODO 完善筛选条件
         const [res, err] = await api.getAnimalBook(num, skip, filterConditions, true);
         if (err != null) {  // 错误处理
             flag.status.type = "error";
@@ -118,7 +131,6 @@
     }
 
     async function loadmore() {
-        // TODO 这里后续请求 API
         console.info("loadmore");
         const res = await getData(consts.NUM_SINGLE, state.skip);
         data.catsList = data.catsList.concat(res);
@@ -159,7 +171,7 @@
 
 .container-cats {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: var(--grid-template-columns);
     padding: 5px;
 }
 
