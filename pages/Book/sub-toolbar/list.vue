@@ -1,6 +1,9 @@
 <template>
     <view class="container-list flex-vertical">
-        <view class="bold" style="font-family: Alimama ShuHeiTi;"># 组件显示</view>
+        <view class="bold" style="font-family: Alimama ShuHeiTi;">
+            # 组件显示
+            <h-tip>仅双列大图模式下有效</h-tip>
+        </view>
         <template v-for="(item, index) in CompomentItems">
             <view class="flex-center-horizontal">
                 <view>{{ item }}</view>
@@ -10,7 +13,10 @@
                 />
             </view>
         </template>
-        <view class="bold" style="font-family: Alimama ShuHeiTi;"># 布局</view>
+        <view class="bold" style="font-family: Alimama ShuHeiTi;">
+            # 布局
+            <h-tip>默认为双列大图</h-tip>
+        </view>
         <template v-for="(item, index) in FlexItems">
             <view class="flex-center-horizontal">
                 <view>{{ item }}</view>
