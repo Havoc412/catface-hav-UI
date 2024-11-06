@@ -37,6 +37,7 @@
         },
         startSelected: Boolean,
         refresh: Boolean,
+        shadow: Boolean,
     })
     const emits = defineEmits(['toggle'])
 
@@ -48,6 +49,7 @@
         return {
             'selected': selectedFlag.value,
             ['container-' + props.mode]: true,
+            'shadow': props.shadow,
         }
     })
 
@@ -95,4 +97,9 @@
     border: solid 1px var(--font-color);
     background-color: var(--bg-color);
 }
+
+.shadow {
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+}
+
 </style>

@@ -15,7 +15,7 @@
             <school-status v-show="propsMode ? props.compomentStatus[1] : bookStore.school"
                 :type="props.schoolStatus" />
             <!--TODO props 模式下还是有bug。-->
-            <department-status v-show="propsMode ? props.compomentStatus[2] : bookStore.department" :mode="props.Mode ? departmentMode : bookStore.departmentMode"
+            <department-status v-show="propsMode ? props.compomentStatus[2] : bookStore.department" :mode="propsMode ? departmentMode : bookStore.departmentMode"
                 :type="props.department" />
             <sterilization-status v-show="propsMode ? props.compomentStatus[3] : bookStore.sterilization"
                 :type="props.sterilizationStatus" />
@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-    import { ref, reactive, computed } from "vue";
+    import { ref, reactive, computed, watch } from "vue";
 
     import api from "../../request/animal";
 
@@ -82,6 +82,7 @@
 
     const flag = reactive({
         heart: props.like,
+        departmentMode: 'default',
     })
 
 // FUNC

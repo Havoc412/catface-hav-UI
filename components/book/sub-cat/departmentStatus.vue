@@ -1,6 +1,6 @@
 <template>
     <view>
-        <h-tag :text="props.mode == 'ellipsis' ? data.text[0] : data.text" bgColor="#fff" />
+        <h-tag :text="props.mode == 'ellipsis' ? data.text[0] : data.text" bgColor="#fff" shadow/>
     </view>
 </template>
 
