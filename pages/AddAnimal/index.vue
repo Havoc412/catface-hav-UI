@@ -61,9 +61,10 @@
                         <view class="block relative">
                             <up-input
                                 v-model="dataShow.breed"
+                                disabled
+                                disabledColor="transparent"
                                 placeholder="请选择 ta 的花色"
                                 placeholderStyle="color: #888888"
-                                disabledColor="transparent"
                             >
                                 <template #suffix v-if="!flag.breedHumanChange">
                                     <!--TODO 等 full body 的模型做好后再修改。-->
@@ -109,7 +110,8 @@
                         <view class="block relative">
                             <up-input
                                 v-model="dataShow.ageLinkShow"
-                                
+                                disabled
+                                disabledColor="transparent"
                                 placeholder="估计一下 ta 的年龄"
                                 placeholderStyle="color: #888888"
                             ></up-input>
@@ -142,7 +144,6 @@
                             count
                             :maxlength="255"
                             clearable
-
                             @focus="flag.runFull = !flag.runFull"
                         ></up-textarea>
                         <!--TODO Tags 相关的内容放到这里。-->
