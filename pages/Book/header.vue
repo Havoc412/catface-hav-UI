@@ -20,7 +20,7 @@
         }" 
         @close="flag.list = false"
     >
-        <list/>
+        <list @close="flag.list = false"/>
     </u-popup>
     <!--UPDATE u-popup 的状态会直接销毁，所以里面的选项需要外部来管理一下。
     https://uiadmin.net/uview-plus/components/popup.html：官方看起来是没有对应的接口，我就先外部实现一下。
