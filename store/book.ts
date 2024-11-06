@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 
-const CompomentItems = ["性别", "在校状态", "绝育状态"];
+const CompomentItems = ["性别", "在校状态", "就读学部", "绝育状态"];
 const FlexItems = ["三列小图"]
-const CompomentFlagDefault = [true, true, true];
+const CompomentFlagDefault = [true, true, true, false];
 const FlexFlagDefault = [false];
 
 export default defineStore("book", {
@@ -11,7 +11,8 @@ export default defineStore("book", {
     CompomentItems: CompomentItems,
     gender: CompomentFlagDefault[0],
     school: CompomentFlagDefault[1],
-    sterilization: CompomentFlagDefault[2],
+    department: CompomentFlagDefault[2],
+    sterilization: CompomentFlagDefault[3],
     // TAG Filter
     // Flex  // INFO 由 Book-index 来从顶层控制。
     FlexItems: FlexItems,
@@ -19,6 +20,9 @@ export default defineStore("book", {
   }),
   getters: {
     // INFO 写在这里会直接绑定起来。
+    departmentMode() {
+      return (this.school && this.department && this.sterilization) ? 'ellipsis' : 'default';
+    }
   },
   actions: {
     // TODO 之后增加一个本地保存的效果。
@@ -27,12 +31,13 @@ export default defineStore("book", {
       this.gender = status[0];
       this.school = status[1];
       this.sterilization = status[2];
+      this.department = status[3];
     },
     setFlex(status: Number[]) {
       this.threeColumn = status[0];
     },
     getSchoolStatus() {
-      return [this.gender, this.school, this.sterilization];
+      return [this.gender, this.school, this.department, this.sterilization];
     },
     getFlex() {
       return [this.threeColumn];
@@ -40,7 +45,8 @@ export default defineStore("book", {
     reset() {
       this.gender = CompomentFlagDefault[0];
       this.school = CompomentFlagDefault[1];
-      this.sterilization = CompomentFlagDefault[2];
+      this.department = CompomentFlagDefault[2];
+      this.sterilization = CompomentFlagDefault[3];
 
       this.threeColumn = FlexFlagDefault[0];
     },

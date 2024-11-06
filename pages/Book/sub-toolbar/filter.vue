@@ -4,44 +4,26 @@
             <view class="ali bold"># 条件过滤</view>
             <tip>选择后点击下方【完成】</tip>
         </view>
-        <tagBox ref="statusRef"
-            title='学业状态' :tag-list="SchoolStatus_ZH" 
-            :startMode="true" 
-            :startUnselectedList="stringToNumberArray(props.statusCache.status)"
-            :refresh="refreshFlag"
-        />
-        <tagBox ref="genderRef"
-            title='性别' :tag-list="Gender_ZH" 
-            :startMode="true"
-            :startUnselectedList="stringToNumberArray(props.statusCache.gender)"
-            :refresh="refreshFlag"
-        />
-        <tagBox ref="sterilizationRef"
-            title='绝育状态' :tag-list="SterilizationStatus_ZH" 
-            :startMode="true"
-            :startUnselectedList="stringToNumberArray(props.statusCache.sterilization)"
-            :refresh="refreshFlag"
-        />
-        <tagBox ref="breedRef"
-            title='花色' :tag-list="Breed_ZH" 
-            :startMode="true" 
-            :startUnselectedList="stringToNumberArray(props.statusCache.breed)"
-            :refresh="refreshFlag"
-        />
+        <tagBox ref="statusRef" title='学业状态' :tag-list="SchoolStatus_ZH" :startMode="true"
+            :startUnselectedList="stringToNumberArray(props.statusCache.status)" :refresh="refreshFlag" />
+        <tagBox ref="departmentRef" title='就读学部' :tag-list="Departments_ZH" :startMode="true"
+            :startUnselectedList="stringToNumberArray(props.statusCache.department)" :refresh="refreshFlag" />
+        <tagBox ref="breedRef" title='花色' :tag-list="Breed_ZH" :startMode="true"
+            :startUnselectedList="stringToNumberArray(props.statusCache.breed)" :refresh="refreshFlag" />
+        <tagBox ref="genderRef" title='性别' :tag-list="Gender_ZH" :startMode="true"
+            :startUnselectedList="stringToNumberArray(props.statusCache.gender)" :refresh="refreshFlag" />
+        <tagBox ref="sterilizationRef" title='绝育状态' :tag-list="SterilizationStatus_ZH" :startMode="false"
+            :startUnselectedList="stringToNumberArray(props.statusCache.sterilization)" :refresh="refreshFlag" />
 
         <!--FUNC-->
         <view class="flex-center-horizontal btn-group ali">
-            <u-button
-                @click="refreshFlag = !refreshFlag"
-                :customStyle="{
+            <u-button @click="refreshFlag = !refreshFlag" :customStyle="{
                 padding: '10px 0',
                 borderRadius: '15px',
                 height: '40px',
                 border: 'solid 1px #666666'
             }"><span>重置</span></u-button>
-            <u-button 
-                @click="getFilterConditions"
-                :customStyle="{
+            <u-button @click="getFilterConditions" :customStyle="{
                 padding: '10px 0',
                 fontWeight: 'bold',
                 borderRadius: '15px',
@@ -58,7 +40,7 @@
     import color from "@/css/theme/index.module.scss";
 
     import { stringToNumberArray } from "../../../utils/string";
-    import { SchoolStatus_ZH, SterilizationStatus_ZH, Gender_ZH, Breed_ZH } from "../../../common/consts";
+    import { SchoolStatus_ZH, SterilizationStatus_ZH, Gender_ZH, Breed_ZH, Departments_ZH } from "../../../common/consts";
     // store
     import tip from "../../../components/com/tip.vue";
     import tagBox from "../../../components/tag/group/tagBox.vue";
@@ -72,7 +54,8 @@
                 status: "1,2",
                 gender: "",
                 breed: "",
-                sterilization: ""
+                sterilization: "",
+                department: ""
             })
         }
     });
@@ -82,6 +65,7 @@
     const genderRef = ref(null);
     const sterilizationRef = ref(null);
     const breedRef = ref(null);
+    const departmentRef = ref(null);
 
     const refreshFlag = ref(false);
 // FUNC
@@ -90,8 +74,10 @@
             status: statusRef.value.getSelectedList(),
             gender: genderRef.value.getSelectedList(),
             sterilization: sterilizationRef.value.getSelectedList(),
-            breed: breedRef.value.getSelectedList()
+            breed: breedRef.value.getSelectedList(),
+            department: departmentRef.value.getSelectedList(),
         };
+        console.info(conditions);
         emits('getFilterConditions', conditions);
         
         emits('close')

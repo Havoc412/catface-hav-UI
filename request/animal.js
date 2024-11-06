@@ -16,7 +16,7 @@ const api = {
 
   async getAnimalBook(num, skip, filters, pass = true) {
     return await get(
-      `admin/animal?attrs=name,gender,status,sterilization,avatar&gender=${filters.gender}&status=${filters.status}&breed=${filters.breed}&sterilization=${filters.sterilization}&num=${num}&skip=${skip}&user_id=${humanStore.user_id}`,
+      `admin/animal?attrs=name,gender,status,sterilization,avatar,department&gender=${filters.gender}&status=${filters.status}&breed=${filters.breed}&sterilization=${filters.sterilization}&department=${filters.department}&num=${num}&skip=${skip}&user_id=${humanStore.user_id}`,
       {},
       {},
       pass

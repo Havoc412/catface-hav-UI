@@ -82,6 +82,20 @@ export const DewormingStatus = [
 export const DewormingStatus_EN = GetEnFields(DewormingStatus);
 export const DewormingStatus_ZH = GetZhFields(DewormingStatus);
 
+// Department
+export const Departments = [
+  { zh: "信部", color: "#32cd32", en: "it" },
+  { zh: "医学部", color: "#988fd0", en: "medical" },
+  { zh: "工部", color: "#ff6347", en: "engine" },
+  { zh: "文理", color: "#4169e1", en: "art" },
+  { zh: "湖滨", color: "#20b2aa", en: "lake" },
+  { zh: "枫园", color: "#dda0dd", en: "maple" },
+  { zh: "其他", color: "#ff7f50", en: "other" },
+];
+
+export const Departments_EN = GetEnFields(Departments);
+export const Departments_ZH = GetZhFields(Departments);
+
 // Color
 export const Breed_ZH = [
   "橘白",
@@ -185,7 +199,6 @@ export const Age = [
   ["0周", "1周", "2周", "3周", "4周"],
   ["0天", "1天", "3天", "5天"],
 ];
-
 
 // Max Data
 export const ENCOUNTER_MAX_NUM = 2;

@@ -1,22 +1,24 @@
 <template>
     <view class="flex-vertical gap-10" @click="emits('click', props.id)">
         <view class="container-img relative">
-            <up-image 
-                :src="propsMode ? props.url : nginx.catsAvatar(props.url)" 
-                height="250" width="350rpx" mode="aspectFill" radius="25"
-                error-icon="/static/error.svg"
-            />  <!--INFO 素材来源于网络-->
+            <up-image :src="propsMode ? props.url : nginx.catsAvatar(props.url)" height="250" width="350rpx"
+                mode="aspectFill" radius="25" error-icon="/static/error.svg" /> <!--INFO 素材来源于网络-->
             <view class="contanier-heart flex-center-both absolute z-0" @click.stop>
-                <h-icon :name="heartSvg" size="18" @click="like"/>
+                <h-icon :name="heartSvg" size="18" @click="like" />
             </view>
         </view>
         <view class="flex-center-horizontal gap-5">
             <view class="name">{{ props.name }}</view>
             <!--INFO 不同显示的样式-->
-            <h-icon v-show="propsMode ? props.compomentStatus[0] : bookStore.gender" :name="genderSvg" size="18"/>
-            <view class="shrink"/>
-            <school-status v-show="propsMode ? props.compomentStatus[1] : bookStore.school" :type="props.schoolStatus"/>
-            <sterilization-status v-show="propsMode ? props.compomentStatus[2] : bookStore.sterilization" :type="props.sterilizationStatus"/>
+            <h-icon v-show="propsMode ? props.compomentStatus[0] : bookStore.gender" :name="genderSvg" size="18" />
+            <view class="shrink" />
+            <school-status v-show="propsMode ? props.compomentStatus[1] : bookStore.school"
+                :type="props.schoolStatus" />
+            <!--TODO props 模式下还是有bug。-->
+            <department-status v-show="propsMode ? props.compomentStatus[2] : bookStore.department" :mode="props.Mode ? departmentMode : bookStore.departmentMode"
+                :type="props.department" />
+            <sterilization-status v-show="propsMode ? props.compomentStatus[3] : bookStore.sterilization"
+                :type="props.sterilizationStatus" />
         </view>
     </view>
 </template>
@@ -30,6 +32,7 @@
     // com
     import schoolStatus from "./sub-cat/schoolStatus.vue";
     import sterilizationStatus from "./sub-cat/sterilizationStatus.vue";
+    import departmentStatus from "./sub-cat/departmentStatus.vue";
     import nginx from "../../request/nginx";
     // store
     import book from "../../store/book";
@@ -60,6 +63,10 @@
             type: [String, Number],
             default: "unknown"
         },
+        department: {
+            type: [String, Number],
+            default: "other"
+        },
         url: {
             type: String,
             default: "/static/err.svg"
@@ -74,7 +81,7 @@
     const emits = defineEmits(['click']);
 
     const flag = reactive({
-        heart: props.like
+        heart: props.like,
     })
 
 // FUNC
@@ -105,6 +112,10 @@
         api.clickLike(props.id, flag.heart);
     }
 
+    const departmentMode = computed(() => {
+        return (props.compomentStatus[1] && props.compomentStatus[2] && props.compomentStatus[3] ) ? 'ellipsis' : 'default';
+    })
+
 </script>
 
 <style scoped>
@@ -129,6 +140,11 @@
     font-family: Alimama ShuHeiTi;
     font-weight: bold;
     font-size: 17px;
+    white-space: nowrap;
+    /* 防止文本换行 */
+    overflow: hidden;
+    /* 隐藏超出部分 */
+    text-overflow: ellipsis;
+    /* 显示省略号 */
 }
-
 </style>
