@@ -3,8 +3,10 @@
     <view class="flex-vertical container-top">
         <statusWin v-if="flag.status.show" :status="flag.status.type" @reload="init()"/>
         <view v-else class="container-cats gap-10">
-            <template v-for="(item, index) in data.catsList">
+            <template v-for="(item, index) in data.catsListSelected">
                 <littleCat
+                    mode="select-un-only"
+
                     :id="item.animal.id" 
                     :name="item.animal.name" 
                     :gender="item.animal.gender"
@@ -13,7 +15,23 @@
                     :department="item.animal.department"
                     :url="item.animal.avatar" 
                     :like="item.like"
-                    @click=""
+                    @unselect="unselect"
+                />
+            </template>
+            <!--TODO 增加一些状态表示：最近关心、。-->
+            <template v-for="(item, index) in data.catsList">
+                <littleCat
+                    mode="select-only"
+
+                    :id="item.animal.id" 
+                    :name="item.animal.name" 
+                    :gender="item.animal.gender"
+                    :schoolStatus="item.animal.schoolStatus" 
+                    :sterilizationStatus="item.animal.sterilizationStatus"
+                    :department="item.animal.department"
+                    :url="item.animal.avatar" 
+                    :like="item.like"
+                    @select="select"
                 />
             </template>
         </view>
@@ -28,7 +46,7 @@
 </template>
 
 <script setup>
-    import { ref, reactive, onMounted } from "vue";
+    import { ref, reactive, onMounted, computed } from "vue";
 	import { onReachBottom } from '@dcloudio/uni-app'
 
     import api from "../../request/animal";
@@ -48,7 +66,8 @@
     }
     
     const data = reactive({
-        catsList: []
+        catsList: [],
+        catsListSelected: [], // 选中的目标。
     })
 
     const flag = reactive({
@@ -113,6 +132,30 @@
         flag.loadmore = 'loading';
 
         loadmore();
+    })
+
+    // TAG BTN
+    function select(id) {
+        const index = data.catsListSelected.findIndex(item => item.animal.id == id);
+        if(index == -1) {   // 没有选中
+            const animal = data.catsList.find(item => item.animal.id == id);
+            console.debug(animal);
+            data.catsListSelected.push(animal);
+            data.catsList.splice(data.catsList.findIndex(item => item.animal.id == id), 1);
+        }
+    }
+
+    function unselect(id) {
+        const index = data.catsListSelected.findIndex(item => item.animal.id == id);
+        if(index != -1) {   // 已经选中
+            const animal = data.catsListSelected.splice(index, 1)[0];
+            data.catsList.unshift(animal);
+        }
+    }
+
+    // 记录选中者的 ID，方便条件改变时的过滤。
+    const selectedAnimalsId = computed(() => {
+        return data.catsListSelected.map(item => item.animal.id);
     })
 
 </script>

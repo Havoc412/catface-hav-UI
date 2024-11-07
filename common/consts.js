@@ -90,6 +90,7 @@ export const Departments = [ // UPDATE 或许统一白色会比较好。
   { zh: "文理", color: "#4169e1", en: "art" },
   { zh: "湖滨", color: "#20b2aa", en: "lake" },
   { zh: "枫园", color: "#dda0dd", en: "maple" },
+  { zh: "网安", color: "#988fd0", en: "net" },
   { zh: "其他", color: "#988fd0", en: "other" },
 ];
 

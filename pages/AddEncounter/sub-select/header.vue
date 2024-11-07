@@ -1,10 +1,33 @@
 <template>
     <headerBase :bgColor="color['main-light']">
         <template #prefix>
-            <view class="flex-horizontal gap-10 container-tool z-9">
+            <view class="flex-horizontal gap-10 container-tool">
                 <h-icon name="tool-filter" @click="flag.filter = true"/>
-                <view class="shrink"/>
+                <h-icon name="tool-location_thin" @click=""/>
             </view>
+        </template>
+
+        <template #midfix>
+            <up-input
+                v-model="data.name"
+                placeholder="输入名字/昵称"
+                shape="circle"
+                clearable
+                :customStyle="{
+                    boxShadow: 'inset 0 0 1px #000',
+                    border: '5px solid #000',
+                    margin: '0 10px'
+                }"
+                @confirm=""
+            >
+                <template #prefix>
+                    <h-icon name="tool-search_thin"/>
+                </template>
+            </up-input>
+        </template>
+
+        <template #suffix>
+            <btnBlueTheme text="完成"/>
         </template>
     </headerBase>
     <u-popup 
@@ -26,6 +49,7 @@
     import color from "@/css/theme/index.module.scss";
     // com
     import headerBase from "../../../components/com/substrate/headerBase.vue";
+    import btnBlueTheme from "../../../components/com/button/variant/btn-blue-theme.vue";
     import Filter from "../../Book/sub-toolbar/filter.vue";
     // store
 // DATA
@@ -43,7 +67,8 @@
             gender: "",
             breed: "",
             sterilization: ""
-        }
+        },
+        name: ""
     })
 
 // FUNC
