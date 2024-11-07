@@ -6,8 +6,8 @@
 
 <script setup>
 
-import { reactive, onMounted } from "vue";
-import color from "@/css/theme/index.module.scss";
+import { reactive, onMounted, watch } from "vue";
+// import color from "@/css/theme/index.module.scss";v
 import { Departments_EN, Departments_ZH } from "../../../common/consts";
 // store
 // DATA
@@ -31,6 +31,12 @@ const data = reactive({
 })
 // FUNC
 onMounted(() => {
+    init();
+})
+
+watch(() => props.type, init);
+
+function init() {
     if (typeof props.type === 'string') {
         data.type = props.type;
         const idx = Math.max(Departments_EN.indexOf(props.type), 0); // 如果是 -1 就返回 0
@@ -39,7 +45,7 @@ onMounted(() => {
         data.text = Departments_ZH[props.type - 1];
         data.type = Departments_EN[props.type - 1];
     }
-})
+}
 
 </script>
 

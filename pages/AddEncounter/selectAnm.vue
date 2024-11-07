@@ -2,38 +2,41 @@
     <Header ref="headerRef" @filterConditionsChange="filterConditionsChange" />
     <view class="flex-vertical container-top">
         <statusWin v-if="flag.status.show" :status="flag.status.type" @reload="init()"/>
-        <view v-else class="container-cats gap-10">
-            <template v-for="(item, index) in data.catsListSelected">
-                <littleCat
-                    mode="select-un-only"
+        <view v-else class="flex-center-vertical block">
+            <h-tip>挑选至多三位主角毛茸茸吧！</h-tip>
+            <view class="container-cats gap-10">
+                <template v-for="(item, index) in data.catsListSelected">
+                    <littleCat
+                        mode="select-un-only"
 
-                    :id="item.animal.id" 
-                    :name="item.animal.name" 
-                    :gender="item.animal.gender"
-                    :schoolStatus="item.animal.schoolStatus" 
-                    :sterilizationStatus="item.animal.sterilizationStatus"
-                    :department="item.animal.department"
-                    :url="item.animal.avatar" 
-                    :like="item.like"
-                    @unselect="unselect"
-                />
-            </template>
-            <!--TODO 增加一些状态表示：最近关心、。-->
-            <template v-for="(item, index) in data.catsList">
-                <littleCat
-                    mode="select-only"
+                        :id="item.animal.id" 
+                        :name="item.animal.name" 
+                        :gender="item.animal.gender"
+                        :schoolStatus="item.animal.schoolStatus" 
+                        :sterilizationStatus="item.animal.sterilizationStatus"
+                        :department="item.animal.department"
+                        :url="item.animal.avatar" 
+                        :like="item.like"
+                        @unselect="unselect"
+                    />
+                </template>
+                <!--TODO 增加一些状态表示：最近关心、。-->
+                <template v-for="(item, index) in data.catsList">
+                    <littleCat
+                        mode="select-only"
 
-                    :id="item.animal.id" 
-                    :name="item.animal.name" 
-                    :gender="item.animal.gender"
-                    :schoolStatus="item.animal.schoolStatus" 
-                    :sterilizationStatus="item.animal.sterilizationStatus"
-                    :department="item.animal.department"
-                    :url="item.animal.avatar" 
-                    :like="item.like"
-                    @select="select"
-                />
-            </template>
+                        :id="item.animal.id" 
+                        :name="item.animal.name" 
+                        :gender="item.animal.gender"
+                        :schoolStatus="item.animal.schoolStatus" 
+                        :sterilizationStatus="item.animal.sterilizationStatus"
+                        :department="item.animal.department"
+                        :url="item.animal.avatar" 
+                        :like="item.like"
+                        @select="select"
+                    />
+                </template>
+            </view>
         </view>
         <up-loadmore 
             :status="flag.loadmore"
@@ -50,6 +53,7 @@
 	import { onReachBottom } from '@dcloudio/uni-app'
 
     import api from "../../request/animal";
+    import { TOAST } from "../../utils/notice";
     // com
     import littleCat from "../../components/book/littleCat.vue";
 
@@ -136,10 +140,14 @@
 
     // TAG BTN
     function select(id) {
+        if (data.catsListSelected.length >= 3) {
+            TOAST("至多选择三位，请挑选你心中的主角。");
+            return;
+        }
         const index = data.catsListSelected.findIndex(item => item.animal.id == id);
-        if(index == -1) {   // 没有选中
+        if(index == -1) {   // 没有选中; 有点多余。
             const animal = data.catsList.find(item => item.animal.id == id);
-            console.debug(animal);
+            console.debug(animal, data.catsList, data.catsListSelected);
             data.catsListSelected.push(animal);
             data.catsList.splice(data.catsList.findIndex(item => item.animal.id == id), 1);
         }
