@@ -124,7 +124,7 @@
 
         state.skip += res.length;
         flag.status.show = false;
-        
+
         return res;
     }
 

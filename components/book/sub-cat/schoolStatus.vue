@@ -33,8 +33,7 @@
     watch(() => props.type, init);
 
     function init() {
-        console.debug("schoolStatus.init", props.type);
-        if(typeof props.type === 'string') {
+        if(typeof props.type === 'string') {  // UPDATE 这一部分或许还有问题
             data.type = props.type;
             const idx = Math.max(STATUS_EN.indexOf(props.type), 0); // 如果是 -1 就返回 0
             data.text = STATUS_ZH[idx];
