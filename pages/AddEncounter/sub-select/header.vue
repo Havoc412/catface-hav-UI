@@ -19,7 +19,7 @@
                     border: '5px solid #000',
                     margin: '0 10px'
                 }"
-                @confirm=""
+                @confirm="emits('name', data.name)"
             >
                 <template #prefix>
                     <h-icon name="tool-search_thin"/>
@@ -57,7 +57,7 @@
     const props = defineProps({
 
     });
-    const emits = defineEmits(['filterConditionsChange']);
+    const emits = defineEmits(['filterConditionsChange', 'name']);
 
     const flag = reactive({
         filter: false,

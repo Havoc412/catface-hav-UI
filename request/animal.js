@@ -51,6 +51,21 @@ const api = {
     })
   },
 
+  async getAnimalSelectAnmByName(name, pass=true) {
+    return await get(
+      `admin/animal/name?attrs=name,nick_names,avatar,gender,department&name=${name}`,
+      {},
+      {},
+      pass
+    )
+      .then((data) => {
+        return [data, null];
+      })
+      .catch((error) => {
+        return [error, true];
+      });
+  },
+
   async getAnimalDetail(id) {
     return await get(`admin/animal/${id}`, {}, {});
   },

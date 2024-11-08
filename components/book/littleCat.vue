@@ -21,7 +21,7 @@
                 {{ props.nickNames }}
             </view>
         </view>
-        <view class="flex-horizontal gap-5">
+        <view class="flex-horizontal gap-5 mt-2">
             <view class="name">{{ props.name }}</view>
             <h-icon v-show="bookStore.gender" :name="genderSvg" size="15"/>
             <view class="shrink"/>
@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-    import { ref, computed } from "vue";
+    import { ref, computed, watch } from "vue";
 
     import color from "@/css/theme/index.module.scss";
     import nginx from "../../request/nginx";
@@ -55,6 +55,7 @@
             type: String,
             default: "NoName"
         },
+        nickNamesHit: Boolean, // 是否通过 nickName 命中目标？
         schoolStatus: {
             type: [String, Number],
             default: "inschool"
@@ -119,6 +120,10 @@
             nickNamesShow.value = false;
         }, 3000);
     }
+
+    watch(() => props.nickNamesHit, (newVal) => {
+        if(newVal) showNickNames();
+    })
 
 </script>
 

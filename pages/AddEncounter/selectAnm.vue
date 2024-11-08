@@ -1,5 +1,8 @@
 <template>
-    <Header ref="headerRef" @filterConditionsChange="filterConditionsChange" />
+    <Header ref="headerRef" 
+        @filterConditionsChange="filterConditionsChange"
+        @name="getDataByName"
+    />
     <view class="flex-vertical container-top">
         <statusWin v-if="flag.status.show" :status="flag.status.type" @reload="init()"/>
         <view v-else class="flex-center-vertical block">
@@ -29,6 +32,7 @@
                         :id="item.animal.id" 
                         :name="item.animal.name"
                         :nickNames="item.animal.nick_names"
+                        :nickNamesHit="item.nick_name_hit"
                         :gender="item.animal.gender"
                         :schoolStatus="item.animal.schoolStatus" 
                         :sterilizationStatus="item.animal.sterilizationStatus"
@@ -133,6 +137,19 @@
         console.info("loadmore");
         const res = await getData(consts.NUM_SINGLE, state.skip);
         data.catsList = data.catsList.concat(res);
+    }
+
+    async function getDataByName(name) {
+        console.debug(name);
+        flag.loadmore = 'nomore';
+
+        const [res, err] = await api.getAnimalSelectAnmByName(name);
+        if (err != null) {
+            flag.loadmore = 'nomore';
+            return;
+        }
+        console.debug(res);
+        data.catsList = res;
     }
 
     // Life
