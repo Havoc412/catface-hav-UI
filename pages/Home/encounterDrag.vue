@@ -255,7 +255,7 @@
 
         const res = await getData(num, skip);
         res.forEach( (item) => {
-            let height = item.adoptHeight;
+            let height = item.adoptHeight || consts.POST.HEIGHT_MIN;  // INFO 还是做一些异常处理。
             // min
             if (vars.heightLeft <= vars.heightRight) {
                 data.left.push(item);
@@ -286,15 +286,19 @@
         if(res.length < num)
             flag.status.type = 'nomore'
         
-
         //  STAGE success，fetch data
         const fetchedData = res.map((item) => {
-            // img info
-            let height = Math.round(item.height / item.width * consts.POST.WIDTH);
-            if (height < consts.POST.MIN_HEIGHT) {
+            let height;
+            if (item.width == 0)
                 height = consts.POST.MIN_HEIGHT;
-            } else if (height > consts.POST.HEIGHT_MAX) {
-                height = consts.POST.HEIGHT_MAX;
+            else {
+                // img info
+                height = Math.round(item.height / item.width * consts.POST.WIDTH);
+                if (height < consts.POST.MIN_HEIGHT) {
+                    height = consts.POST.MIN_HEIGHT;
+                } else if (height > consts.POST.HEIGHT_MAX) {
+                    height = consts.POST.HEIGHT_MAX;
+                }
             }
             if (item.title.length > consts.TITLE.THRESHOLD_LEN) {
                 height += consts.TITLE.HEIGHT;

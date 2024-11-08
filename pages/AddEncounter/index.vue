@@ -114,7 +114,7 @@
 </template>
 
 <script setup>
-    import { reactive, computed, onMounted } from "vue";
+    import { reactive, computed, onMounted, onUnmounted } from "vue";
 
     import { TOAST } from "../../utils/notice";
     import color from "@/css/theme/index.module.scss";
@@ -137,7 +137,7 @@
 
     const data = reactive({
         // user_id 交给 api.js
-        animals_id: [],  // TODO 需要一个智能方便的表单 3fr
+        animals_id: [],  
         photos: [],
         title: "",
         content: "",
@@ -166,15 +166,19 @@
 
 // FUNC
     onMounted(() => {
-        uni.$on('selectedAnm', (data) => {
-            console.debug(data);
-            dataShow.animalList = data;
+        uni.$on('selectedAnm', (res) => {
+            dataShow.animalList = res;
+            data.animals_id = res.map(item => item.animal.id);
         })
     })
 
+    onUnmounted(() => {
+        uni.$off('selectedAnm');
+    });
+
     // TAG Rules
     const submitAbled = computed(() => {
-        return data.content !== ''; // TODO animals_id
+        return data.content !== '' && data.animals_id.length > 0; 
     })
 
     // TAG Image
@@ -234,6 +238,7 @@
 
     // TAG Submit
     function submitData() {
+        console.debug(data);
     }
 
 
@@ -250,7 +255,6 @@
 
 .container-top {
     width: 100vw;
-
 }
 
 .container-bottom {
