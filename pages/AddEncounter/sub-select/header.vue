@@ -22,7 +22,7 @@
                 @confirm="confirmName"
             >
                 <template #prefix>
-                    <h-icon name="tool-search_thin"/>
+                    <h-icon name="tool-search_thin" size="14"/>
                 </template>
                 <template #suffix>
                     <btnBlueTheme v-show="flag.name" text="取消" fontSize="12" @click="nameCancel"/>

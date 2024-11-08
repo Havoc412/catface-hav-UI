@@ -4,7 +4,7 @@
         :btnSize="props.btnSize"
         :customStyle="{
             'background-color': color['main-deep'],
-            color: color['main-light'],
+            color: '#fff',
             'font-weight': 'bold',
             'padding': '3px 10px',
             'font-size': props.fontSize + 'px'
