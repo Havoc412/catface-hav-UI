@@ -62,7 +62,7 @@
 
     const data = reactive({
         filterConditions: { // INFO 状态缓存。
-            status: "1,2",
+            status: "2,3",
             gender: "",
             breed: "",
             sterilization: "",

@@ -74,10 +74,10 @@
             selectedCnt.value = 0;
             // INFO 这里需要反向解析；对应 getSelectedList；
             props.startUnselectedList.forEach(item => {
-                if (item === 0)
+                if (item === 1)
                     status.value[props.tagList.length - 1] = true;
                 else
-                    status.value[item - 1] = true;
+                    status.value[item - 2] = true;
             })
         }
         refresh();
@@ -89,8 +89,8 @@
             return "";
         return status.value.map((item, index) => {
             // INFO 这里调整了 unknown 的真值；
-            const id = item ? index + 1 : null;
-            return id == props.tagList.length ? 0 : id;
+            const id = item ? index + 2 : null;
+            return id == props.tagList.length - 1 ? 1 : id;
         }).filter(item => item !== null).join(',');
     }
     
