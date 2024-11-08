@@ -1,6 +1,6 @@
 <!--目前来看还是比较专用。 By Book/index -->
 <template>
-    <view v-show="flag" class="container-btn flex-center-both" :style="{
+    <view v-show="flag || checkStatus" class="container-btn flex-center-both" :style="{
         '--bg-color': props.bgColor,
         '--right': props.right + 'rpx',
         '--bottom': props.bottom + 'rpx',
@@ -50,7 +50,7 @@
     });
 
     const checkStatus = computed(() => {
-        return props.status != props.mustStatus;
+        return props.status == props.mustStatus;
     })
 
     watch(() => props.scrollTop, (newVal) => {
@@ -63,7 +63,7 @@
 
     function checkShow(newVal) {
         // TIP 【触发时机】当向下翻动了很多，然后又向上移动的时候
-        if (checkStatus.value || newVal > scrollTop.value)
+        if (newVal > scrollTop.value)
             flag.value = false;
         else
             flag.value = true;

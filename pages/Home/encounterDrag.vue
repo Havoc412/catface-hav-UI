@@ -61,7 +61,7 @@
                 </view>
             </scroll-view>
         </view>
-        <sideTools :scrollTop="data.scrollTop" :status="flag.full" :mustStatus="true" @add="gotoAddEncounter"/>
+        <sideTools :status="flag.full" :mustStatus="true" @add="gotoAddEncounter"/>
         <placeHolder/>
     </view>
 </template>
