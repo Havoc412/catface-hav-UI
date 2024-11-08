@@ -45,7 +45,24 @@ const api = {
           }
         );
       }
-    }
+    },
+
+    async addEncounter(data) {
+      return await post(
+        `admin/encounter`,
+        {},
+        {
+          user_id: humanStore.user_id,
+          ...data
+        }
+      ).then((data) => {
+        return [data, null]
+      })
+      .catch((error) => {
+        console.log("encounter.js", error);
+        return [error, true];
+      });
+    },
 }
 
 export default api;

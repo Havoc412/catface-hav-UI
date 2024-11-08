@@ -119,7 +119,9 @@
     import { TOAST } from "../../utils/notice";
     import color from "@/css/theme/index.module.scss";
     import nginx from "../../request/nginx";
-    import api from "../../request/nlp";
+
+    import api from "../../request/encounter";
+    import apiNLP from "../../request/nlp";
     // com
     import photoGroup from "../../components/add-encounter/photoGroup.vue";
     import animals from "./sub-index/animals.vue";
@@ -225,7 +227,7 @@
         }
         // Run
         flag.titleBtn = true;
-        const title = await api.getTitle(data.content);
+        const title = await apiNLP.getTitle(data.content);
         if(flag.titleBtn)
             data.title = title;
         flag.titleBtn = false;
@@ -237,10 +239,22 @@
     }
 
     // TAG Submit
-    function submitData() {
+    async function submitData() {
         console.debug(data);
+        flag.status.type = 'loadding';
+        flag.status.show = true;
+        const [res, err] = await api.addEncounter(data);
+        if (err) {
+            flag.status.type = 'err';
+            // TODO 错误处理
+        } else {
+            flag.status.show = false;
+            // 然后跳转进详细页。
+            uni.redirectTo({
+                url: `/pages/Encounter/detail?id=${res.encounter_id}`
+            })
+        }
     }
-
 
     // router
     function gotoSelectAnm() {
