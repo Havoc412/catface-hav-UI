@@ -2,6 +2,7 @@
     <Header ref="headerRef" 
         @filterConditionsChange="filterConditionsChange"
         @name="getDataByName"
+        @nameCancel="init"
     />
     <view class="flex-vertical container-top">
         <statusWin v-if="flag.status.show" :status="flag.status.type" @reload="init()"/>
@@ -99,6 +100,9 @@
     })
 
     async function init() {
+        state.key = 0;
+        state.skip = 0;
+
         flag.status.type = "loadding";
         flag.status.show = true;
         data.catsList = await getData(consts.NUM_INIT);

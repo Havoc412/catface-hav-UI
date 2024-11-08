@@ -19,10 +19,13 @@
                     border: '5px solid #000',
                     margin: '0 10px'
                 }"
-                @confirm="emits('name', data.name)"
+                @confirm="confirmName"
             >
                 <template #prefix>
                     <h-icon name="tool-search_thin"/>
+                </template>
+                <template #suffix>
+                    <btnBlueTheme v-show="flag.name" text="取消" fontSize="12" @click="nameCancel"/>
                 </template>
             </up-input>
         </template>
@@ -57,10 +60,11 @@
     const props = defineProps({
 
     });
-    const emits = defineEmits(['filterConditionsChange', 'name']);
+    const emits = defineEmits(['filterConditionsChange', 'name', 'nameCancel']);
 
     const flag = reactive({
         filter: false,
+        name: false,
     })
     const data = reactive({
         filterConditions: { // INFO 状态缓存。
@@ -77,6 +81,17 @@
     function filterConditionsChange(filterConditions) {
         data.filterConditions = filterConditions;
         emits('filterConditionsChange');
+    }
+
+    // TAG NAME
+    function confirmName() {
+        flag.name = true;
+        emits('name', data.name);
+    }
+
+    function nameCancel() {
+        flag.name = false;
+        emits('nameCancel');
     }
 
     function getFilterConditions() {
