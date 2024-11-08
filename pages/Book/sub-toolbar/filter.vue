@@ -1,20 +1,24 @@
 <template>
     <view class="container-filter flex-vertical">
-        <view class="flex-vertical gap-5">
+        <view class="flex-vertical gap-5 container-top z-9">
             <view class="ali bold"># 条件过滤</view>
             <tip>选择后点击下方【完成】</tip>
         </view>
-        <tagBox ref="statusRef" title='学业状态' :tag-list="SchoolStatus_ZH" :startMode="true"
-            :startUnselectedList="stringToNumberArray(props.statusCache.status)" :refresh="refreshFlag" />
-        <tagBox ref="departmentRef" title='就读学部' :tag-list="Departments_ZH" :startMode="true"
-            :startUnselectedList="stringToNumberArray(props.statusCache.department)" :refresh="refreshFlag" />
-        <tagBox ref="breedRef" title='花色' :tag-list="Breed_ZH" :startMode="true"
-            :startUnselectedList="stringToNumberArray(props.statusCache.breed)" :refresh="refreshFlag" />
-        <tagBox ref="genderRef" title='性别' :tag-list="Gender_ZH" :startMode="true"
-            :startUnselectedList="stringToNumberArray(props.statusCache.gender)" :refresh="refreshFlag" />
-        <tagBox ref="sterilizationRef" title='绝育状态' :tag-list="SterilizationStatus_ZH" :startMode="false"
-            :startUnselectedList="stringToNumberArray(props.statusCache.sterilization)" :refresh="refreshFlag" />
 
+        <!-- <view class="flex-vertical container-context shrink"> -->
+            <tagBox ref="statusRef" title='学业状态' :tag-list="SchoolStatus_ZH" :startMode="true"
+                :startUnselectedList="stringToNumberArray(props.statusCache.status)" :refresh="refreshFlag" />
+            <tagBox ref="departmentRef" title='就读学部' :tag-list="Departments_ZH" :startMode="true"
+                :startUnselectedList="stringToNumberArray(props.statusCache.department)" :refresh="refreshFlag" />
+            <tagBox ref="breedRef" title='花色' :tag-list="Breed_ZH" :startMode="true"
+                :startUnselectedList="stringToNumberArray(props.statusCache.breed)" :refresh="refreshFlag" />
+            <tagBox ref="genderRef" title='性别' :tag-list="Gender_ZH" :startMode="false"
+                :startUnselectedList="stringToNumberArray(props.statusCache.gender)" :refresh="refreshFlag" />
+            <tagBox ref="sterilizationRef" title='绝育状态' :tag-list="SterilizationStatus_ZH" :startMode="false"
+                :startUnselectedList="stringToNumberArray(props.statusCache.sterilization)" :refresh="refreshFlag" />
+        <!-- </view> -->
+
+        <view class="shrink"/>
         <!--FUNC-->
         <view class="flex-center-horizontal btn-group ali">
             <u-button @click="refreshFlag = !refreshFlag" :customStyle="{
@@ -44,7 +48,6 @@
     // store
     import tip from "../../../components/com/tip.vue";
     import tagBox from "../../../components/tag/group/tagBox.vue";
-
 
 // DATA
     const props = defineProps({
@@ -87,13 +90,24 @@
 
 <style scoped>
 
+.container-top {
+    position: sticky;
+    top: 0;
+
+    padding-top: 20px;
+    padding-bottom: 10px;
+
+    background-color: #ffffff;
+}
+
 .container-filter {
-    padding: 20px;
+    padding: 0 15px;
 
     width: 70vw;
-    height: 100%;
+    height: 100vh;
 
-    gap: 25px;
+    overflow-y: scroll;
+    gap: 10px;
     
     background-color: #fff;
     border-bottom-left-radius: 20px;
@@ -102,16 +116,17 @@
 }
 
 .btn-group {
-    position: absolute;
-    bottom: 15px;
-    width: 88%;
+    position: sticky;
+    bottom: 0px;
+    width: 100%;
 
     gap: 20px;
+    padding-top: 10px;
+    padding-bottom: 20px;
     
     line-height: 18.5px;
 
     background-color: #ffffff;
-    padding: 10px 0;
 }
 
 span {

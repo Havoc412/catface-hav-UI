@@ -1,6 +1,6 @@
 <template>
     <view class="container-list flex-vertical">
-        <view class="bold" style="font-family: Alimama ShuHeiTi;">
+        <view class="bold container-top" style="font-family: Alimama ShuHeiTi;">
             # 组件显示
             <h-tip>
                 仅【双列大图】模式下有效<br />
@@ -46,6 +46,8 @@
                 </template>
             </view>
         </view>
+
+        <view class="shrink"/>
         <!--底部按钮-->
         <view class="flex-center-horizontal btn-group">
             <u-button :customStyle="{
@@ -136,13 +138,24 @@
 
 <style scoped>
 
+.container-top {
+    position: sticky;
+    top: 0;
+
+    padding-top: 20px;
+    padding-bottom: 10px;
+
+    background-color: #ffffff;
+}
+
 .container-list {
-    padding: 20px;
+    padding: 0 15px;
 
     width: 70vw;
-    height: 100%;
+    height: 100vh;
 
-    gap: 25px;
+    overflow-y: scroll;
+    gap: 10px;
     
     background-color: #fff;
     border-bottom-left-radius: 20px;
@@ -151,9 +164,9 @@
 }
 
 .btn-group {
-    position: absolute;
-    bottom: 15px;
-    width: 88%;
+    position: sticky;
+    bottom: 0px;
+    width: 100%;
 
     gap: 20px;
     
