@@ -42,11 +42,12 @@ export class Request {
         hedaer: header,
         data: data,
         success: (res) => {
-          if (res.data.code >= 200 && res.data.code < 300) {
-            // mark 一般默认会用200吧，不过也看实际了，
+          if (res.data.code == 200) {
             resolve(res.data.data);
+          } else if(res.data.code >= 100000) {
+            reject(res.data.data);
           } else {
-            // todo 错误处理
+            // todo 真正的无定义错误处理
             console.info("Request bug - success:", res);
             reject(
               new Error("Request succeeded but with a non-success status")

@@ -64,6 +64,7 @@
     import statusWin from "../../components/status-win/statusWin.vue";
     // store
     import book from "../../store/book";
+import { TOAST } from "../../utils/notice";
     const bookStore = book();
 
 // DATA
@@ -115,7 +116,8 @@
         const filterConditions = headerRef.value.getFilterConditions();
         const [res, err] = await api.getAnimalBook(num, skip, filterConditions, true);
         if (err != null) {  // 错误处理
-            flag.status.type = "error";
+            flag.loadmore = 'nomore';
+            TOAST(res, "none", 3000);
             return [];
         }
         // check more
