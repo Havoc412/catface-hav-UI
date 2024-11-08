@@ -127,7 +127,10 @@
   })
 
   async function getData(num, skip = 0) {
-    var data = await api.getAnimalStar(num, skip);
+    var [data, err] = await api.getAnimalStar(num, skip);
+    if (err != null) {  // 错误处理
+      return [];
+    }
 
     // UPDATE 检查数据长度是否小于所需的数量
     while (data.length < num) {

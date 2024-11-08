@@ -11,7 +11,14 @@ const api = {
       {},
       {},
       pass
-    );
+    )
+      .then((data) => {
+        return [data.animals, null];
+      })
+      .catch((error) => {
+        return [error, true];
+      });
+    ;
   },
 
   async getAnimalBook(num, skip, filters, pass = true) {
@@ -23,10 +30,9 @@ const api = {
     )
       .then((data) => {
         // TIP 增加一个状态的返回值，模仿 Go 函数的写法
-        return [data, null];
+        return [data.animals, null];  // INFO 不需要使用 key 值。
       })
       .catch((error) => {
-        console.log("Animal.js", error);
         return [error, true];
       });
   },
