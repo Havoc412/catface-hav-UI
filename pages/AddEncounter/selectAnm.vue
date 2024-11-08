@@ -3,6 +3,7 @@
         @filterConditionsChange="filterConditionsChange"
         @name="getDataByName"
         @nameCancel="init"
+        @finish="finish"
     />
     <view class="flex-vertical container-top">
         <statusWin v-if="flag.status.show" :status="flag.status.type" @reload="init()"/>
@@ -114,8 +115,6 @@
         const filterConditions = headerRef.value.getFilterConditions();
         const [res, err] = await api.getAnimalSelectAnm(num, skip, filterConditions, state.key, true);
 
-        console.debug(res);
-
         if (err != null) {  // 错误处理
             flag.status.type = "error";
             return [];
@@ -128,7 +127,9 @@
         state.key = res.key;
         flag.status.show = false;
         
-        return res.animals;
+        // INFO 处理过滤。
+        const filteredRes = res.animals.filter(item => !selectedAnimalsId.value.includes(item.animal.id));
+        return filteredRes;
     }
 
     async function filterConditionsChange() {
@@ -156,7 +157,7 @@
         }
         console.debug(res)
         // 过滤掉 dataSelected 中已存在的 id
-        const filteredRes = res.filter(item => !data.catsListSelected.some(selectedItem => selectedItem.animal.id === item.animal.id));
+        const filteredRes = res.filter(item => !selectedAnimalsId.value.includes(item.animal.id));
 
         data.catsList = filteredRes;
     }
@@ -197,6 +198,17 @@
     const selectedAnimalsId = computed(() => {
         return data.catsListSelected.map(item => item.animal.id);
     })
+
+    //
+    function finish() {
+        if (data.catsListSelected.length == 0) {
+            TOAST("请至少选择一位相关毛茸茸。");
+            return;
+        }
+
+        uni.$emit('selectedAnm', data.catsListSelected)
+        uni.navigateBack();
+    }
 
 </script>
 

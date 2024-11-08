@@ -2,10 +2,10 @@
 <template>
     <view class="flex-horizontal gap-10 block container-animal" @click="emits('click')">
         <view class="title">路遇毛茸茸*</view>
-        <tip v-if="!animal_list.length" fontSize="15">点击这里添加你所遇到的毛茸茸！</tip>
-        <view>
-            <template v-for="(item, index) in animal_list" :key="index">
-                <!--TODO-->
+        <tip v-if="!props.animalList.length" fontSize="15">点击这里添加你所遇到的毛茸茸！</tip>
+        <view class="flex-center-horizontal gap-5">
+            <template v-for="(item, index) in props.animalList" :key="index">
+                <pair :avatar="nginx.catsAvatar(item.animal.avatar)" :name="item.animal.name"/>
             </template>
         </view>
     </view>
@@ -15,17 +15,16 @@
     import { ref } from "vue";
 
     import tip from "../../../components/com/tip.vue";
+    import pair from "../../../components/encounter/pair.vue";
+    import nginx from "../../../request/nginx";
     // store
 // DATA
     const props = defineProps({
-
+        animalList: Array
     });
     const emits = defineEmits(['click']);
 
-    const animal_list = ref([]);
 // FUNC
-
-
 
 </script>
 

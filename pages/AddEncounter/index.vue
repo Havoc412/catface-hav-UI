@@ -8,7 +8,7 @@
             @delete="deleteImage" 
             @setFront="setFront"
         />
-        <animals @click="gotoSelectAnm"/>
+        <animals :animalList="dataShow.animalList" @click="gotoSelectAnm"/>
         <view class="block pd-10" style="padding-top: 0;">
             <up-divider dot lineColor="#000" marginTD="5"/>
 
@@ -114,7 +114,7 @@
 </template>
 
 <script setup>
-    import { reactive, computed } from "vue";
+    import { reactive, computed, onMounted } from "vue";
 
     import { TOAST } from "../../utils/notice";
     import color from "@/css/theme/index.module.scss";
@@ -149,6 +149,7 @@
 
     const dataShow = reactive({
         photos: [],
+        animalList: [],
     })
 
     const flag = reactive({
@@ -164,6 +165,13 @@
     })
 
 // FUNC
+    onMounted(() => {
+        uni.$on('selectedAnm', (data) => {
+            console.debug(data);
+            dataShow.animalList = data;
+        })
+    })
+
     // TAG Rules
     const submitAbled = computed(() => {
         return data.content !== ''; // TODO animals_id

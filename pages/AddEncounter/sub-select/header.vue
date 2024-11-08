@@ -31,7 +31,7 @@
         </template>
 
         <template #suffix>
-            <btnBlueTheme text="完成"/>
+            <btnBlueTheme text="完成" @click="emits('finish')"/>
         </template>
     </headerBase>
     <u-popup 
@@ -60,7 +60,7 @@
     const props = defineProps({
 
     });
-    const emits = defineEmits(['filterConditionsChange', 'name', 'nameCancel']);
+    const emits = defineEmits(['filterConditionsChange', 'name', 'nameCancel', 'finish']);
 
     const flag = reactive({
         filter: false,

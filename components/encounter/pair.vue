@@ -1,7 +1,7 @@
 <!--INFO 一个 Avatar + Name 的小组件；适用 User && Animal-->
 <template>
     <view class="flex-center-horizontal gap-5">
-        <up-image :src="props.avatar" height="35px" width="35px" radius="25rpx"/>
+        <up-image :src="props.avatar" height="35px" width="35px" shape="circle"/>
         <view class="no-shrink">{{ props.name }}</view>
     </view>
 </template>
