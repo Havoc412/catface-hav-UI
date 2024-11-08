@@ -14,7 +14,7 @@
                 height="230rpx" width="230rpx" mode="aspectFill" radius="10"
                 error-icon="/static/error.svg"
             />  <!--INFO 素材来源于网络-->
-            <view class="absolute" style="top: 2px; right: 5px;" @click.stop="showNickNames">
+            <view v-if="selectMode" class="absolute" style="top: 2px; right: 5px;" @click.stop="showNickNames">
                 <h-icon name="com-more" size="14"/>
             </view>
             <view v-show="nickNamesShow" class="absolute nick-names">
@@ -85,6 +85,9 @@
     // Mode
     const unselectedOnly = computed(() => {
         return props.mode === 'select-un-only'
+    })
+    const selectMode = computed(() => {
+        return props.mode.startsWith('select')
     })
 
     const flag = ref(unselectedOnly);

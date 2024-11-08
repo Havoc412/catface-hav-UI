@@ -179,6 +179,7 @@
 .container-cats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-row-gap: 2px;
     padding: 5px;
 }
 

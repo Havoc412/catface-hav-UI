@@ -174,6 +174,7 @@
 .container-cats {
     display: grid;
     grid-template-columns: var(--grid-template-columns);
+    grid-row-gap: 2px;
     padding: 5px;
 }
 
