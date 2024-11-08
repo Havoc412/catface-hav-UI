@@ -67,7 +67,8 @@
             status: "1,2",
             gender: "",
             breed: "",
-            sterilization: ""
+            sterilization: "",
+            department: "",
         },
         name: ""
     })

@@ -62,11 +62,12 @@
     // store
 // DATA
     const consts = {
-        NUM_INIT: 6,
-        NUM_SINGLE: 6
+        NUM_INIT: 4,
+        NUM_SINGLE: 4
     }
     const state = {
         skip: 0,
+        key: 0,
     }
     
     const data = reactive({
@@ -101,19 +102,21 @@
 
     async function getData(num, skip = 0) {
         const filterConditions = headerRef.value.getFilterConditions();
-        const [res, err] = await api.getAnimalBook(num, skip, filterConditions, true);
+        const [res, err] = await api.getAnimalSelectAnm(num, skip, filterConditions, state.key, true);
+
         if (err != null) {  // 错误处理
             flag.status.type = "error";
             return [];
         }
         // check more
-        if(res.length < num)
+        if(res.animals.length < num)
             flag.loadmore = 'nomore';
 
-        state.skip += res.length;
+        state.skip += res.animals.length;
+        state.key = res.key;
         flag.status.show = false;
         
-        return res;
+        return res.animals;
     }
 
     async function filterConditionsChange() {
@@ -147,7 +150,6 @@
         const index = data.catsListSelected.findIndex(item => item.animal.id == id);
         if(index == -1) {   // 没有选中; 有点多余。
             const animal = data.catsList.find(item => item.animal.id == id);
-            console.debug(animal, data.catsList, data.catsListSelected);
             data.catsListSelected.push(animal);
             data.catsList.splice(data.catsList.findIndex(item => item.animal.id == id), 1);
         }

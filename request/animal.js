@@ -37,6 +37,20 @@ const api = {
       });
   },
 
+  async getAnimalSelectAnm(num, skip, filters, key, pass = true) {
+    return await get( // 相同的接口，增加了 mode & key 的字段。
+      `admin/animal?attrs=name,avatar,gender,department&mode=prefer&key=${key}&gender=${filters.gender}&status=${filters.status}&breed=${filters.breed}&sterilization=${filters.sterilization}&department=${filters.department}&num=${num}&skip=${skip}&user_id=${humanStore.user_id}`,
+      {},
+      {},
+      pass
+    ).then((data) => {
+      return [data, null];  // animals key 字段都有用到，交给调用者处理。
+    })
+    .catch((error) => {
+      return [error, true];
+    })
+  },
+
   async getAnimalDetail(id) {
     return await get(`admin/animal/${id}`, {}, {});
   },
