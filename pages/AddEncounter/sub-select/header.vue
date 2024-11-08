@@ -3,6 +3,7 @@
         <template #prefix>
             <view class="flex-horizontal gap-10 container-tool">
                 <h-icon name="tool-filter" @click="flag.filter = true"/>
+                <h-icon name="tool-photo_thin" @click=""/>
                 <h-icon name="tool-location_thin" @click=""/>
             </view>
         </template>
