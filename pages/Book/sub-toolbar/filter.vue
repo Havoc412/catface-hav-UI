@@ -104,7 +104,7 @@
     padding: 0 15px;
 
     width: 70vw;
-    height: 100vh;
+    height: 100%;
 
     overflow-y: scroll;
     gap: 10px;
@@ -116,9 +116,9 @@
 }
 
 .btn-group {
-    position: sticky;
+    position: fixed;
     bottom: 0px;
-    width: 100%;
+    width: 63vw;
 
     gap: 20px;
     padding-top: 10px;

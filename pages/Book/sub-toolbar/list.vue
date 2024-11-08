@@ -164,9 +164,9 @@
 }
 
 .btn-group {
-    position: sticky;
+    position: fixed;
     bottom: 0px;
-    width: 100%;
+    width: 63vw;
 
     gap: 20px;
     
