@@ -107,10 +107,9 @@
     // Flag
     async function like() {
         flag.heart = !flag.heart;
-
         if (propsMode.value)
             return;
-        api.clickLike(props.id, flag.heart);
+        api.clickLike(props.id, !flag.heart); // INFO 为了适配 API，需要返回之前的状态
     }
 
     const departmentMode = computed(() => {
