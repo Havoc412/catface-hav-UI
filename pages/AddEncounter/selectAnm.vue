@@ -128,6 +128,9 @@
     }
 
     async function filterConditionsChange() {
+        state.key = 0;
+        state.skip = 0;
+
         flag.status.type = "loadding";
         flag.status.show = true;
         data.catsList = await getData(consts.NUM_INIT);
@@ -140,7 +143,6 @@
     }
 
     async function getDataByName(name) {
-        console.debug(name);
         flag.loadmore = 'nomore';
 
         const [res, err] = await api.getAnimalSelectAnmByName(name);
@@ -148,8 +150,11 @@
             flag.loadmore = 'nomore';
             return;
         }
-        console.debug(res);
-        data.catsList = res;
+        console.debug(res)
+        // 过滤掉 dataSelected 中已存在的 id
+        const filteredRes = res.filter(item => !data.catsListSelected.some(selectedItem => selectedItem.animal.id === item.animal.id));
+
+        data.catsList = filteredRes;
     }
 
     // Life
