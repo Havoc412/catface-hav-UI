@@ -1,6 +1,6 @@
 <template>
     <view class="container-list flex-vertical">
-        <view class="bold container-top" style="font-family: Alimama ShuHeiTi;">
+        <view class="bold container-top z-9" style="font-family: Alimama ShuHeiTi;">
             # 组件显示
             <h-tip>
                 仅【双列大图】模式下有效<br />
