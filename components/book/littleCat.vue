@@ -35,7 +35,7 @@
 
     import color from "@/css/theme/index.module.scss";
     import nginx from "../../request/nginx";
-    import { Gender_EN, getFrontIndex } from "../../common/consts";
+    import { Gender_EN, GetFrontIndex } from "../../common/consts";
     // com
     import departmentStatus from "./sub-cat/departmentStatus.vue";
     // store
@@ -100,7 +100,7 @@
         if(typeof props.gender === 'string')
             return `gender-${props.gender}`;
         else {
-            const name = `gender-${Gender_EN[getFrontIndex(props.gender, Gender_EN.length)]}`;
+            const name = `gender-${Gender_EN[GetFrontIndex(props.gender, Gender_EN.length)]}`;
             return name;
         }
     })

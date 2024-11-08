@@ -28,7 +28,7 @@
 
     import api from "../../request/animal";
 
-    import { Gender_EN, getFrontIndex } from "../../common/consts";
+    import { Gender_EN, GetFrontIndex } from "../../common/consts";
     // com
     import schoolStatus from "./sub-cat/schoolStatus.vue";
     import sterilizationStatus from "./sub-cat/sterilizationStatus.vue";
@@ -94,7 +94,7 @@
         if(typeof props.gender === 'string')
             return `gender-${props.gender}`;
         else {
-            const name = `gender-${Gender_EN[getFrontIndex(props.gender, Gender_EN.length)]}`;
+            const name = `gender-${Gender_EN[GetFrontIndex(props.gender, Gender_EN.length)]}`;
             return name;
         }
     })

@@ -22,7 +22,7 @@ export function getAttrIndex(value, array) { // UPDATE 目前只是 ZH 版本；
   return array.indexOf(value) + 2;
 }
 
-export function getFrontIndex(backIndex, arrayLength) {
+export function GetFrontIndex(backIndex, arrayLength) {
   if(backIndex == 1)
     return arrayLength - 1;  // 不明在最后
   else
