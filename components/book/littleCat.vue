@@ -6,7 +6,7 @@
         @click="click"
     >
         <view class="relative">
-            <view v-if="flag || unselectedOnly" class="absolute" style="top: 5px; right: 5px;">
+            <view v-if="flag || unselectedOnly" class="absolute" style="top: 5px; left: 5px;">
                 <h-icon name="status-select_full"/>
             </view>
             <up-image 
@@ -14,6 +14,12 @@
                 height="230rpx" width="230rpx" mode="aspectFill" radius="10"
                 error-icon="/static/error.svg"
             />  <!--INFO 素材来源于网络-->
+            <view class="absolute" style="top: 2px; right: 5px;" @click.stop="showNickNames">
+                <h-icon name="com-more" size="14"/>
+            </view>
+            <view v-show="nickNamesShow" class="absolute nick-names">
+                {{ props.nickNames }}
+            </view>
         </view>
         <view class="flex-horizontal gap-5">
             <view class="name">{{ props.name }}</view>
@@ -44,6 +50,10 @@
         name: {
             type: String,
             default: "毛茸茸"
+        },
+        nickNames: {
+            type: String,
+            default: "NoName"
         },
         schoolStatus: {
             type: [String, Number],
@@ -78,6 +88,8 @@
     })
 
     const flag = ref(unselectedOnly);
+    
+    const nickNamesShow = ref(false);
 // FUNC
     // STYLE
     const genderSvg = computed(() => {
@@ -98,6 +110,13 @@
             flag.value = !flag.value;
     }
 
+    function showNickNames() {
+        nickNamesShow.value = true;
+        setTimeout(() => {
+            nickNamesShow.value = false;
+        }, 3000);
+    }
+
 </script>
 
 <style scoped>
@@ -115,6 +134,21 @@
     font-family: Alimama ShuHeiTi;
     font-weight: bold;
     font-size: 16px;
+}
+
+.nick-names {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+
+    font-size: 14px;
+    padding: 2px 5px;
+
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .3) 30%, rgba(0, 0, 0, 0.6) 100%);
+    color: #fff;
+    border-radius: 0 0 5px 5px;
 }
 
 </style>        

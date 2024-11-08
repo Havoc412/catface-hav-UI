@@ -10,7 +10,8 @@
                         mode="select-un-only"
 
                         :id="item.animal.id" 
-                        :name="item.animal.name" 
+                        :name="item.animal.name"
+                        :nickNames="item.animal.nick_names"
                         :gender="item.animal.gender"
                         :schoolStatus="item.animal.schoolStatus" 
                         :sterilizationStatus="item.animal.sterilizationStatus"
@@ -26,7 +27,8 @@
                         mode="select-only"
 
                         :id="item.animal.id" 
-                        :name="item.animal.name" 
+                        :name="item.animal.name"
+                        :nickNames="item.animal.nick_names"
                         :gender="item.animal.gender"
                         :schoolStatus="item.animal.schoolStatus" 
                         :sterilizationStatus="item.animal.sterilizationStatus"
@@ -103,6 +105,8 @@
     async function getData(num, skip = 0) {
         const filterConditions = headerRef.value.getFilterConditions();
         const [res, err] = await api.getAnimalSelectAnm(num, skip, filterConditions, state.key, true);
+
+        console.debug(res);
 
         if (err != null) {  // 错误处理
             flag.status.type = "error";
