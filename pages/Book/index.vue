@@ -5,8 +5,9 @@
         <statusWin v-if="flag.status.show" :status="flag.status.type" @reload="init()"/>
         <view v-else class="flex-center-vertical">
             <view class="container-cats gap-10"  :style="{
-                '--grid-template-columns': ['repeat(' + (bookStore.threeColumn ? 3 : 2) + ', 1fr)']
+                '--grid-template-columns': bookStore.threeColumn ? '1fr 1fr 1fr' : '1fr 1fr'
             }">
+            <!--TIP wx 对这种方式不敏感  '--grid-template-columns': ['repeat(' + (bookStore.threeColumn ? 3 : 2) + ', 1fr)']-->
                 <template v-for="(item, index) in data.catsList">
                     <littleCat v-if="bookStore.threeColumn" 
                         :id="item.animal.id" 
@@ -104,6 +105,7 @@
     })
 
     async function init() {
+        console.debug("init");
         flag.status.type = "loadding";
         flag.status.show = true;
         data.catsList = await getData(consts.NUM_INIT);
