@@ -90,7 +90,7 @@
         return status.value.map((item, index) => {
             // INFO 这里调整了 unknown 的真值；
             const id = item ? index + 2 : null;
-            return id == props.tagList.length - 1 ? 1 : id;
+            return id == ( props.tagList.length + 1 ) ? 1 : id;
         }).filter(item => item !== null).join(',');
     }
     

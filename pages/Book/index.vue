@@ -1,8 +1,8 @@
 <template>
-    <Header ref="headerRef" @filterConditionsChange="filterConditionsChange" @add="gotoAddAnimal"/>
+    <Header ref="headerRef" @filterConditionsChange="init" @add="gotoAddAnimal"/>
     <view class="flex-center-vertical">
         <!--FUNC-->
-        <statusWin v-if="flag.status.show" :status="flag.status.type" @reload="init()"/>
+        <statusWin v-if="flag.status.show" :status="flag.status.type" @reload="init"/>
         <view v-else class="flex-center-vertical">
             <view class="container-cats gap-10"  :style="{
                 '--grid-template-columns': bookStore.threeColumn ? '1fr 1fr 1fr' : '1fr 1fr'
@@ -53,6 +53,7 @@
 	import { onReachBottom } from '@dcloudio/uni-app'
 
     import api from "../../request/animal";
+    import { TOAST } from "../../utils/notice";
 
     // com
     import Header from "./header.vue";
@@ -64,12 +65,11 @@
     import statusWin from "../../components/status-win/statusWin.vue";
     // store
     import book from "../../store/book";
-import { TOAST } from "../../utils/notice";
     const bookStore = book();
 
 // DATA
     const consts = {
-        NUM_INIT: 6,
+        NUM_INIT: 10,
         NUM_SINGLE: 6
     }
     const state = {
@@ -106,8 +106,9 @@ import { TOAST } from "../../utils/notice";
     })
 
     async function init() {
-        console.debug("init");
         flag.status.type = "loadding";
+        flag.loadmore = 'loadmore';
+        state.skip = 0;
         flag.status.show = true;
         data.catsList = await getData(consts.NUM_INIT);
     }
@@ -130,12 +131,6 @@ import { TOAST } from "../../utils/notice";
         return res;
     }
 
-    async function filterConditionsChange() {
-        flag.status.type = "loadding";
-        flag.status.show = true;
-        data.catsList = await getData(consts.NUM_INIT);
-    }
-
     async function loadmore() {
         console.info("loadmore");
         const res = await getData(consts.NUM_SINGLE, state.skip);
@@ -150,10 +145,6 @@ import { TOAST } from "../../utils/notice";
         flag.loadmore = 'loading';
 
         loadmore();
-
-        // setTimeout(() => {
-        //     flag.loadmore = 'loadmore';
-        // }, 1000);
     })
 
     // TAG Router
