@@ -39,7 +39,7 @@
         },
         startMode: Boolean,
         // INFO 初始被排除。
-        startUnselectedList: {
+        startUnselectedList: {  // UPDATE 这个变量名不太合适：目前的效果是 1. 如果为空，代表全选；2. 不空则代表选中。
             type: Array,
             default: () => []
         },
@@ -71,7 +71,7 @@
             selectedCnt.value = props.tagList.length;
         } else {
             status.value = Array(props.tagList.length).fill(false); // 初始化 status 数组，所有元素为 false
-            selectedCnt.value = 0;
+            selectedCnt.value = props.startUnselectedList.length;
             // INFO 这里需要反向解析；对应 getSelectedList；
             props.startUnselectedList.forEach(item => {
                 if (item === 1)
