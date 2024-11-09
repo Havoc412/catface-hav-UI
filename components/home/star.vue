@@ -9,7 +9,8 @@
       <view v-for="(item, index) in nameList" :key="index" 
         class="tag flex-center-vertical" 
         :style="tagsStyles[index]"
-        :class="{'tag-animation': animationFlag}" > <!--INFO @click="deep(index+1)"-->
+        :class="{'tag-animation': animationFlag}"
+        @click="gotoDetial(item.animal.id)"> <!--INFO @click="deep(index+1)"-->
         <!--TODO 增加 click -> detail -->
         <starItem :url="item.animal.head_img" :avatar="item.animal.avatar" :name="item.animal.name"/>
       </view>
@@ -400,6 +401,14 @@
       animateAgain();
     })
   }
+
+  // TAG Router
+  function gotoDetial(id) {
+        console.debug("Anm_id:", id);
+        uni.navigateTo({
+            url: "/pages/Detail/index?id=" + id
+        })
+    }
 
 </script>
 
