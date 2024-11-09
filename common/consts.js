@@ -83,7 +83,7 @@ export const DewormingStatus_EN = GetEnFields(DewormingStatus);
 export const DewormingStatus_ZH = GetZhFields(DewormingStatus);
 
 // Department
-export const Departments = [ // UPDATE 或许统一白色会比较好。
+export const Department = [ // UPDATE 或许统一白色会比较好。
   { zh: "信部", color: "#32cd32", en: "it" },
   { zh: "医学部", color: "#988fd0", en: "medical" },
   { zh: "工部", color: "#ff6347", en: "engine" },
@@ -94,8 +94,8 @@ export const Departments = [ // UPDATE 或许统一白色会比较好。
   { zh: "其他", color: "#988fd0", en: "other" },
 ];
 
-export const Departments_EN = GetEnFields(Departments);
-export const Departments_ZH = GetZhFields(Departments);
+export const Departments_EN = GetEnFields(Department);
+export const Departments_ZH = GetZhFields(Department);
 
 // Color
 export const Breed_ZH = [

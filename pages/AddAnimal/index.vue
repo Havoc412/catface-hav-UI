@@ -36,15 +36,15 @@
                     >
                         <nick-names @change="(nickNames) => { data.extra.nick_names = nickNames; }"/>
                     </up-form-item>
-                    <!-- Gender -->
+                    <!-- Department -->
                     <up-form-item
-                        label="性别"
-                        prop="data.gender"
+                        label="就读*"
+                        prop="data.department"
                     >
-                        <up-radio-group v-model="dataShow.gender">
+                        <up-radio-group v-model="dataShow.department">
                             <up-radio
                                 :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                                v-for="(item, index) in Gender"
+                                v-for="(item, index) in Department"
                                 :key="index"
                                 :activeColor="item.color"
                                 :label="item.zh"
@@ -94,6 +94,22 @@
                             <up-radio
                                 :customStyle="{marginBottom: '8px', marginRight: '20px'}"
                                 v-for="(item, index) in SchoolStatus"
+                                :key="index"
+                                :activeColor="item.color"
+                                :label="item.zh"
+                                :name="item.zh"
+                            ></up-radio>
+                        </up-radio-group>
+                    </up-form-item>
+                    <!-- Gender -->
+                    <up-form-item
+                        label="性别"
+                        prop="data.gender"
+                    >
+                        <up-radio-group v-model="dataShow.gender">
+                            <up-radio
+                                :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                                v-for="(item, index) in Gender"
                                 :key="index"
                                 :activeColor="item.color"
                                 :label="item.zh"
@@ -254,8 +270,8 @@
 
     import { 
         getAttrIndex, 
-        Gender, SchoolStatus, SterilizationStatus, VaccinationStatus, DewormingStatus,
-        Gender_ZH, SchoolStatus_ZH, SterilizationStatus_ZH, VaccinationStatus_ZH, DewormingStatus_ZH, Breed_ZH
+        Gender, Department, SchoolStatus, SterilizationStatus, VaccinationStatus, DewormingStatus,
+        Gender_ZH, Departments_ZH, SchoolStatus_ZH, SterilizationStatus_ZH, VaccinationStatus_ZH, DewormingStatus_ZH, Breed_ZH
     } from "../../common/consts";
     import { extractIntFromSize } from "../../utils/string";
     import { calculateBirthday } from "../../utils/date";
@@ -287,6 +303,7 @@
         breed: 0,
         gender: 0,
         status: 0,
+        department: 0,
         
         birthday: '',  // eg. 2024-10-05
         description: '',
@@ -311,6 +328,7 @@
         gender: '不明',
         breed: '',
         status: '在校',
+        department: '',
 
         photos: [],
         
@@ -396,7 +414,8 @@
         // INFO 必须手填的信息：Name、Breed、Description、
         return data.name !== ''
             && dataShow.breed !== ''
-            && data.photos.length !== 0;
+            && data.department !== ''
+            // && data.photos.length !== 0;
     })
 
 
@@ -446,6 +465,7 @@
         // STAGE-1 Format
         data.breed = getAttrIndex(dataShow.breed, Breed_ZH);
         data.gender = getAttrIndex(dataShow.gender, Gender_ZH);
+        data.department = getAttrIndex(dataShow.department, Departments_ZH);
         data.status = getAttrIndex(dataShow.status, SchoolStatus_ZH);
         data.healthy.sterilization = getAttrIndex(dataShow.sterilization, SterilizationStatus_ZH);
         data.healthy.vaccination = getAttrIndex(dataShow.vaccination, VaccinationStatus_ZH);
@@ -454,6 +474,9 @@
         // STAGE-2 提交
         flag.status = 'loadding';
         flag.show = true;
+        // TEST *2
+        // console.debug(data);
+        // return;
         const [res, err] = await api.addAnimal(data);
         if (err) {
             flag.status = 'err';
