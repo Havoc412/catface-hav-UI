@@ -1,11 +1,16 @@
 <!--目前来看还是比较专用。 By Book/index -->
 <template>
-    <view v-show="flag || checkStatus" class="container-btn flex-center-both" :style="{
-        '--bg-color': props.bgColor,
+    <view v-show="flag || checkStatus" class="flex-vertical gap-10 container-top" :style="{
         '--right': props.right + 'rpx',
         '--bottom': props.bottom + 'rpx',
-    }" @click="emits('add')">
-        <h-icon name="com-plus_m" size="20"/>
+    }">
+        <template v-for="(item, index) in DATA" :key="index">
+            <view class="container-btn flex-center-both" :style="{
+                '--bg-color': color['main-deep'],
+            }" @click="chickto(index)">
+                <h-icon :name="item.name" size="20"/>
+            </view>
+        </template>
     </view>
 </template>
 
@@ -13,6 +18,7 @@
     import { ref, computed, watch, onMounted } from "vue";
 	import { onPageScroll } from '@dcloudio/uni-app'
 
+    import color from "@/css/theme/index.module.scss";
     // store
     
 // DATA
@@ -33,13 +39,15 @@
         bottom: {
             type: [String, Number],
             default: 180
-        },
-        bgColor: {
-            type: String,
-            default: '#30444E'
         }
     });
-    const emits = defineEmits(['add']);
+    const emits = defineEmits(['add', 'reload']);
+
+    const DATA = [
+        { name: "sidetool-reload" },
+        { name: "sidetool-add" },
+    ]
+
 
     const flag = ref(false);
     const scrollTop = ref(0);
@@ -53,7 +61,7 @@
         return props.status == props.mustStatus;
     })
 
-    watch(() => props.scrollTop, (newVal) => {
+    watch(() => props.scrollTop, (newVal) => { // UPDATE 这里或许依靠 onMouted 根据 mode 设置 watch 的加载，效果会更好一些。
         checkShow(newVal);
     })
 
@@ -71,15 +79,29 @@
         scrollTop.value = newVal;
     }
 
+    // FUNCTION
+    function chickto(index) {
+        switch (index) {
+            case 1:
+                emits('add');
+                break;
+            case 0:
+                emits('reload');
+                break;
+        }
+    }
+
 </script>
 
 <style scoped>
 
-.container-btn {
+.container-top {
     position: fixed;
     right: var(--right);
     bottom: var(--bottom);
-    
+}
+
+.container-btn {
     padding: 15px;
     width: 50px;
     height: 50px;

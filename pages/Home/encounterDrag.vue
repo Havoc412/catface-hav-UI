@@ -61,7 +61,7 @@
                 </view>
             </scroll-view>
         </view>
-        <sideTools :status="flag.full" :mustStatus="true" @add="gotoAddEncounter"/>
+        <sideTools :status="flag.full" :mustStatus="true" @reload="reload" @add="gotoAddEncounter"/>
         <placeHolder/>
     </view>
 </template>
@@ -109,8 +109,8 @@
         TAB_LIST: ['最新', '关注', '热门'],
         THRESHOLD_MOVE_TO_UP: 400,
 
-        NUM_INIT: 8,
-        NUM_SINGLE: 10
+        NUM_INIT: 10,
+        NUM_SINGLE: 8
     }
     const state = reactive({
         top: 200,
@@ -244,6 +244,11 @@
         vars.skip = 0;
         vars.heightLeft = 0;
         vars.heightRight = 0;
+    }
+
+    function reload() {
+        init();
+        loadmore(consts.NUM_INIT);
     }
     
     // TAG 业务逻辑函数
@@ -405,7 +410,7 @@
         clearTimeout(timer);
     })
 
-    // router
+    // TAG Router
     function gotoAddEncounter() {
         uni.navigateTo({
             url: "/pages/AddEncounter/index"
