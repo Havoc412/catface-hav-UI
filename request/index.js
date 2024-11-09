@@ -44,7 +44,8 @@ export class Request {
         success: (res) => {
           if (res.data.code == 200) {
             resolve(res.data.data);
-          } else if(res.data.code >= 100000) {
+          } else if(res.data.code >= 100000 && res.data.data != "") {
+            // INFO 对后端返回的错误信息进行解析，目前特化处理。
             reject(res.data.data);
           } else {
             // todo 真正的无定义错误处理
