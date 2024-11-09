@@ -26,26 +26,26 @@
                 {
                     self: {
                         avatar: "/static/user.jpg",
-                        userName: "逍遥游用户1",
+                        userName: "WHUER-1",
                         likeNum: 193,
                         likeFlag: true,
                         
-                        content: "P1是在雾霾天拍出来的，雾霾天可以很好的排除轮廓和厚重感！！所以，千万不要因为天气不好而不去摄影！！P1的鸟也是真的，为了火车和鸟可以同框我等了一个小时！！！",
+                        content: "今天在路边遇到了几只流浪猫，它们看起来很可爱，但也很需要帮助。希望大家能关注这些小生命，给予它们一些温暖。",
                         time: "2023-01-21",
                     },
                     replay: [ // tag 二级评论
                         {
                             avatar: "/static/user.jpg",
-                            userName: "逍遥游用户1",
+                            userName: "WHUER-1",
                             likeNum: 43,
                             likeFlag: false,
 
-                            content: "可以说我的运气真的很不错！竟然真的可以等到！！！",
+                            content: "确实，每次看到流浪猫都会心软，希望有更多人能伸出援手。",
                             time: "2023-01-21",
                         },
                         {
                             avatar: "/static/user.jpg",
-                            userName: "逍遥游用户 TEST",
+                            userName: "WHUER-2",
                             likeNum: 0,
                             likeFlag: false,
 
@@ -55,7 +55,7 @@
                     ]
                 },
                 {
-                    // dafult
+                    // default
                 }
             ]
         }
