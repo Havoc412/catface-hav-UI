@@ -377,7 +377,6 @@
         flag.breedHumanChange = true;
     }
     const selectAge = (e, dateModeFlag) => {
-        console.debug(e.value);
         if (!dateModeFlag) {
             // show
             const parts = [];
