@@ -7,7 +7,7 @@ const api = {
   // INFO 这两个函数默认【通过：无需鉴权】
   async getAnimalStar(num, skip, pass = true) {
     return await get(
-      `admin/animal?attrs=head_img,name&num=${num}&skip=${skip}`,
+      `admin/animal?attrs=head_img,avatar,name&num=${num}&skip=${skip}`,
       {},
       {},
       pass

@@ -20,13 +20,18 @@
         name: {
             type: String,
             default: "毛茸茸"
-        }
+        },
+        avatar: String,
     });
     const emits = defineEmits([]);
 
 // FUNC
     const fetchUrl = computed(() => {
-        return api.catsHead(props.url);
+        // INFO 如果没有 Head_img, 那就先采用 Avatar。
+        if (props.url)
+            return api.catsHead(props.url);
+        else
+            return api.catsAvatar(props.avatar);
     })
     
 
