@@ -1,6 +1,6 @@
 <template>
     <view>
-        <h-tag :text="data.text" :bgColor="color['sterilization-'+data.type]"/>
+        <h-tag :text="data.text" :bgColor="color['sterilization-'+data.type]" lightHold/>
     </view>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
     <view>
-        <h-tag :text="data.text" :bgColor="color['schoolStatus-'+data.type]"/>
+        <h-tag :text="data.text" :bgColor="color['schoolStatus-'+data.type]" lightHold/>
     </view>
 </template>
 
