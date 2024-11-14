@@ -14,6 +14,7 @@ $gray-2: #3c4856;
 $blue-0: #A3CCE4;
 $blue-1: #cbf7ff;
 $blue-2: #00BFFF;
+$blue-3: #0062FF;
 
 $red-0: #E6C1BB;
 $red-1: #ffe4e0;
@@ -66,5 +67,8 @@ $orange-2: #FF974A;
             light: $orange-1;
             deep: $orange-2;
         };
+    };
+    text: {
+        highlight: $blue-3;
     }
 }

@@ -4,11 +4,8 @@
         class="flex-center-both" 
         :class="ClassObject" 
         @click="toggle"
-        :style="{
-            '--font-color': props.color,
-            '--bg-color': props.bgColor
-        }"
-        >
+        :style="getOutsideStyle"
+    >
         <text>{{ props.text }}</text>
     </view>
 </template>
@@ -35,9 +32,15 @@
             type: String,
             default: color['main-deep']  // 有点灰的颜色
         },
+        customStyle: {
+            type: Object,
+            default: () => ({})
+        },
         startSelected: Boolean,
         refresh: Boolean,
         shadow: Boolean,
+        // 保持常亮/灭
+        lightHold: Boolean,
     })
     const emits = defineEmits(['toggle'])
 
@@ -58,9 +61,18 @@
     })
 
     function toggle() {
+        if (props.lightHold)   return;
         selectedFlag.value = !selectedFlag.value;
         emits('toggle', selectedFlag.value);
     }
+
+    const getOutsideStyle = computed(() => {
+        return {
+            '--font-color': props.color,
+            '--bg-color': props.bgColor,
+            ...props.customStyle,
+        }
+    })
 
 </script>
 

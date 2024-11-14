@@ -14,18 +14,37 @@
             @changeIndex="(index) => { state.TAB_INDEX = index; }"
         />
         
+        <view v-if="data" class="container-results flex-vertical gap-10 block">
+            <view class="type-title" style="margin-top: 0;">毛茸茸</view>
+            <template v-for="item in data.animals">
+                <imgBlock mode="animal"
+                    :id="item.id" :avatar="nginx.catsAvatar(item.avatar)" :title="item.name" :content="item.description"
+                    :tagsHighlight="item.nick_names_highlight" :tags="item.nick_names_list"
+                    :animalStatus="item.status" :animalDepartment="item.department"
+                />
+            </template>
+            
+            <view class="type-title">路遇</view>
+        </view>           
         <!-- <statusWin loaddingMode="knowledge"/> -->
     </view>
 </template>
 
 <script setup>
     import { ref, reactive } from "vue";
+
+    import api from "../../request/search";
+    import { TOAST } from "../../utils/notice";
+    import nginx from "../../request/nginx";
     // com
     import tabGroup from "../../components/home/tabGroup.vue";
+    
+    import imgBlock from "../../components/search/img-block.vue";
+    import textBlock from "../../components/search/text-block.vue";
+
     import statusWin from "../../components/status-win/statusWin.vue";
     // store
 // DATA
-    const inputValue = ref("");
     
     const consts = {
         INPUT_MARGIN_TOP_INIT: 200,
@@ -38,9 +57,19 @@
         TAB_INDEX: 0,  // API 根据这个进行调整，
     })
 
+    const data = ref(null);
+
 // FUNC
-    function confirm() {
+    async function confirm(e) {
         state.INPUT_MARGIN_TOP = consts.INPUT_MARGIN_TOP_END;
+        
+        const query = e.detail.value;
+        if (query == "") {
+            TOAST("请输入查询内容");
+            return;            
+        }
+        data.value = await api.search(query);
+        console.debug(data.value);
     }
 
 </script>
@@ -68,6 +97,15 @@
 
 .input {
     font-size: 20px;
+}
+
+.container-results {
+    padding: 0 20px;
+}
+
+.type-title {
+    font-weight: bold;
+    margin-top: 10px;
 }
 
 </style>        
