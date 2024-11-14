@@ -7,7 +7,7 @@
                 <rich-text :nodes="props.title"/>
             </view>
             <view style="min-height: 10px;">
-                <tagGroup mode="highlight" :list="props.tags" :listHighlight="props.tagsHighlight"/>
+                <tagGroup mode="highlight" :list="tagsFilterHighlight" :listHighlight="props.tagsHighlight"/>
             </view>
             <view class="content relative">
                 <rich-text :nodes="sliceContent"/>
@@ -59,8 +59,14 @@
             type: String,
             default: "Content Default"
         },
-        tagsHighlight: Array,
-        tags: Array,
+        tagsHighlight: {
+            type: Array,
+            default: () => []
+        },
+        tags: {
+            type: Array,
+            default: () => []
+        },
         // TAG animal
         animalStatus: Number,
         animalDepartment: Number,
@@ -82,6 +88,11 @@
             return props.content.slice(0, MAX_LEN) + '...'; // 截断并添加省略号
         else
             return props.content;
+    })
+
+    // 实现一个简单的过滤。
+    const tagsFilterHighlight = computed(() => {
+        return props.tags.filter(tag => !props.tagsHighlight.includes(tag));
     })
 
 </script>

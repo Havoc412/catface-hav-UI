@@ -4,7 +4,7 @@
             '--margin-top': state.INPUT_MARGIN_TOP + 'px',
         }" >
             <input class="input" focus confirm-type="search" 
-                placeholder="在这里输入你想知道的"
+                placeholder="在这里输入查询语句"
                 placeholder-style="font-size: 16px"
                 @confirm="confirm"
             />
@@ -42,7 +42,7 @@
                 />
             </template>
         </view>           
-        <!-- <statusWin loaddingMode="knowledge"/> -->
+        <statusWin v-if="flag.status.show" :status="flag.status.type" mode="block" loaddingMode="knowledge"/>
     </view>
 </template>
 
@@ -75,6 +75,13 @@
 
     const data = ref(null);
 
+    const flag = reactive({
+        status: {
+            show: false,
+            type: "loadding"
+        }
+    })
+
 // FUNC
     async function confirm(e) {        
         const query = e.detail.value;
@@ -82,14 +89,20 @@
             TOAST("请输入查询内容");
             return;            
         }
-        data.value = await api.search(query);
+        
+        flag.status.show = true;
+        
+        setTimeout(async() => {
+            data.value = await api.search(query);
+            flag.status.show = false;
 
-        if (data.value.animals || data.value.encounters || data.value.knowledges) {
-            state.INPUT_MARGIN_TOP = consts.INPUT_MARGIN_TOP_END;            
-        } else {
-            state.INPUT_MARGIN_TOP = consts.INPUT_MARGIN_TOP_INIT;
-            TOAST("小护翻遍了资料库，但没有找到。😿")
-        }
+            if (data.value.animals || data.value.encounters || data.value.knowledges) {
+                state.INPUT_MARGIN_TOP = consts.INPUT_MARGIN_TOP_END;            
+            } else {
+                state.INPUT_MARGIN_TOP = consts.INPUT_MARGIN_TOP_INIT;
+                TOAST("小护翻遍了资料库，但没有找到。😿")
+            }
+        }, 2000)
     }
 
 </script>
