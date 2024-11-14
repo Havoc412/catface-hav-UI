@@ -4,6 +4,9 @@
 	import usePhoneInforStore from "./store/phoneInfor";
 	const phoneInforStore = usePhoneInforStore();
 
+	// import knowledge from "./store/knowledge";  // BUG 这里直接引用会出问题。
+    // const knowledgeStore = knowledge();
+
 	onLaunch(() => {
 		console.log('App Launch!')
 		const infor = uni.getWindowInfo();
@@ -11,6 +14,9 @@
 		// console.info(infor.statusBarHeight);
 		// console.info(infor.windowWidth);
 		phoneInforStore.setPhoneInfor(infor);
+
+		// Knoeledge INIT
+		// knowledgeStore.InitKnowledge();
 	})
 	onShow(() => {
 		console.log('App Show!') 

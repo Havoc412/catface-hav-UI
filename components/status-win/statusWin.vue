@@ -1,7 +1,7 @@
 <template>
     <view v-show="!flag.hide" class="container-loadding flex-center-both" :class="props.mode">
         <loaddingCat v-if="flag.loadding" 
-            loadding 
+            :mode="props.loaddingMode" 
             :loaddingText="props.loaddingText"
             size="300rpx"
         />
@@ -18,18 +18,24 @@
 
 // DATA
     const props = defineProps({
-      status: {
-        type: String,
-        default: "loadding"
-      },
-      loaddingText: {
-        type: String,
-        default: "Loading"
-      },
-      mode: {
-        type: String,
-        default: "full" // block // INFO full 全屏； block 区块  // TODO block 暂时没有设定特殊点。
-      }
+        // Top
+        status: {
+            type: String,
+            default: "loadding"
+        },
+        mode: {
+            type: String,
+            default: "full" // block // INFO full 全屏； block 区块  // TODO block 暂时没有设定特殊点。
+        },
+        // TAG loadding
+        loaddingMode: {
+            type: String,
+            default: "text" // knowledge
+        },
+        loaddingText: {
+            type: String,
+            default: "Loading"
+        },
     });
     const emits = defineEmits(['reload']);
     

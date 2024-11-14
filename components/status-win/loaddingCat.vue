@@ -9,11 +9,18 @@
                 '--width': props.size
             }" 
         />
-        <view v-if="props.loadding" class="flex-center-both loadding-text">
+        <view v-if="props.mode == 'text'" class="flex-center-both loadding-text">
             {{ props.loaddingText }}
             <template v-for="index in 3">
                 <span v-show="pointNum >= index">.</span>
             </template>
+        </view>
+        <view v-else-if="props.mode == 'knowledge' && knowledge" class="flex-center-vertical gap-5 container-knowledge" :style="{
+            '--knowledge-width': props.knowledgeWidth,
+        }" @click="knowledge = knowledgeStore.Next()">
+            <!-- <view>{{ knowledge.dirs[knowledge.dirs.] }}</view> -->
+            <view class="knowledge-title">{{ knowledge.title }}</view>
+            <view>{{ knowledge.content }}</view>
         </view>
     </view>
 </template>
@@ -21,6 +28,8 @@
 <script setup>
     import { ref, computed, onMounted, onUnmounted } from "vue";
     // com
+    import knowledgeS from "../../store/knowledge";
+    const knowledgeStore = knowledgeS();
     // store
 
 // DATA
@@ -29,10 +38,17 @@
             type: String,
             default: "50%"
         },
-        loadding: Boolean,
+        mode: {
+            type: String,
+            default: "text" // knowledge
+        },
         loaddingText: {
             type: String,
             default: "Loading"
+        },
+        knowledgeWidth: {
+            type: String,
+            default: "80vw"
         }
     })
 
@@ -47,11 +63,12 @@
     const scale = ref(1);
     const opacity = ref(1);
 
+    const knowledge = ref(null);
+
 // FUNC
-    onMounted(() => {
+    onMounted(async() => {
         // init
         index.value = getRandomNumber();
-
         interval = setInterval(() => {
             shrinkTransition();
             setTimeout(() => {
@@ -60,13 +77,21 @@
             }, ANIMATION_TIME);
         }, TIME_OUT);
 
-        intervalPoint = setInterval(() => {
-            pointNum.value = (pointNum.value + 1) % 4;
-        }, ANIMATION_POINT_TIME);
+        // depent Mode to choose show way.
+        if (props.mode === 'text') {
+            intervalPoint = setInterval(() => {
+                pointNum.value = (pointNum.value + 1) % 4;
+            }, ANIMATION_POINT_TIME);
+        } else if (props.mode === 'knowledge') {
+            knowledge.value = await knowledgeStore.InitKnowledge();
+        } else {
+            console.error("mode:", props.mode, "is not supported.");
+        }
     })
     onUnmounted(() => {
         clearInterval(interval);
-        clearInterval(intervalPoint);
+        if (intervalPoint) clearInterval(intervalPoint);
+        
     })
 
     const imgPath = computed(() => {
@@ -122,6 +147,14 @@
     font-size: 20px;
 
     transform: translateY(-50px);
+}
+
+.container-knowledge {
+    width: var(--knowledge-width);
+}
+
+.knowledge-title {
+    font-weight: bold;
 }
 
 @keyframes fadeInBig {

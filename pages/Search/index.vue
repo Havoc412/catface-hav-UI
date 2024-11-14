@@ -1,6 +1,6 @@
 <template>
     <view>
-        <statusWin/>
+        <statusWin loaddingMode="knowledge"/>
     </view>
 </template>
 
