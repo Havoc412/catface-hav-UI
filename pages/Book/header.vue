@@ -10,8 +10,12 @@
             </view>
         </template>
     </headerBase>
+    <!-- TODO 尝试屏蔽滚动，失败 <view @touchmove.stop.prevent="test" style="position: fixed; height: 100vh; width: 100vw; z-index: 10075;">
+        123
+    </view> -->
     <u-popup 
-        :show="flag.list" 
+        :show="flag.list"
+        zIndex="10076"
         mode="right" 
         overlayOpacity="0.3"
         safeAreaInsetTop
@@ -37,6 +41,7 @@
     >
         <Filter :statusCache="data.filterConditions" @close="flag.filter = false" @getFilterConditions="filterConditionsChange"/>
     </u-popup>
+
 </template>
 
 <script setup>
@@ -90,6 +95,10 @@
     }
 
     defineExpose({ getFilterConditions });
+
+    // function test(e) {
+    //     console.debug(e);
+    // }
 
 </script>
 
