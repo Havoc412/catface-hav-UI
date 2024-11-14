@@ -56,8 +56,8 @@
 	}
 
 	.bg-img {
-		background-image: url("http://113.44.68.213/img/background/back-5.png");  // INFO 服务器 API
-		// background-image: url(http://localhost/background/back-5.png);
+		// background-image: url("http://113.44.68.213/img/background/back-5.png");  // INFO 服务器 API
+		background-image: url(http://localhost/background/back-5.png);
 		
 		background-repeat: repeat;
 		background-size: 70%;
