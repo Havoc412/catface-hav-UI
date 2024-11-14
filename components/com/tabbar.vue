@@ -48,10 +48,10 @@
 
 .container-main {
     width: 100%;
-    height: 68px;
+    height: 60px;
     padding: 0 120rpx;
     background-color: #30444E;
-    border-radius: 40rpx 40rpx 0 0;
+    border-radius: 10rpx 10rpx 0 0;
     box-shadow: 0px 1px 14px #000000;
 }
 
