@@ -1,6 +1,6 @@
 <!--INFO 同时适配 Animal | Encounter-->
 <template>
-    <view class="flex-top-horizontal gap-10 block relative">
+    <view class="flex-top-horizontal gap-10 block relative container-item">
         <up-image :src="props.avatar" height="90px" width="90px" radius="12px"/> <!--TODO POST IMAGE in Nginx-->
         <view class="flex-vertical shrink">
             <view class="title">
@@ -10,8 +10,8 @@
                 <tagGroup mode="highlight" :list="props.tags" :listHighlight="props.tagsHighlight"/>
             </view>
             <view class="content relative">
-                <rich-text :nodes="props.content"/>
-                <!-- {{ props.content }} -->
+                <rich-text :nodes="sliceContent"/>
+                <!-- {{ sliceContent }} -->
                 <view class="absolute" style="right: -10px; top: -2px;">
                     <h-icon name="text-quota" size="14"/>
                 </view>
@@ -69,19 +69,28 @@
         userName: String
     });
     const emits = defineEmits([]);
+    
+    const MAX_LEN = 40;
 
 // FUNC
-    const list = computed(() => {
-        if (props.tagsHighlight == null) return [];
-        const combinedTags = [...props.tagsHighlight, ...props.tags];
-        const uniqueTags = [...new Set(combinedTags)];
-        console.debug(uniqueTags);
-        return uniqueTags;
+    const sliceContent = computed(() => {
+        // UPDATE 做了一定的兼容性处理。
+        if (props.content.includes('</span>'))
+            return props.content;        
+        else if (props.content.length > MAX_LEN)
+        // 还是 JS 对中英文的计数会简单好理解很多。相比 Go 的 UTF-8，容易截出乱码。
+            return props.content.slice(0, MAX_LEN) + '...'; // 截断并添加省略号
+        else
+            return props.content;
     })
 
 </script>
 
 <style scoped>
+
+.container-item {
+    height: 100px;
+}
 
 .title {
     font-size: 16px;

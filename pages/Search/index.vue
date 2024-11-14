@@ -15,7 +15,7 @@
         />
         
         <view v-if="data" class="container-results flex-vertical gap-10 block">
-            <view v-if="data.animals" class="type-title" style="margin-top: 0;">毛茸茸</view>
+            <view v-if="data.animals" class="type-title">毛茸茸</view>
             <template v-for="item in data.animals">
                 <imgBlock mode="animal"
                     :id="item.id" :avatar="nginx.catsAvatar(item.avatar)" :title="item.name" :content="item.description"
@@ -87,6 +87,7 @@
         if (data.value.animals || data.value.encounters || data.value.knowledges) {
             state.INPUT_MARGIN_TOP = consts.INPUT_MARGIN_TOP_END;            
         } else {
+            state.INPUT_MARGIN_TOP = consts.INPUT_MARGIN_TOP_INIT;
             TOAST("小护翻遍了资料库，但没有找到。😿")
         }
     }
@@ -124,7 +125,6 @@
 
 .type-title {
     font-weight: bold;
-    margin-top: 10px;
 }
 
 </style>        
