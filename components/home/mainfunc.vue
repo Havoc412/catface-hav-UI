@@ -33,7 +33,7 @@
         },
         {
             imgPath: "/static/cats/head/3.png",
-            page: '',
+            page: 'Search',
             text: "全局搜索"
         },
     ])

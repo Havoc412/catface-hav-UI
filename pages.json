@@ -101,6 +101,13 @@
       "style": {
         "navigationBarTitleText": "选择目标毛茸茸！"
       }
+    },
+    // TAG 搜索页
+    {
+      "path": "pages/Search/index",
+      "style": {
+        "navigationBarTitleText": "搜索"
+      }
     }
   ],
   "globalStyle": {
