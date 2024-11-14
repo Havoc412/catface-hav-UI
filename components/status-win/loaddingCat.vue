@@ -54,7 +54,7 @@
         }
     })
 
-    const IMG_NUM = 14;
+    const IMG_NUM = 4;  // UPDATE 需要思考一下图片大小和打包之间的处理方式，
     const TIME_OUT = 1000;
     const ANIMATION_TIME = 400; // info 虽然动画是 .5s 但是这样效果挺好的。
     const index = ref(1);
@@ -123,7 +123,7 @@
 
         // 将随机小数映射到 1 到 14 之间的整数范围
         // 乘以 (14 - 1 + 1) + 1 是为了确保生成的随机整数包括 1 和 14
-        const randomInteger = Math.floor(randomNumber * 14) + 1;
+        const randomInteger = Math.floor(randomNumber * IMG_NUM) + 1;
 
         return randomInteger;
     }
