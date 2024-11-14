@@ -1,8 +1,8 @@
 <!--INFO 同时适配 Animal | Encounter-->
 <template>
-    <view class="flex-top-horizontal gap-10 block relative container-item">
+    <view class="flex-top-horizontal gap-10 block relative container-item" @click="gotoDetail">
         <up-image :src="props.avatar" height="90px" width="90px" radius="12px"/> <!--TODO POST IMAGE in Nginx-->
-        <view class="flex-vertical shrink">
+        <view class="flex-vertical shrink"> 
             <view class="title">
                 <rich-text :nodes="props.title"/>
             </view>
@@ -94,6 +94,17 @@
     const tagsFilterHighlight = computed(() => {
         return props.tags.filter(tag => !props.tagsHighlight.includes(tag));
     })
+
+    // TAG Router
+    function gotoDetail() {
+        let url = "/pages/";
+        if (props.mode == "animal")
+            url += "Detail/index?id=" + props.id;
+        else if (props.mode == "encounter")
+            url += "Encounter/detail?id=" + props.id;
+
+        uni.navigateTo({ url });
+    }
 
 </script>
 
