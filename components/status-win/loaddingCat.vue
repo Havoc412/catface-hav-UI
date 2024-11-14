@@ -19,7 +19,9 @@
             '--knowledge-width': props.knowledgeWidth,
         }" @click="knowledge = knowledgeStore.Next()">
             <!-- <view>{{ knowledge.dirs[knowledge.dirs.] }}</view> -->
-            <view class="knowledge-title">{{ knowledge.title }}</view>
+            <view class="knowledge-title">
+                {{ knowledge.dirs[knowledge.dirs.length-1] }} · {{ knowledge.title }}
+            </view>
             <view>{{ knowledge.content }}</view>
         </view>
     </view>

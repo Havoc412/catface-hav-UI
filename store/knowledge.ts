@@ -54,7 +54,6 @@ export default defineStore("knowledge", () => {
     cnt.value = 0;
 
     api.randomKnowledges(NUM_SINGLE).then((data) => {
-      console.debug(data);
       data.forEach( element => {  // UPDATE 目前只是一个粗糙的随机
         const index = Math.floor(Math.random() * knowledge.value.length)
         knowledge.value[index] = element;
