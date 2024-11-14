@@ -1,6 +1,6 @@
 <!--目前来看还是比较专用。 By Book/index -->
 <template>
-    <view v-show="flag || checkStatus" class="flex-vertical gap-10 container-top" :style="{
+    <view v-show="show" class="flex-vertical gap-10 container-top" :style="{
         '--right': props.right + 'rpx',
         '--bottom': props.bottom + 'rpx',
     }">
@@ -23,6 +23,10 @@
     
 // DATA
     const props = defineProps({
+        showMode: {
+            type: String,
+            default: "only-stauts" // both
+        },
         // data
         scrollTop: { // Used by scrollView, not Page
             type: Number,
@@ -52,14 +56,20 @@
         { name: "sidetool-add" },
     ]
 
-
     const flag = ref(false);
     const scrollTop = ref(0);
 // FUNC
     onMounted(() => {
         if (typeof props.status != typeof props.mustStatus)
-            return console.error('[Book] add-btn: status 和 mustStatus 类型不一致。'); 
+            console.error('[Book] add-btn: status 和 mustStatus 类型不一致。'); 
     });
+
+    const show = computed(() => {
+        if (props.showMode == 'only-stauts')
+            return checkStatus.value;
+        else
+            return flag.value && checkStatus.value;
+    })
 
     const checkStatus = computed(() => {
         return props.status == props.mustStatus;

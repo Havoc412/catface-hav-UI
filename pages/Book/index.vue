@@ -44,7 +44,7 @@
         </view>
     </view>
     <!-- UPDATE 感觉不是很有必要，同时可以放到 tools 内部。 <up-back-top :scroll-top="flag.scrollTop" top="100"/> -->
-    <sideTools :status="flag.loadmore" mustStatus="nomore" @add="gotoAddAnimal"/>
+    <sideTools showMode="both" :status="flag.loadmore" mustStatus="nomore" @add="gotoAddAnimal"/>
     <h-tabbar/>
 </template>
 
