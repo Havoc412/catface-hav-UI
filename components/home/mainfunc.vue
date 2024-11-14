@@ -22,17 +22,17 @@
 
     const FuncList = ref([
         {
-            imgPath: "/static/cats/head/1.png",
+            imgPath: "/static/cats-head/1.png",
             page: "CatFace",
             text: "猫脸识别"
         },
         {
-            imgPath: "/static/cats/head/2.png",
+            imgPath: "/static/cats-head/2.png",
             page: "Rag",
             text: "对话小护"
         },
         {
-            imgPath: "/static/cats/head/3.png",
+            imgPath: "/static/cats-head/3.png",
             page: 'Search',
             text: "全局搜索"
         },

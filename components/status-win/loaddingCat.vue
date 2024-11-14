@@ -1,5 +1,6 @@
 <template>
     <view class="flex-center-vertical half-container">
+        <!-- image -->
         <image :src="imgPath" 
             class="image-loadding"
             :style="{ 
@@ -9,6 +10,7 @@
                 '--width': props.size
             }" 
         />
+        <!-- TAG text -->
         <view v-if="props.mode == 'text'" class="flex-center-both loadding-text">
             {{ props.loaddingText }}
             <template v-for="index in 3">
@@ -97,7 +99,7 @@
     })
 
     const imgPath = computed(() => {
-        return "/static/cats/head/" + index.value.toString() + ".png";
+        return "/static/cats-head/" + index.value.toString() + ".png";
     })
 
     const nextImg = () => {
@@ -116,12 +118,12 @@
         opacity.value = 1; // Reset opacity
     };
 
-    // init // info 随机获取 1 ~ 14 中的一个整数
+    // init
     function getRandomNumber() {
         // 使用 Math.random() 生成 0 到 1 之间的随机小数
         const randomNumber = Math.random();
 
-        // 将随机小数映射到 1 到 14 之间的整数范围
+        // 将随机小数映射到 1 到 IMG_NUM(eg. 14) 之间的整数范围
         // 乘以 (14 - 1 + 1) + 1 是为了确保生成的随机整数包括 1 和 14
         const randomInteger = Math.floor(randomNumber * IMG_NUM) + 1;
 

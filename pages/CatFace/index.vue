@@ -53,7 +53,7 @@
                 <h-icon name="tool-info"/>
                 <view class="attation">小护提醒！</view>
             </view>
-            <up-image src="/static/info/danger.jpg" radius="5"/>
+            <up-image :src="nginx.static('/img/info/danger.jpg')" radius="5"/>
         </view>
     </view>
     <!--一些辅助用 悬浮窗-->
@@ -66,6 +66,7 @@
 
     import { CAT_FACE_URL } from "../../common/setting";
 
+    import nginx from "../../request/nginx";
     // com
     import catItem from "../../components/catface/catItem.vue";
     import catForm from "../../components/catface/form.vue";
