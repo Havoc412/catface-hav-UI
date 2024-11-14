@@ -1,9 +1,11 @@
 <template>
     <view v-show="!flag.hide" class="container-loadding flex-center-both" :class="props.mode">
-        <loaddingCat v-if="flag.loadding" 
-            :mode="props.loaddingMode" 
+        <loaddingCat 
+            v-if="flag.loadding" 
+            :textMode="props.loaddingTextMode" 
             :loaddingText="props.loaddingText"
-            size="300rpx"
+            :imgMode="props.loaddingImgMode"
+            :size="props.loaddingImgSize"
         />
         <err v-if="flag.err" @click="emits('reload')"/>
     </view>
@@ -12,7 +14,7 @@
 <script setup>
     import { reactive, watch, onMounted } from "vue";
     // com
-    import loaddingCat from "./loaddingCat.vue";
+    import loaddingCat from "./loadding.vue";
     import err from "./err.vue";
     // store
 
@@ -28,7 +30,7 @@
             default: "full" // block // INFO full 全屏； block 区块  // TODO block 暂时没有设定特殊点。
         },
         // TAG loadding
-        loaddingMode: {
+        loaddingTextMode: {
             type: String,
             default: "text" // knowledge
         },
@@ -36,6 +38,15 @@
             type: String,
             default: "Loading"
         },
+        loaddingImgMode: {
+            type: String,
+            default: "single"
+        },
+        loaddingImgSize: {
+            type: String,
+            default: "300rpx"
+        },
+        // TAG err
     });
     const emits = defineEmits(['reload']);
     

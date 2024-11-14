@@ -7,6 +7,7 @@
             <input class="input" focus confirm-type="search" 
                 placeholder="在这里输入查询词句"
                 placeholder-style="font-size: 16px"
+                :value="state.inputValue"
                 @confirm="confirm"
             />
             <h-icon name="tool-search_thin" size="25" @click="confirm"/>
@@ -42,8 +43,13 @@
                     :title="item.title" :content="item.content"
                 />
             </template>
-        </view>           
-        <statusWin v-if="flag.status.show" :status="flag.status.type" mode="block" loaddingMode="knowledge"/>
+        </view>
+        <!-- status -->  
+        <statusWin v-if="flag.status.show" 
+            :status="flag.status.type" 
+            mode="block" loaddingTextMode="knowledge"
+            loaddingImgMode="necklace" loaddingImgSize="40px"
+        />
     </view>
 </template>
 
@@ -75,6 +81,7 @@
         INPUT_MARGIN_TOP: consts.INPUT_MARGIN_TOP_INIT,
         TAB_INDEX: 0,  // API 根据这个进行调整，
         INPUT_HEIGHT: consts.INPUT_HEIGHT_INIT,
+        inputValue: "",  // 借此实现 input 缓存的效果。
     })
 
     const data = ref(null);
@@ -87,9 +94,10 @@
     })
 
 // FUNC
-    async function confirm(e) {        
-        const query = e.detail.value;
-        if (query == "") {
+    async function confirm(e) {  
+        if (e.detail.value)
+            state.inputValue = e.detail.value;      
+        if (state.inputValue == "") {
             TOAST("请输入查询内容");
             return;            
         }
@@ -98,7 +106,7 @@
         flag.status.show = true;
         
         setTimeout(async() => {  // TEST  模拟一个延时的效果
-            data.value = await api.search(query);
+            data.value = await api.search(state.inputValue);
             flag.status.show = false;
 
             if (data.value.animals || data.value.encounters || data.value.knowledges) {
