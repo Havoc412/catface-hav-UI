@@ -5,7 +5,7 @@
         '--bottom': props.bottom + 'rpx',
     }">
         <template v-for="(item, index) in DATA" :key="index">
-            <view class="container-btn flex-center-both" :style="{
+            <view v-if="props.show[index]" class="container-btn flex-center-both" :style="{
                 '--bg-color': color['main-deep'],
             }" @click="chickto(index)">
                 <h-icon :name="item.name" size="20"/>
@@ -39,6 +39,10 @@
         bottom: {
             type: [String, Number],
             default: 180
+        },
+        show: {  // INFO 和下方 DATA 对应，按钮的是否显示。
+            type: Array,
+            default: [false, true]
         }
     });
     const emits = defineEmits(['add', 'reload']);
@@ -82,11 +86,11 @@
     // FUNCTION
     function chickto(index) {
         switch (index) {
-            case 1:
-                emits('add');
-                break;
             case 0:
                 emits('reload');
+                break;
+            case 1:
+                emits('add');
                 break;
         }
     }
