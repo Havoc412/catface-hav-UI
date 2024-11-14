@@ -16,14 +16,21 @@
 </template>
 
 <script setup>
-    import { ref, watch } from "vue";
+    import { onMounted, ref, watch, onBeforeUnmount } from "vue";
 
     import color from "@/css/theme/index.module.scss";
     // store
 // DATA
     const props = defineProps({
         tabList: Array,
-        hiddenTrigger: Boolean,
+        mode: {
+            type: String,
+            default: "watch" // light
+        },
+        hiddenTrigger: {
+            type: Boolean,
+            default: true
+        },
     });
     const emits = defineEmits(['changeIndex']);
 
@@ -35,9 +42,27 @@
     const tabIndex = ref(0);
     
 // FUNC
-    watch(() => props.hiddenTrigger, (newVal) => {
-        height.value = newVal ? 0 : consts.HEIGHT_INIT;
+    onMounted(() => {
+        if (props.mode == 'light')
+            height.value = consts.HEIGHT_INIT;
+        else if (props.mode == 'watch') {
+            // 动态创建 watch
+            const stopWatch = watch(() => props.hiddenTrigger, (newVal) => {
+                height.value = newVal ? 0 : consts.HEIGHT_INIT;
+            });
+
+            // 清理监听器
+            onBeforeUnmount(() => {
+                stopWatch();
+            });
+        } else {
+            console.error('mode 值不合法', props.mode);
+        }
     })
+
+    // watch(() => props.hiddenTrigger, (newVal) => {
+    //     height.value = newVal ? 0 : consts.HEIGHT_INIT;
+    // })
 
     const change = (index) => {
         if(index != tabIndex.value) {
