@@ -2,13 +2,27 @@
     <view class="container-chip-group" :class="{'scroll': props.scroll}" :style="{
         '--container-width': props.containerWidthPrecent + '%',
     }">
+        <template v-if="props.mode == 'highlight'">
+            <template v-for="(item, index) in props.listHighlight" :key="index">
+                <view class="item">
+                    <h-tag
+                        mode="hollow"
+                        :text="item"
+                        :lightHold="true"
+                        :startSelected="true"
+                        :customStyle="tagStyle"
+                   />
+                </view>
+            </template>
+        </template>
+        <!--INFO 常规部分-->
         <template v-for="(item, index) in data" :key="index">
             <view class="item">
                 <h-tag
                     mode="hollow"
                     :text="item"
                     :lightHold="props.mode == 'highlight'"
-                    :startSelected="startSelected(index)"
+                    :startSelected="startSelected"
                     :customStyle="tagStyle"
                 />
             </view>
@@ -38,20 +52,17 @@
             default: () => []
         },
         // TAG highlight
+        listHighlight: Array
     });
     const emits = defineEmits([]);
 
     const data = ref(props.list);
 
 // FUNC
-    function startSelected(index) {
-        // return computed(() => {
+    const startSelected = computed(() => {
         if (props.mode == 'highlight')
-            return index == 0;
-        else
-            return false;
-        // })
-    }
+            return false
+    })
 
     const tagStyle = computed(() => {
         if (props.mode == 'highlight')
@@ -72,7 +83,5 @@
     flex-wrap: wrap;
     gap: 5px;
 }
-
-
 
 </style>        

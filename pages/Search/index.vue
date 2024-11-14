@@ -15,7 +15,7 @@
         />
         
         <view v-if="data" class="container-results flex-vertical gap-10 block">
-            <view class="type-title" style="margin-top: 0;">毛茸茸</view>
+            <view v-if="data.animals" class="type-title" style="margin-top: 0;">毛茸茸</view>
             <template v-for="item in data.animals">
                 <imgBlock mode="animal"
                     :id="item.id" :avatar="nginx.catsAvatar(item.avatar)" :title="item.name" :content="item.description"
@@ -24,7 +24,23 @@
                 />
             </template>
             
-            <view class="type-title">路遇</view>
+            <view v-if="data.encounters" class="type-title">路遇</view>
+            <template v-for="item in data.encounters">
+                <imgBlock
+                    mode="encounter"
+                    :id="item.id" :avatar="nginx.encounterAvatar(item.avatar)" :title="item.title" :content="item.content"
+                    :tagsHighlight="item.tags_highlight" :tags="item.tags"
+                    :userAvatar="nginx.humAvatar(item.user_avatar)" :userName="item.user_name"
+                />
+            </template>
+
+            <view v-if="data.knowledges" class="type-title">科普</view>
+            <template v-for="item in data.knowledges">
+                <textBlock
+                    :dirs="item.dirs"
+                    :title="item.title" :content="item.content"
+                />
+            </template>
         </view>           
         <!-- <statusWin loaddingMode="knowledge"/> -->
     </view>
@@ -60,16 +76,19 @@
     const data = ref(null);
 
 // FUNC
-    async function confirm(e) {
-        state.INPUT_MARGIN_TOP = consts.INPUT_MARGIN_TOP_END;
-        
+    async function confirm(e) {        
         const query = e.detail.value;
         if (query == "") {
             TOAST("请输入查询内容");
             return;            
         }
         data.value = await api.search(query);
-        console.debug(data.value);
+
+        if (data.value.animals || data.value.encounters || data.value.knowledges) {
+            state.INPUT_MARGIN_TOP = consts.INPUT_MARGIN_TOP_END;            
+        } else {
+            TOAST("小护翻遍了资料库，但没有找到。😿")
+        }
     }
 
 </script>
