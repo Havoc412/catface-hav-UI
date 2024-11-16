@@ -1,5 +1,5 @@
 <template>
-    <view class="flex-vertical">
+    <view class="flex-vertical relative">
         <view class="flex-top-horizontal">
             <view class="flex-top-horizontal gap-10" @click="showLogin">
                 <view class="avatar">
@@ -21,6 +21,7 @@
             background-color: #AEC4EA;
             transform: translate(-20px, 20px); /* 向 x 轴偏移 -20px，y 轴偏移 20px */">
         </view>
+        <view class="absolute z-9" style="bottom: 80px; font-size: 12px;">VERSION: {{ VERSION }}</view>
     </view>
     <!--INFO Login Modal-->
     <u-popup :show="flag.login" mode="bottom" @close="flag.login = false" round="12">
@@ -30,6 +31,8 @@
 
 <script setup>
     import { reactive } from "vue";
+
+    import { VERSION } from "../../common/setting";
     // com
     import loginModal from "../../components/login/login-modal.vue";
     // store

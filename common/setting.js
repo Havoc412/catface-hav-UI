@@ -1,7 +1,7 @@
 const DEBUG = true;
 
 let baseUrl, nginxUrl, catFaceUrl;
-if (DEBUG) {
+if (!DEBUG) {
   baseUrl = "http://127.0.0.1:20201/";  // 开发环境
   catFaceUrl = "http://127.0.0.1:8000/"
   nginxUrl = "http://127.0.0.1/";
@@ -15,3 +15,5 @@ if (DEBUG) {
 }
 
 export { baseUrl as BASE_URL, nginxUrl as BASE_NGINX_URL, DEBUG, catFaceUrl as CAT_FACE_URL };
+
+export const VERSION = "0.0.4"

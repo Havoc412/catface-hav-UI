@@ -15,21 +15,21 @@
         <view class="flex-equal-horizontal gap-10 block">
             <view class="flex-vertical gap-10 block">
                 <blockWin height="25" bgc="#3ED598"
-                    url="/static/cats/head/4.png"
+                    url="/static/cats-head/3.png"
                     text="Func One"/>
                 <blockWin height="30" bgc="#FF565E"
                     position-type="mid" bottom="-50"
-                    url="/static/cats/head/1.png"
+                    url="/static/cats-head/1.png"
                     text="Func Three"/>
             </view>
             <view class="flex-vertical gap-10 block">
                 <blockWin height="30" bgc="#FFC542"
                     position-type="right"
-                    url="/static/cats/head/2.png"
+                    url="/static/cats-head/4.png"
                     text="Func Two"/>
                 <blockWin height="25" bgc="#3ED598"
                     position-type="mid" bottom="-50"
-                    url="/static/cats/head/3.png"
+                    url="/static/cats-head/3.png"
                     text="Func Four"/>
             </view>
         </view>
