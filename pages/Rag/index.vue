@@ -8,12 +8,13 @@
                 <ai-bubble v-if="item.side" 
                     :avatar="talkStore.avatar"
                     :content="item.content"
-                    :word-by-word="index === talkStore.lastIndex && talkStore.loading"
+                    :word-by-word="index === talkStore.lastIndex && talkStore.loadding"
                 />
                 <user-bubble v-else :text="item.text"/>
             </template>
         </view>
-        <ai-tabbar/>
+        <placeHolder height="300"/> <!--稍微高一些，更好的阅读效果。-->
+        <ai-tabbar/>  <!--TODO 这里需要获取信息-->
     </view>
 </template>
 
@@ -27,6 +28,7 @@
     import aiBubble from "../../components/rag/bubble/ai.vue";
     import userBubble from "../../components/rag/bubble/user.vue";
 
+    import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     import aiTabbar from "../../components/rag/tabbar.vue";
     // store
     import { aiTalk } from "../../store/aiTalk";

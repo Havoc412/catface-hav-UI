@@ -9,13 +9,15 @@
                 <span v-if="!props.wordByWord" :class="item.type">{{ item.text }}</span>
                 <word-by-word v-else :classCustom="item.type" :text="item.text"/>
             </template>
+            <!--表示加载中的 ... -->
+            <span v-if="props.wordByWord">...</span>
         </view>
     </view>
 </template>
 
 <script setup>
     import { ref } from "vue";
-    // comVGBBBBBBBBB
+    // com
     import wordByWord from "./wbw.vue";
     // store
 // DATA
@@ -40,7 +42,6 @@
 </script>
 
 <style scoped>
-
 .container {
     justify-content: flex-start;
     padding: 0 10rpx;
@@ -64,14 +65,14 @@
 /* animation */
 .loader {
     position: absolute;
-    right: -2px;
-    bottom: -2px;
+    right: -5px;
+    bottom: -5px;
 
-    border: 1px solid #6464646b; /* 浅灰色背景 */
-    border-top: 2px solid #000000; /* 蓝色 */
+    border: 2px solid #DAE2E6;
+    border-top: 3px solid #3DD598;
     border-radius: 50%;
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     animation: spin 2s linear infinite;
 
     background-color: #fff;

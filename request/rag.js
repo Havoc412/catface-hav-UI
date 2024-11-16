@@ -1,35 +1,17 @@
 import { post } from "./api";
-import { BASE_URL } from "../common/setting";
 
-async function chatCommon(query) {
-    try {
-        const res = await post("api/rag/common_query/", {}, {
-            'query': query
-        });
-        console.info(res);
-        return res.answer;
-    } catch(error) {
-        console.info(error);
-        return "";
+const api = {
+    async query(query) {
+        return await post(
+            'admin/rag/default_talk',
+            {},
+            {
+                query: query
+            }
+        ).then((data) => {
+            return data.answer
+        })
     }
 }
 
-async function detectHelp(query, cats_id) {
-    try {
-        const res = await post("api/rag/detect_help/", {}, {
-            query: query,
-            cats_id: cats_id
-        }
-        );
-        console.info(res);
-        return res.answer;
-    } catch (error) {
-      console.info(error);
-      return "";
-    }
-}
-
-export default {
-  query: chatCommon,
-  detectCat: detectHelp
-};
+export default api;

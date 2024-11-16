@@ -45,7 +45,7 @@
         // INFO cat 定位方式
         url: {
             type: String,
-            default: "/static/cats/head/10.png"
+            default: "/static/cats-head/2.png"
         },
         bottom: {
             type: [Number, String],

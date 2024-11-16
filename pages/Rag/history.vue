@@ -1,7 +1,10 @@
 <template>
-    <view class="container-history">
-        <timeBlock/>
+    <view class="flex-center-both">
+        小护奋力 coding 中！！！
     </view>
+    <!-- <view class="container-history">
+        <timeBlock/>
+    </view> -->
 </template>
 
 <script setup>
