@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 // import api from "../request/rag";
-import { BASE_URL } from "../common/setting";
+import { WSS_URL } from "../common/setting";
 
 import { Cat } from "../models/catInfor";
 
@@ -40,7 +40,6 @@ export const aiTalk = defineStore("aiTalkContent", {
       name: "小护",
       history: [],
       loadding: false,
-      loaddingClear: false,
 
       // tag detect_cat
       mode: "default", // || detect_cat || knowledge
@@ -78,7 +77,6 @@ export const aiTalk = defineStore("aiTalkContent", {
       // AI
       const aiMsgTemp = createAiMessage();
       this.history.push(aiMsgTemp);
-      this.loaddingClear = false;
       this.loadding = true;
 
       // INFO v1 http 版本
@@ -106,32 +104,50 @@ export const aiTalk = defineStore("aiTalkContent", {
       // this.loadding = false;
 
       // INFO v2 sse 版本
-      const sse = new EventSource(  // TIP 好像只能用 GET 的方式请求参数？ // 不知道有没有 Body 的概念。
-        BASE_URL + "admin/rag/default_talk?query=" + text
-      );
-      // sse.onmessage = (e) => {
+      // const sse = new EventSource(  // TIP 好像只能用 GET 的方式请求参数？ // 不知道有没有 Body 的概念。
+      //   BASE_URL + "admin/rag/default_talk?query=" + text
+      // );
+      // // sse.onmessage = (e) => {
+      // //   if (!this.loadding) sse.close();
+      // //   this.addAiMessage(e.data);
+      // // };
+      // sse.addEventListener("chat", (e) => {
       //   if (!this.loadding) sse.close();
       //   this.addAiMessage(e.data);
+      // });
+      // sse.onerror = (e) => { // 目前都是靠‘error’的方式来退出。
+      //   console.debug(e);
+      //   sse.close();
+      //   this.loadding = false;
       // };
-      sse.addEventListener("chat", (e) => {
-        if (!this.loadding) sse.close();
-        this.addAiMessage(e.data);
+
+      // INFO v3 websocket 版本; 小程序只能用这个或者 https；
+      // 移除之前的监听器
+      
+      console.debug(WSS_URL);
+      const ws = uni.connectSocket({
+        url: WSS_URL + "admin/rag/default_talk?query=" + text,
+        complete: () => {},
       });
-      sse.onerror = (e) => { // 目前都是靠‘error’的方式来退出。
-        console.debug(e);
-        sse.close();
-        this.loadding = false;
-      };
+
+      ws.onMessage((res) => {
+        if (!this.loadding) {
+          ws.close();
+          return;
+        }
+        this.addAiMessage(res.data);
+      });
+
+      ws.onClose(
+        function (res) {
+          this.loadding = false;
+          console.log("WebSocket 已关闭！", this.loadding);
+        }.bind(this)
+      ); // TIP 通过 bind，使得能够正确修改 loadding 信号。
     },
     addAiMessage(content: String) {
       const index = this.lastIndex;
       this.history[index]["content"].push(createAiMessageItem(content));
-      // if (this.loaddingClear) 
-      //   this.history[index]["content"].push(createAiMessageItem(content));
-      // else {
-      //   this.history[index]["content"] = [createAiMessageItem(content)];
-      //   this.loaddingClear = true;
-      // }
     },
     stopAiTalk() {
       // 中断当前 sse 连接

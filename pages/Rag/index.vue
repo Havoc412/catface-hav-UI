@@ -8,7 +8,7 @@
                 <ai-bubble v-if="item.side" 
                     :avatar="talkStore.avatar"
                     :content="item.content"
-                    :word-by-word="index === talkStore.lastIndex && talkStore.loadding"
+                    :word-by-word="talkStore.loadding"
                 />
                 <user-bubble v-else :text="item.text"/>
             </template>

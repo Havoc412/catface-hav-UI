@@ -17,7 +17,7 @@
         },
         interval: {
             type: Number,
-            default: 100
+            default: 50
         },
         classCustom: {
             type: String,
