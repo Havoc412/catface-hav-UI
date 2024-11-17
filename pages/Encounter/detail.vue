@@ -88,8 +88,8 @@
 }
 
 .title {
-    font-size: 18px;
-    line-height: 20px;
+    font-size: 20px;
+    min-height: 50px;
     font-weight: bold;
     font-family: Alimama ShuHeiTi;
 }
