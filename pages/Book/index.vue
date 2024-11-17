@@ -5,7 +5,8 @@
         <statusWin v-if="flag.status.show" :status="flag.status.type" @reload="init"/>
         <view v-else class="flex-center-vertical">
             <view class="container-cats gap-10"  :style="{
-                '--grid-template-columns': bookStore.threeColumn ? '1fr 1fr 1fr' : '1fr 1fr'
+                '--grid-template-columns': bookStore.threeColumn ? '1fr 1fr 1fr' : '1fr 1fr',
+                '--grid-row-gap': bookStore.threeColumn ? '0' : '10px'
             }">
             <!--TIP wx 对这种方式不敏感  '--grid-template-columns': ['repeat(' + (bookStore.threeColumn ? 3 : 2) + ', 1fr)']-->
                 <template v-for="(item, index) in data.catsList">
@@ -169,7 +170,7 @@
 .container-cats {
     display: grid;
     grid-template-columns: var(--grid-template-columns);
-    grid-row-gap: 2px;
+    grid-row-gap: var(--grid-row-gap);
     padding: 5px;
 }
 
