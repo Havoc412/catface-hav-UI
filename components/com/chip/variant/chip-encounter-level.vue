@@ -1,6 +1,7 @@
 <template>
     <view style="font-weight: bold;">
-        <chip light animation
+        <chip light 
+            :animation="props.mode == 'choose'"
             :text="encounterLevel[level].zh"
             :bgColor="encounterLevel[level].bg"
             :color="encounterLevel[level].font"
@@ -15,6 +16,7 @@
     import { encounterLevel } from "../../../../common/consts";
     // com
     import chip from "../chip.vue";
+import { mode } from "crypto-js";
     // store
 // DATA
     const props = defineProps({
