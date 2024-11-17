@@ -61,7 +61,7 @@
                 </view>
             </scroll-view>
         </view>
-        <sideTools :show="[true, true]" :status="!flag.full" :mustStatus="true" @reload="reload" @add="gotoAddEncounter"/>
+        <sideTools :show="[true, true]" :status="flag.full" :mustStatus="true" @reload="reload" @add="gotoAddEncounter"/>
         <placeHolder/>
     </view>
 </template>
