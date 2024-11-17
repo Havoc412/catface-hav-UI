@@ -1,7 +1,7 @@
 <template>
     <view class="flex-center-vertical gap-10 block">
         <view v-if="props.poi" class="flex-center-horizontal gap-5 block" @click="getPoi">
-            <h-icon name="map-location" size="20"/>
+            <h-icon name="map-location_full" :size="CONSTS.ICON_SIZE"/>
             <view>标记地点</view>
             <view class="shrink"></view>
             <h-btn variant="tonal">
@@ -15,7 +15,7 @@
             <h-icon name="arrow-right"/>
         </view>
         <view v-if="props.catface" class="flex-center-horizontal gap-5 block">
-            <h-icon name="catface-paw" size="20"/>
+            <h-icon name="catface-paw" :size="CONSTS.ICON_SIZE"/>
             <view>录入猫脸</view>
             <view class="shrink"></view>
             <h-btn variant="tonal">
@@ -59,6 +59,11 @@
             latitude: 0
         }
     })
+
+    const CONSTS = {
+        ICON_SIZE: 16
+    }
+
 // FUNC
     async function getPoi() {
         // TODO 鉴定定位权限

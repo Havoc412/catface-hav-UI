@@ -144,7 +144,7 @@ export const encounterLevel = [
   {
     zh: "标志",
     en: "flag",
-	bg: "#87CEFA",
+	  bg: "#87CEFA",
     font: "#000000"
   },
   {
