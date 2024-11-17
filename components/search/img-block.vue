@@ -4,6 +4,7 @@
         <up-image :src="props.avatar" height="90px" width="90px" radius="12px"/> <!--TODO POST IMAGE in Nginx-->
         <view class="flex-vertical shrink"> 
             <view class="title">
+                <!--UPDATE nodes 不推荐使用 String 类型，性能会有所下降。From: https://uniapp.dcloud.net.cn/component/rich-text.html-->
                 <rich-text :nodes="props.title"/>
             </view>
             <view style="min-height: 10px;">
@@ -11,20 +12,20 @@
             </view>
             <view class="content relative">
                 <rich-text :nodes="sliceContent"/>
-                <!-- {{ sliceContent }} -->
+                <!-- {{ sliceContent }} for test -->
                 <view class="absolute" style="right: -10px; top: -2px;">
                     <h-icon name="text-quota" size="14"/>
                 </view>
             </view>
         </view>
-        
+        <!--右上角状态信息-->
         <view class="absolute" style="right: 0;">
             <view v-if="props.mode == 'animal'" class="flex-center-both gap-5">
                 <schoolStatus :type="props.animalStatus"/>
                 <departmentStatus :type="props.animalDepartment"/>
             </view>
             <view v-else-if="props.mode == 'encounter'">
-                <pair :avatar="props.userAvatar" :name="props.userName"/>
+                <pair imgSize="30" :avatar="props.userAvatar" :name="props.userName"/>
             </view>
         </view>
     </view>

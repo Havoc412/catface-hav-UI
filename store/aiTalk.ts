@@ -128,6 +128,7 @@ export const aiTalk = defineStore("aiTalkContent", {
       const ws = uni.connectSocket({
         url: WSS_URL + "admin/rag/default_talk?query=" + text,
         complete: () => {},
+        fail: error => { console.error(error); }
       });
 
       ws.onMessage((res) => {

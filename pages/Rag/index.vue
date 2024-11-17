@@ -13,7 +13,7 @@
                 <user-bubble v-else :text="item.text"/>
             </template>
         </view>
-        <placeHolder height="300"/> <!--稍微高一些，更好的阅读效果。-->
+        <placeHolder v-if="talkStore.history.length"  height="70"/> <!--稍微高一些，更好的阅读效果。-->
         <ai-tabbar/>  <!--TODO 这里需要获取信息-->
     </view>
 </template>

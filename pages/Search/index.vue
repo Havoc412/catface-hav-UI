@@ -44,7 +44,8 @@
                 />
             </template>
         </view>
-        <!-- status -->  
+        <!-- status -->
+        <placeHolder v-if="flag.status.show && state.moveUp"/>
         <statusWin v-if="flag.status.show" 
             :status="flag.status.type" 
             mode="block" loaddingTextMode="knowledge"
@@ -65,6 +66,7 @@
     import imgBlock from "../../components/search/img-block.vue";
     import textBlock from "../../components/search/text-block.vue";
 
+    import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     import statusWin from "../../components/status-win/statusWin.vue";
     // store
 // DATA
@@ -82,6 +84,7 @@
         TAB_INDEX: 0,  // API 根据这个进行调整，
         INPUT_HEIGHT: consts.INPUT_HEIGHT_INIT,
         inputValue: "",  // 借此实现 input 缓存的效果。
+        moveUp: false,
     })
 
     const data = ref(null);
@@ -120,11 +123,13 @@
 
     // Styles
     function moveUp() {
+        state.moveUp = true;
         state.INPUT_MARGIN_TOP = consts.INPUT_MARGIN_TOP_END;
         state.INPUT_HEIGHT = consts.INPUT_HEIGHT_END;    
     }
 
     function moveDown() {
+        state.moveUp = false;
         state.INPUT_MARGIN_TOP = consts.INPUT_MARGIN_TOP_INIT;
         state.INPUT_HEIGHT = consts.INPUT_HEIGHT_INIT;    
     }

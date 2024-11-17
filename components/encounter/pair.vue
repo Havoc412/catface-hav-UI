@@ -1,7 +1,7 @@
 <!--INFO 一个 Avatar + Name 的小组件；适用 User && Animal-->
 <template>
     <view class="flex-center-horizontal gap-5">
-        <up-image :src="props.avatar" height="35px" width="35px" shape="circle"/>
+        <up-image :src="props.avatar" :height="props.imgSize" :width="props.imgSize" shape="circle"/>
         <view class="no-shrink">{{ props.name }}</view>
     </view>
 </template>
@@ -18,6 +18,10 @@
         name: {
             type: String,
             default: "默认名"
+        },
+        imgSize: {
+            type: String,
+            default: "35px"
         }
     });
     const emits = defineEmits([]);
