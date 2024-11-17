@@ -126,7 +126,7 @@
     border-radius:  25px;
 
     background-color: var(--bg-color);
-    box-shadow: 0px 0px 5px 3px #3333337f;
+    box-shadow: 0px 0px 10px 2px #3333337f;
 
     animation: fadeIn .3s ease-in-out;
     /** 或许也用不到淡出，反而不需要使用的时候，还是直接消失会比较好 */
