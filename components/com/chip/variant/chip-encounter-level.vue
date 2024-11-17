@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-    import { ref } from "vue";
+    import { ref, watch } from "vue";
 
     import { encounterLevel } from "../../../../common/consts";
     // com
@@ -37,6 +37,10 @@
     const level = ref(props.level - 1);
 
 // FUNC
+    watch(() => props.level, function() {
+        level.value = props.level - 1;
+    })
+
     function changeLevel() {
         if (props.mode != "choose") return;
         level.value = (level.value + 1) % consts.MAX_TYPE;

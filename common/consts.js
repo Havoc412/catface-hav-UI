@@ -132,33 +132,33 @@ export const encounterLevel = [
   {
     zh: "日常",
     en: "daily",
-    bg: "#F0F0F0",
-    font: "#333333"
+    bg: "#E3EEFF",
+    font: "#333333",
   },
   {
-    zh: "重大",
+    zh: "重要",
     en: "serious",
-    bg: "#FF69B4",
-    font: "#FFFFFF"
+    bg: "#FF575F",
+    font: "#FFFFFF",
   },
   {
     zh: "标志",
     en: "flag",
-	  bg: "#87CEFA",
-    font: "#000000"
+    bg: "#FFC542",
+    font: "#FFFFFF",
   },
   {
     zh: "代办",
     en: "todo",
-	bg: "#FFD700",
-    font: "#000000"
+    bg: "#FFD700",
+    font: "#000000",
   },
   {
     zh: "日程",
     en: "schedule",
     bg: "#32CD32",
-    font: "#FFFFFF"
-  }
+    font: "#FFFFFF",
+  },
 ];
 
 // Age
