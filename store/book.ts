@@ -30,8 +30,8 @@ export default defineStore("book", {
       // 实现方式就是直接翻转，所以存在可能正好错乱的 bug。
       this.gender = status[0];
       this.school = status[1];
-      this.sterilization = status[2];
-      this.department = status[3];
+      this.department = status[2];
+      this.sterilization = status[3];
     },
     setFlex(status: Number[]) {
       this.threeColumn = status[0];

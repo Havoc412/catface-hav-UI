@@ -10,8 +10,11 @@
         <template v-for="(item, index) in CompomentItems">
             <view class="flex-center-horizontal">
                 <view>{{ item }}</view>
-                <up-switch v-model="compomentFlag[index]" size="28" :activeColor="color['main-deep']"
-                    @change="reverseCompSwitch(index)" />
+                <up-switch v-model="compomentFlag[index]" 
+                    size="28" 
+                    :activeColor="color['main-deep']"
+                    @change="reverseCompSwitch(index)"
+                />
             </view>
         </template>
         <view class="bold" style="font-family: Alimama ShuHeiTi;">
