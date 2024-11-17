@@ -262,10 +262,15 @@
             </view>
             <!-- INFO Func-->
             <bottomFunc poi catface @getPoi="getPoi"/>
-            <placeHolder height="190" type="rpx"/>
+            <placeHolder height="200" type="rpx"/>
+            <view class="shrink"/>
             <!--Tag 业务逻辑 UI -->
             <bottomSubmit 
                 :submitAbled="submitAbled"
+                :customStyle="{
+                    'position': 'absolute',
+                    'bottom': '25rpx'
+                }"
                 @storeData="storeData"
                 @submitData="submitData"
             /> 

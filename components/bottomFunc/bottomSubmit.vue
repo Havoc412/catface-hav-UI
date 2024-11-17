@@ -1,5 +1,5 @@
 <template>
-    <view class="flex-center-horizontal gap-5 block mt-10">
+    <view class="flex-center-horizontal gap-5 block" :style="props.customStyle">
         <!-- <view class="flex-center-horizontal gap-5 container-btn-left" :style="{
             '--bg-color-left': props.bgColorLeft
         }"
@@ -53,6 +53,10 @@
         bgColorLeft: {
             type: String,
             default: '#DAE2E6'
+        },
+        customStyle: {
+            type: Object,
+            default: () => ({})
         }
     });
     const emits = defineEmits(['submitData', 'storeData']);

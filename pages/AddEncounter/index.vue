@@ -111,13 +111,16 @@
             <bottomFunc @getPoi="getPoi"/>
         </view>
 
-        <view class="container-bottom">
-            <bottomSubmit 
-                bgColorLeft="#fff"
-                :submitAbled="submitAbled"
-                @submitData="submitData"
-            />
-        </view>
+        <bottomSubmit 
+            bgColorLeft="#fff"
+            :customStyle="{
+                'position': 'fixed',
+                'bottom': '25rpx',
+                'padding': '0 30rpx'
+            }"
+            :submitAbled="submitAbled"
+            @submitData="submitData"
+        />
         <!--状态加载-->
         <statusWin v-if="flag.status.show" :status="flag.status.type" loaddingText="上传中"/>
     </view>
@@ -281,14 +284,6 @@
 
 .container-top {
     width: 100vw;
-}
-
-.container-bottom {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 10px;
 }
 
 .container-textarea-tools {
