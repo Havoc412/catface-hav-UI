@@ -134,6 +134,8 @@
     flex-shrink: 0;
     flex-basis: auto;
     white-space: nowrap;
+
+    transition: color .3s, background-color .3s;
 }
 
 .style-full {
