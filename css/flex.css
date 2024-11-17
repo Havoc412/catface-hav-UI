@@ -12,6 +12,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    /*
+    是在主轴（即 flex-direction 所定义的方向，默认为水平方向）上将子元素均匀分布，
+    使第一个子元素位于容器的起始位置，最后一个子元素位于容器的结束位置，而中间的子元素则平均分配剩余的空间。
+    */
 }
 
 .flex-equal-horizontal {

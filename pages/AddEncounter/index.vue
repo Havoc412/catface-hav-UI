@@ -12,7 +12,11 @@
         <view class="block pd-10" style="padding-top: 0;">
             <up-divider dot lineColor="#000" marginTD="5"/>
 
-            <view class="flex-vertical gap-10">
+            <view class="flex-vertical gap-10 relative">
+                <!--TextArea 功能键-->
+                <view class="absolute container-textarea-tools" style="right: 5px; top:5px" :class="{ 'op-5': flag.textArea }">
+                    <h-btn variant="text" icon="flex-full" iconSize="20" activeColor="transparent" @click=""/>
+                </view>
                 <up-textarea 
                     v-model="data.content" 
                     placeholder="在这里记录你的路遇！"
@@ -21,7 +25,6 @@
                     :placeholderStyle="JSON.stringify({
                         color: '#888888',
                         fontSize: '18px',
-                        fontWeight: 'bold'
                     })"
                     :customStyle="{
                         fontWeight: 'bold'
@@ -29,35 +32,40 @@
                     fontSize="20"
                     border="none"
                     height="400rpx" 
+                    :maxlength="512"
                     focus
 
                     @focus="flag.textArea = true"
                     @blur="finishContent"
                 >
                 </up-textarea>
-                <view class="flex-center-horizontal">
-                    <chipGroup 
-                        mode="editable"
-                        ediMode="text"
-                        ediStyleMode="hollow"
-                        ediPosMode="prefix"
-                        placeholder="话题"
-                        :ediFocus="false"
-                        styleMode="topic"
-                        :maxNum="5"
-                        topicMode
-                        infoIcon
-                        containerWidthPrecent="90"
-                        @focus="flag.textArea = true"
-                        @blur="flag.textArea = false"
-                    >
-                        <template #info>
-                            话题最多5个，每个话题不超过10字。<br/>
-                            双击蓝色话题即可删除。
-                        </template>
-                    </chipGroup>
+                <view class="flex-top-horizontal">
+                    <view class="shrink">
+                        <chipGroup 
+                            mode="editable"
+                            ediMode="text"
+                            ediStyleMode="hollow"
+                            ediPosMode="prefix"
+                            placeholder="话题"
+                            :ediFocus="false"
+                            styleMode="topic"
+                            :maxNum="5"
+                            topicMode
+                            infoIcon
+                            containerWidthPrecent="90"
+                        >   
+                            <!-- 不适合 wx 的渲染能力，会有明显的延迟；
+                                @focus="flag.textArea = true"
+                                @blur="flag.textArea = false"
+                            -->
+                            <template #info>
+                                话题最多5个，每个话题不超过10字。<br/>
+                                双击蓝色话题即可删除。
+                            </template>
+                        </chipGroup>
+                    </view>
                     <!-- <view class="shrink"/> -->
-                    <h-btn variant="text" icon="flex-full" iconSize="24" @click=""/>
+                    <chipEncounterLevel mode="choose"/>
                 </view>
             </view>
 
@@ -132,6 +140,8 @@
     import chipGroup from "../../components/com/chip/chipGroup.vue";
     import btnLoadding from "../../components/com/button/variant/btn-loadding.vue";
     import statusWin from "../../components/status-win/statusWin.vue";
+
+    import chipEncounterLevel from "../../components/com/chip/variant/chip-encounter-level.vue";
     // store
 // DATA
     const consts = {
@@ -279,6 +289,13 @@
     left: 0;
     right: 0;
     padding: 10px;
+}
+
+.container-textarea-tools {
+    background-color: #ffffff48;
+    border-radius: 5px;
+    
+    transition: opacity 0.5s;
 }
 
 </style>        

@@ -10,6 +10,7 @@
             '--bg-color': selectFlag ? props.bgColor : 'transparent',
             '--font-color': selectFlag ? props.color : '#ccc',
             'opacity': props.hidden ? .3 : 1,
+            'font-weight': !props.light ? '' : 'bold',
         }"
         @click="clickEntrance"
         @long-press="longpress"
