@@ -2,7 +2,11 @@
     <Header ref="headerRef" @filterConditionsChange="init" @add="gotoAddAnimal"/>
     <view class="flex-center-vertical">
         <!--FUNC-->
-        <statusWin v-if="flag.status.show" :status="flag.status.type" @reload="init"/>
+        <statusWin v-if="flag.status.show" 
+            loaddingTextMode="knowledge"
+            :status="flag.status.type"
+            @reload="init"
+        />
         <view v-else class="flex-center-vertical">
             <view class="container-cats gap-10"  :style="{
                 '--grid-template-columns': bookStore.threeColumn ? '1fr 1fr 1fr' : '1fr 1fr',
