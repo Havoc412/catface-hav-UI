@@ -3,9 +3,8 @@
         <relation :human="data.user" :animals="data.animals"/>
         <album :list="fetchFullPhotoUrls"/>
         <view class="flex-vertical container-info gap-10">
-            <view class="flex-horizontal">
-                <text class="title">{{ data.encounter.title }}</text>
-                <view class="shrink"/>
+            <view class="flex-top-horizontal block">
+                <text class="title wrap shrink">{{ data.encounter.title }}</text>
                 <chip-encounter-level :level="data.encounter.level"/>
             </view>
             <text>{{ data.encounter.content }}</text>
@@ -72,7 +71,8 @@
 
 .title {
     font-size: 18px;
-    line-height: 16.5px;
+    line-height: 20px;
+    font-weight: bold;
     font-family: Alimama ShuHeiTi;
 }
 
