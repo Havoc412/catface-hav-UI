@@ -22,6 +22,17 @@
             </view>
         </template>
     </up-picker>
+    <!--TAG Department 部分-->
+    <up-picker
+        :show="flag.department"
+        :columns="[Departments_ZH]"
+        title="请选择猫猫最常出没地区"
+        :closeOnClickOverlay="true"
+        @close="emits('closeDepartment')"
+        @cancel="emits('closeDepartment')"
+        @confirm="(e) => emits('selectDepartment', e)"
+    >
+    </up-picker>
     <!--TAG Age 部分-->
     <!--BUG 会导致每一次都得重新选 :defaultIndex="flag.ageDetail ? [0, 0, 0, 0] : [0, 0]" -->
     <up-picker
@@ -69,7 +80,7 @@
     import { watch, reactive, ref } from "vue";
 	// import { onLaunch } from '@dcloudio/uni-app'
 
-    import { Breed_ZH, Age } from "../../../common/consts";
+    import { Breed_ZH, Departments_ZH, Age } from "../../../common/consts";
     import { DateChooseInit, MouthChooseInit, DayChooseInit } from "../../../utils/date";
 
     // com
@@ -78,12 +89,14 @@
 // DATA
     const props = defineProps({
         breedShow: Boolean,
-        ageShow: Boolean
+        ageShow: Boolean,
+        departmentShow: Boolean,
     });
-    const emits = defineEmits(['closeBreed', 'selectBreed', 'closeAge', 'selectAge']);
+    const emits = defineEmits(['closeBreed', 'selectBreed', 'closeAge', 'selectAge', 'closeDepartment', 'selectDepartment']);
 
     const flag = reactive({
         breed: false,
+        department: false,
         age: false,
         ageDetail: false, // 年龄栏是否显示详细？
         dateChooseMode: false, // 启用，日期选择方式。
@@ -119,6 +132,9 @@
     })
     watch(() => props.ageShow, (value) => {
         flag.age = value;
+    })
+    watch(() => props.departmentShow, (value) => {
+        flag.department = value;
     })
     
     // TAG age Mode Setting

@@ -36,22 +36,6 @@
                     >
                         <nick-names @change="(nickNames) => { data.extra.nick_names = nickNames; }"/>
                     </up-form-item>
-                    <!-- Department -->
-                    <up-form-item
-                        label="就读*"
-                        prop="data.department"
-                    >
-                        <up-radio-group v-model="dataShow.department">
-                            <up-radio
-                                :customStyle="{marginBottom: '8px', marginRight: '20px'}"
-                                v-for="(item, index) in Department"
-                                :key="index"
-                                :activeColor="item.color"
-                                :label="item.zh"
-                                :name="item.zh"
-                            ></up-radio>
-                        </up-radio-group>
-                    </up-form-item>
                     <!-- Breed -->
                     <up-form-item
                         label="花色*"
@@ -99,6 +83,43 @@
                                 :name="item.zh"
                             ></up-radio>
                         </up-radio-group>
+                    </up-form-item>
+                    <!-- Department -->
+                    <up-form-item
+                        label="就读*"
+                        prop="data.department"
+                    >
+                        <view class="block relative">
+                            <up-input
+                                v-model="dataShow.department"
+                                readonly
+                                placeholder="请选择出没区域"
+                                placeholderStyle="color: #888888"
+                            >
+                            </up-input>
+                            <!--tip 因为 up-input disabled 之后会阻断 click，所以在上层覆盖一个透明的按钮作为遮罩-->
+                            <h-btn 
+                                text="" variant="text" radius="5" activeColor="transparent"
+                                :customStyle="{
+                                    position: 'absolute', 
+                                    top: 0, left: 0,
+                                    width: '100%',
+                                    height: '100%', 
+                                    background: 'transparent', 
+                                    border: 'none'
+                                }" @click="flag.department = true"
+                            ></h-btn>
+                        </view>
+                        <!-- <up-radio-group v-model="dataShow.department">
+                            <up-radio
+                                :customStyle="{marginBottom: '8px', marginRight: '20px'}"
+                                v-for="(item, index) in Department"
+                                :key="index"
+                                :activeColor="item.color"
+                                :label="item.zh"
+                                :name="item.zh"
+                            ></up-radio>
+                        </up-radio-group> -->
                     </up-form-item>
                     <!-- Gender -->
                     <up-form-item
@@ -251,12 +272,15 @@
         <pickerGroup
             :breedShow="flag.breed"
             :ageShow="flag.age"
+            :departmentShow="flag.department"
             
             @close-breed="flag.breed = false"
             @close-age="flag.age = false"
+            @close-department="flag.department = false"
 
             @select-breed="selectBreed"
             @select-age="selectAge"
+            @select-department="selectDepartment"
         />
         <!--状态加载-->
         <statusWin v-if="flag.status.show" :status="flag.status.type"/>
@@ -350,6 +374,11 @@
             type: 'string',
             required: true,
             message: "请选择一个花色。"
+        },
+        'data.department': {
+            type: 'string',
+            required: true,
+            message: "请选择一个部门。"
         }
     })
 
@@ -358,6 +387,8 @@
         breed: false,
         breedHumanChange: true,
         age: false,
+        department: false,
+        
         healthInfor: false,
         runFull: false,
         nickNames: false,
@@ -373,6 +404,10 @@
         dataShow.breed = e.value[0];
         flag.breed = false;
         flag.breedHumanChange = true;
+    }
+    function selectDepartment(e) {
+        dataShow.department = e.value[0];
+        flag.department = false;
     }
     const selectAge = (e, dateModeFlag) => {
         if (!dateModeFlag) {
@@ -411,7 +446,7 @@
         // INFO 必须手填的信息：Name、Breed、Description、
         return data.name !== ''
             && dataShow.breed !== ''
-            && data.department !== ''
+            && dataShow.department !== ''
             // && data.photos.length !== 0;
     })
 

@@ -8,7 +8,7 @@
 
 import { reactive, onMounted, watch } from "vue";
 // import color from "@/css/theme/index.module.scss";v
-import { Departments_EN, Departments_ZH } from "../../../common/consts";
+import { Departments_EN, Departments_ZH, GetFrontIndex } from "../../../common/consts";
 // store
 // DATA
 const props = defineProps({
@@ -42,8 +42,9 @@ function init() {
         const idx = Math.max(Departments_EN.indexOf(props.type), 0); // 如果是 -1 就返回 0
         data.text = Departments_ZH[idx];
     } else {
-        data.text = Departments_ZH[props.type - 1];
-        data.type = Departments_EN[props.type - 1];
+        const index = GetFrontIndex(props.type, Departments_ZH.length);
+        data.text = Departments_ZH[index];
+        data.type = Departments_EN[index];
     }
 }
 
