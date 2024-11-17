@@ -7,7 +7,8 @@
             :imgMode="props.loaddingImgMode"
             :size="props.loaddingImgSize"
         />
-        <err v-if="flag.err" @click="emits('reload')"/>
+        <err v-else-if="flag.err" @click="emits('reload')"/>
+        <nodata v-else-if="flag.nodata" @click="emits('reload')"/>
     </view>
 </template>
 
@@ -16,6 +17,7 @@
     // com
     import loaddingCat from "./loadding.vue";
     import err from "./err.vue";
+    import nodata from "./nodata.vue";
     // store
 
 // DATA
@@ -23,7 +25,7 @@
         // Top
         status: {
             type: String,
-            default: "loadding"
+            default: "loadding" // INFO loadding、error、nodata
         },
         mode: {
             type: String,
@@ -53,6 +55,7 @@
     const flag = reactive({
         loadding: false,
         err: false,
+        nodata: false,
         
         hide: false,
     })
@@ -66,14 +69,18 @@
     function checkStatus() {
         // TODO 如果样式过多，可以先全部设为 false，然后 case 改其中一个为 true
         flag.hide = false;
+        flag.loadding = false;
+        flag.err = false;
+        flag.nodata = false;
         switch (props.status) {
             case "loadding":  // TODO 尽量避免硬编码
                 flag.loadding = true;
-                flag.err = false;
                 break;
             case "error":
-                flag.loadding = false;
                 flag.err = true;
+                break;
+            case "nodata":
+                flag.nodata = true;
                 break;
             default:
                 flag.hide = true;

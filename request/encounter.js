@@ -15,7 +15,6 @@ const api = {
           return [data, null];
         })
         .catch((error) => {
-          console.error("encounter.js", error);
           return [error, true];
         });
     },

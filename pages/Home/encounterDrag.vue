@@ -23,11 +23,13 @@
             'mt-20': !flag.full && !flag.close,
             'mt-50': flag.close,
         }">
+            <!--TAG tab 基础帖子过滤类型。-->
             <view class="flex-center-horizontal block">
                 <tabGroup :tab-list="consts.TAB_LIST" :hiddenTrigger="!flag.full"
                     @changeIndex="(index) => { data.modeIndex = index; }"
                 />
             </view>
+            <!--TAG Encounter Scroll View-->
             <scroll-view 
                 :scroll-y="true"
                 @scrolltolower="lower" @scrolltoupper="upper"
@@ -69,6 +71,7 @@
 <script setup>
     import { ref, reactive, onMounted, watch, onUnmounted } from "vue";
 
+    import { TOAST } from "../../utils/notice";
     // com
     import scssConsts from "@/common/consts.module.scss";
     import { extractIntFromSize } from "@/utils/string";
@@ -134,84 +137,13 @@
         full: false,  // drag 部分是否完全展开
         // twiceClose: false,  // 当下滑两次的时候，就会触发 close
     })
-    
-    // TEST for
-    const EXAMPLE = [
-        {
-            "url": "/catsAvatar/0.jpg",  // 暂时先用一下
-            "title": "Title-1",
-            "userAvatar": "/static/cats/head/1.png",
-            "userName": "小王",
-            "time": "22.12.31",
-            "like": true,
-            "height": 2397,
-            "width": 1600
-        },{
-            "url": "/catsAvatar/5.jpg",
-            "title": "Title-4",
-            "userAvatar": "/static/cats/head/4.png",
-            "userName": "软软!!!",
-            "time": "23.1.1",
-            "like": false,
-            "height": 1080,
-            "width": 1440
-        },{
-            "url": "/catsAvatar/0.jpg",  // 暂时先用一下
-            "title": "Title-1",
-            "userAvatar": "/static/cats/head/1.png",
-            "userName": "小王",
-            "time": "22.12.31",
-            "like": true,
-            "height": 2397,
-            "width": 1600
-        },
-        {
-            "url": "/catsAvatar/2.jpg",
-            "title": "默认标题默认标题默认标题默认标题默认标题",
-            "userAvatar": "/static/cats/head/3.png",
-            "userName": "张三",
-            "time": "23.3.5",
-            "like": true,
-            "height": 1600,
-            "width": 2133
-        },
-        {
-            "url": "/catsAvatar/1.jpg",
-            "title": "Title-2 WHU WHU WHU WHU",
-            "userAvatar": "/static/cats/head/2.png",
-            "userName": "李华",
-            "time": "23.2.14",
-            "like": false,
-            "height": 1776,
-            "width": 1184
-        },
-        {
-            "url": "/catsAvatar/5.jpg",
-            "title": "Title-4",
-            "userAvatar": "/static/cats/head/4.png",
-            "userName": "软软!!!",
-            "time": "23.1.1",
-            "like": false,
-            "height": 1080,
-            "width": 1440
-        },{
-            "url": "/catsAvatar/2.jpg",
-            "title": "默认标题默认标题默认标题默认标题默认标题",
-            "userAvatar": "/static/cats/head/3.png",
-            "userName": "张三",
-            "time": "23.3.5",
-            "like": false,
-            "height": 1600,
-            "width": 2133
-        },
-    ]
 
     // TAG 状态记录
     const data = reactive({
         left: [],
         right: [],
         scrollTop: 0,
-
+        // INFO 控制 API 的 mode 调用方式。
         modeIndex: 0,  // default: 0; liked: 1; ...
     })
 
@@ -227,6 +159,7 @@
     
 // FUNC
     watch(() => data.modeIndex, () => {
+        // TODO 这里写一个数据的缓存会比较好。
         init();
         console.debug(data.modeIndex);
         switch(data.modeIndex) { // 假设这里还有各种初始化。
@@ -273,8 +206,9 @@
         vars.skip += res.length;
     }
 
-    // Waterfall
+    // TAG Waterfall
     async function getData(num, skip) {
+        // API.mode 字段的设定。
         let modeStr = "";
         switch(data.modeIndex) {
             case 1: modeStr = "liked"; break;
@@ -285,7 +219,8 @@
         // INFO 通过这种方式实现未登录的限量  // TODO 之后测试，以及报错信息的传值
         const [res, err] = await api.getEncounterList(num, skip, modeStr, skip > ENCOUNTER_MAX_NUM)
         if (err != null) {
-            flag.status.type = 'error';
+            flag.status.type = 'nodata';
+            TOAST(res, "none", 3000);
             return []
         }
         if(res.length < num)

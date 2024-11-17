@@ -1,7 +1,7 @@
 <template>
     <view class="flex-center-vertical" @click="emits('click')">
-        <image src="/static/error.svg"/>
-        <view class="text">😹出错了...</view>
+        <image src="/static/nothing.svg"/>
+        <view class="text">这里空无一物...</view>
         <view class="text-re">点击重试</view>
     </view>
 </template>
