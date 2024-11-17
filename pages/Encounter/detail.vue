@@ -3,16 +3,24 @@
         <relation :human="data.user" :animals="data.animals"/>
         <album :list="fetchFullPhotoUrls"/>
         <view class="flex-vertical container-info gap-10">
-            <view class="flex-top-horizontal block">
-                <text class="title wrap shrink">{{ data.encounter.title }}</text>
-                <chip-encounter-level :level="data.encounter.level"/>
-            </view>
-            <text>{{ data.encounter.content }}</text>
-            <chip-group
-                :list="StringToStringArray(data.encounter.tags)"
-                styleMode="topic"
-                topicMode
-            />
+            <up-skeleton
+                rows="4"
+                titleHeight="30"
+                :loading="flag.loading"
+                >
+                <view>
+                    <view class="flex-top-horizontal block">
+                        <text class="title wrap shrink">{{ data.encounter.title }}</text>
+                        <chip-encounter-level :level="data.encounter.level"/>
+                    </view>
+                    <text>{{ data.encounter.content }}</text>
+                    <chip-group
+                        :list="StringToStringArray(data.encounter.tags)"
+                        styleMode="topic"
+                        topicMode
+                    />
+                </view>
+            </up-skeleton>
             <!--tag comment-->
             <comment/>
         </view>
@@ -54,13 +62,14 @@
     })
 
     const flag = reactive({
-        dataReady: false,
+        loading: true,
     })
 
 // FUNC
     onLoad( async(params) => {
         EncounterID.value = +params.id;
         data.value = await api.getEncounterDetail(EncounterID.value)
+        flag.loading = false;
     })
 
     const fetchFullPhotoUrls = computed(() => {
