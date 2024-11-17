@@ -179,6 +179,7 @@
                             count
                             :maxlength="255"
                             clearable
+                            :show-confirm-bar="false"
                             @focus="flag.runFull = !flag.runFull"
                         ></up-textarea>
                         <!--TODO Tags 相关的内容放到这里。-->

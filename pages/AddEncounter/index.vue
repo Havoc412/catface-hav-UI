@@ -16,6 +16,8 @@
                 <up-textarea 
                     v-model="data.content" 
                     placeholder="在这里记录你的路遇！"
+                    confirmType="send"
+                    :show-confirm-bar="false"
                     :placeholderStyle="JSON.stringify({
                         color: '#888888',
                         fontSize: '18px',
