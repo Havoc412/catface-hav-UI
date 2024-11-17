@@ -45,3 +45,10 @@ export function stringToNumberArray(str) {
 // console.log(result); // 输出: [1, 2, 3]
 // result = stringToNumberArray("");
 // console.log(result);
+
+export function StringToStringArray(str) {
+    if (!str) {
+      return [];
+    }
+    return str.split(',');
+}

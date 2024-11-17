@@ -52,7 +52,7 @@
                             :maxNum="5"
                             topicMode
                             infoIcon
-                            containerWidthPrecent="90"
+                            containerWidthPrecent="100"
                         >   
                             <!-- 不适合 wx 的渲染能力，会有明显的延迟；
                                 @focus="flag.textArea = true"

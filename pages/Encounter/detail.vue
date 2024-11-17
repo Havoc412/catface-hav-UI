@@ -8,8 +8,11 @@
                 <chip-encounter-level :level="data.encounter.level"/>
             </view>
             <text>{{ data.encounter.content }}</text>
-            <!-- <chipGroup :topicList="chipsList.topicList" :locationList="chipsList.locationList"
-            :foodList="chipsList.foodList" /> -->
+            <chip-group
+                :list="StringToStringArray(data.encounter.tags)"
+                styleMode="topic"
+                topicMode
+            />
             <!--tag comment-->
             <comment/>
         </view>
@@ -22,12 +25,15 @@
 
     import api from "../../request/encounter";
     import nginx from "../../request/nginx";
+    
+    import { StringToStringArray } from "../../utils/string";
 
     // com
     import relation from "../../components/encounter/relation.vue";
     import album from "../../components/encounter/album.vue";
     import comment from "../../components/encounter/comment.vue";
     import chipEncounterLevel from "../../components/com/chip/variant/chip-encounter-level.vue";
+    import chipGroup from "../../components/com/chip/chipGroup.vue";
     // store
 // DATA
     const EncounterID = ref(0);

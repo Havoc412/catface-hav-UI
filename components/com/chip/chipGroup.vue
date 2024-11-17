@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-    import { ref, computed, reactive } from "vue";
+    import { ref, computed, reactive, watch } from "vue";
 
     // com
     import chipEditable from "./variant/chip-editable.vue";
@@ -115,7 +115,7 @@
         topicMode: Boolean,  // 控制 edi addText 之后，增加一个  [# ] 的前缀；同时改变 ediChip 的样式。
     });
     const emits = defineEmits(['info', 'change', 'longpress', 'focus', 'blur']);
-
+    
     const data = ref(props.list);
     const longPressIndex = ref(-1); // INFO 因为一次只允许拖动一个，所以用一个 id 来标记目标就比较方便。
 
@@ -124,6 +124,14 @@
     })
 
 // FUNC
+    watch(() => props.list, function() {
+        if (props.topicMode) {
+            data.value = props.list.map((item) => '# ' + item);
+        } else {
+            data.value = props.list;            
+        }
+    }) 
+
     const editableMode = computed(() => {
         return props.mode === 'editable';
     });
