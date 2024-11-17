@@ -1,4 +1,6 @@
 <template>
+    <!--TAG Breed 部分-->
+    <!--TODO 之后加入狗狗の品种-->
     <up-picker
         :show="flag.breed"
         :columns="[Breed_ZH]"
@@ -13,13 +15,15 @@
         </template>
 
         <template #tools>
+            <!--UPDATE 虽然现在这里只有一个选择，偏移导致看起来怪怪的，但是之后添加狗狗，所以倒也无妨。-->
             <view class="flex-center-vertical gap-10" style="padding: 10px;">
                 <view class="shrink"/>
                 <h-btn icon="tool-question_thin" shape="circle" @click="flag.breedExample = true"/>
             </view>
         </template>
     </up-picker>
-    <!--BUG :defaultIndex="flag.ageDetail ? [0, 0, 0, 0] : [0, 0]" 会导致每一次都得重新选-->
+    <!--TAG Age 部分-->
+    <!--BUG 会导致每一次都得重新选 :defaultIndex="flag.ageDetail ? [0, 0, 0, 0] : [0, 0]" -->
     <up-picker
         ref="agePickerRef"
         :show="flag.age"
@@ -33,11 +37,8 @@
         @change="changeHandler"
     >
         <template #top>
-            <!--TODO 不到一个月，3个月左右，不到一岁，1岁多-->
             <view class="flex-center-horizontal" style="padding: 0 20px;">
-                <!--UPDATE 虽然现在这里只有一个选择，偏移导致看起来怪怪的，
-                但是之后添加狗狗，所以倒也无妨。-->
-                <template v-for="(item, index) in commonAge" :key="index">
+                <template v-for="(item, index) in CommonAge" :key="index">
                     <h-btn variant="outlined" :text="item.text" @click="emits('selectAge', item)"/>
                 </template>
             </view>
@@ -46,26 +47,27 @@
         <template #tools>
             <view class="flex-center-vertical gap-10" style="padding: 10px;">
                 <view class="shrink"/>
-                <h-btn 
+                <!--切换【年龄模式】的详细程度。-->
+                <h-btn
                     :icon="!flag.ageDetail ? 'tool-choose_more_thin' : 'tool-choose_less_thin'"
                     :disabled="flag.dateChooseMode"
-                    shape="circle"
                     @click="changeAgeDetail"
                 />
-                <!--UPDATE 暂时想不到合适的变化 ICON-->
+                <!--切换为【生日模式】-->
                 <h-btn
                     icon="tool-date"
-                    shape="circle"
-                    @click="flag.dateChooseMode = !flag.dateChooseMode"
+                    @click="modeChange"
                 />
             </view>
         </template>
     </up-picker>
+    <!--浮窗提示部分-->
     <breedExample v-if="flag.breedExample" @close="flag.breedExample = false"/>
 </template>
 
 <script setup>
-    import { watch, reactive, ref, computed, onMounted } from "vue";
+    import { watch, reactive, ref } from "vue";
+	// import { onLaunch } from '@dcloudio/uni-app'
 
     import { Breed_ZH, Age } from "../../../common/consts";
     import { DateChooseInit, MouthChooseInit, DayChooseInit } from "../../../utils/date";
@@ -88,7 +90,11 @@
         breedExample: false, // 启用，花色介绍窗口
     })
 
-    const commonAge = [  // 给一些简单常见的年龄，方便用户选择
+    const state = reactive({
+        ageIndexs: [0, 0],  // 辅助 Age-Detail 的变换：状态记录
+    })
+
+    const CommonAge = [  // 给一些简单常见的年龄，方便用户选择
         { text: '不到1个月', value: ["0", "0", '3周', "0"] },
         { text: '1个月', value: ["0", '1个月', "0", "0"] },
         { text: '3个月', value: ["0", '3个月', "0", "0"] },
@@ -96,38 +102,51 @@
         { text: '1岁半', value: ['1岁', '6个月', "0", "0"] },
     ]
 
-    const agePickerRef = ref(null);
+    const agePickerRef = ref(null);  // ref 操作的钩子。
     const AgeChoosedShow = ref(Age.slice(0, 2));  // TIP up-picker 不兼容 null 处理。
 
 // FUNC
-    // onMounted(() => {  // Init
-    //     AgeChoosedShow.value = Age.slice(0, 2);  // 初始，放置最简单的选择。
+    // onLaunch(() => {  // Init
     //     flag.breed = false;
     //     flag.age = false;
     //     flag.ageDetail = false;
     //     flag.dateChooseMode = false;
     // })
-
+    
+    // TAG 两个 popup 层弹出的监听
     watch(() => props.breedShow, (value) => {
         flag.breed = value;
     })
     watch(() => props.ageShow, (value) => {
         flag.age = value;
     })
+    
+    // TAG age Mode Setting
     watch(() => flag.ageDetail, AgeDetailChange)
-    watch(() => flag.dateChooseMode, () => {
+    function modeChange() {
+        flag.dateChooseMode = !flag.dateChooseMode
+        // 由于两种模式差异较大，直接重置。
         if (agePickerRef.value) // onMounted 时， Ref 还没有准备好。
             agePickerRef.value.setIndexs([0, 0, 0, 0], false); // 全部恢复为 0 状态，前者优先，多余无效。
+        // 改变 colnum 的选项。
         if (!flag.dateChooseMode) {
             AgeDetailChange();
         } else {
             AgeChoosedShow.value = DateChooseInit();
         }
-    })
-
+    }
+    
+    // Age 切换详细程度。
     function changeAgeDetail() {
-        if (agePickerRef.value) // onMounted 时， Ref 还没有准备好。
-            agePickerRef.value.setIndexs([0, 0, 0, 0], false); // 全部恢复为 0 状态，前者优先，多余无效。
+        if (agePickerRef.value) {
+            // @brief 记录 年-月 的记录，重置 周-日 的设定。
+            const indexs = state.ageIndexs;
+            while(indexs.length < 4)  // 受到 picker 的影响，state.ageIndexs 不一定有 4 个元素。
+                indexs.push(0);
+            indexs[2] = 0;
+            indexs[3] = 0;
+            agePickerRef.value.setIndexs(indexs, false); // 全部恢复为 0 状态，前者优先，多余无效。            
+        }
         flag.ageDetail = !flag.ageDetail
     }
 
@@ -136,9 +155,13 @@
         AgeChoosedShow.value = flag.ageDetail ? Age : Age.slice(0, 2);
     }
 
+    // INFO 年月日的自适应变动。
     const changeHandler = (e) => {
-        // INFO 年月日的自适应变动。
-        if(!flag.dateChooseMode) return;
+        console.debug(e);
+        if(!flag.dateChooseMode) {
+            state.ageIndexs = e.indexs;
+            return;
+        };
         const {
             columnIndex,
             value,
