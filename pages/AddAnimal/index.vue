@@ -61,8 +61,7 @@
                         <view class="block relative">
                             <up-input
                                 v-model="dataShow.breed"
-                                disabled
-                                disabledColor="transparent"
+                                readonly
                                 placeholder="请选择 ta 的花色"
                                 placeholderStyle="color: #888888"
                             >
@@ -126,8 +125,7 @@
                         <view class="block relative">
                             <up-input
                                 v-model="dataShow.ageLinkShow"
-                                disabled
-                                disabledColor="transparent"
+                                readonly
                                 placeholder="估计一下 ta 的年龄"
                                 placeholderStyle="color: #888888"
                             ></up-input>

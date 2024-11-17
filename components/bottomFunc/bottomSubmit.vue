@@ -1,14 +1,26 @@
 <template>
     <view class="flex-center-horizontal gap-5 block mt-10">
-        <view class="flex-center-horizontal gap-5 container-btn-left" :style="{
+        <!-- <view class="flex-center-horizontal gap-5 container-btn-left" :style="{
             '--bg-color-left': props.bgColorLeft
         }"
             @click="emits('storeData')"
         >
             <h-icon name="post-store" size="21"/>
-            <!--TODO 之后再做-->
             <view>保存草稿</view>
-        </view>
+        </view> -->
+        <h-btn
+            variant="text"
+            preIcon="post-store"
+            text="保存草稿"
+            :customStyle="{
+                color: '#333',
+                'font-size': '13px',
+                'background-color': props.bgColorLeft,
+                'padding': '10px 15px',
+                'height': '40px',
+            }"
+        >    
+        </h-btn>
         <view class="shrink">
             <!--wx 中放到 btn 中的 flex：1 无效，故外套-->
             <h-btn

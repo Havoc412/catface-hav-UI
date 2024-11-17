@@ -1,7 +1,7 @@
 <!--复刻一下 vuetify-btn-->
 <template>
     <view 
-        class="container-btn flex-center-both gap-5" 
+        class="container-btn flex-center-horizontal gap-5" 
         :class="classObject" 
         :style="getOutsideStyle"
         @touchstart="handleTouchStart" @touchend="handleTouchEnd" 
@@ -16,10 +16,12 @@
                 :size="props.iconSize"
             />
         </slot> -->
-        <slot>
-            <h-icon v-if="props.icon" :name="props.icon" :size="props.iconSize"/>
-            <view v-else>{{ props.text }}</view>
-        </slot>
+        <view class="flex-center-vertical shrink">
+            <slot>
+                <h-icon v-if="props.icon" :name="props.icon" :size="props.iconSize"/>
+                <view v-else>{{ props.text }}</view>
+            </slot>
+        </view>
         <slot name="suffix">
             <h-icon v-if="props.sufIcon" :name="props.sufIcon" :size="props.iconSize"/>
         </slot>
