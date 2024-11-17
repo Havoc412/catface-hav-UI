@@ -1,5 +1,5 @@
 <template>
-    <headerBase :bgColor="color['main-light']">
+    <headerBase mode="simple" :bgColor="color['main-light']">
         <template #prefix>
             <view class="flex-horizontal gap-10 container-tool">
                 <h-icon name="tool-filter" @click="flag.filter = true"/>

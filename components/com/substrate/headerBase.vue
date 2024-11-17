@@ -3,7 +3,7 @@
     <!-- <view class="sticky"> -->
     <view class="flex-vertical block container-header pd-5 top-container z-8"
         :style="{
-            '--status-height': phoneInforStore.statusBarHeight.toString() + 'px',
+            '--status-height': (props.mode === 'safeTop') ? phoneInforStore.statusBarHeight.toString() + 'px' : 0,
             '--bg-color': props.bgColor,
             '--opacity': props.opacity.toString(),
             '--position': props.position
@@ -41,6 +41,10 @@
     const phoneInforStore = usePhoneInfor();
 // DATA
     const props = defineProps({
+        mode: {
+            type: String,
+            default: "safeTop" // INFO safeTop || simple
+        },
         backDelete: {
             type: Boolean,
             default: false
