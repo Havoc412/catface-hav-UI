@@ -7,6 +7,22 @@
       "^u-([^-].*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue"
     }
   },
+  "tabBar": {  // INFO 特殊优化 Tabbar 页面的缓存，但是不启用原生的 Tabbar 组件。
+    "list": [
+      {
+        "pagePath": "pages/Home/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/Book/index",
+        "text": "图书"
+      },
+      {
+        "pagePath": "pages/User/index",
+        "text": "我的"
+      }
+    ]
+  },
   "pages": [
     // TAG 三个主页面
     {
