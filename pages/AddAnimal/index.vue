@@ -23,7 +23,7 @@
                         label="名字*"
                         prop="data.name"
                     >
-                        <name 
+                        <name
                             @nickNames="flag.nickNames = true"
                             @name="(name) => { data.name = name; }"
                         />
@@ -173,7 +173,7 @@
                     >
                         <up-textarea
                             v-model="data.description"
-                            placeholder="简单介绍介绍 ta 吧！"
+                            placeholder="简单介绍一下 ta 吧！"
                             placeholderStyle="color: #888888"
                             fixed
                             count
