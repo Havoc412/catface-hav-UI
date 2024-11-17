@@ -52,8 +52,9 @@
 </template>
 
 <script setup>
-    import { ref, computed, reactive, watch } from "vue";
+    import { ref, onMounted, computed, reactive, watch } from "vue";
 
+    import { TOAST } from "../../../utils/notice";
     // com
     import chipEditable from "./variant/chip-editable.vue";
     import blockBase from "../substrate/blockBase.vue";
@@ -116,7 +117,7 @@
     });
     const emits = defineEmits(['info', 'change', 'longpress', 'focus', 'blur']);
     
-    const data = ref(props.list);
+    const data = ref([]);
     const longPressIndex = ref(-1); // INFO 因为一次只允许拖动一个，所以用一个 id 来标记目标就比较方便。
 
     const flag = reactive({
@@ -124,35 +125,44 @@
     })
 
 // FUNC
-    watch(() => props.list, function() {
+    onMounted(() => {
+        setDataFromList();
+    })
+    watch(() => props.list, setDataFromList);  // UPDATE 这两个函数如何结合一下？
+
+    // 根据 【props.topicMode】来控制文本的前缀。
+    function setDataFromList() {
         if (props.topicMode) {
             data.value = props.list.map((item) => '# ' + item);
         } else {
             data.value = props.list;            
         }
-    }) 
+    }
 
     const editableMode = computed(() => {
         return props.mode === 'editable';
     });
 
     function addText(text) {
-        if (props.topicMode)
-            text = '# ' + text;
-        if (data.value.includes(text))
+        if (!props.topicMode && data.value.includes(text) 
+            || props.topicMode && data.value.includes('# ' + item)) {
+            TOAST('标签重复', 'none', 2000);
             return;
-        else if (text.length >= props.maxSingleLen) {
-            // TODO 前端展示“超过10字，无效”
+        }
+        else if (text.length > props.maxSingleLen) {
+            TOAST('标签长度超出限制', 'none', 2000);
             return;            
         }
+        if (props.topicMode)
+            text = '# ' + text;
         data.value.push(text);
         // Send to Top
         emits('change', data.value);
     }
 
     function deleteText(text) {
+        if (props.mode != 'editable') return;
         data.value = data.value.filter((item) => item != text);
-        // TODO 重名报错
         emits('change', data.value);
     }
 
