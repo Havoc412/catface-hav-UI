@@ -13,10 +13,10 @@
             <up-divider dot lineColor="#000" marginTD="5"/>
 
             <view class="flex-vertical gap-10 relative">
-                <!--TextArea 功能键-->
-                <view class="absolute container-textarea-tools" style="right: 5px; top:5px" :class="{ 'op-5': flag.textArea }">
+                <!--TODO TextArea 功能键：全屏编辑-->
+                <!-- <view class="absolute container-textarea-tools" style="right: 5px; top:5px" :class="{ 'op-5': flag.textArea }">
                     <h-btn variant="text" icon="flex-full" iconSize="20" activeColor="transparent" @click=""/>
-                </view>
+                </view> -->
                 <up-textarea 
                     v-model="data.content" 
                     placeholder="在这里记录你的路遇！"
