@@ -46,6 +46,8 @@
 
 <script setup>
     import { ref, reactive, onMounted, watch } from "vue";
+
+    import { BookFilterConditions } from "../../common/consts-style";
     // com
     import color from "@/css/theme/index.module.scss";
 
@@ -65,14 +67,8 @@
         toggleFilter: false, // QUESTION ?
     })
 
-    const data = reactive({
-        filterConditions: { // INFO 状态缓存。
-            status: "2,3",
-            gender: "",
-            breed: "",
-            sterilization: "",
-            department: "",
-        }
+    const data = reactive({ // INFO 状态缓存。
+        filterConditions: BookFilterConditions
     })
 
 // FUNC

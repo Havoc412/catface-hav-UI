@@ -21,7 +21,7 @@
         <view class="shrink"/>
         <!--FUNC-->
         <view class="flex-center-horizontal btn-group ali">
-            <u-button @click="refreshFlag = !refreshFlag" :customStyle="{
+            <u-button @click="reset" :customStyle="{
                 padding: '10px 0',
                 borderRadius: '15px',
                 height: '40px',
@@ -41,6 +41,8 @@
 
 <script setup>
     import { ref } from "vue";
+
+    import { BookFilterConditions } from "../../../common/consts-style";
     import color from "@/css/theme/index.module.scss";
 
     import { stringToNumberArray } from "../../../utils/string";
@@ -72,6 +74,14 @@
 
     const refreshFlag = ref(false);
 // FUNC
+    function reset() {
+        statusRef.value.init(stringToNumberArray(BookFilterConditions.status));
+        genderRef.value.init(stringToNumberArray(BookFilterConditions.gender));
+        sterilizationRef.value.init(stringToNumberArray(BookFilterConditions.sterilization));
+        breedRef.value.init(stringToNumberArray(BookFilterConditions.breed));
+        departmentRef.value.init(stringToNumberArray(BookFilterConditions.department));
+    }
+
     function getFilterConditions() {
         const conditions = {
             status: statusRef.value.getSelectedList(),

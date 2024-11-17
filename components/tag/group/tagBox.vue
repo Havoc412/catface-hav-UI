@@ -59,21 +59,21 @@
     
 // FUNC
     onMounted(() => {
-        init();
+        init(props.startUnselectedList);
     })
     watch(() => props.refresh, (newVal) => {
-        init();
+        init(props.startUnselectedList);
     })
     
-    function init() {
-        if (props.startUnselectedList.length === 0) {
+    function init(list) {
+        if (list.length === 0) {
             status.value = Array(props.tagList.length).fill(true);
             selectedCnt.value = props.tagList.length;
         } else {
             status.value = Array(props.tagList.length).fill(false); // 初始化 status 数组，所有元素为 false
-            selectedCnt.value = props.startUnselectedList.length;
+            selectedCnt.value = list.length;
             // INFO 这里需要反向解析；对应 getSelectedList；
-            props.startUnselectedList.forEach(item => {
+            list.forEach(item => {
                 if (item === 1)
                     status.value[props.tagList.length - 1] = true;
                 else
@@ -135,9 +135,8 @@
         refresh();
     }
 
-
     // 对外暴露。
-    defineExpose({ getSelectedList });
+    defineExpose({ getSelectedList, init });
 
 </script>
 
