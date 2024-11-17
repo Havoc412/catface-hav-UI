@@ -123,6 +123,7 @@
         const [res, err] = await api.getAnimalBook(num, skip, filterConditions, true);
         if (err != null) {  // 错误处理
             flag.loadmore = 'nomore';
+            flag.status.type = 'nodata';
             TOAST(res, "none", 3000);
             return [];
         }
