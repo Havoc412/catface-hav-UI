@@ -63,10 +63,7 @@
 			right: '20rpx',
 			bottom: '5rpx'
 		}">
-			<h-btn icon="com-more_deep" :customStyle="{
-				width: '30px',
-				height: '30px',
-			}">
+			<h-btn icon="com-more_deep">
 				<!--TODO 切换图片展示方式。-->
 			</h-btn>
 		</view>

@@ -5,9 +5,14 @@
         '--bottom': props.bottom + 'rpx',
     }">
         <template v-for="(item, index) in DATA" :key="index">
-            <view v-if="props.show[index]" class="container-btn flex-center-both" :style="{
-                '--bg-color': color['main-deep'],
-            }" @click="chickto(index)">
+            <!--这里没用 h-btn 是因为自定义了【渐入】的动画。-->
+            <view v-if="props.show[index]" 
+                class="container-btn flex-center-both" 
+                :style="{
+                    '--bg-color': color['main-deep'],
+                }"
+                @click="chickto(index)"
+            >
                 <h-icon :name="item.name" size="20"/>
             </view>
         </template>
@@ -116,12 +121,11 @@
 }
 
 .container-btn {
-    padding: 15px;
     width: 50px;
     height: 50px;
+    border-radius:  25px;
 
     background-color: var(--bg-color);
-    border-radius:  50%;
     box-shadow: 0px 0px 5px 3px #3333337f;
 
     animation: fadeIn .3s ease-in-out;

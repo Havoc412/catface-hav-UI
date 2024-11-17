@@ -1,7 +1,7 @@
 const DEBUG = true;
 
 let baseUrl, nginxUrl, catFaceUrl, wssUrl;
-if (!DEBUG) {
+if (DEBUG) {
   baseUrl = "http://127.0.0.1:20201/";  // 开发环境
   wssUrl = "ws://127.0.0.1:20201/";
   catFaceUrl = "http://127.0.0.1:8000/"

@@ -1,54 +1,56 @@
 <!--复刻一下 vuetify-btn-->
 <template>
-    <!-- <Ripple> -->
-        <view class="container-btn flex-center-both" :class="classObject" :style="getOutsideStyle"
-            @touchstart="handleTouchStart" @touchend="handleTouchEnd" @click="click">
-            <slot name="prefix">
-                <h-icon v-if="props.preIcon" :name="props.preIcon" :size="props.iconSize"/>
-            </slot>
-            <view class="flex-center-vertical">
-                <slot name="topfix">
-                    <h-icon v-if="props.icon" :name="props.icon" :size="props.iconSize"/>
-                    <h-icon v-if="props.topIcon" :name="props.topIcon" :size="props.iconSize"/>
-                </slot>
-                <slot>
-                    <!--选中icon属性时，默认只有icon-->
-                    <!--todo 丰富文本内容的样式-->
-                    <view v-if="!props.icon">{{ props.text }}</view>   
-                </slot>
-            </view>
-            <slot name="suffix">
-                <h-icon v-if="props.sufIcon" :name="props.sufIcon" :size="props.iconSize"/>
-            </slot>
-        </view>
-    <!-- </Ripple> -->
+    <view 
+        class="container-btn flex-center-both gap-5" 
+        :class="classObject" 
+        :style="getOutsideStyle"
+        @touchstart="handleTouchStart" @touchend="handleTouchEnd" 
+        @click="click"
+    >
+        <slot name="prefix">
+            <h-icon v-if="props.preIcon" :name="props.preIcon" :size="props.iconSize"/>
+        </slot>
+        <!-- <slot name="topfix">
+            <h-icon v-if="props.icon || props.topIcon" 
+                :name="props.icon || props.topIcon" 
+                :size="props.iconSize"
+            />
+        </slot> -->
+        <slot>
+            <h-icon v-if="props.icon" :name="props.icon" :size="props.iconSize"/>
+            <view v-else>{{ props.text }}</view>
+        </slot>
+        <slot name="suffix">
+            <h-icon v-if="props.sufIcon" :name="props.sufIcon" :size="props.iconSize"/>
+        </slot>
+    </view>
 </template>
 
 <script setup>
-    // import Ripple from "@/components/animation/Ripple.vue";
     import { ref, computed, onMounted } from 'vue';
 
     const props = defineProps({
         variant: {
             type: String,
-            default: "default" // outlined text tonal
+            default: "default" // INFO default、outlined、text、tonal
         },
         text: {
             type: String,
             default: "Button"
         },
-        icon: {
+        // TAG Icon Name
+        icon: {  // icon 模式，设定为只有一个 icon 的特化展示；如果需要 icon + text，请使用其他插槽。
             type: String,
-            default: null     // 没有值，那么就会无效？
+            default: null     // 没有值，那么就会无效
         },
         preIcon: {
             type: String,
             default: null
         },
-        topIcon: {
-            type: String,
-            default: null
-        },
+        // topIcon: {
+        //     type: String,
+        //     default: null
+        // },
         sufIcon: {
             type: String,
             default: null
@@ -57,11 +59,13 @@
             type: String,
             default: "16"
         },
-        btnSize: {
+        // TAG Btn Style
+        btnSizeWhenCircle: {  // circle 状态下有效
             type: String,
             default: "28"
         },
-        animationClose: {
+        // TAG Animation 动画
+        animationClose: {  // 是否关闭动画
             type: Boolean,
             default: false
         },
@@ -69,11 +73,7 @@
             type: String,
             default: "#dddddd"
         },
-        radius: {
-            type: [String, Number],
-            default: 15
-        },
-        // bigger Style
+        // TAG bigger Style
         customStyle: {
             type: Object,
             default: () => ({})
@@ -82,22 +82,23 @@
             type: Boolean,
             default: false
         },
+        // 下面两个都是对 Radius 的设定。
         shape: {
             type: String,
-            default: "default", // circle || default
-        }
+            default: "default", // INFO circle || default; #1 当 icon 有效时，自动设置为 circle。
+        },
+        radius: {
+            type: [String, Number],
+            default: 15
+        },
     });
     const emits = defineEmits(['click']);
 
 
-    const isFadingOut = ref(false);
-    const shape = ref(15);
+    const isFadingOut = ref(false); // UPDATE 换成一般的 let/var 性能方面的提升？
+    const radius = ref(15);
 // FUNC
-    onMounted(() => {
-        if(props.shape === "circle")
-            shape.value = 9999;
-    })
-    // animation
+    // TAG Animation：一个【渐显渐隐】的效果
     function handleTouchStart() {
         isFadingOut.value = true;
     }
@@ -107,29 +108,43 @@
             isFadingOut.value = false;
         }, 200);
     }
+
+    // TAG Style
+    onMounted(() => {
+        if(props.shape === "circle" || props.icon)
+            radius.value = 9999;
+    })
     // classObject
     const classObject = computed(() => {
         // TODO 要是之后能直接获取外部的 class 就好了。
+        const shape = props.icon ? "circle" : props.shape;
         return {
             'btn': !props.animationClose,
             'fade-out': isFadingOut.value && !props.animationClose,
-            [props.variant]: true,
             'disabled': props.disabled,
-            ["shape-" + props.shape]: true
+            // Style
+            ["variant-" + props.variant]: true,
+            ["shape-" + shape]: true
         };
     });
-    // tag 外部容器的样式
+    // 外部容器的样式
     const getOutsideStyle = computed(() => {
-        return {
-            '--border-radius': props.radius.toString() + 'px',
+        const style = {
+            '--border-radius': radius.value.toString() + 'px',
             '--active-color': props.activeColor,
-            '--width': props.btnSize + 'px', // 在 shape-circle 下有效。
-            '--height': props.btnSize + 'px',
-            ...props.customStyle,   // 外部优先级高，覆盖前者。
+            // 外部优先级高，覆盖前者。
+            ...props.customStyle,
+        };
+
+        if (props.shape === 'circle' || props.icon) {
+            style['--width'] = props.btnSizeWhenCircle + 'px';
+            style['--height'] = props.btnSizeWhenCircle + 'px';
         }
+
+        return style;
     })
 
-    // Emits
+    // TAG Function-Emits
     function click() {
         if(!props.disabled) emits('click');
     }
@@ -139,19 +154,18 @@
 <style scoped>
 
 .container-btn {
-    gap: 5px;
     background-color: #fff;
     border-radius: var(--border-radius);
 
     transition: background-color 0.2s ease;
 }
 
+/* TAG Shape Style */
 .shape-default {
-    padding: 6px;
+    padding: 4px;
 }
 
 .shape-circle {
-    padding: 6px;
     width: var(--width);
     height: var(--height);
 }
@@ -161,20 +175,21 @@
     box-shadow: 0px 0px 10px var(--active-color);
 }
 
-.default {
+/* TAG 基本 variant变体 的样式设计 */
+.variant-default {
     box-shadow: 0px 0px 7px rgba(0, 0, 0, .3);
 }
 
-.outlined {
+.variant-outlined {
     background-color: transparent;
     border: 1px solid black;
 }
 
-.text {
+.variant-text {
     background-color: transparent;
 }
 
-.tonal {
+.variant-tonal {
     background-color: #f9f9f9;
 }
 
