@@ -90,9 +90,6 @@
             breed: breedRef.value.getSelectedList(),
             department: departmentRef.value.getSelectedList(),
         };
-        // INFO 特化 Status，如果没有选中其中任何一个，那么就采用默认值；@Reason：尽量减少【喵星】数据的意外出现。
-        if (conditions.status == '')
-            conditions.status = BookFilterConditions.status;
         console.info(conditions);
         emits('getFilterConditions', conditions);
         
