@@ -1,6 +1,6 @@
 <template>
     <view style="font-weight: bold;">
-        <chip light
+        <chip light animation
             :text="encounterLevel[level].zh"
             :bgColor="encounterLevel[level].bg"
             :color="encounterLevel[level].font"

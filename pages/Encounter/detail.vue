@@ -53,6 +53,9 @@
         }
     })
 
+    const flag = reactive({
+        dataReady: false,
+    })
 
 // FUNC
     onLoad( async(params) => {

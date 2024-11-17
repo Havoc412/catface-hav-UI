@@ -11,6 +11,7 @@
             '--font-color': selectFlag ? props.color : '#ccc',
             'opacity': props.hidden ? .3 : 1,
             'font-weight': !props.light ? '' : 'bold',
+            'transition':  props.animation ? 'color .3s, background-color .3s' : '',
         }"
         @click="clickEntrance"
         @long-press="longpress"
@@ -61,6 +62,7 @@
         },
         // TAG hidden
         hidden: Boolean,
+        animation: Boolean,
     });
     const emits = defineEmits(['click', 'select', 'unselect', 'longPress', 'doubleClick']);
 
@@ -134,8 +136,6 @@
     flex-shrink: 0;
     flex-basis: auto;
     white-space: nowrap;
-
-    transition: color .3s, background-color .3s;
 }
 
 .style-full {
