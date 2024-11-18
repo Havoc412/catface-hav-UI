@@ -47,6 +47,7 @@
             </view>
         </view>
         <up-loadmore 
+            v-if="!flag.status.show"
             :status="flag.loadmore"
             loading-text="小护龟速翻阅中..."
             nomore-text="已经没有更多资料啦。"
@@ -75,7 +76,7 @@
     }
     const state = {
         skip: 0,
-        key: 0,
+        key: 0,  // 连续访问保持记录状态的 Key 值。
     }
     
     const data = reactive({
@@ -147,6 +148,7 @@
         data.catsList = data.catsList.concat(res);
     }
 
+    // 根据【名字/昵称】搜索的 API
     async function getDataByName(name) {
         flag.loadmore = 'nomore';
 

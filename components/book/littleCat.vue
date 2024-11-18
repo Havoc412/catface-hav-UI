@@ -53,7 +53,7 @@
         },
         nickNames: {
             type: String,
-            default: "NoName"
+            default: " "  // 用一个空格来占位，顶起组件的高度。
         },
         nickNamesHit: Boolean, // 是否通过 nickName 命中目标？
         schoolStatus: {
@@ -157,6 +157,8 @@
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .3) 30%, rgba(0, 0, 0, 0.6) 100%);
     color: #fff;
     border-radius: 0 0 5px 5px;
+
+    white-space: pre; /* 保留空格和换行符 */
 }
 
 </style>        

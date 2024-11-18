@@ -50,6 +50,8 @@
 
 <script setup>
     import { ref, reactive } from "vue";
+
+    import { BookFilterConditions } from "../../../common/consts-style";
     import color from "@/css/theme/index.module.scss";
     // com
     import headerBase from "../../../components/com/substrate/headerBase.vue";
@@ -67,13 +69,7 @@
         name: false,
     })
     const data = reactive({
-        filterConditions: { // INFO 状态缓存。
-            status: "1,2",
-            gender: "",
-            breed: "",
-            sterilization: "",
-            department: "",
-        },
+        filterConditions: BookFilterConditions,
         name: ""
     })
 
