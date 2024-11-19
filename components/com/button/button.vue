@@ -58,13 +58,17 @@
             default: null
         },
         iconSize: {
-            type: String,
+            type: [String, Number],
             default: "16"
         },
         // TAG Btn Style
         btnSizeWhenCircle: {  // circle 状态下有效
             type: String,
             default: "28"
+        },
+        btnWidthWhenCircle: { // INFO 由于 RAG-TABBAR 宽度过大而特殊设定的。
+            type: String,
+            default: null
         },
         // TAG Animation 动画
         animationClose: {  // 是否关闭动画
@@ -139,7 +143,7 @@
         };
 
         if (props.shape === 'circle' || props.icon) {
-            style['--width'] = props.btnSizeWhenCircle + 'px';
+            style['--width'] = (props.btnWidthWhenCircle || props.btnSizeWhenCircle) + 'px';
             style['--height'] = props.btnSizeWhenCircle + 'px';
         }
 

@@ -1,39 +1,62 @@
 <template>
-    <view class="flex-center-both block tarbar-contain gap-10" :style="{
-        '--bottom': vars.bottom + 'px'
-    }">
-        <h-icon name="com-more" :size="consts.iconSize" @click="goto"/> <!--TODO 之后扩展为更丰富的菜单-->
-        <view class="input-container shrink">
-            <u--textarea 
-                v-model="inputContent" auto-height
-                :confirmType="null"
-                :cursorSpacing="20"
-                :showConfirmBar="false"
-                border="none" fontSize="14"
-                :style="{
-                    // padding: '3px 7px',
-                    backgroundColor: 'transparent',
-                    // info 限制最大高度
-                    maxHeight: '65px',
-                    overflowY: 'scroll'
-                }"
+    <tabberBase z-index="8" :bgColor="color['main-deep']" :bottom="moveHeight">
+        <template #prefix>
+            <!--TODO 之后扩展为更丰富的菜单-->
+            <h-btn 
+                variant="text" 
+                icon="com-more" 
+                :iconSize="CONSTS.ICONSIZE"
+                btnSizeWhenCircle="40"
+                btnWidthWhenCircle="30"
+                @click="goto"
             />
-            <!--todo
-                :adjustPosition="false"
-                wx 好像不兼容，可能是 name 的问题。
-                @keyboardheightchange="keyboardChange"
-            -->
-        </view>
-        <h-icon name="com-add" :size="consts.iconSize"/>
-        <view v-if="inputContent !== ''" class="send-container flex-horizontal gap-5" @touchend.prevent="sendUserMessage">
-            <view v-if="talkStore.loading" class="loader"/>
-            <text>{{ talkStore.loading ? "停止" : "发送" }}</text>
-        </view>
-    </view>
+        </template>
+        <template #midfix>
+            <!--update delete focus-->
+            <view class="input-container shrink">
+                <up-textarea 
+                    v-model="inputContent"  
+                    :confirmType="null"
+                    :show-confirm-bar="false"
+                    :adjustPosition="false"
+                    :height="inputHeight"
+                    :cursorSpacing="20"
+                    border="none"
+                    fontSize="14"
+                    :style="{
+                        padding: '3px 7px',
+                        backgroundColor: 'transparent',
+                        // info 限制最大高度
+                        maxHeight: '65px',
+                        overflowY: 'scroll'
+                    }"
+                    @linechange="changeInputHeight"
+                    @keyboardheightchange="keyboardChange"
+                />
+            </view>
+        </template>
+        <template #suffix>
+            <h-btn 
+                variant="text" 
+                icon="com-add" 
+                :iconSize="CONSTS.ICONSIZE"
+                btnSizeWhenCircle="40"
+                btnWidthWhenCircle="30"
+            />
+            <view v-if="inputContent !== ''" class="send-container flex-horizontal gap-5" @touchend.prevent="sendUserMessage">
+                <view v-if="talkStore.loadding" class="loader"/>
+                <text>{{ talkStore.loadding ? "停止" : "发送" }}</text>
+            </view>
+        </template>
+    </tabberBase>
 </template>
 
 <script setup>
     import { ref, reactive } from "vue";
+
+    import color from "@/css/theme/index.module.scss";
+    // com
+    import tabberBase from "../com/substrate/tabberBase.vue";
     // store
     import { aiTalk } from "../../store/aiTalk";
     const talkStore = aiTalk();
@@ -43,81 +66,62 @@
     const props = defineProps({
 
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(["sendMessage", "keyBoardChange"]);
 
-    const consts = reactive({
-        iconSize: 22,
-        bottom: 30
-    })
+    const CONSTS = {
+        ICONSIZE: 20,
+        InputLineHeight: 25
+    }
 
     const inputContent = ref('');
-    const vars = reactive({
-        bottom: 0
-    })
+    const inputHeight = ref(CONSTS.InputLineHeight);
+    const moveHeight = ref(0);  // info 监听键盘事件
 
 // FUNC
     const sendUserMessage = () => {
         // info 根据 talkStore.loading 的状态来判断不同的操作
-        if(talkStore.loading) {
+        if(talkStore.loadding) {
             talkStore.stopAiTalk();
         } else {
-            talkStore.sendUserMsg(inputContent.value);
+            emits('sendMessage', inputContent.value);
             inputContent.value = "";
         }
     }
 
     const keyboardChange = (infor) => {
         console.info("键盘变化", infor); // info
-        // emits("keyBoardChange", infor.detail);
-        // moveHeight.value = infor.detail.height;
-        if(vars.bottom > consts.bottom)
-            vars.bottom = consts.bottom;
-        else
-            vars.bottom = infor.detail.height; // * phoneStore.singlePx;
-        console.debug(vars.bottom);
+        emits("keyBoardChange", infor.detail);
+        moveHeight.value = infor.detail.height;
+    }
+    
+    const changeInputHeight = (infor) => {
+        inputHeight.value = CONSTS.InputLineHeight * infor.detail.lineCount;
     }
 
+    // Router
     function goto() {
         const pageUrl = '/pages/Rag/history';
         uni.navigateTo({ url: pageUrl });
     }
 
-    
-
 </script>
 
-<style lang="scss" scoped>
-@import "/css/theme/index.module.scss";
-
-.tarbar-contain {
-    position: fixed;
-    bottom: var(--bottom);
-    transition: bottom .1s;
-
-
-    background-color: $h-bg-deep;
-    border-radius: 10px 10px 0 0;
-    padding: 5px 15px;
-}
+<style scoped>
 
 .input-container {
-    width: 100%;
     margin: 5px;
-
+    
     border-radius: 5px;
     background-color: #f9f9f9;
-
-    max-height: 65px;
-    overflow-y: hidden;
 }
 
 .loader {
-  border: 3px solid #ffffff6b; /* 浅灰色背景 */
-  border-top: 3px solid #ffffff; /* 蓝色 */
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  animation: spin 2s linear infinite;
+    border: 3px solid #ffffff6b; /* 浅灰色背景 */
+    border-top: 3px solid #ffffff; /* 蓝色 */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
@@ -132,6 +136,7 @@
 
     color: #fff;
     font-size: 15px;
+    font-weight: bold;
     font-family: Alimama ShuHeiTi;
 }
 

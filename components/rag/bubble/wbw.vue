@@ -42,7 +42,6 @@
     onUnmounted(() => {
         clearInterval(timer);
     })
-    
 
 </script>
 

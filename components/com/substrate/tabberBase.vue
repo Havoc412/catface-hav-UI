@@ -13,7 +13,7 @@
     @click.stop>
         <!--INFO 放置到顶部-->
         <slot name="topfix"></slot>
-        <view class="flex-bottom-horizontal bottom-container">
+        <view class="flex-bottom-horizontal">
             <!--INFO 简单的分为了 前-中-后-->
             <view class="flex-center-horizontal">
                 <slot name="prefix"></slot>

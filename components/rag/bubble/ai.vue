@@ -6,13 +6,13 @@
         </view>
         <view class="talk-container wrap">
             <template v-for="(item, index) in props.content" :key="index">
-                <span v-if="item.type == 'text'">
+                <template v-if="item.type === 'doc'">
+                    <doc :nodes="item.nodes"/>
+                </template>
+                <template v-else-if="item.type == 'text'">
                     <span v-if="!props.wordByWord" :class="item.type">{{ item.text }}</span>
                     <word-by-word v-else :classCustom="item.type" :text="item.text"/>
-                </span>
-                <view v-else-if="item.type == 'doc'">
-                    <doc :nodes="item.nodes"/>
-                </view>
+                </template>
             </template>
             <!--表示加载中的 ... -->
             <span v-if="props.wordByWord">...</span>
