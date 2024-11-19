@@ -57,7 +57,7 @@
 
 // FUNC
     const contentSlice = computed(() => {
-        return props.content.slice(0, 10) + "..."
+        return '“' + props.content.slice(0, 10) + "..."
     })
 
     const formatDate = (dateString) => {
