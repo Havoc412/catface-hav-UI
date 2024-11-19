@@ -15,6 +15,7 @@
                 <view class="shrink"/>
                 <view>ID: {{ props.id }}</view>
             </view>
+            <up-divider :hairline="false" lineColor="#888888"/>
             <view class="mt-10"><span>
                 {{ props.content }}
             </span></view>
@@ -57,6 +58,7 @@
 
 .container-knowledge {
     background-color: #fff;
+    border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     padding-left: 5px;
 }
