@@ -100,7 +100,7 @@
 
 // FUNC
     onMounted(() => {
-        inputContent.value = "1.2";  // TIP wx 实机中 textarea 组件有bug，靠这句实现清空，然后就正常了；// INFO 错误的，需要前后配合，触发他的 watch。
+        inputContent.value = "";  // TIP wx 实机中 textarea 组件有bug，靠这句实现清空，然后就正常了；// INFO 错误的，需要前后配合，触发他的 watch。
     })
 
     const sendUserMessage = () => {
