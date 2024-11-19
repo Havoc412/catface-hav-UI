@@ -32,14 +32,24 @@ function createAiMessageItem(text: String, type: String = "text") {
   };
 }
 
+function createAiDocItem(nodes: any[], type: String = "doc") {
+  return {
+    type,
+    nodes,
+  };
+}
+
 export const aiTalk = defineStore("aiTalkContent", {
   state: () => {
     return {
       topic: "默认对话",
       avatar: "/static/dog.jpg",
       name: "小护",
-      history: [],
+
       loadding: false,
+      token: "",
+
+      history: [],
 
       // tag detect_cat
       mode: "default", // || detect_cat || knowledge
@@ -126,17 +136,46 @@ export const aiTalk = defineStore("aiTalkContent", {
       
       console.debug(WSS_URL);
       const ws = uni.connectSocket({
-        url: WSS_URL + "admin/rag/default_talk?query=" + text,
+        url: WSS_URL + "admin/rag/default_talk?query=" + text + "&token=" + this.token,
         complete: () => {},
         fail: error => { console.error(error); }
       });
 
-      ws.onMessage((res) => {
+      ws.onMessage((event) => {
         if (!this.loadding) {
           ws.close();
           return;
         }
-        this.addAiMessage(res.data);
+        let data;
+        try {
+          data = JSON.parse(event.data);
+        } catch (e) {
+          console.error(e)
+          return
+        }
+
+        console.debug(data); // TEST
+        switch (data.type) {
+          case "chat":
+            this.addAiMessage(data.data);
+            break;
+          case "doc":
+            this.addAiDoc(data.data);
+            break;
+          case "token":
+            console.log("Token received:", data.data);
+            this.token = data.data;
+            ws.close();
+            break;
+        }
+        // if (data.type === "chat") {
+        //   // 处理聊天消息
+        //   this.addAiMessage(data.data);
+        // } else if (data.type === "token") {
+        //   // 处理 token 消息
+        //   console.log("Token received:", data.data);
+        //   this.token = data.data;
+        // }
       });
 
       ws.onClose(
@@ -149,6 +188,10 @@ export const aiTalk = defineStore("aiTalkContent", {
     addAiMessage(content: String) {
       const index = this.lastIndex;
       this.history[index]["content"].push(createAiMessageItem(content));
+    },
+    addAiDoc(node: any[]) {
+      const index = this.lastIndex;
+      this.history[index]["content"].push(createAiDocItem(node));
     },
     stopAiTalk() {
       // 中断当前 sse 连接

@@ -4,7 +4,7 @@
             <text class="wrap">{{ props.text }}</text>
         </view>
         <!--TODO 这里的图片需要从 User Infor 获取。-->
-        <up-image src="/static/user.jpg" height="70rpx" width="70rpx" radius="35rpx"/>
+        <up-image src="/static/user.jpg" height="40px" width="40px" radius="20px"/>
     </view>
 </template>
 
@@ -33,7 +33,7 @@
 }
 
 .talk-container {
-    max-width: calc(100% - 80px);
+    max-width: calc(100% - 100px);
 
     padding: 10px 12px;
     background-color: #a8ece0;

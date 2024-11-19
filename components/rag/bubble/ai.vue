@@ -1,13 +1,18 @@
 <template>
     <view class="flex-top-horizontal container gap-10">
         <view class="relative">
-            <up-image :src="props.avatar" height="70rpx" width="70rpx" radius="35rpx"/>
+            <up-image :src="props.avatar" height="40px" width="40px" radius="35px"/>
             <view v-if="props.wordByWord" class="loader"/>
         </view>
         <view class="talk-container wrap">
             <template v-for="(item, index) in props.content" :key="index">
-                <span v-if="!props.wordByWord" :class="item.type">{{ item.text }}</span>
-                <word-by-word v-else :classCustom="item.type" :text="item.text"/>
+                <span v-if="item.type == 'text'">
+                    <span v-if="!props.wordByWord" :class="item.type">{{ item.text }}</span>
+                    <word-by-word v-else :classCustom="item.type" :text="item.text"/>
+                </span>
+                <view v-else-if="item.type == 'doc'">
+                    <doc :nodes="item.nodes"/>
+                </view>
             </template>
             <!--表示加载中的 ... -->
             <span v-if="props.wordByWord">...</span>
@@ -19,6 +24,7 @@
     import { ref } from "vue";
     // com
     import wordByWord from "./wbw.vue";
+    import doc from "../doc/doc.vue";
     // store
 // DATA
     const props = defineProps({
@@ -52,7 +58,7 @@
 }
 
 .talk-container {
-    max-width: calc(100% - 80px);
+    max-width: calc(100% - 100px);
 
     padding: 10px 12px;
     background-color: #fff;
