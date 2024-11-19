@@ -3,7 +3,7 @@
         :message="email.snackbar_message" :color="email.kind_flag"
         :timeout="email.time_flag ? 15000 : 2000 ">
     </snackbar>
-    <view class="flex-center-vertical contianer bg-img mt-10">
+    <view class="flex-center-vertical contianer bg-img">
         <view class="flex-center-vertical">
             <view class="title">点击下图，上传猫猫图像</view>
             <PlaceHolder height="3"/>
