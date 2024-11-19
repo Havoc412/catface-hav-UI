@@ -1,11 +1,13 @@
 <template>
-    <tabberBase z-index="8" :bgColor="color['main-deep']" :bottom="moveHeight">
+    <placeHolder height="60"/> <!--下面 fixed，所以这里占位用。-->
+    <tabberBase z-index="8" position="fixed" padding="5" :bgColor="color['main-deep']" :bottom="moveHeight">
         <template #prefix>
             <!--TODO 之后扩展为更丰富的菜单-->
             <h-btn 
                 variant="text" 
                 icon="com-more" 
                 :iconSize="CONSTS.ICONSIZE"
+                activeColor="transparent"
                 btnSizeWhenCircle="40"
                 btnWidthWhenCircle="30"
                 @click="goto"
@@ -36,16 +38,19 @@
             </view>
         </template>
         <template #suffix>
-            <h-btn 
-                variant="text" 
-                icon="com-add" 
-                :iconSize="CONSTS.ICONSIZE"
-                btnSizeWhenCircle="40"
-                btnWidthWhenCircle="30"
-            />
-            <view v-if="inputContent !== ''" class="send-container flex-horizontal gap-5" @touchend.prevent="sendUserMessage">
-                <view v-if="talkStore.loadding" class="loader"/>
-                <text>{{ talkStore.loadding ? "停止" : "发送" }}</text>
+            <view class="flex-center-horizontal gap-5">
+                <h-btn 
+                    variant="text" 
+                    icon="com-add" 
+                    :iconSize="CONSTS.ICONSIZE"
+                    activeColor="transparent"
+                    btnSizeWhenCircle="40"
+                    btnWidthWhenCircle="30"
+                />
+                <view v-if="inputContent !== ''" class="send-container flex-horizontal gap-5" @touchend.prevent="sendUserMessage">
+                    <view v-if="talkStore.loadding" class="loader"/>
+                    <text>{{ talkStore.loadding ? "停止" : "发送" }}</text>
+                </view>
             </view>
         </template>
     </tabberBase>
@@ -57,6 +62,7 @@
     import color from "@/css/theme/index.module.scss";
     // com
     import tabberBase from "../com/substrate/tabberBase.vue";
+    import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     // store
     import { aiTalk } from "../../store/aiTalk";
     const talkStore = aiTalk();
@@ -90,7 +96,7 @@
 
     const keyboardChange = (infor) => {
         console.info("键盘变化", infor); // info
-        emits("keyBoardChange", infor.detail);
+        // emits("keyBoardChange", infor.detail);
         moveHeight.value = infor.detail.height;
     }
     
@@ -110,6 +116,7 @@
 
 .input-container {
     margin: 5px;
+    width: 100%;
     
     border-radius: 5px;
     background-color: #f9f9f9;

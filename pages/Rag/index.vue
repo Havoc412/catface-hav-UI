@@ -9,16 +9,16 @@
                     :avatar="talkStore.avatar"
                     :content="item.content"
                     :word-by-word="index === talkStore.lastIndex && talkStore.loadding"
+                    @addMessage="gotoPageEnd"
                 />
                 <user-bubble v-else :text="item.text"/>
             </template>
-            <view :style="{
+            <!-- <view :style="{
                 height: keyboardHeight.toString() + 'px'
-            }"/>
+            }"/> -->
         </view>
-        <!-- <placeHolder v-if="talkStore.history.length"  height="70"/>  -->
         <!--稍微高一些，更好的阅读效果。-->
-        <ai-tabbar @send-message="sendUserMessage" @key-board-change="handleKeyBoard"/>  <!--TODO 这里需要获取信息-->
+        <ai-tabbar @send-message="sendUserMessage"/>  <!--TODO 这里需要获取信息 @key-board-change="handleKeyBoard"-->
     </view>
 </template>
 
@@ -32,7 +32,6 @@
     import aiBubble from "../../components/rag/bubble/ai.vue";
     import userBubble from "../../components/rag/bubble/user.vue";
 
-    import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     import aiTabbar from "../../components/rag/tabbar.vue";
     // store
     import { aiTalk } from "../../store/aiTalk";
@@ -42,22 +41,24 @@
         topic: false
     })
     // animation
-    const keyboardHeight = ref(0);
+    // const keyboardHeight = ref(0);
     
 // FUNC
-    const gotoPageEnd = (time) => {
+    const gotoPageEnd = (time = 100) => {
         nextTick(() => {
             uni.pageScrollTo({ scrollTop: 99999, duration: time });
         });
     }
 
     onMounted(() => {
-        // gotoPageEnd(0);
+        gotoPageEnd(0);
     })
-    watch(talkStore.history, () => {
-        // todo 增加关于 滑动范围的判定。
-        gotoPageEnd(100);
-    })
+    // INFO 方案一：性能开销有些太大了。
+    // watch(() => talkStore.history, () => {  // 只有一开始添加数据的时候会监听到变化。
+    //     // todo 增加关于 滑动范围的判定。
+    //     console.debug("talkStore.history changed.")
+    //     gotoPageEnd(100);
+    // }, { deep: true })
     
     // TAG Core Code
 
@@ -81,10 +82,10 @@
         flag.topic = !flag.topic;
     }
 
-    const handleKeyBoard = (infor) => {
-        keyboardHeight.value = infor.height;
-        gotoPageEnd(100);
-    }
+    // const handleKeyBoard = (infor) => {
+    //     keyboardHeight.value = infor.height;
+    //     gotoPageEnd(100);
+    // }
 
 </script>
 

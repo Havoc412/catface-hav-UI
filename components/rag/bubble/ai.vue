@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-    import { ref } from "vue";
+    import { ref, watch, onMounted } from "vue";
     // com
     import wordByWord from "./wbw.vue";
     import doc from "../doc/doc.vue";
@@ -41,9 +41,35 @@
         time: String,
         wordByWord: Boolean
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(["addMessage"]);
 
 // FUNC
+    let contentWatch = null;
+
+    watch(() => props.wordByWord, (newVal) => {
+        if (newVal) {
+            // 创建 watch
+            contentWatch = watch(() => props.content, () => {
+                emits("addMessage");
+            }, { deep: true });
+        } else {
+            // 关闭 watch
+            if (contentWatch) {
+                console.debug("关闭 content watch")
+                contentWatch();
+                contentWatch = null;
+            }
+        }
+    });
+
+    onMounted(() => {
+        // 初始检查 wordByWord 的值
+        if (props.wordByWord) {
+            contentWatch = watch(() => props.content, () => {
+                emits("addMessage");
+            }, { deep: true });
+        }
+    })
 
 </script>
 

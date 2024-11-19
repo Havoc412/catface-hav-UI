@@ -16,7 +16,7 @@
                 <view>ID: {{ props.id }}</view>
             </view>
             <up-divider :hairline="false" lineColor="#888888"/>
-            <view class="mt-10"><span>
+            <view class="mt-10 container-content"><span>
                 {{ props.content }}
             </span></view>
         </blockBase>
@@ -74,6 +74,11 @@
 .content {
     font-size: 12px;
     font-weight: 300;
+}
+
+.container-content {
+    max-height: 70vh;
+    overflow-y: scroll;
 }
 
 </style>
