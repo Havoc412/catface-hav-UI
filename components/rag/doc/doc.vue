@@ -7,6 +7,7 @@
                 :id="item.id"
                 :fileName="item.name"
                 :content="item.content"
+                :updatedAt="item.updated_at"
             />
         </template>
     </view>

@@ -19,6 +19,10 @@
             <view class="mt-10 container-content"><span>
                 {{ props.content }}
             </span></view>
+            <view class="flex-center-horizontal mt-5">
+                <view class="shrink"/>
+                <h-tip>最后编辑于：{{ formatDate(props.updatedAt) }}</h-tip>
+            </view>
         </blockBase>
     </up-overlay>
 </template>
@@ -41,6 +45,10 @@
         content: {
             type: String,
             default: "这是知识文档的内容。"
+        },
+        updatedAt: {
+            type: String,
+            default: "2023-01-01"
         }
     });
     const emits = defineEmits([]);
@@ -51,6 +59,14 @@
     const contentSlice = computed(() => {
         return props.content.slice(0, 10) + "..."
     })
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
 
 </script>
 
