@@ -47,7 +47,7 @@
                     btnSizeWhenCircle="40"
                     btnWidthWhenCircle="40"
                 />
-                <view v-if="inputContent !== ''" class="send-container flex-horizontal gap-5" @touchend.prevent="sendUserMessage">
+                <view v-if="inputContent !== '' || talkStore.loadding" class="send-container flex-horizontal gap-5" @touchend.prevent="sendUserMessage">
                     <view v-if="talkStore.loadding" class="loader"/>
                     <text>{{ talkStore.loadding ? "停止" : "发送" }}</text>
                 </view>
@@ -60,14 +60,13 @@
     <!--INFO 全屏 键盘弹出，底部固定。-->
     <fullTextArea v-if="flag.fullTextArea"
         v-model:input="inputContent"
-        :startMoveBottom="moveHeight"
         @close="flag.fullTextArea = false"
         @sendMessage="sendUserMessageFromFullTextArea"
     />
 </template>
 
 <script setup>
-    import { ref, reactive, computed, watch } from "vue";
+    import { ref, reactive, computed, watch, onMounted } from "vue";
 
     import color from "@/css/theme/index.module.scss";
     // com
@@ -95,11 +94,15 @@
         fullTextArea: false,
     })
 
-    const inputContent = ref('');
-    const inputHeight = ref(40);
+    const inputContent = ref("在此输入"); // 随便写一些；// UPDATE 临时解决方案。或许改他源码，调它函数会更好。
+    const inputHeight = ref(CONSTS.InputLineHeight);
     const moveHeight = ref(0);  // info 监听键盘事件
 
 // FUNC
+    onMounted(() => {
+        inputContent.value = "1.2";  // TIP wx 实机中 textarea 组件有bug，靠这句实现清空，然后就正常了；// INFO 错误的，需要前后配合，触发他的 watch。
+    })
+
     const sendUserMessage = () => {
         // info 根据 talkStore.loading 的状态来判断不同的操作
         if(talkStore.loadding) {

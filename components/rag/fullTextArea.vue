@@ -2,7 +2,7 @@
     <view>
         <view class="container-textarea flex-vertical z-9" :style="{
             '--top': state.top + 'px',
-            '--height': areaHeight + 'px',
+            '--height': state.areaHeight + 'px',
         }" @touchmove.prevent>
             <view class="flex-center-horizontal container-top-tools">
                 <view>
@@ -15,31 +15,35 @@
                 v-model="inputValue"
                 focus
                 fixed
-                :height="areaHeight"
+                :height="state.areaHeight"
+                :adjustPosition="false"
                 :show-confirm-bar="false"
                 :maxlength="CONSTS.MAX_LENGTH"
                 holdKeyboard
                 count
                 border="none"
+                @keyboardheightchange="keyboardChange2"
             />
         </view>
         <tabberBase zIndex="9" position="fixed" padding="2px 10px 2px 0" animationFadeInFromHalf
-            :bgColor="color['main-deep']" :bottom="props.keyboardHeight">
+            :bgColor="color['main-deep']" :bottom="state.keyboardHeight">
             <template #prefix>
-                <h-btn 
-                    variant="text" 
-                    icon="com-more" 
-                    :iconSize="CONSTS.ICONSIZE"
-                    activeColor="transparent"
-                    btnSizeWhenCircle="40"
-                />
-                <h-btn 
-                    variant="text" 
-                    icon="com-add" 
-                    :iconSize="CONSTS.ICONSIZE"
-                    activeColor="transparent"
-                    btnSizeWhenCircle="40"
-                />
+                <view class="flex-center-horizontal">
+                    <h-btn 
+                        variant="text" 
+                        icon="com-more" 
+                        :iconSize="CONSTS.ICONSIZE"
+                        activeColor="transparent"
+                        btnSizeWhenCircle="40"
+                    />
+                    <h-btn 
+                        variant="text" 
+                        icon="com-add" 
+                        :iconSize="CONSTS.ICONSIZE"
+                        activeColor="transparent"
+                        btnSizeWhenCircle="40"
+                    />
+                </view>
             </template>
             <template #suffix>
                 <view class="send-container" @click="emits('sendMessage')"><text>发送</text></view>
@@ -49,7 +53,7 @@
 </template>
 
 <script setup>
-    import { reactive, ref, onMounted, computed } from "vue";
+    import { reactive, ref, onMounted } from "vue";
 
     import color from "@/css/theme/index.module.scss";
     // com
@@ -60,10 +64,6 @@
 // DATA
     const inputValue = defineModel('input');  // TIP
     const props = defineProps({
-        keyboardHeight: {  // 初始距离底部的高度，也就是键盘的高度。
-            type: Number,
-            default: 0
-        }
     });
     const emits = defineEmits(['close', 'sendMessage']);
 
@@ -73,21 +73,21 @@
     }
 
     const state = reactive({
-        top: phoneInforStore.phoneHeight - props.keyboardHeight,
+        top: phoneInforStore.phoneHeight,
+        keyboardHeight: 0,
+        areaHeight: phoneInforStore.phoneHeight,
     })
 
 // FUNC
     onMounted(() => {
         state.top =  0;
     })
-
-    const areaHeight = computed(() => {
-        return phoneInforStore.phoneHeight - props.keyboardHeight;
-    })
-
+    
     // keyboard
-    function keyboardChange(event) {
-        
+    function keyboardChange2(event) {  // 依旧在触发外部的 keycoard ？！
+        console.info("keyboardHeightChange - 2!!!", event)
+        state.keyboardHeight = event.detail.height;
+        state.areaHeight = phoneInforStore.phoneHeight - state.keyboardHeight;
     }
 
 </script>
