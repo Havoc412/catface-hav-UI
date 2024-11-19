@@ -1,6 +1,6 @@
 <template>
-    <placeHolder height="60"/> <!--下面 fixed，所以这里占位用。-->
-    <tabberBase z-index="8" position="fixed" padding="5" :bgColor="color['main-deep']" :bottom="moveHeight">
+    <placeHolder :height="placeHolderHeight.toString()"/> <!--下面 fixed，所以这里占位用。-->
+    <tabberBase z-index="8" position="fixed" padding="2px 10px" :bgColor="color['main-deep']" :bottom="moveHeight">
         <template #prefix>
             <!--TODO 之后扩展为更丰富的菜单-->
             <h-btn 
@@ -9,18 +9,19 @@
                 :iconSize="CONSTS.ICONSIZE"
                 activeColor="transparent"
                 btnSizeWhenCircle="40"
-                btnWidthWhenCircle="30"
+                btnWidthWhenCircle="25"
                 @click="goto"
             />
         </template>
         <template #midfix>
             <!--update delete focus-->
-            <view class="input-container shrink">
+            <view class="input-container">
                 <up-textarea 
-                    v-model="inputContent"  
-                    :confirmType="null"
+                    v-model="inputContent"
+                    fixed
                     :show-confirm-bar="false"
                     :adjustPosition="false"
+                    :disableDefaultPadding="true"
                     :height="inputHeight"
                     :cursorSpacing="20"
                     border="none"
@@ -38,14 +39,14 @@
             </view>
         </template>
         <template #suffix>
-            <view class="flex-center-horizontal gap-5">
+            <view class="flex-center-horizontal">
                 <h-btn 
                     variant="text" 
                     icon="com-add" 
                     :iconSize="CONSTS.ICONSIZE"
                     activeColor="transparent"
                     btnSizeWhenCircle="40"
-                    btnWidthWhenCircle="30"
+                    btnWidthWhenCircle="40"
                 />
                 <view v-if="inputContent !== ''" class="send-container flex-horizontal gap-5" @touchend.prevent="sendUserMessage">
                     <view v-if="talkStore.loadding" class="loader"/>
@@ -57,7 +58,7 @@
 </template>
 
 <script setup>
-    import { ref, reactive } from "vue";
+    import { ref, computed, watch } from "vue";
 
     import color from "@/css/theme/index.module.scss";
     // com
@@ -76,7 +77,8 @@
 
     const CONSTS = {
         ICONSIZE: 20,
-        InputLineHeight: 25
+        InputLineHeight: 20,
+        InputMaxHeight: 90
     }
 
     const inputContent = ref('');
@@ -94,6 +96,8 @@
         }
     }
 
+    // Style && keyboard
+
     const keyboardChange = (infor) => {
         console.info("键盘变化", infor); // info
         // emits("keyBoardChange", infor.detail);
@@ -101,8 +105,18 @@
     }
     
     const changeInputHeight = (infor) => {
-        inputHeight.value = CONSTS.InputLineHeight * infor.detail.lineCount;
+        inputHeight.value = Math.min(CONSTS.InputLineHeight * infor.detail.lineCount, CONSTS.InputMaxHeight);
     }
+
+    watch(() => inputHeight.value, (newVal, oldVal) => {
+        if (newVal > oldVal) {
+            emits("keyBoardChange");
+        }
+    });
+
+    const placeHolderHeight = computed(() => {
+        return 40 + moveHeight.value + inputHeight.value;
+    })
 
     // Router
     function goto() {
@@ -120,6 +134,8 @@
     
     border-radius: 5px;
     background-color: #f9f9f9;
+
+    transition: width 0.5s; /** BUG 好像无效。 */
 }
 
 .loader {

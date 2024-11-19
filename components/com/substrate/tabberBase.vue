@@ -13,12 +13,12 @@
     @click.stop>
         <!--INFO 放置到顶部-->
         <slot name="topfix"></slot>
-        <view class="flex-bottom-horizontal block">
+        <view class="flex-bottom-horizontal">
             <!--INFO 简单的分为了 前-中-后-->
             <view class="flex-center-horizontal">
                 <slot name="prefix"></slot>
             </view>
-            <view class="flex-center-horizontal shrink">
+            <view class="shrink">
                 <slot name="midfix"></slot>
             </view>
             <view class="flex-center-horizontal"> 

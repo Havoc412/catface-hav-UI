@@ -2,7 +2,11 @@
     <view class="flex-vertical talk-container bg-img">
         <topic :text="talkStore.topic" :animation="flag.topic"/>
         <!-- TALK WINDOW -->
-        <view class="flex-vertical gap-10 container-dialogue mt-10">
+        <view class="flex-vertical gap-10 container-dialogue mt-10"
+            @touchstart="handleTouchStart" 
+            @touchmove="handleTouchMove" 
+            @touchend="handleTouchEnd"
+            >
             <intro v-if="talkStore.default" @send="InitTalk"/>
             <template v-else v-for="(item, index) in talkStore.history" :key="index">
                 <ai-bubble v-if="item.side" 
@@ -18,12 +22,13 @@
             }"/> -->
         </view>
         <!--稍微高一些，更好的阅读效果。-->
-        <ai-tabbar @send-message="sendUserMessage"/>  <!--TODO 这里需要获取信息 @key-board-change="handleKeyBoard"-->
+        <ai-tabbar @send-message="sendUserMessage" @keyBoardChange="gotoPageEnd(0)"/>  <!--TODO 这里需要获取信息 @key-board-change="handleKeyBoard"-->
     </view>
 </template>
 
 <script setup>
     import { ref, reactive, onMounted, nextTick, watch } from "vue";
+	import { onPageScroll, onReachBottom } from '@dcloudio/uni-app'
 
     // com
     import intro from "./sub/intro.vue";
@@ -36,24 +41,32 @@
     // store
     import { aiTalk } from "../../store/aiTalk";
     const talkStore = aiTalk();
+    
 // DATA
+    const CONSTS = {
+        PAGEMOVE_STOP_THRESHOLD: 10,
+    }
     const flag = reactive({
-        topic: false
+        topic: false,
+        pageMove: true,
     })
+    const vars = {
+        touchStartY: 0,
+    }
     // animation
-    // const keyboardHeight = ref(0);
     
 // FUNC
     const gotoPageEnd = (time = 100) => {
-        nextTick(() => {
-            uni.pageScrollTo({ scrollTop: 99999, duration: time });
-        });
+        if (flag.pageMove)
+            nextTick(() => {
+                uni.pageScrollTo({ scrollTop: 99999, duration: time });
+            });
     }
 
     onMounted(() => {
         gotoPageEnd(0);
     })
-    // INFO 方案一：性能开销有些太大了。
+    // INFO 方案一：性能开销有些太大了；换方案二了，子组件发送事件。
     // watch(() => talkStore.history, () => {  // 只有一开始添加数据的时候会监听到变化。
     //     // todo 增加关于 滑动范围的判定。
     //     console.debug("talkStore.history changed.")
@@ -63,6 +76,7 @@
     // TAG Core Code
 
     function sendUserMessage(text) {
+        flag.pageMove = true;  // 发送消息时一定滚动到最后。
         talkStore.sendUserMsg(text);
         gotoPageEnd(200);
     }
@@ -77,15 +91,43 @@
         sendUserMessage(text);
     }
 
+    // TAG page 是否跟随滚动的判断依据。
+
+    // onPageScroll((e) => {
+    //     scrollTop.value = e.scrollTop;
+    // })
+    // watch(() => scrollTop.value, (newVal, oldVal) => {
+    //     console.debug("scrollTop changed.", newVal, oldVal, newVal - oldVal)
+    //     if (oldVal - newVal > CONSTS.PAGEMOVE_STOP_THRESHOLD) // 出现上滑动作。
+    //         flag.pageMove = false;
+    // })
+
+        // Drag Handler
+    function handleTouchStart(event) {
+        flag.pageMove = false;
+        vars.touchStartY = event.changedTouches[0].pageY;
+        event.stopPropagation();
+    }
+    function handleTouchMove(event) {
+        event.stopPropagation();
+        // if (touchMoveY - vars.touchStartY > CONSTS.PAGEMOVE_STOP_THRESHOLD)
+        //     flag.pageMove = false;
+    };
+    function handleTouchEnd(event) {
+        const touchMoveY = event.changedTouches[0].pageY;
+        if (touchMoveY - vars.touchStartY > CONSTS.PAGEMOVE_STOP_THRESHOLD)
+            return;
+        flag.pageMove = true;
+    }
+
+    onReachBottom(() => {
+        flag.pageMove = true;
+    })
+
     // TAG animation
     function topic_animation() {
         flag.topic = !flag.topic;
     }
-
-    // const handleKeyBoard = (infor) => {
-    //     keyboardHeight.value = infor.height;
-    //     gotoPageEnd(100);
-    // }
 
 </script>
 
