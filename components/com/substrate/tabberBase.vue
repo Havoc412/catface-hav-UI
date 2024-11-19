@@ -8,7 +8,8 @@
         '--bg-color': props.bgColor  
     }"
     :class="{
-        [setZIndex]: true
+        [setZIndex]: true,
+        'fade-in-from-half': props.animationFadeInFromHalf
     }"
     @click.stop>
         <!--INFO 放置到顶部-->
@@ -25,7 +26,7 @@
                 <slot name="suffix"></slot>
             </view>
         </view>
-        <!--INFO 支持 Fixed 自定义固定一些组件-->
+        <!--INFO 支持 Fixed 自定义固定一些组件 <!--BUG wx 中不好用。-->
         <slot name="fixed">
             <!-- <view style="position: absolute; right: 0; top:0">TEST</view> -->
         </slot>
@@ -55,7 +56,8 @@
         bgColor: {
             type: String,
             default: "transparent"
-        }
+        },
+        animationFadeInFromHalf: Boolean,
     });
     const emits = defineEmits([]);
 

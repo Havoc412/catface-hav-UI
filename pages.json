@@ -10,17 +10,16 @@
   "tabBar": {  // INFO 特殊优化 Tabbar 页面的缓存，但是不启用原生的 Tabbar 组件。
     "list": [
       {
-        "pagePath": "pages/Book/index",
+        "pagePath": "pages/Book/index"
       },
       {
-        "pagePath": "pages/Home/index",
+        "pagePath": "pages/Home/index"
       },
       {
-        "pagePath": "pages/User/index",
+        "pagePath": "pages/User/index"
       }
     ],
     "backgroundColor": "transparent", // 相当于让 tabbar 显示的很底层；不会在加载时那么突兀。
-    "borderStyle": "transparent",
     "height": "0px"
   },
   "pages": [

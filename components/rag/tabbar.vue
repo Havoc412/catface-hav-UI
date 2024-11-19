@@ -1,6 +1,6 @@
 <template>
     <placeHolder :height="placeHolderHeight.toString()"/> <!--下面 fixed，所以这里占位用。-->
-    <tabberBase z-index="8" position="fixed" padding="2px 10px" :bgColor="color['main-deep']" :bottom="moveHeight">
+    <tabberBase z-index="7" position="fixed" padding="2px 10px" :bgColor="color['main-deep']" :bottom="moveHeight">
         <template #prefix>
             <!--TODO 之后扩展为更丰富的菜单-->
             <h-btn 
@@ -19,12 +19,11 @@
                 <up-textarea 
                     v-model="inputContent"
                     fixed
+                    :height="inputHeight"
                     :show-confirm-bar="false"
                     :adjustPosition="false"
-                    :disableDefaultPadding="true"
-                    :height="inputHeight"
                     :cursorSpacing="20"
-                    border="none"
+                    :maxlength="100"
                     fontSize="14"
                     :style="{
                         padding: '3px 7px',
@@ -52,18 +51,29 @@
                     <view v-if="talkStore.loadding" class="loader"/>
                     <text>{{ talkStore.loadding ? "停止" : "发送" }}</text>
                 </view>
+                <view v-if="inputHeight >= CONSTS.InputMaxHeight / 2" class="absolute z-9" style="right: 10px; top: 0;">
+                    <h-btn variant="text" activeColor="#ffffff10" icon="arrow-up_light" @click="flag.fullTextArea = true"/>
+                </view>
             </view>
         </template>
     </tabberBase>
+    <!--INFO 全屏 键盘弹出，底部固定。-->
+    <fullTextArea v-if="flag.fullTextArea"
+        v-model:input="inputContent"
+        :startMoveBottom="moveHeight"
+        @close="flag.fullTextArea = false"
+        @sendMessage="sendUserMessageFromFullTextArea"
+    />
 </template>
 
 <script setup>
-    import { ref, computed, watch } from "vue";
+    import { ref, reactive, computed, watch } from "vue";
 
     import color from "@/css/theme/index.module.scss";
     // com
     import tabberBase from "../com/substrate/tabberBase.vue";
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
+    import fullTextArea from "./fullTextArea.vue";
     // store
     import { aiTalk } from "../../store/aiTalk";
     const talkStore = aiTalk();
@@ -81,8 +91,12 @@
         InputMaxHeight: 90
     }
 
+    const flag = reactive({
+        fullTextArea: false,
+    })
+
     const inputContent = ref('');
-    const inputHeight = ref(CONSTS.InputLineHeight);
+    const inputHeight = ref(40);
     const moveHeight = ref(0);  // info 监听键盘事件
 
 // FUNC
@@ -94,6 +108,11 @@
             emits('sendMessage', inputContent.value);
             inputContent.value = "";
         }
+    }
+
+    function sendUserMessageFromFullTextArea() {
+        flag.fullTextArea = false;
+        sendUserMessage();
     }
 
     // Style && keyboard

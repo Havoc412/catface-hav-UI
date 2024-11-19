@@ -28,7 +28,7 @@
 
 <script setup>
     import { ref, reactive, onMounted, nextTick, watch } from "vue";
-	import { onPageScroll, onReachBottom } from '@dcloudio/uni-app'
+	import { onReachBottom } from '@dcloudio/uni-app'
 
     // com
     import intro from "./sub/intro.vue";
@@ -90,17 +90,6 @@
 
         sendUserMessage(text);
     }
-
-    // TAG page 是否跟随滚动的判断依据。
-
-    // onPageScroll((e) => {
-    //     scrollTop.value = e.scrollTop;
-    // })
-    // watch(() => scrollTop.value, (newVal, oldVal) => {
-    //     console.debug("scrollTop changed.", newVal, oldVal, newVal - oldVal)
-    //     if (oldVal - newVal > CONSTS.PAGEMOVE_STOP_THRESHOLD) // 出现上滑动作。
-    //         flag.pageMove = false;
-    // })
 
         // Drag Handler
     function handleTouchStart(event) {
