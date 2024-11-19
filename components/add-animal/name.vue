@@ -11,7 +11,9 @@
             }"
         ></up-input>
         <h-btn variant="text" icon="com-more_deep" @click="flag = !flag">
-            <menuFloat mode="text" :list="MenuList" :show="flag" @choose="(id) => funcGoto(id)"/>
+            <template #absolute>
+                <menuFloat mode="text" :list="MenuList" :show="flag" @choose="(id) => funcGoto(id)"/>                
+            </template>
         </h-btn>
     </view>
 </template>

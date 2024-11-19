@@ -21,6 +21,7 @@
                 <h-icon v-if="props.icon" :name="props.icon" :size="props.iconSize"/>
                 <view v-else>{{ props.text }}</view>
             </slot>
+            <slot name="absolute"></slot>
         </view>
         <slot name="suffix">
             <h-icon v-if="props.sufIcon" :name="props.sufIcon" :size="props.iconSize"/>
