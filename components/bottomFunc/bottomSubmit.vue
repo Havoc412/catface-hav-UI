@@ -1,13 +1,5 @@
 <template>
     <view class="flex-center-horizontal gap-5 block" :style="props.customStyle">
-        <!-- <view class="flex-center-horizontal gap-5 container-btn-left" :style="{
-            '--bg-color-left': props.bgColorLeft
-        }"
-            @click="emits('storeData')"
-        >
-            <h-icon name="post-store" size="21"/>
-            <view>保存草稿</view>
-        </view> -->
         <h-btn
             variant="text"
             preIcon="post-store"

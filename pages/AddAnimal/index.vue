@@ -268,12 +268,11 @@
             <bottomSubmit 
                 :submitAbled="submitAbled"
                 :customStyle="{
-                    'position': 'absolute',
-                    'bottom': '25rpx'
                 }"
                 @storeData="storeData"
                 @submitData="submitData"
             /> 
+            <placeHolder height="25" type="rpx"/>
         </dragBase>
         <pickerGroup
             :breedShow="flag.breed"
