@@ -63,6 +63,7 @@
       "path": "pages/Rag/index",
       "style": {
         "navigationBarTitleText": "Chat Hu"
+        // "navigationStyle": "custom"
       }
     },
     {

@@ -91,11 +91,11 @@
 <style scoped>
 
 .talk-container {
+    min-height: 100vh;
     background-color: #00000009;
 }
 
 .container-dialogue {
-    min-height: 87vh;
     overflow-y: scroll;
 }
 

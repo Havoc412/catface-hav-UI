@@ -19,7 +19,7 @@
 		// knowledgeStore.InitKnowledge();
 
 		// Hide Tabbar
-		uni.hideTabBar();
+		uni.hideTabBar(); // wx 小程序是有效的。
 	})
 	onShow(() => {
 		console.log('App Show!') 

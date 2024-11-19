@@ -31,8 +31,8 @@ export default defineStore("phoneStore", {
   actions: {
     setPhoneInfor(phoneInfor) {
       this.statusBarHeight = phoneInfor.statusBarHeight;
-      this.phoneWidth = phoneInfor.windowWidth; // || phoneInfor.screenWidth;
-      this.phoneHeight = phoneInfor.windowHeight; // || phoneInfor.screenHeight;
+      this.phoneWidth = phoneInfor.screenWidth; // || phoneInfor.screenWidth;
+      this.phoneHeight = phoneInfor.screenHeight; // || phoneInfor.screenHeight;
     },
     cal_menu_Location: function (id: number, num: number, menuWidth: number) {
       // num 中第 id 个目标。 menuWidth：rpx

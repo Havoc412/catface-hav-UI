@@ -61,10 +61,10 @@
                         </template>
                     </view>
                 </view>
+                <placeHolder height="80"/>
             </scroll-view>
         </view>
         <sideTools :show="[true, true]" :status="flag.full" :mustStatus="true" @reload="reload" @add="gotoAddEncounter"/>
-        <placeHolder/>
     </view>
 </template>
 
@@ -220,7 +220,7 @@
         const [res, err] = await api.getEncounterList(num, skip, modeStr, skip > ENCOUNTER_MAX_NUM)
         if (err != null) {
             flag.status.type = 'nodata';
-            TOAST(res, "none", 3000);
+            // TOAST(res, "none", 3000);  // TODO 不适配所有情况。
             return []
         }
         if(res.length < num)
@@ -314,7 +314,8 @@
         state.top = phoneInforStore.phoneHeight - consts.DRAG_HEIGHT;
         flag.full = false;
         state.baseBorderRadius = consts.BASE_BORDER_RADIUS_INIT;
-
+        
+        console.debug("top", state.top);
         emits('close');
     }
     
