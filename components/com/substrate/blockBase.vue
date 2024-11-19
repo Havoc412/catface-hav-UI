@@ -7,7 +7,8 @@
             }"
             :style="{
                 '--max-width': props.maxWidth,
-                '--width': props.width
+                '--width': props.width,
+                'margin-bottom': props.marginBottom,
             }"
         >
             <slot></slot>
@@ -25,9 +26,13 @@
             type: String,
             default: "90vw"
         },
-        width: {
+        width: {  // 比如，Knowledge 场景需要固定宽度。
             type: String,
             default: "auto"
+        },
+        marginBottom: {  // 考虑到常用于 popup 中的消息提示，但是 flex-center-both 有些偏低，故此默认靠此调整。
+            type: String,
+            default: "200px"
         }
     });
     const emits = defineEmits([]);

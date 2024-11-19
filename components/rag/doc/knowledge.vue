@@ -9,7 +9,7 @@
         <h-btn icon="arrow-right" variant="tonal"/>
     </view>
     <up-overlay opacity=".3" :show="flag" @click="flag = false">
-        <blockBase closeFontBold width="90vw">
+        <blockBase closeFontBold width="90vw" marginBottom="100px">
             <view class="flex-center-horizontal block-name">
                 <view>From: {{ props.fileName }}</view>
                 <view class="shrink"/>
