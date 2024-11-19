@@ -17,6 +17,9 @@
 
 		// Knoeledge INIT
 		// knowledgeStore.InitKnowledge();
+
+		// Hide Tabbar
+		uni.hideTabBar();
 	})
 	onShow(() => {
 		console.log('App Show!') 
