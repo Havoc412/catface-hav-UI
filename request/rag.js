@@ -1,20 +1,35 @@
-import { post } from "./api";
+import { post, del } from "./api";
 
-// const api = {
-//     async query(query) {
-//         return await post(
-//             'admin/rag/default_talk',
-//             {},
-//             {
-//                 query: query
-//             }
-//         ).then((data) => {
-//             return [data.answer, null];
-//         })
-//         .catch(error => {
-//             return [error, true];
-//         })
-//     }
-// }
+const api = {
+    // async query(query) {  // INFO 直接采用 websocket 了。
+    //     return await post(
+    //         'admin/rag/default_talk',
+    //         {},
+    //         {
+    //             query: query
+    //         }
+    //     ).then((data) => {
+    //         return [data.answer, null];
+    //     })
+    //     .catch(error => {
+    //         return [error, true];
+    //     })
+    // }
 
-// export default api;
+    async relase(token) {
+        return await del(
+            'admin/rag',
+            {},
+            {
+                token: token
+            }
+        ).then((data) => {
+            return [data.answer, null];
+        })
+        .catch(error => {
+            return [error, true];
+        })
+    }
+}
+
+export default api;

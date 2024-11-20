@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-    import { ref, reactive, onMounted, nextTick, watch } from "vue";
+    import { ref, reactive, onMounted, nextTick, watch, onUnmounted } from "vue";
 	import { onReachBottom } from '@dcloudio/uni-app'
 
     // com
@@ -117,7 +117,11 @@
     function topic_animation() {
         flag.topic = !flag.topic;
     }
-
+    
+    // 
+    onUnmounted(() => {
+        talkStore.releaseMessage();
+    })
 </script>
 
 <style scoped>

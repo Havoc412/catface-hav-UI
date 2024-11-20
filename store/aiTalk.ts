@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 // import api from "../request/rag";
 import { WSS_URL } from "../common/setting";
+import api from "../request/rag";
 
 import { Cat } from "../models/catInfor";
 
@@ -226,6 +227,16 @@ export const aiTalk = defineStore("aiTalkContent", {
         this.cats_id.push(item.id);
       });
     },
+    // 释放资源
+    async releaseMessage() {
+      console.info("release message", "释放 LLM Client")
+      this.history = [];
+      this.topic = "";
+      if (this.token != "") {
+        const [res, err] = await api.relase(this.token);    
+        console.debug(res);
+      }
+    }
   },
 });
 
