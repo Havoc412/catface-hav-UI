@@ -9,6 +9,12 @@
                 :content="item.content"
                 :updatedAt="item.updated_at"
             />
+            <encounter v-else-if="item.type == 'encounter'"
+                :id="item.id"
+                :title="item.title"
+                :content="item.content"
+                :updatedAt="item.updated_at"
+            />
         </template>
     </view>
 </template>
@@ -17,6 +23,7 @@
     import { ref } from "vue";
     // com
     import knowledge from "./knowledge.vue";
+    import encounter from "./encounter.vue";
 
     const TITLE = "参考资料"
     

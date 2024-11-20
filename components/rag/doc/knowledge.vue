@@ -4,7 +4,7 @@
             {{ props.fileName }}
         </view>
         <view class="content shrink">
-            {{ contentSlice }}
+            {{ getContentSlice(props.content, 10) }}
         </view>
         <h-btn icon="arrow-right" variant="tonal"/>
     </view>
@@ -29,6 +29,8 @@
 
 <script setup>
     import { ref, computed } from "vue";
+
+    import { getContentSlice, formatDate } from "./utils";
     // com
     import blockBase from "../../com/substrate/blockBase.vue";
     // store
@@ -56,17 +58,6 @@
     const flag = ref(false);
 
 // FUNC
-    const contentSlice = computed(() => {
-        return '“' + props.content.slice(0, 10) + "..."
-    })
-
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    }
 
 </script>
 
