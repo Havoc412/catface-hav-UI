@@ -40,11 +40,11 @@ function createAiDocItem(nodes: any[], type: String = "doc") {
   };
 }
 
-export const AITALK_MODE = {
-  DEFAULT: 'default',
-  KNOWLEDGE: 'knowledge',
-  DETECT_CAT: 'detect',
-  ANM_DIARY: 'diary',
+export const AITALK_MODE = {  // UPDATE 这里字段的设定也最好通过 API 和后端保持统一。
+  DEFAULT: 'Default', // 配合后端 YML 文件的书写习惯。
+  KNOWLEDGE: 'Knowledge',
+  DETECT_CAT: 'Detect',
+  ANM_DIARY: 'Diary',
 }
 const TOPIC_TAG = {
   default: "默认对话",
