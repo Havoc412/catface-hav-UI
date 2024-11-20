@@ -133,19 +133,18 @@ export const aiTalk = defineStore("aiTalkContent", {
 
       console.debug(WSS_URL);
       const ws = uni.connectSocket({
-        // TODO 这里的 API 需要根据 mode 调整。
-        url:
-          WSS_URL +
-          "admin/rag/default_talk?query=" +
-          text +
-          "&token=" +
-          this.token,
+        url: this.buildWebsocketUrl(text),
+        method: "GET", // TIP 仅 wx 支持。// BUG 实测 wx 换 POST 也还是 GET。
+        header: {
+          "content-type": "application/json", // 根据后端要求设置 content-type
+        },
         complete: () => {},
         fail: (error) => {
           console.error(error);
         },
       });
-
+      
+      // STAGE webocket start to Listion data
       ws.onMessage((event) => {
         if (!this.loadding) {
           ws.close();
@@ -189,6 +188,22 @@ export const aiTalk = defineStore("aiTalkContent", {
           console.log("WebSocket 已关闭！", this.loadding);
         }.bind(this)
       ); // TIP 通过 bind，使得能够正确修改 loadding 信号。
+    },
+    /**
+     * @brief 动态调整 url 传参。
+     * @param query 
+     * @returns 
+     */
+    buildWebsocketUrl(query) {
+      let url = WSS_URL + "admin/rag/chat?query=" + query
+        + "&token=" + this.token;
+      switch (this.mode) {
+        case AITALK_MODE.ANM_DIARY:
+          url += "&mode=" + this.mode + "&cats_id=" + this.cats_id.join(',');
+        break
+
+      }
+      return url;
     },
     addAiMessage(content: String) {
       const index = this.lastIndex;
