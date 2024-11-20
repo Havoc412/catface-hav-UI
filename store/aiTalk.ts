@@ -160,7 +160,7 @@ export const aiTalk = defineStore("aiTalkContent", {
 
         console.debug(data); // TEST
         switch (data.type) {
-          case "chat":
+          case "text":
             this.addAiMessage(data.data);
             break;
           case "doc":

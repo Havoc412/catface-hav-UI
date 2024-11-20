@@ -145,7 +145,7 @@
 
     function addText(text) {
         if (!props.topicMode && data.value.includes(text) 
-            || props.topicMode && data.value.includes('# ' + item)) {
+            || props.topicMode && data.value.includes('# ' + text)) {
             TOAST('标签重复', 'none', 2000);
             return;
         }

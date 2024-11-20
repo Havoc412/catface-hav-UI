@@ -48,6 +48,12 @@ import { mode } from "crypto-js";
         level.value = (level.value + 1) % consts.MAX_TYPE;
     }
 
+    function getLevel() {
+        return level.value + 1;
+    }
+
+    defineExpose({ getLevel });
+
 </script>
 
 <style scoped>

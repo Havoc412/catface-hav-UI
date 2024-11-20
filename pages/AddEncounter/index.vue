@@ -53,6 +53,7 @@
                             topicMode
                             infoIcon
                             containerWidthPrecent="100"
+                            @change="(list) => { data.extra.topics = list }"
                         >   
                             <!-- 不适合 wx 的渲染能力，会有明显的延迟；
                                 @focus="flag.textArea = true"
@@ -65,7 +66,7 @@
                         </chipGroup>
                     </view>
                     <!-- <view class="shrink"/> -->
-                    <chipEncounterLevel mode="choose"/>
+                    <chipEncounterLevel ref="levelRef" mode="choose"/>
                 </view>
             </view>
 
@@ -127,7 +128,7 @@
 </template>
 
 <script setup>
-    import { reactive, computed, onMounted, onUnmounted } from "vue";
+    import { ref, reactive, computed, onMounted, onUnmounted } from "vue";
 
     import { TOAST } from "../../utils/notice";
     import color from "@/css/theme/index.module.scss";
@@ -151,6 +152,7 @@
         PHOTO_SIZE_INIT: 160,
         PHOTO_SIZE_MIN: 120,
     }
+    const levelRef = ref(null);
 
     const data = reactive({
         // user_id 交给 api.js
@@ -158,6 +160,7 @@
         photos: [],
         title: "",
         content: "",
+        level: 1,
         poi: {},
         extra: {
             topics: [],
@@ -255,6 +258,9 @@
 
     // TAG Submit
     async function submitData() {
+        // STAGE prepare data
+        data.level = levelRef.value.getLevel(); 
+        
         console.debug(data);
         flag.status.type = 'loadding';
         flag.status.show = true;
