@@ -40,6 +40,13 @@ function createAiDocItem(nodes: any[], type: String = "doc") {
   };
 }
 
+export const AITALK_MODE = {
+  DEFAULT: 'default',
+  KNOWLEDGE: 'knowledge',
+  DETECT_CAT: 'detect',
+  UNDERSTAND_ANM: 'understand',
+}
+
 export const aiTalk = defineStore("aiTalkContent", {
   state: () => {
     return {
@@ -53,7 +60,7 @@ export const aiTalk = defineStore("aiTalkContent", {
       history: [],
 
       mode: "default", // INFO 对话模式  default || detect_cat || knowledge
-      // tag detect_cat
+      // tag detect_cat || UNDERSTAND_ANM
       cats_id: [],
 
       // TEST 封装 CONSTS // UPDATE 有无更好的方式？
@@ -65,16 +72,6 @@ export const aiTalk = defineStore("aiTalkContent", {
     };
   },
   getters: {
-    // INFO mode 状态的判断。
-    default() {
-      return this.mode === this.CONSTS.DEFAULT;
-    },
-    detect_cat() {
-      return this.mode === this.CONSTS.DETECT_CAT;
-    },
-    knowledge() {
-      return this.mode === this.CONSTS.KNOWLEDGE;
-    },
     lastIndex() {
       return this.history.length - 1;
     },
@@ -137,6 +134,7 @@ export const aiTalk = defineStore("aiTalkContent", {
       
       console.debug(WSS_URL);
       const ws = uni.connectSocket({
+        // TODO 这里的 API 需要根据 mode 调整。
         url: WSS_URL + "admin/rag/default_talk?query=" + text + "&token=" + this.token,
         complete: () => {},
         fail: error => { console.error(error); }

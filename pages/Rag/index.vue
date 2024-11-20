@@ -7,7 +7,7 @@
             @touchmove="handleTouchMove" 
             @touchend="handleTouchEnd"
             >
-            <intro v-if="flag.intro" @send="InitTalk"/>
+            <intro v-if="flag.intro" @send="InitTalkFromIntro"/>
             <template v-else v-for="(item, index) in talkStore.history" :key="index">
                 <ai-bubble v-if="item.side" 
                     :avatar="talkStore.avatar"
@@ -41,6 +41,7 @@
     // store
     import { aiTalk } from "../../store/aiTalk";
     const talkStore = aiTalk();
+    import { AITALK_MODE } from "../../store/aiTalk";
     
 // DATA
     const CONSTS = {
@@ -87,9 +88,9 @@
     /**
      * @Brief: 通道函数；发送用户消息 From Intro
      */
-    function InitTalk(text) {
+    function InitTalkFromIntro(text) {
         topic_animation();
-        talkStore.init(talkStore.CONSTS.KNOWLEDGE);
+        talkStore.init(AITALK_MODE.KNOWLEDGE);
 
         sendUserMessage(text);
     }
