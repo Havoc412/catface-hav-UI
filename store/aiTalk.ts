@@ -52,8 +52,8 @@ export const aiTalk = defineStore("aiTalkContent", {
 
       history: [],
 
+      mode: "default", // INFO 对话模式  default || detect_cat || knowledge
       // tag detect_cat
-      mode: "default", // || detect_cat || knowledge
       cats_id: [],
 
       // TEST 封装 CONSTS // UPDATE 有无更好的方式？
@@ -229,9 +229,10 @@ export const aiTalk = defineStore("aiTalkContent", {
     },
     // 释放资源
     async releaseMessage() {
-      console.info("release message", "释放 LLM Client")
+      console.info("release message", "释放 LLM Client; token:", this.token)
       this.history = [];
       this.topic = "";
+      this.loadding = false;
       if (this.token != "") {
         const [res, err] = await api.relase(this.token);    
         console.debug(res);
