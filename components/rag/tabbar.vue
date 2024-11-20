@@ -51,7 +51,8 @@
                     <view v-if="talkStore.loadding" class="loader"/>
                     <text>{{ talkStore.loadding ? "停止" : "发送" }}</text>
                 </view>
-                <view v-if="inputHeight >= CONSTS.InputMaxHeight / 2" class="absolute z-9" style="right: 10px; top: 0;">
+                <!--右上角的扩展按钮-->
+                <view v-if="inputHeight >= CONSTS.InputMaxHeight" class="absolute z-9" style="right: 10px; top: 0;">
                     <h-btn variant="text" activeColor="#ffffff10" icon="arrow-up_light" @click="flag.fullTextArea = true"/>
                 </view>
             </view>

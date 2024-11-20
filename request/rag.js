@@ -16,7 +16,7 @@ const api = {
     //     })
     // }
 
-    async relase(token) {
+    async release(token) {
         return await del(
             'admin/rag',
             {},

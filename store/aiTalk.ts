@@ -234,7 +234,7 @@ export const aiTalk = defineStore("aiTalkContent", {
       this.topic = "";
       this.loadding = false;
       if (this.token != "") {
-        const [res, err] = await api.relase(this.token);    
+        const [res, err] = await api.release(this.token);    
         console.debug(res);
       }
     }
