@@ -8,13 +8,13 @@
                 <h-btn preIcon="detail-write" iconSize="25" :customStyle="{
                     fontWeight: 'bold',
                     padding: '20rpx'
-                }">
+                }" @click="emits('gotoEnc')">
                     路遇上传
                 </h-btn>
                 <h-btn preIcon="detail-paw" iconSize="25" :customStyle="{
                     fontWeight: 'bold',
                     padding: '20rpx'
-                }">
+                }" @click="emits('gotoRag')">
                     小护日记
                 </h-btn>
                 <h-btn
@@ -59,7 +59,7 @@
             default: false
         }
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(['gotoEnc', 'gotoRag']);
     
     const flag = reactive({
         heart: props.like,

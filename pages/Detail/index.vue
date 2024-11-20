@@ -23,18 +23,19 @@
         <encounterMini :id="AnmID"/>
 
         <placeHolder/>
-        <tabbar/>
+        <tabbar @gotoEnc="gotoEnc" @gotoRag="gotoRag"/>
     </view>
 </template>
 
 <script setup>
     import { ref, reactive, computed } from "vue";
-    import { onLoad } from "@dcloudio/uni-app"
+    import { onLoad } from "@dcloudio/uni-app";
     
     import api from "../../request/animal";
     import nginx from "../../request/nginx";
     import { calculateAge } from "../../utils/date";
     import { Gender_EN } from "../../common/consts";
+    import { AITALK_MODE } from "../../store/aiTalk";
     // com
     import vearCarousel from "../../components/vear-carousel/vearCarousel.vue";
     import schoolStatus from "../../components/book/sub-cat/schoolStatus.vue";
@@ -50,6 +51,7 @@
     const imgList = ref(['/static/Qcat.png'])
 
     const data = ref({  // TODO 之后采用骨架图
+        id: 0,
         name: '毛茸茸名字',
         birthday: '2024-01-01',
         gender: 1,
@@ -88,6 +90,20 @@
             imgList.value.push(url);
         });
     }
+
+    // Router
+    function gotoEnc() {
+        // TODO 传递 cat-id 到 Enconunter 页面
+    }
+    
+    function gotoRag() {
+        uni.navigateTo({
+            url: "/pages/Rag/index?mode=" + AITALK_MODE.ANM_DIARY 
+                + "&id=" + AnmID.value
+                + "&name=" + data.value.name,
+        })
+    }
+
 
 </script>
 

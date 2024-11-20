@@ -43,7 +43,7 @@
     font-family: Alimama ShuHeiTi;
 
     background-color: #ffffff;
-    box-shadow: 0px 0px 7px rgba(0, 0, 0, .3);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .5);
     border-radius: 100rpx;
     
     margin: 0 250rpx;

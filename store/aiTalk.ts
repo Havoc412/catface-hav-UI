@@ -14,14 +14,14 @@ function createUserMessage(text: String) {
   };
 }
 
-function createAiMessage(type: String = "loading", text: String = "...") {
+function createAiMessage(text: string = "", type: string = "text") {
   return {
     side: true,
     content: [
-      // {
-      //   type,
-      //   text,
-      // },
+      {
+        type,
+        text,
+      },
     ],
   };
 }
@@ -205,37 +205,42 @@ export const aiTalk = defineStore("aiTalkContent", {
     /**
      * @brief 对话初始化入口函数。
      */
-    init(mode: string = AITALK_MODE.DEFAULT) {
+    init(mode: string = AITALK_MODE.DEFAULT, data: any = null) {
+      console.info(mode, data);
       this.mode = mode;
       this.history = []
       this.loadding = false;
       this.cats_id = [];
       
       this.topic = TOPIC_TAG[mode];
-    },
-    // tag detect help
-    detectInit(cats: Cat[]) {
-      this.mode = "detect_cats";
-      this.history = [
-        createAiMessage("text", "补充一些相关信息，能够更好的了解猫猫。"),
-      ];
-      // init
-      this.topic = "目标:";
-      this.cats_id = [];
-      cats.map((item) => {
-        this.topic += " " + item.name;
-        this.cats_id.push(item.id);
-      });
+      console.info(this.topic)
+      switch (mode) {
+      case AITALK_MODE.KNOWLEDGE:
+        // TODO
+        break;
+      case AITALK_MODE.DETECT_CAT:
+        // TODO
+        break;
+      case AITALK_MODE.ANM_DIARY:
+        this.cats_id = data.ids;
+        const aiMsgTemp = createAiMessage(
+          "关于【" + data.name + "】，你有什么想要了解的吗？我可以帮你查阅两脚兽们上传的路遇笔记。🐱"
+        );
+        this.history.push(aiMsgTemp);
+        break;
+      default:
+        break;
+      }
     },
     /**
      * @brief 释放长对话资源
      */
     async releaseMessage() {
-      console.info("release message", "释放 LLM Client; token:", this.token);
       this.history = [];
       this.topic = "";
       this.loadding = false;
       if (this.token != "") {
+        console.info("release message", "释放 LLM Client; token:", this.token);
         const [res, err] = await api.release(this.token);
         console.debug(res);
       }

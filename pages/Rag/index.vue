@@ -28,7 +28,7 @@
 
 <script setup>
     import { ref, reactive, onMounted, nextTick, watch, onUnmounted } from "vue";
-	import { onReachBottom } from '@dcloudio/uni-app'
+	import { onReachBottom, onLoad } from '@dcloudio/uni-app'
 
     // com
     import intro from "./sub/intro.vue";
@@ -58,6 +58,39 @@
     // animation
     
 // FUNC
+    /**
+     * @brief: 页面加载时，设置对话模式。
+     */
+    onLoad((params) => {
+        const mode = params.mode;
+        let data = null;
+        // STAGE 1. params
+        switch (mode) {
+            case AITALK_MODE.ANM_DIARY:
+                const id = params.id; // TODO 如果获取复数目标？
+                data = {
+                    ids: [id],
+                    name: params.name
+                }
+                break;
+            case AITALK_MODE.DETECT_CAT:
+            case AITALK_MODE.KNOWLEDGE:
+            case AITALK_MODE.DEFAULT:
+                break;
+            default:
+                break;
+        }
+        // mode 或许是 null，或者其他乱七八糟的 string，下面处理都通用。
+        // STAGE 2. init
+        if (AITALK_MODE[mode] != '')
+            talkStore.init(mode, data);
+        // STAGE 3. intro
+        if (mode != null && mode != AITALK_MODE.DEFAULT) {
+            flag.intro = false;
+            topic_animation();
+        }
+    })
+
     const gotoPageEnd = (time = 100) => {
         if (flag.pageMove)
             nextTick(() => {
