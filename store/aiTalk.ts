@@ -44,8 +44,14 @@ export const AITALK_MODE = {
   DEFAULT: 'default',
   KNOWLEDGE: 'knowledge',
   DETECT_CAT: 'detect',
-  UNDERSTAND_ANM: 'understand',
+  ANM_DIARY: 'diary',
 }
+const TOPIC_TAG = {
+  default: "默认对话",
+  knowledge: "知识科普",
+  detect: "辅助辨别",
+  diary: "猫猫日记",
+};
 
 export const aiTalk = defineStore("aiTalkContent", {
   state: () => {
@@ -60,15 +66,8 @@ export const aiTalk = defineStore("aiTalkContent", {
       history: [],
 
       mode: "default", // INFO 对话模式  default || detect_cat || knowledge
-      // tag detect_cat || UNDERSTAND_ANM
+      // TAG User FOR 【 detect_cat || UNDERSTAND_ANM】
       cats_id: [],
-
-      // TEST 封装 CONSTS // UPDATE 有无更好的方式？
-      CONSTS: {
-        DEFAULT: "default",
-        DETECT_CAT: "detect_cat",
-        KNOWLEDGE: "knowledge",
-      },
     };
   },
   getters: {
@@ -131,13 +130,20 @@ export const aiTalk = defineStore("aiTalkContent", {
 
       // INFO v3 websocket 版本; 小程序只能用这个或者 https；
       // 移除之前的监听器
-      
+
       console.debug(WSS_URL);
       const ws = uni.connectSocket({
         // TODO 这里的 API 需要根据 mode 调整。
-        url: WSS_URL + "admin/rag/default_talk?query=" + text + "&token=" + this.token,
+        url:
+          WSS_URL +
+          "admin/rag/default_talk?query=" +
+          text +
+          "&token=" +
+          this.token,
         complete: () => {},
-        fail: error => { console.error(error); }
+        fail: (error) => {
+          console.error(error);
+        },
       });
 
       ws.onMessage((event) => {
@@ -149,8 +155,8 @@ export const aiTalk = defineStore("aiTalkContent", {
         try {
           data = JSON.parse(event.data);
         } catch (e) {
-          console.error(e)
-          return
+          console.error(e);
+          return;
         }
 
         console.debug(data); // TEST
@@ -199,17 +205,13 @@ export const aiTalk = defineStore("aiTalkContent", {
     /**
      * @brief 对话初始化入口函数。
      */
-    init(mode: String = "default") {
+    init(mode: string = AITALK_MODE.DEFAULT) {
       this.mode = mode;
-      if (this.mode === "knowledge") {
-        this.history = [
-          // createAiMessage("text", "你好呀，两脚兽，有什么我能效劳的吗？"),
-        ];
-        this.topic = "科普对话";
-      } else if (this.mode == "detect_cat") {
-        // TODO 之后把下面这个函数封装到这里
-      } else {
-      }
+      this.history = []
+      this.loadding = false;
+      this.cats_id = [];
+      
+      this.topic = TOPIC_TAG[mode];
     },
     // tag detect help
     detectInit(cats: Cat[]) {
@@ -225,17 +227,19 @@ export const aiTalk = defineStore("aiTalkContent", {
         this.cats_id.push(item.id);
       });
     },
-    // 释放资源
+    /**
+     * @brief 释放长对话资源
+     */
     async releaseMessage() {
-      console.info("release message", "释放 LLM Client; token:", this.token)
+      console.info("release message", "释放 LLM Client; token:", this.token);
       this.history = [];
       this.topic = "";
       this.loadding = false;
       if (this.token != "") {
-        const [res, err] = await api.release(this.token);    
+        const [res, err] = await api.release(this.token);
         console.debug(res);
       }
-    }
+    },
   },
 });
 

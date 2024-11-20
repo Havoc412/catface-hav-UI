@@ -66,7 +66,7 @@
     }
 
     onMounted(() => {
-        gotoPageEnd(0);
+        gotoPageEnd(0); // 适用于有历史对话之时。
     })
     // INFO 方案一：性能开销有些太大了；换方案二，子组件发送事件。
     // watch(() => talkStore.history, () => {  // 只有一开始添加数据的时候会监听到变化。
@@ -95,7 +95,7 @@
         sendUserMessage(text);
     }
 
-        // Drag Handler
+    // TAG Drag Handler：控制 gotoPageEnd 的触发。
     function handleTouchStart(event) {
         flag.pageMove = false;
         vars.touchStartY = event.changedTouches[0].pageY;

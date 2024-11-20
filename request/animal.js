@@ -67,7 +67,10 @@ const api = {
   },
 
   async getAnimalDetail(id) {
-    return await get(`admin/animal/${id}`, {}, {});
+    return await get(`admin/animal/detail`, {}, {
+      anm_id: id,
+      user_id: humanStore.user_id
+    });
   },
   
   /**
