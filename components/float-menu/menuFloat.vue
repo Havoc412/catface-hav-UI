@@ -2,10 +2,7 @@
     <view v-show="functionFlag" 
         class="flex-vertical container-float" 
         :animation="animation"
-        :style="{
-            '--right': props.right + 'px',
-            '--top': props.top + 'px'
-    }">
+        :style="props.customStyle">
         <template v-for="(item, index) in props.list" :key="index">
             <view class="flex-horizontal func-row block-width" @click="emits('choose', index)">
                 <h-icon v-if="!textMode" :name="item.icon" :size="props.iconSize"></h-icon>
@@ -34,17 +31,13 @@
             type: Number,
             default: 16,
         },
-        right: {
-            type: Number,
-            default: 25
-        },
-        top: {
-            type: Number,
-            default: 10
-        },
         show: {
             type: Boolean,
             default: false
+        },
+        customStyle: {
+            type: Object,
+            default: () => ({})
         }
     })
     const emits = defineEmits(['choose']);
@@ -117,10 +110,9 @@
 
 .container-float {
     position: absolute;
-    right: var(--right);
-    top: var(--top);
     
     border-radius: 10px;
+    width: inherit;
     
     background-color: #f9f9f9;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);

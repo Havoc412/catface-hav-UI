@@ -13,7 +13,7 @@
                 <school-status :type="data.status"/>
                 <sterilization-status :type="data.sterilization"/>
             </view>
-            <view class="nickname">别名：{{ data.nick_name }}</view>
+            <view class="nickname">别名：{{ data.nick_names }}</view>
             <placeHolder height="20"/>
             <view class="intro">
                 {{ data.description }}
@@ -56,9 +56,8 @@
         status: 'inschool',
         sterilization: 'sterilized',
         description: '默认描述',
-        nick_name: '无',
-        // TODO 从表中联查
-        tags: "臭脸,猜皮,玉玉",
+        nick_names: '无',
+        tags: "",
         likeFlag: true 
     })
 
@@ -72,6 +71,7 @@
         AnmID.value = +params.id;  // TIP + 或者 parseInt() 都可以转化为 Number
         data.value = await api.getAnimalDetail(AnmID.value);
         fetchImgPath();
+        console.debug(data.value);
     })
 
     const genderSvg = computed(() => {
@@ -116,8 +116,7 @@
 }
 
 .intro {
-    font-family: Alimama ShuHeiTi;
-    font-weight: bold;
+    font-size: 17px;
 }
 
 </style>        

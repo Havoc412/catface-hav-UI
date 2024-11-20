@@ -1,17 +1,12 @@
 <template>
     <!--UPDATE 之后处理为外部样式或许会更好，提供更高的自由度。-->
     <view class="container flex-vertical"
-    :style="{
-        '--bottom': setBottom,
-        '--position': props.position,
-        '--padding': props.padding,
-        '--bg-color': props.bgColor  
-    }"
-    :class="{
-        [setZIndex]: true,
-        'fade-in-from-half': props.animationFadeInFromHalf
-    }"
-    @click.stop>
+        :class="{
+            [setZIndex]: true,
+            'fade-in-from-half': props.animationFadeInFromHalf
+        }"
+        :style="getOutSideStyle"
+        @click.stop>
         <!--INFO 放置到顶部-->
         <slot name="topfix"></slot>
         <view class="flex-bottom-horizontal">
@@ -58,6 +53,10 @@
             default: "transparent"
         },
         animationFadeInFromHalf: Boolean,
+        customStyle: {
+            type: Object,
+            default: () => ({})
+        }
     });
     const emits = defineEmits([]);
 
@@ -69,8 +68,15 @@
     const setBottom = computed(() => {
         return props.bottom.toString() + 'px';
     })
-    const setWidth = computed(() => {
 
+    const getOutSideStyle = computed(() => {
+        return {
+            '--bottom': setBottom.value,
+            '--position': props.position,
+            '--padding': props.padding,
+            '--bg-color': props.bgColor,
+            ...props.customStyle,
+        };
     })
 
 </script>
@@ -87,4 +93,4 @@
     transition: bottom .1s;
 }
 
-</style>        
+</style>

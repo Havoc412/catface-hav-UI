@@ -12,7 +12,14 @@
         ></up-input>
         <h-btn variant="text" icon="com-more_deep" @click="flag = !flag">
             <template #absolute>
-                <menuFloat mode="text" :list="MenuList" :show="flag" @choose="(id) => funcGoto(id)"/>                
+                <menuFloat mode="text" 
+                    :list="MenuList" :show="flag"
+                    :customStyle="{
+                        right: '30px',
+                        top: '10px'
+                    }"
+                    @choose="(id) => funcGoto(id)"
+                />
             </template>
         </h-btn>
     </view>
