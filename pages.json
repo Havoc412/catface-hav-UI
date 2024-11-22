@@ -102,7 +102,7 @@
     {
       "path": "pages/AddAnimal/index",
       "style": {
-        "navigationBarTitleText": "Add Cat"
+        "navigationBarTitleText": "新增毛茸茸"
       }
     },
     // TAG 新增路遇
