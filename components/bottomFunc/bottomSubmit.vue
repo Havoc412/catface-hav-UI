@@ -28,6 +28,7 @@
                 }"
                 :disabled="!props.submitAbled"
                 @click="emits('submitData')"
+                @clickDisabled="emits('submitDisabled')"
             />
         </view>
     </view>
@@ -51,7 +52,7 @@
             default: () => ({})
         }
     });
-    const emits = defineEmits(['submitData', 'storeData']);
+    const emits = defineEmits(['submitData', 'storeData', 'submitDisabled']);
 
 // FUNC
 

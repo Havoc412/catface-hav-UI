@@ -170,8 +170,8 @@
 				fail: function (err) {
 					console.error(err);
 					uni.showToast({
-					title: '图片选择失败',
-					icon: 'none'
+						title: '图片选择失败',
+						icon: 'none'
 					});
 					status.value.upload = 'err';
 					reject('err'); // 失败时 reject

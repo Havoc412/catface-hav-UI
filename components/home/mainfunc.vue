@@ -34,7 +34,7 @@
         {
             imgPath: "/static/cats-head/3.png",
             page: 'Search',
-            text: "全局搜索"
+            text: "搜索"
         },
     ])
 

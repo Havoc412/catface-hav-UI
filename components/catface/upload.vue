@@ -49,29 +49,30 @@
 
 <script setup>
   import { ref, reactive, computed } from 'vue';
+
+  import { TOAST } from "@/utils/notice";
+  import photoApi from "../../request/photo";
+  import animalApi from "../../request/animal";
+
   // com
-  import HEye from "./animation/eye.vue";
-  import btnMsg from "./btnMsg.vue";
-  // struct
-  import { Cat } from "../../models/catInfor";
+  import HEye from "../com/animation/eye.vue";
+  import btnMsg from "../com/btnMsg.vue";
   // consts
-  import { CAT_FACE_URL } from "../../common/setting";
-  const BASE_URL = CAT_FACE_URL;
   import { Ecnn } from "../../ErrCode/errmsg";
 
 // DATA
   const props = defineProps({
     openForm: Boolean
   })
-  const emits = defineEmits(['email', 'success', 'openForm', 'refresh', 'loadFileUrl']);
+  const emits = defineEmits(['success', 'refresh', 'loadFileUrl',
+    'catfaceStart', 'catfaceEnd'
+  ]);
 
   const DEFAULT_IMG = "/static/Qcat.png";
 
   const fileList = ref([]);
   const frame = ref(DEFAULT_IMG);
-  // let video_frames = []
 
-  // flag // update 因为暂时只有一个目标，所以一个全局就足够了，之后需要更改。
   const flag = reactive({
     state: '',
     type: "", // video || image
@@ -87,16 +88,16 @@
   }
 
 // FUNC
-  // MARK MAIN CODE
-  const afterRead = async (event) => {
+  // UPDATE 这个函数之后可以简化。
+  async function afterRead(event) {
     if(!flag.change_video)
       emits('refresh');
 
     // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
     let lists = [].concat(event.file); // tip 用于处理输入文件。如果 event.file 是单个文件对象，将其转换为数组；如果是数组，则直接使用。
     let fileListLen = fileList.value.length;
-    console.info(lists, fileListLen);
 
+    // STAGE 1. check ?
     let error_flag = false;
     lists.map((item) => {
       emits('loadFileUrl', item.url); // 记录 URL 到 主页，控制上传。
@@ -117,12 +118,12 @@
         frame.value = item.thumb;
         flag.video.duration = Math.ceil(item.duration);
         if(flag.video.duration > 30) {
-          email(false, "现阶段只允许 30s 以内的视频文件。")
+          TOAST("现阶段只允许 30s 以内的视频文件。");
           error_flag = true;
           return;
         }
       } else {
-        email(false, "现阶段仅支持部分 image 和 mp4 格式的文件。");
+        TOAST("现阶段仅支持部分 image 和 mp4 格式的文件。");
         error_flag = true;
         return;
       }
@@ -132,70 +133,43 @@
       return;
     }
       
-    // INFO Stage - 2
+    // STAEG 2. upload && detect
     console.info(fileList.value);
     flag.state = 'detecting';
-    for (let i = 0; i < lists.length; i++) {
-      const result = await uploadFilePromise(lists[i].url);
+    emits('catfaceStart');
+    for (let i = 0; i < lists.length; i++) { // UPDATE 实际上现阶段这个函数只会有一个文件。
+      // INFO CORE
+      const res = await uploadFilePromise(lists[i].url);
+      
       let item = fileList.value[fileListLen];
       fileList.value.splice(fileListLen, 1, { // 插入数组
         ...item,
         status: 'success',
         message: '',
-        // url: result,
       });
       fileListLen++;
     }
 
-    // end
+    // STAGE end
     flag.state = 'finished';
     fileList.value = [];
   };
 
-  const uploadFilePromise = (url) => {
-    return new Promise((resolve, reject) => {
-      uni.uploadFile({
-          url: BASE_URL + 'api/cnn/detect_cat/',
-          filePath: url,  // 用 url 来传参
-          name: 'file',
-          formData: {
-              user: 'test',
-          },
-          success: (res) => {
-              let data = JSON.parse(res.data);
-              if (data.status === 200) {
-                  // loaf data
-                  const catInforList = [];
-                  data.cat_infor_list.map( function(ele) {
-                      const cat = new Cat(ele);
-                      catInforList.push(cat);
-                  });
-                  console.log('成功获取数据', data);
-                  emits('success', catInforList, data.breed, data.notices);
-              } else {
-                  console.log('状态码不是200');
-                  email(false, data.status);
-                  // 没有匹配到 DB 的时候
-                  if(data.status == Ecnn.NoCatMatch)
-                    emits('openForm', data.breed);
-              }
+  async function uploadFilePromise(url) {
+    const paths = await photoApi.UploadCatFaceFile([url]);
 
-              // end over
-              resolve("");
-          },
-          fail: (err) => {
-              console.error(err)
-          }
-      });
-    });
+    console.debug(paths, paths[0]);
+    
+    const [res, err] = await animalApi.catfaceGuess(paths[0]);
+    if(err) {
+      email(false, Ecnn[err.code]);
+      return;
+    } 
+    console.debug(res);
+    emits('catfaceEnd', res);
   }
 
-  // base
-  const email = (type, msg) => {
-    emits('email', type, msg);
-  }
-
-  // style 
+  // TAG Style 
   const check_time_color = computed(() => {
     return flag.video.duration <= 30 ? "#000" : "#ff4c55";
   })

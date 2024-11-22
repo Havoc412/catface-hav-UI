@@ -111,7 +111,7 @@ export const aiTalk = defineStore("aiTalkContent", {
       // this.loadding = false;
 
       // INFO v2 sse 版本
-      // const sse = new EventSource(  // TIP 好像只能用 GET 的方式请求参数？ // 不知道有没有 Body 的概念。
+      // const sse = new EventSource(  // TIP 只能用 GET 的方式请求参数 // 不知道有没有 Body 的概念。
       //   BASE_URL + "admin/rag/default_talk?query=" + text
       // );
       // // sse.onmessage = (e) => {

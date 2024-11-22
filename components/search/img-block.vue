@@ -1,4 +1,7 @@
-<!--INFO 同时适配 Animal | Encounter-->
+<!--INFO #1 
+ *   1. 同时适配 Search: Animal | Encounter
+ *   2. CatFace 的展示。
+-->
 <template>
     <view class="flex-top-horizontal gap-10 block relative container-item" @click="gotoDetail">
         <up-image :src="props.avatar" height="90px" width="90px" radius="12px"/> <!--TODO POST IMAGE in Nginx-->
@@ -7,15 +10,28 @@
                 <!--UPDATE nodes 不推荐使用 String 类型，性能会有所下降。From: https://uniapp.dcloud.net.cn/component/rich-text.html-->
                 <rich-text :nodes="props.title"/>
             </view>
+            <!-- Nick Name -->
             <view style="min-height: 10px;">
                 <tagGroup mode="highlight" :list="tagsFilterHighlight" :listHighlight="props.tagsHighlight"/>
             </view>
-            <view class="content relative">
-                <rich-text :nodes="sliceContent"/>
-                <!-- {{ sliceContent }} for test -->
-                <view class="absolute" style="right: -10px; top: -2px;">
-                    <h-icon name="text-quota" size="14"/>
-                </view>
+            <view class="content block relative">
+                <!--INFO #1 适配 ES 的富文本解析 -->
+                <template v-if="!props.conf">
+                    <rich-text :nodes="sliceContent"/>
+                    <!-- {{ sliceContent }} for test -->
+                    <view class="absolute" style="right: -10px; top: -2px;">
+                        <h-icon name="text-quota" size="14"/>
+                    </view>
+                </template>
+                <!-- #2 适配 catface 的 Conf 展示 -->
+                <template v-else>
+                    <view class="flex-top-horizontal block">
+                        <view style="width: 70%;">{{ sliceContent }}</view>
+                    <view v-if="props.conf" class="conf shrink">
+                        {{ formatConf(props.conf) }}
+                    </view>
+                    </view>
+                </template>
             </view>
         </view>
         <!--右上角状态信息-->
@@ -73,11 +89,13 @@
         animalDepartment: Number,
         // TAG encounter
         userAvatar: String,
-        userName: String
+        userName: String,
+        // TEST TEMP
+        conf: null,
     });
     const emits = defineEmits([]);
     
-    const MAX_LEN = 40;
+    const MAX_LEN = 16;
 
 // FUNC
     const sliceContent = computed(() => {
@@ -107,6 +125,10 @@
         uni.navigateTo({ url });
     }
 
+    function formatConf(num) {
+        return (num * 100).toFixed(1) + '%';
+    }
+
 </script>
 
 <style scoped>
@@ -121,9 +143,15 @@
 }
 
 .content {
+    margin-top: 5px;
+
     font-size: 14px;
     flex-wrap: wrap;
-    margin-top: 5px;
+}
+
+.conf {
+    font-size: 20px;
+    font-weight: bold;
 }
 
 </style>        

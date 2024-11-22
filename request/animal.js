@@ -118,6 +118,20 @@ const api = {
         console.log("Animal.js", error);
         return [error, true];
       });
+  },
+
+  async catfaceGuess(filePath) {
+    return await post(
+      `admin/animal/catface`,
+      {},
+      {
+        file_path: filePath,
+      }
+    ).then((data) => {
+      return [data, null];
+    }).catch((error) => {
+      return [error, true];
+    });
   }
 };
 

@@ -54,6 +54,10 @@ const api = {
 
     async UploadEncounterPhotos(files) {
         return await uploadFiles(files, `encounterPhotos/hum_${humanStore.user_id}`);
+    },
+
+    async UploadCatFaceFile(files) {
+      return await uploadFiles(files, `catfaceTemp`);
     }
 };
 

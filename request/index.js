@@ -1,4 +1,4 @@
-import { BASE_URL, CAT_FACE_URL } from "../common/setting";
+import { BASE_URL } from "../common/setting";
 
 export class Request {
   http(param) {

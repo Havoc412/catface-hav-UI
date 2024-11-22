@@ -1,8 +1,4 @@
 <template>
-    <snackbar class="top" v-model="email.snackbar_switch" 
-        :message="email.snackbar_message" :color="email.kind_flag"
-        :timeout="email.time_flag ? 15000 : 2000 ">
-    </snackbar>
     <view class="flex-center-vertical contianer bg-img">
         <view class="flex-center-vertical">
             <view class="title">点击下图，上传猫猫图像</view>
@@ -11,44 +7,52 @@
             <PlaceHolder height="25"/>
             <!--info 文件上传-->
             <h-upload 
-                :open-form="flag.form.show"
-                @email="send_email"
-                @open-form="open_form"
                 @success="load_cat_infor"
                 @refresh="refresh"
                 @load-file-url="load_file_url"
+
+                @catface-start="catfaceStart"
+                @catface-end="catfaceEnd"
             />
             <view class="attention">模型开发优化中，识别结果仅供参考。</view>
-            
             <!-- TAG cat-list -->
-            <view class="flex-vertical gap-10">
+            <view class="flex-vertical gap-10" style="padding: 0 20px;">
                 <template v-for="(item, id) in catInforList" :index="cat-id">
-                    <cat-item :infor="item"/>
+                    <imgBlock 
+                        :id="item.animal.id"
+                        :avatar="nginx.catsAvatar(item.animal.avatar)" 
+                        :title="item.animal.name" 
+                        :content="item.animal.description"
+                        :tags="StringToStringArray(item.animal.nick_names)"
+                        :animalStatus="item.animal.status"
+                        :animalDepartment="item.animal.department"
+                        :conf="item.conf"
+                    />
+                    <!-- <cat-item :infor="item"/> -->
                 </template>
                 <h-btn 
                     v-show="catInforList.length > 0" 
-                    style="font-family: Alimama ShuHeiTi; margin: 10rpx 20rpx;"
-                    @click="detect_error"
+                    @click="notTheCat"
                     :custom-style="{
-                        backgroundColor: '#FDE2E4'
+                        margin: '10rpx 20rpx',
+                        backgroundColor: '#FDE2E4',
+                        fontWeight: 'bold'
                     }"
-                    >不是目标猫猫！
+                    >以上不是我遇到的猫猫
                 </h-btn>
                 <!--tag Other functions-->
-                <view v-if="catInforList.length > 0" class="btn-ai">
+                <!-- <view v-if="catInforList.length > 0" class="btn-ai">
                     <func :catInforList="catInforList" @filter_by_poi="filter_by_poi"/>
-                </view>
+                </view> -->
             </view>
-
-            <!-- TAG form -->
-            <cat-form 
-                v-if="flag.form.show" 
-                :breedFromModel="flag.form.breed" 
-                :detect-error="flag.form.detect_error"
-                @submit="submit"
-            />
         </view>
-        <view class="flex-center-vertical">
+        <!-- Status Wins -->
+        <statusWin v-if="flag.status.show" 
+            :status="flag.status.type" 
+            mode="block" loaddingTextMode="knowledge"
+            loaddingImgMode="necklace" loaddingImgSize="40px"
+        />
+        <view v-if="flag.warning" class="flex-center-vertical">
             <view class="flex-center-horizontal gap-5">
                 <h-icon name="tool-info"/>
                 <view class="attation">小护提醒！</view>
@@ -57,63 +61,48 @@
         </view>
     </view>
     <!--一些辅助用 悬浮窗-->
-    <notice-win v-if="noticeList.length > 0" :notices="noticeList"/>
+    <!-- <notice-win v-if="noticeList.length > 0" :notices="noticeList"/> -->
     <helperWin v-if="flag.helper" @close="flag.helper = false"/>
 </template>
 
 <script setup>
     import { ref, reactive } from "vue";
 
-    import { CAT_FACE_URL } from "../../common/setting";
-
+    import { TOAST } from "../../utils/notice";
+    import { StringToStringArray } from "../../utils/string";
     import nginx from "../../request/nginx";
+    import api from "../../request/animal";
     // com
-    import catItem from "../../components/catface/catItem.vue";
-    import catForm from "../../components/catface/form.vue";
+    import HUpload from "../../components/catface/upload.vue";
 
-    import HUpload from "../../components/com/upload.vue";
+    import imgBlock from "../../components/search/img-block.vue";
     import func from "../../components/catface/func.vue";
-
-    import snackbar from "../../components/com/snackbar.vue";
 
     import PlaceHolder from "../../components/com/sub-tabbar/placeHolder.vue";
 
         // Wins
     import noticeWin from "./win/notice.vue";
     import helperWin from "./win/helper.vue";
-    // store
-    import emialStore from "../../store/snackbar";
-    const email = emialStore();
-
+    import statusWin from "../../components/status-win/statusWin.vue";
+    // import
     import { aiTalk } from "../../store/aiTalk";
     const talkStore = aiTalk();
 
 // DATA
     const catInforList = ref([]);
-    const noticeList = ref([]);
-    const file_url = ref([]);
+    const faceBreed = ref("");
 
     // Flag
     const flag = reactive({
-        form: {
+        status: {
             show: false,
-            detect_error: false,
-            breed: "",
+            type: "loadding"
         },
-        helper: false
-    })
+        warning: true,
+        helper: false,
+    });
 
 // FUNC
-    const send_email = (type, msg) => {
-        email.sendEmail(type, msg);
-        refresh();
-    }
-
-    const open_form = (breed) => {
-        flag.form.breed = breed;
-        flag.form.show = true;
-    }
-
     const load_cat_infor = (list, breed, ntList) => {
         console.info(list, ntList);
         flag.form.breed = breed;
@@ -123,74 +112,40 @@
         console.info(catInforList, noticeList);
     }
 
-    const detect_error = () => {
-        refresh();
-        flag.form.detect_error = true;
-        flag.form.show = true;
-    }
-
     const refresh = () => {
         catInforList.value = [];
-        flag.form.detect_error = false;
-        flag.form.show = false;
     }
 
     const load_file_url = (url) => {
-        file_url.value = url;
-        console.info("Load temp file now", file_url.value);
+        // TODO 
+        // file_url.value = url;
+        // console.info("Load temp file now", file_url.value);
     }
 
-    // INFO 核心访问 API 的任务。
-    const submit = (catInfor) => {
-        if(file_url.value == "") {
-            email.sendEmail(false, "未选中文件。");
-            return;
-        }
-        uni.uploadFile({
-            url: CAT_FACE_URL + 'api/cnn/add_cat/',
-            filePath: file_url.value,
-            name: 'file',
-            formData: {
-                name: catInfor.name,
-                gender: catInfor.gender,
-                breed: catInfor.breed
-            },
-            success: (res) => {
-                let data = JSON.parse(res.data);
-                if (data.status === 200) {
-                    console.info("上传完毕。");
-                    email.sendEmail(true, "上传成功！");
+    // INFO New With Go
 
-                    flag.form.show = false;
-                    const id = data.data;
-                    catInforList.value = [{
-                        'id': id,
-                        'url': file_url.value,
-                        ...catInfor
-                    }]
-                    console.info(catInforList, id);
-                } else {
-                    console.log('状态码不是200', data);
-                    email(false, data.status);
-                }
-            },
-            fail: (err) => {
-              console.error(err)
-            }
+    function catfaceStart() {
+        flag.warning = false;
+        flag.status.show = true;
+    }
+
+    function catfaceEnd(res) {
+        flag.status.show = false;
+
+        catInforList.value = res['animals'];
+        faceBreed.value = res['face_breed'];
+    }
+
+    function notTheCat() {
+        // 跳转到 Add Animal
+        uni.navigateTo({
+            url: "/pages/AddAnimal/index?face_breed=" + faceBreed.value
         })
     }
 
-    const filter_by_poi = (cats_id) => {
-        const newCatInforList = [];
-        catInforList.value.forEach((item) => {
-            if(cats_id.includes(item.id)) {
-                newCatInforList.push(item);
-            }
-        })
-        console.info(cats_id, newCatInforList);
-        catInforList.value = newCatInforList;
-        if(newCatInforList.length == 0)
-            open_form();
+    // FUNC
+    function filterByPOI() {
+        // TODO
     }
 
 

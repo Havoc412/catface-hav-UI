@@ -38,7 +38,7 @@
                     </up-form-item>
                     <!-- Breed -->
                     <up-form-item
-                        label="花色*"
+                        label="毛色*"
                         prop="data.breed"
                         @click="flag.breed = true"
                     >
@@ -271,6 +271,8 @@
                 }"
                 @storeData="storeData"
                 @submitData="submitData"
+
+                @submitDisabled="submitDisabled"
             /> 
             <placeHolder height="25" type="rpx"/>
         </dragBase>
@@ -294,6 +296,7 @@
 
 <script setup>
     import { ref, reactive, computed } from "vue";
+    import { onLoad } from "@dcloudio/uni-app";
 
     import { 
         getAttrIndex, 
@@ -405,6 +408,15 @@
     })
 
 // FUNC
+    onLoad((params) => {
+        const faceBreed = params.face_breed;
+        if (faceBreed) {
+            // TODO select 组件没有和他绑定上; 但是如果【不改动】的话，不影响 data 获取正确的 id；
+            dataShow.breed = faceBreed;
+            flag.breedHumanChange = false;
+        }
+    })
+
     const selectBreed = (e) => {
         dataShow.breed = e.value[0];
         flag.breed = false;
@@ -525,6 +537,11 @@
                 url: `/pages/Detail/index?id=${res.anm_id}`
             })
         }
+    }
+
+    function submitDisabled() {
+        console.info(data, dataShow);
+        // TODO 提示 未填信息
     }
 
 </script>

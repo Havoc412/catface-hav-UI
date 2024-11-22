@@ -99,7 +99,7 @@
             default: 15
         },
     });
-    const emits = defineEmits(['click']);
+    const emits = defineEmits(['click', 'clickDisabled']);
 
 
     const isFadingOut = ref(false); // UPDATE 换成一般的 let/var 性能方面的提升？
@@ -154,6 +154,7 @@
     // TAG Function-Emits
     function click() {
         if(!props.disabled) emits('click');
+        else emits('clickDisabled');
     }
 
 </script>
