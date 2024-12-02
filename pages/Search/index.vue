@@ -97,12 +97,13 @@
     })
 
 // FUNC
-    async function confirm(e) {  
+    async function confirm(e) {
+        // BUG 还是需要把 input 绑定到 ref 上，否则 icon-click 无法使用此函数。
         if (e.detail.value)
             state.inputValue = e.detail.value;      
         if (state.inputValue == "") {
             TOAST("请输入查询内容");
-            return;            
+            return;
         }
         
         data.value = null;
