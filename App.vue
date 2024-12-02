@@ -73,7 +73,6 @@
 		background-size: 70%;
 	}
 
-
 	page {
     	background-color: $h-bg-light;
 	}
