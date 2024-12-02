@@ -15,7 +15,7 @@
         </view>
         <view class="block container-simple">
             <view class="title">路过·广场</view>
-            <view class="container-results flex-vertical block">
+            <view class="container-results flex-vertical block gap-10">
                 <template v-for="(item, index) in dataShow.tasksCommon">
                     <taskBlock
                         mode="task"
@@ -29,6 +29,7 @@
                         :tags="item.tags"
                         :status="item.status"
                         :level="item.level"
+                        :time="item.time"
                     />
                 </template>
             </view>

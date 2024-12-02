@@ -5,7 +5,7 @@
             <!--任务紧急程度标签。-->
             <taskLevel :type="props.level"/>
         </view>
-        <up-image :src="props.avatar" height="90px" width="90px" radius="12px"/> <!--TODO POST IMAGE in Nginx-->
+        <up-image :src="props.avatar" height="100px" width="90px" radius="12px"/> <!--TODO POST IMAGE in Nginx-->
 
         <view class="flex-vertical shrink"> 
             <view class="title">
@@ -18,10 +18,16 @@
             </view>
             <view class="content block relative">
                 <rich-text :nodes="sliceContent"/>
-                <!-- {{ sliceContent }} for test -->
                 <view class="absolute" style="right: -10px; top: -2px;">
                     <h-icon name="text-quota" size="14"/>
                 </view>
+            </view>
+            <view>
+                <timeInfo :start_time="props.time['start_time']"
+                    :deadline="props.time['deadline']"
+                    :estimated_min_duration="props.time.estimated_min_duration"
+                    :estimated_max_duration="props.time.estimated_max_duration"
+                />
             </view>
         </view>
         <!--右上角状态信息-->
@@ -42,6 +48,8 @@
     import taskLevel from "../../book/sub-cat/taskLevel.vue";
     import taskStatus from "../../book/sub-cat/taskStatus.vue";
     import departmentStatus from "../../book/sub-cat/departmentStatus.vue";
+
+    import timeInfo from "./sub-task-block/time-info.vue";
     
     // store
 // DATA
@@ -81,6 +89,10 @@
             type: Array,
             default: () => []
         },
+        time: {
+            type: Object,
+            default: () => ({})
+        },
         // TAG
         status: {
             type: String,
@@ -92,8 +104,8 @@
         },
     });
     const emits = defineEmits([]);
-    
-    const MAX_LEN = 16;
+
+    const MAX_LEN = 12;
 
 // FUNC
     const sliceContent = computed(() => {
@@ -141,8 +153,6 @@
 }
 
 .content {
-    margin-top: 5px;
-
     font-size: 14px;
     flex-wrap: wrap;
 }
