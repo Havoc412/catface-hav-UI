@@ -39,7 +39,8 @@ watch(() => props.type, init);
 function init() {
     if (typeof props.type === 'string') {
         data.type = props.type;
-        const idx = Math.max(Departments_EN.indexOf(props.type), 0); // 如果是 -1 就返回 0
+        const lowerCaseType = props.type.toLowerCase();  // 大小写不敏感。
+        const idx = Math.max(Departments_EN.indexOf(lowerCaseType), 0); // 如果是 -1 就返回 0
         data.text = Departments_ZH[idx];
     } else {
         const index = GetFrontIndex(props.type, Departments_ZH.length);

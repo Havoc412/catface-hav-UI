@@ -15,7 +15,7 @@
         </view>
         <view class="block container-simple">
             <view class="title">路过·广场</view>
-            <view class="container-results flex-vertical gap-10 block">
+            <view class="container-results flex-vertical block">
                 <template v-for="(item, index) in dataShow.tasksCommon">
                     <taskBlock
                         mode="task"
@@ -24,6 +24,7 @@
                         :title="item.title"
                         :content="item.description"
                         :position="item.position"
+                        :department="item.department"
                         :tagsHighlight="item.tagsHighlight"
                         :tags="item.tags"
                         :status="item.status"
@@ -43,21 +44,30 @@
 
 <script setup>
     import { ref, reactive, onMounted } from "vue";
+
+    import api from "../../request/catface_task/task";
     // com
     import taskBlock from "../../components/search/variant/task-block.vue";
-
     import statusWin from "../../components/status-win/statusWin.vue";
     // store
 // DATA
+    const consts = {
+        TASK_NUM_SINGLE: 5,
+    }
+
     const flag = reactive({
         status: {
-            show: true,
+            show: false,
             type: "loadding"
         }
     })
 
     const state = reactive({
-        inputValue: ""
+        inputValue: "",
+        taskCommon: {
+            num: 0,
+            skip: 0
+        }
     });
 
     const dataShow = reactive({
@@ -68,6 +78,7 @@
                 "title": "开发新功能",
                 "description": "实现用户登录功能",
                 "position": "后端开发",
+                "department": "IT",
                 "status": "WAITING",
                 "level": "MEDIUM",
                 "tags": [
@@ -93,6 +104,7 @@
                 "title": "优化数据库性能",
                 "description": "对现有数据库进行性能优化，提升查询速度",
                 "position": "数据库管理员",
+                "department": "ENGINE",
                 "status": "ACCEPTED",
                 "level": "HIGH",
                 "tags": [
@@ -116,8 +128,19 @@
     });
 
 // FUNC
-    onMounted(() => {
+    onMounted( async() => {
+        flag.status.show = true;
 
+        const [res, err] = await api.getTaskList(consts.TASK_NUM_SINGLE, state.taskCommon.skip);
+        if (err != null) {
+            flag.status.type = "error";
+            return;
+        }
+        console.debug(res);
+        dataShow.tasksCommon = res;
+        state.taskCommon.skip += res.length;
+
+        flag.status.show = false;
     })
 
     // Func

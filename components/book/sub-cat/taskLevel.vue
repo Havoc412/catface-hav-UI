@@ -1,5 +1,5 @@
 <template>
-    <view>
+    <view class="shadow">
         <h-tag :text="data.text" :bgColor="color['taskLevel-'+data.type]" lightHold/>
     </view>
 </template>
@@ -40,5 +40,9 @@
 </script>
 
 <style scoped>
+
+.shadow {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);;
+}
 
 </style>        

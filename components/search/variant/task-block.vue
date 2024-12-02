@@ -1,7 +1,12 @@
 <!--类似 img-block，对 task 展示的特化处理 # TODO 之后考虑合并也成。-->
 <template>
     <view class="flex-top-horizontal gap-10 block relative container-item" @click="gotoDetail">
+        <view class="absolute">
+            <!--任务紧急程度标签。-->
+            <taskLevel :type="props.level"/>
+        </view>
         <up-image :src="props.avatar" height="90px" width="90px" radius="12px"/> <!--TODO POST IMAGE in Nginx-->
+
         <view class="flex-vertical shrink"> 
             <view class="title">
                 <!--UPDATE nodes 不推荐使用 String 类型，性能会有所下降。From: https://uniapp.dcloud.net.cn/component/rich-text.html-->
@@ -23,7 +28,7 @@
         <view class="absolute" style="right: 0;">
             <view class="flex-center-both gap-5">
                 <taskStatus :type="props.status"/>
-                <taskLevel :type="props.level"/>
+                <departmentStatus :type="props.department"/>
             </view>
         </view>
     </view>
@@ -36,6 +41,7 @@
 
     import taskLevel from "../../book/sub-cat/taskLevel.vue";
     import taskStatus from "../../book/sub-cat/taskStatus.vue";
+    import departmentStatus from "../../book/sub-cat/departmentStatus.vue";
     
     // store
 // DATA
@@ -62,6 +68,10 @@
         position: {
             type: String,
             default: "unknown"
+        },
+        department: {
+            type: String,
+            default: "IT"
         },
         tagsHighlight: {
             type: Array,
