@@ -1,8 +1,7 @@
-import { BASE_URL } from "../common/setting";
 
 export class Request {
   http(param) {
-    const url = BASE_URL + param.url; // TODO 如果需要访问多台服务器，就需要修改这里
+    const url = param.url; // TODO 如果需要访问多台服务器，就需要修改这里
     const method = param.method;
     let header = Object.assign(param.header , { 
       Connection: "keep-alive",

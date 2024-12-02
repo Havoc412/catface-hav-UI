@@ -1,4 +1,4 @@
-import { post, del } from "./api";
+import { post, del } from "./api_normal";
 
 const api = {
     // async query(query) {  // INFO 直接采用 websocket 了。

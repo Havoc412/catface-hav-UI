@@ -1,4 +1,4 @@
-import { post } from "./api";
+import { post } from "./api_normal";
 
 const api = {
   async weixinLogin(code, user_avatar, user_name) {

@@ -1,4 +1,4 @@
-import { get } from "./api";
+import { get } from "./api_normal";
 
 const api = {
     async randomKnowledges(num) {

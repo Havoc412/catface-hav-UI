@@ -1,4 +1,4 @@
-import { post, get } from "./api";
+import { post, get } from "./api_normal";
 import { CATFACE_TASK_URL } from "../common/setting";
 
 // TODO 如何 包装 BASE_URL 会比较合适？

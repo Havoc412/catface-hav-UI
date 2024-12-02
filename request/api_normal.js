@@ -1,3 +1,4 @@
+import { BASE_URL } from "../common/setting";
 import { Request } from ".";
 const request = new Request().http;
 
@@ -22,34 +23,27 @@ function checkAuth(message) {
   return false;
 }
 
-export function get(url, header, data, pass=DEBUG, msg) {
-    return request({
-        url: url,
-        method: "GET",
-        header: header,
-        data: data
-    })
+function baseApi(url, header, data, method = "GET") {
+  return request({
+    url: BASE_URL + url,
+    method: method,
+    header: header,
+    data: data,
+  });
+}
+
+export function get(url, header, data, pass = DEBUG, msg) {
+  return baseApi(url, header, data);
 }
 
 export function post(url, header, data, pass = DEBUG, msg = MESSAGE_DEFAULT) {
   if (pass || checkAuth(msg)) {
-      return request({
-        url: url,
-        method: "POST",
-        header: header,
-        data: data,
-      });
+    return baseApi(url, header, data, "POST");
   }
 }
 
-
 export function del(url, header, data, pass = DEBUG, msg = MESSAGE_DEFAULT) {
   if (pass || checkAuth(msg)) {
-    return request({
-      url: url,
-      method: "DELETE",
-      header: header,
-      data: data,
-    });
+    return baseApi(url, header, data, "DELETE");
   }
 }

@@ -1,4 +1,4 @@
-import { get, post, del } from "./api"
+import { get, post, del } from "./api_normal";
 
 import human from "../store/human";
 const humanStore = human();

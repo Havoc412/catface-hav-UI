@@ -1,4 +1,4 @@
-import { get, post } from './api';
+import { get, post } from "./api_normal";
 import { BASE_URL } from '../common/setting';
 
 import { Cat } from "../models/catInfor";
