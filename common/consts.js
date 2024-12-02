@@ -94,6 +94,17 @@ export const Department = [ // UPDATE 或许统一白色会比较好。
   { zh: "其他", color: "#988fd0", en: "other" },
 ];
 
+export const DepartmentJava = {
+  IT: { zh: "信部" },
+  MEDICAL: { zh: "医学部" },
+  ENGINE: { zh: "工部" },
+  ART: { zh: "文理" },
+  LAKE: { zh: "湖滨" },
+  MAPLE: { zh: "枫园" },
+  NET: { zh: "网安" },
+  OTHER: { zh: "其他" },
+}
+
 export const Departments_EN = GetEnFields(Department);
 export const Departments_ZH = GetZhFields(Department);
 

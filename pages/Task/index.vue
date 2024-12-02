@@ -9,13 +9,36 @@
             />
             <h-icon name="tool-search_thin" size="20" @click="confirm"/>
         </view>
+        <!--TAG POI & department 条件下-->
         <view class="block container-simple">
-            <view class="title">附近</view>
+            <view class="title">
+                <span>点位：</span>
+                <span>{{ DepartmentJava[state.department].zh }}</span>
+            </view>
             <!--TODO 根据poi就近查询一些。-->
+            <view class="container-results flex-vertical block gap-20">
+                <template v-for="(item, index) in dataShow.taskPosition">
+                    <taskBlock
+                        mode="task"
+                        :id="item.task_id"
+                        :avatar="item.avatar"
+                        :title="item.title"
+                        :content="item.description"
+                        :position="item.position"
+                        :department="item.department"
+                        :tagsHighlight="item.tagsHighlight"
+                        :tags="item.tags"
+                        :status="item.status"
+                        :level="item.level"
+                        :time="item.time"
+                    />
+                </template>
+            </view>
         </view>
+        <!--TAG 最近的其他地区的状态-->
         <view class="block container-simple">
             <view class="title">路过·广场</view>
-            <view class="container-results flex-vertical block gap-10">
+            <view class="container-results flex-vertical block gap-20">
                 <template v-for="(item, index) in dataShow.tasksCommon">
                     <taskBlock
                         mode="task"
@@ -40,16 +63,25 @@
             mode="block" loaddingTextMode="knowledge"
             loaddingImgMode="necklace" loaddingImgSize="40px"
         />
+        <placeHolder height="150"/>
     </view>
+    <sideTools :show="[true, true]" :status="0" :mustStatus="0" :bottom="100"
+        @add=""
+    />
 </template>
 
 <script setup>
     import { ref, reactive, onMounted } from "vue";
 
     import api from "../../request/catface_task/task";
+
+    import { DepartmentJava } from "../../common/consts";
     // com
     import taskBlock from "../../components/search/variant/task-block.vue";
     import statusWin from "../../components/status-win/statusWin.vue";
+
+    import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
+    import sideTools from "../../components/com/side-tools.vue";
     // store
 // DATA
     const consts = {
@@ -68,78 +100,95 @@
         taskCommon: {
             num: 0,
             skip: 0
-        }
+        },
+        taskPositon: {
+            num: 0,
+            skip: 0
+        },
+        department: 'IT',
     });
 
     const dataShow = reactive({
         tasksCommon: [
-            {
-                "task_id": 5,
-                "user_id": 1,
-                "title": "开发新功能",
-                "description": "实现用户登录功能",
-                "position": "后端开发",
-                "department": "IT",
-                "status": "WAITING",
-                "level": "MEDIUM",
-                "tags": [
-                    "登录",
-                    "安全",
-                    "后端"
-                ],
-                "time": {
-                    "start_time": "2024-12-02T09:00:00",
-                    "deadline": "2024-12-15T17:00:00",
-                    "estimated_min_duration": "PT8H",
-                    "estimated_max_duration": "PT10H"
-                },
-                "poi": {
-                    "latitude": 39.9042,
-                    "longitude": 116.407
-                },
-                "created_at": null
-            },
-            {
-                "task_id": 4,
-                "user_id": 2,
-                "title": "优化数据库性能",
-                "description": "对现有数据库进行性能优化，提升查询速度",
-                "position": "数据库管理员",
-                "department": "ENGINE",
-                "status": "ACCEPTED",
-                "level": "HIGH",
-                "tags": [
-                    "数据库",
-                    "性能",
-                    "优化"
-                ],
-                "time": {
-                    "start_time": "2024-12-03T10:00:00",
-                    "deadline": "2024-12-10T16:00:00",
-                    "estimated_min_duration": "PT12H",
-                    "estimated_max_duration": "PT16H"
-                },
-                "poi": {
-                    "latitude": 40.7128,
-                    "longitude": -74.006
-                },
-                "created_at": null
-            }
-        ]
+            // {
+            //     "task_id": 5,
+            //     "user_id": 1,
+            //     "title": "开发新功能",
+            //     "description": "实现用户登录功能",
+            //     "position": "后端开发",
+            //     "department": "IT",
+            //     "status": "WAITING",
+            //     "level": "MEDIUM",
+            //     "tags": [
+            //         "登录",
+            //         "安全",
+            //         "后端"
+            //     ],
+            //     "time": {
+            //         "start_time": "2024-12-02T09:00:00",
+            //         "deadline": "2024-12-15T17:00:00",
+            //         "estimated_min_duration": "PT8H",
+            //         "estimated_max_duration": "PT10H"
+            //     },
+            //     "poi": {
+            //         "latitude": 39.9042,
+            //         "longitude": 116.407
+            //     },
+            //     "created_at": null
+            // },
+            // {
+            //     "task_id": 4,
+            //     "user_id": 2,
+            //     "title": "优化数据库性能",
+            //     "description": "对现有数据库进行性能优化，提升查询速度",
+            //     "position": "数据库管理员",
+            //     "department": "ENGINE",
+            //     "status": "ACCEPTED",
+            //     "level": "HIGH",
+            //     "tags": [
+            //         "数据库",
+            //         "性能",
+            //         "优化"
+            //     ],
+            //     "time": {
+            //         "start_time": "2024-12-03T10:00:00",
+            //         "deadline": "2024-12-10T16:00:00",
+            //         "estimated_min_duration": "PT12H",
+            //         "estimated_max_duration": "PT16H"
+            //     },
+            //     "poi": {
+            //         "latitude": 40.7128,
+            //         "longitude": -74.006
+            //     },
+            //     "created_at": null
+            // }
+        ],
+        taskPosition: []
     });
 
 // FUNC
     onMounted( async() => {
         flag.status.show = true;
 
-        const [res, err] = await api.getTaskList(consts.TASK_NUM_SINGLE, state.taskCommon.skip);
-        if (err != null) {
+        // Stage 1. Position
+        let [res1, err1] = await api.getTaskList(consts.TASK_NUM_SINGLE, state.taskPositon.skip, 'department', state.department);
+        if (err1 != null) {
             flag.status.type = "error";
             return;
         }
-        console.debug(res);
-        dataShow.tasksCommon = res;
-        state.taskCommon.skip += res.length;
+        console.debug(res1);
+        dataShow.taskPosition = res1;
+        state.taskPositon.skip += res1.length;
+        
+        // Stage 2. 广场 common
+        const [res2, err2] = await api.getTaskList(consts.TASK_NUM_SINGLE, state.taskCommon.skip);
+        if (err2 != null) {
+            flag.status.type = "error";
+            return;
+        }
+        console.debug(res2);
+        dataShow.tasksCommon = res2;
+        state.taskCommon.skip += res2.length;
 
         flag.status.show = false;
     })
@@ -154,7 +203,6 @@
 <style scoped>
 
 .container-top {
-    min-height: 100vh;
 }
 
 .container-input {

@@ -52,7 +52,7 @@
         show: {  // INFO 和下方 DATA 对应，按钮的是否显示。
             type: Array,
             default: [false, true]
-        }
+        },
     });
     const emits = defineEmits(['add', 'reload']);
 
@@ -118,6 +118,8 @@
     position: fixed;
     right: var(--right);
     bottom: var(--bottom);
+
+    z-index: 10000;
 }
 
 .container-btn {
