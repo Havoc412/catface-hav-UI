@@ -204,4 +204,48 @@ export const Age = [
 // Max Data
 export const ENCOUNTER_MAX_NUM = 2;
 
+// Task level
+export const TaskLevel = {
+  // INFO 适配当前 Java 后端的返回方式，
+  LOW: {
+    zh: "一般",
+    en: "LOW",
+    bg: "#D3D3D3", // 使用灰色表示一般
+    font: "#000000",
+  },
+  MEDIUM: {
+    zh: "中等",
+    en: "MEDIUM",
+    bg: "#FFA500", // 使用橙色表示中等
+    font: "#000000",
+  },
+  HIGH: {
+    zh: "紧急",
+    en: "HIGH",
+    bg: "#FF0000", // 使用红色表示紧急
+    font: "#FFFFFF",
+  },
+};
+
+export const TaskStatus = {
+  WAITING: {
+    zh: "等待中",
+    en: "WAITING",
+    bg: "#FFFF00", // 使用黄色表示等待中
+    font: "#000000",
+  },
+  COMPLETED: {
+    zh: "已完成",
+    en: "COMPLETED",
+    bg: "#32CD32", // 使用绿色表示已完成
+    font: "#FFFFFF",
+  },
+  ACCEPTED: {
+    zh: "已接取",
+    en: "ACCEPTED",
+    bg: "#FFD700", // 使用金色表示已接取
+    font: "#000000",
+  },
+};
+
 

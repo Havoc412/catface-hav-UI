@@ -67,4 +67,14 @@ $orange-2: #FF974A;
             deep: $orange-2;
         };
     };
+    taskLevel: {
+        LOW: $green-0;
+        MEDIUM: $yellow-0;
+        HIGH: $red-0;
+    };
+    taskStatus: {
+        WAITING: $green-0;
+        ACCEPTED: $yellow-0;
+        COMPLETED: $gray-1;
+    }
 }

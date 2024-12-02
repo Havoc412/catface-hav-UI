@@ -1,7 +1,4 @@
-<!--INFO #1 
- *   1. 同时适配 Search: Animal | Encounter
- *   2. CatFace 的展示。
--->
+<!--类似 img-block，对 task 展示的特化处理 # TODO 之后考虑合并也成。-->
 <template>
     <view class="flex-top-horizontal gap-10 block relative container-item" @click="gotoDetail">
         <up-image :src="props.avatar" height="90px" width="90px" radius="12px"/> <!--TODO POST IMAGE in Nginx-->
@@ -15,33 +12,18 @@
                 <tagGroup mode="highlight" :list="tagsFilterHighlight" :listHighlight="props.tagsHighlight"/>
             </view>
             <view class="content block relative">
-                <!--INFO #1 适配 ES 的富文本解析 -->
-                <template v-if="!props.conf">
-                    <rich-text :nodes="sliceContent"/>
-                    <!-- {{ sliceContent }} for test -->
-                    <view class="absolute" style="right: -10px; top: -2px;">
-                        <h-icon name="text-quota" size="14"/>
-                    </view>
-                </template>
-                <!-- #2 适配 catface 的 Conf 展示 -->
-                <template v-else>
-                    <view class="flex-top-horizontal block">
-                        <view style="width: 70%;">{{ sliceContent }}</view>
-                        <view v-if="props.conf" class="conf shrink">
-                            {{ formatConf(props.conf) }}
-                        </view>
-                    </view>
-                </template>
+                <rich-text :nodes="sliceContent"/>
+                <!-- {{ sliceContent }} for test -->
+                <view class="absolute" style="right: -10px; top: -2px;">
+                    <h-icon name="text-quota" size="14"/>
+                </view>
             </view>
         </view>
         <!--右上角状态信息-->
         <view class="absolute" style="right: 0;">
-            <view v-if="props.mode == 'animal'" class="flex-center-both gap-5">
-                <schoolStatus :type="props.animalStatus"/>
-                <departmentStatus :type="props.animalDepartment"/>
-            </view>
-            <view v-else-if="props.mode == 'encounter'">
-                <pair imgSize="30" :avatar="props.userAvatar" :name="props.userName"/>
+            <view class="flex-center-both gap-5">
+                <taskStatus :type="props.status"/>
+                <taskLevel :type="props.level"/>
             </view>
         </view>
     </view>
@@ -50,24 +32,25 @@
 <script setup>
     import { ref, computed } from "vue";
     // com
-    import tagGroup from "../tag/group/tagGroup.vue";
+    import tagGroup from "../../tag/group/tagGroup.vue";
+
+    import taskLevel from "../../book/sub-cat/taskLevel.vue";
+    import taskStatus from "../../book/sub-cat/taskStatus.vue";
     
-    import pair from "../encounter/pair.vue";
-    import schoolStatus from "../book/sub-cat/schoolStatus.vue";
-    import departmentStatus from "../book/sub-cat/departmentStatus.vue";
     // store
 // DATA
     const props = defineProps({
         mode: {
             type: String,
-            default: 'animal' // encounter
+            default: 'task'
         },
         // base information
         id: Number,
         avatar: {
             type: String,
-            default: "/static/user.jpg"
+            default: "/static/dog.jpg"
         },
+        // TAG INFO
         title: {
             type: String,
             default: "Title Default"
@@ -75,6 +58,10 @@
         content: {
             type: String,
             default: "Content Default"
+        },
+        position: {
+            type: String,
+            default: "unknown"
         },
         tagsHighlight: {
             type: Array,
@@ -84,14 +71,15 @@
             type: Array,
             default: () => []
         },
-        // TAG animal
-        animalStatus: Number,
-        animalDepartment: Number,
-        // TAG encounter
-        userAvatar: String,
-        userName: String,
-        // TEST TEMP
-        conf: null,
+        // TAG
+        status: {
+            type: String,
+            default: "WAITING"
+        },
+        level: {
+            type: String,
+            default: "LOW"
+        },
     });
     const emits = defineEmits([]);
     

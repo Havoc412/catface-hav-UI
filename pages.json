@@ -124,6 +124,13 @@
       "style": {
         "navigationBarTitleText": "搜索"
       }
+    },
+    // TAG Task
+    {
+      "path": "pages/Task/index",
+      "style": {
+        "navigationBarTitleText": "路过帮忙"
+      }
     }
   ],
   "globalStyle": {

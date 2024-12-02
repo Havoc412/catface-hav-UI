@@ -34,8 +34,13 @@
         {
             imgPath: "/static/cats-head/3.png",
             page: 'Search',
-            text: "搜索"
+            text: "搜索" // TODO 搜索之后调整到左上方 ？
         },
+        {
+            imgPath: "/static/cats-head/4.png",
+            page: 'Task',
+            text: "路过帮忙"
+        }
     ])
 
 // FUNC
@@ -57,7 +62,7 @@
     width: 90vw;
     height: 80px;
     
-    padding: 5% 10%;
+    padding: 5%;
     margin: 15vh 5vw;
     background-color: #fff;
     border-radius: 12px;
