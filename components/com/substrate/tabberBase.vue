@@ -21,7 +21,9 @@
                 <slot name="suffix"></slot>
             </view>
         </view>
-        <!--INFO 支持 Fixed 自定义固定一些组件 <!--BUG wx 中不好用。-->
+        <!--INFO 支持 Fixed 自定义固定一些组件 -->
+		
+		<!--BUG wx 中不好用。-->
         <slot name="fixed">
             <!-- <view style="position: absolute; right: 0; top:0">TEST</view> -->
         </slot>
