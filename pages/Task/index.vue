@@ -1,13 +1,43 @@
 <template>
     <view class="container-top flex-center-vertical bg-img gap-10">
-        <view class="flex-center-horizontal gap-10 block container-input">
+        <view class="flex-center-horizontal block container-input">
             <input class="input" focus confirm-type="search" 
-                placeholder="在这里输入查询词句"
+                placeholder="在这里输入查询"
                 placeholder-style="font-size: 16px"
                 :value="state.inputValue"
                 @confirm="confirm"
             />
-            <h-icon name="tool-search_thin" size="20" @click="confirm"/>
+            <view class="flex-center-both gap-10">
+                <h-icon name="tool-search_thin" size="20" @click="confirm"/>
+                <h-icon name="task-talk" size="20" @click="gotoRag"/>
+            </view>
+        </view>
+        <view v-if="flag.search.run" class="block container-simple">
+            <view class="title">搜索</view>
+            <statusWin v-if="flag.search.status.show"
+                :status="flag.search.status.type" 
+                mode="block" loaddingTextMode="knowledge"
+                loaddingImgMode="necklace" loaddingImgSize="40px"
+            />
+            <!--TODO 兼容 highlight -->
+            <view class="container-results flex-vertical block gap-20">
+                <template v-for="(item, index) in dataShow.taskKeywords">
+                    <taskBlock
+                        mode="task"
+                        :id="item.task_id"
+                        :avatar="item.avatar"
+                        :title="item.title"
+                        :content="item.description"
+                        :position="item.position"
+                        :department="item.department"
+                        :tagsHighlight="item.tagsHighlight"
+                        :tags="item.tags"
+                        :status="item.status"
+                        :level="item.level"
+                        :time="item.time"
+                    />
+                </template>
+            </view>
         </view>
         <!--TAG POI & department 条件下-->
         <view class="block container-simple">
@@ -76,6 +106,7 @@
     import api from "../../request/catface_task/task";
 
     import { DepartmentJava } from "../../common/consts";
+    import { AITALK_MODE } from "../../store/aiTalk";
     // com
     import taskBlock from "../../components/search/variant/task-block.vue";
     import statusWin from "../../components/status-win/statusWin.vue";
@@ -92,6 +123,13 @@
         status: {
             show: false,
             type: "loadding"
+        },
+        search: {
+            run: false,
+            status: {
+                show: false,
+                type: "loadding"
+            }
         }
     })
 
@@ -102,6 +140,10 @@
             skip: 0
         },
         taskPositon: {
+            num: 0,
+            skip: 0
+        },
+        taskKeywords: {
             num: 0,
             skip: 0
         },
@@ -163,7 +205,8 @@
             //     "created_at": null
             // }
         ],
-        taskPosition: []
+        taskPosition: [],
+        taskKeywords: [],
     });
 
 // FUNC
@@ -171,7 +214,7 @@
         flag.status.show = true;
 
         // Stage 1. Position
-        let [res1, err1] = await api.getTaskList(consts.TASK_NUM_SINGLE, state.taskPositon.skip, 'department', state.department);
+        const [res1, err1] = await api.getTaskList(consts.TASK_NUM_SINGLE, state.taskPositon.skip, 'department', state.department);
         if (err1 != null) {
             flag.status.type = "error";
             return;
@@ -195,7 +238,27 @@
 
     // Func
     async function confirm(e) {
+        flag.search.run = true;
+        flag.search.status.show = true;
 
+        const [res, err] = await api.getTaskList(consts.TASK_NUM_SINGLE, state.taskPositon.skip, 'keywords', "", e.detail.value);
+        if (err != null) {
+            flag.status.type = "error";
+            return;
+        }
+        console.debug(res);
+        dataShow.taskKeywords = res;
+        state.taskKeywords.skip += res.length;
+
+        // flag.search.run = false;
+        flag.search.status.show = false;
+    }
+
+    // router
+    function gotoRag() {
+        uni.navigateTo({
+            url: "/pages/Rag/index?mode=" + AITALK_MODE.TASK 
+        })
     }
 
 </script>

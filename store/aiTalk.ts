@@ -45,12 +45,15 @@ export const AITALK_MODE = {  // UPDATE 这里字段的设定也最好通过 API
   KNOWLEDGE: 'Knowledge',
   DETECT_CAT: 'Detect',
   ANM_DIARY: 'Diary',
+  TASK: 'Task',
 }
+
 const TOPIC_TAG = {
   default: "默认对话",
   knowledge: "知识科普",
   detect: "辅助辨别",
   diary: "猫猫日记",
+  task: "路过帮忙"
 };
 
 export const aiTalk = defineStore("aiTalkContent", {
@@ -65,7 +68,7 @@ export const aiTalk = defineStore("aiTalkContent", {
 
       history: [],
 
-      mode: "default", // INFO 对话模式  default || detect_cat || knowledge
+      mode: "default", // INFO 对话模式  default || detect_cat || knowledge || task
       // TAG User FOR 【 detect_cat || UNDERSTAND_ANM】
       cats_id: [],
     };
@@ -171,6 +174,9 @@ export const aiTalk = defineStore("aiTalkContent", {
             this.token = data.data;
             ws.close();
             break;
+          case "task":
+            // TODO
+            break;
         }
         // if (data.type === "chat") {
         //   // 处理聊天消息
@@ -201,7 +207,9 @@ export const aiTalk = defineStore("aiTalkContent", {
         case AITALK_MODE.ANM_DIARY:
           url += "&mode=" + this.mode + "&cats_id=" + this.cats_id.join(',');
         break
-
+        case AITALK_MODE.TASK:
+          url += "&mode=" + this.mode;
+        break
       }
       return url;
     },
@@ -230,22 +238,28 @@ export const aiTalk = defineStore("aiTalkContent", {
       this.topic = TOPIC_TAG[mode];
       console.info(this.topic)
       switch (mode) {
-      case AITALK_MODE.KNOWLEDGE:
-        // TODO
-        break;
-      case AITALK_MODE.DETECT_CAT:
-        // TODO
-        break;
-      case AITALK_MODE.ANM_DIARY:
-        this.cats_id = data.ids;
-        const aiMsgTemp = createAiMessage(
-          "关于【" + data.name + "】，你有什么想要了解的吗？我可以帮你查阅两脚兽们上传的路遇笔记。🐱"
-        );
-        this.history.push(aiMsgTemp);
-        break;
-      default:
-        break;
-      }
+        case AITALK_MODE.KNOWLEDGE:
+          // TODO
+          break;
+        case AITALK_MODE.DETECT_CAT:
+          // TODO
+          break;
+        case AITALK_MODE.ANM_DIARY:
+          this.cats_id = data.ids;
+          var aiMsgTemp = createAiMessage(
+            "关于【" + data.name + "】，你有什么想要了解的吗？我可以帮你查阅两脚兽们上传的路遇笔记。🐱"
+          );
+          this.history.push(aiMsgTemp);
+          break;
+        case AITALK_MODE.TASK:
+          var aiMsgTemp = createAiMessage(
+            "描述你当前的想法，我可以帮你查阅任务列表，推荐一些任务。🐱"
+          );
+          this.history.push(aiMsgTemp);
+          break;
+        default:
+          break;
+        }
     },
     /**
      * @brief 释放长对话资源

@@ -15,6 +15,11 @@
                 :content="item.content"
                 :updatedAt="item.updated_at"
             />
+            <task v-else-if="item.type == 'task'"
+                :id="item.task.id"
+                :title="item.task.title"
+                :content="item.task.description"
+            />
         </template>
     </view>
 </template>
@@ -24,12 +29,14 @@
     // com
     import knowledge from "./knowledge.vue";
     import encounter from "./encounter.vue";
+    import task from "./task.vue";
 
     const TITLE = ref("参考资料")
 
     let flag = {
         knowledge: false,
-        encounter: false
+        encounter: false,
+        task: false
     }
     
     // store
@@ -49,13 +56,17 @@
                 flag.knowledge = true;
             else if(item.type == "encounter")
                 flag.encounter = true;
+            else if(item.type == "task")
+                flag.task = true;
         })
-        if(!flag.knowledge && !flag.encounter)
+        if(!flag.knowledge && !flag.encounter && !flag.task)
             TITLE.value = "暂无参考资料"
         else if(flag.knowledge && !flag.encounter)
             TITLE.value = "参考资料"
         else if(!flag.knowledge && flag.encounter)
             TITLE.value = "参考路遇"
+        else if(flag.task)
+            TITLE.value = "参考任务"
         else
             TITLE.value = "参考信息"
     })

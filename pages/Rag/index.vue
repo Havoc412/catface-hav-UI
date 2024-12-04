@@ -73,6 +73,7 @@
                     name: params.name
                 }
                 break;
+            case AITALK_MODE.TASK: // TODO 提供一些基本信息。
             case AITALK_MODE.DETECT_CAT:
             case AITALK_MODE.KNOWLEDGE:
             case AITALK_MODE.DEFAULT:
