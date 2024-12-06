@@ -1,41 +1,24 @@
 <template>
     <view class="container-top flex-center-vertical bg-img gap-10">
         <view class="flex-center-horizontal block container-input">
-            <input class="input" focus confirm-type="search" 
-                placeholder="在这里输入查询"
-                placeholder-style="font-size: 16px"
-                :value="state.inputValue"
-                @confirm="confirm"
-            />
+            <input class="input" focus confirm-type="search" placeholder="在这里输入查询" placeholder-style="font-size: 16px"
+                :value="state.inputValue" @confirm="confirm" />
             <view class="flex-center-both gap-10">
-                <h-icon name="tool-search_thin" size="20" @click="confirm"/>
-                <h-icon name="task-talk" size="20" @click="gotoRag"/>
+                <h-icon name="tool-search_thin" size="20" @click="confirm" />
+                <h-icon name="task-talk" size="20" @click="gotoRag" />
             </view>
         </view>
         <view v-if="flag.search.run" class="block container-simple">
             <view class="title">搜索</view>
-            <statusWin v-if="flag.search.status.show"
-                :status="flag.search.status.type" 
-                mode="block" loaddingTextMode="knowledge"
-                loaddingImgMode="necklace" loaddingImgSize="40px"
-            />
+            <statusWin v-if="flag.search.status.show" :status="flag.search.status.type" mode="block"
+                loaddingTextMode="knowledge" loaddingImgMode="necklace" loaddingImgSize="40px" />
             <!--TODO 兼容 highlight -->
             <view class="container-results flex-vertical block gap-20">
                 <template v-for="(item, index) in dataShow.taskKeywords">
-                    <taskBlock
-                        mode="task"
-                        :id="item.task_id"
-                        :avatar="item.avatar"
-                        :title="item.title"
-                        :content="item.description"
-                        :position="item.position"
-                        :department="item.department"
-                        :tagsHighlight="item.tagsHighlight"
-                        :tags="item.tags"
-                        :status="item.status"
-                        :level="item.level"
-                        :time="item.time"
-                    />
+                    <taskBlock mode="task" :id="item.task_id" :avatar="item.avatar" :title="item.title"
+                        :content="item.description" :position="item.position" :department="item.department"
+                        :tagsHighlight="item.tagsHighlight" :tags="item.tags" :status="item.status" :level="item.level"
+                        :time="item.time" @click="openOverlayWindow(consts.MODE.SHOW)" />
                 </template>
             </view>
         </view>
@@ -48,20 +31,10 @@
             <!--TODO 根据poi就近查询一些。-->
             <view class="container-results flex-vertical block gap-20">
                 <template v-for="(item, index) in dataShow.taskPosition">
-                    <taskBlock
-                        mode="task"
-                        :id="item.task_id"
-                        :avatar="item.avatar"
-                        :title="item.title"
-                        :content="item.description"
-                        :position="item.position"
-                        :department="item.department"
-                        :tagsHighlight="item.tagsHighlight"
-                        :tags="item.tags"
-                        :status="item.status"
-                        :level="item.level"
-                        :time="item.time"
-                    />
+                    <taskBlock mode="task" :id="item.task_id" :avatar="item.avatar" :title="item.title"
+                        :content="item.description" :position="item.position" :department="item.department"
+                        :tagsHighlight="item.tagsHighlight" :tags="item.tags" :status="item.status" :level="item.level"
+                        :time="item.time" @click="openOverlayWindow(consts.MODE.SHOW)" />
                 </template>
             </view>
         </view>
@@ -70,34 +43,27 @@
             <view class="title">路过·广场</view>
             <view class="container-results flex-vertical block gap-20">
                 <template v-for="(item, index) in dataShow.tasksCommon">
-                    <taskBlock
-                        mode="task"
-                        :id="item.task_id"
-                        :avatar="item.avatar"
-                        :title="item.title"
-                        :content="item.description"
-                        :position="item.position"
-                        :department="item.department"
-                        :tagsHighlight="item.tagsHighlight"
-                        :tags="item.tags"
-                        :status="item.status"
-                        :level="item.level"
-                        :time="item.time"
-                    />
+                    <taskBlock mode="task" :id="item.task_id" :avatar="item.avatar" :title="item.title"
+                        :content="item.description" :position="item.position" :department="item.department"
+                        :tagsHighlight="item.tagsHighlight" :tags="item.tags" :status="item.status" :level="item.level"
+                        :time="item.time" @click="openOverlayWindow(consts.MODE.SHOW)" />
                 </template>
             </view>
         </view>
         <!--加载 window-->
-        <statusWin v-if="flag.status.show" 
-            :status="flag.status.type" 
-            mode="block" loaddingTextMode="knowledge"
-            loaddingImgMode="necklace" loaddingImgSize="40px"
-        />
-        <placeHolder height="150"/>
+        <statusWin v-if="flag.status.show" :status="flag.status.type" mode="block" loaddingTextMode="knowledge"
+            loaddingImgMode="necklace" loaddingImgSize="40px" />
+        <placeHolder height="150" />
     </view>
+    <!--TAG 侧边工具栏 & 接取任务 & 发布任务的悬浮窗。-->
     <sideTools :show="[true, true]" :status="0" :mustStatus="0" :bottom="100"
-        @add=""
-    />
+        @add="openOverlayWindow(consts.MODE.ADD)" />
+    <up-overlay opacity=".3" :show="flag.overLayWindows.show" @click="flag.overLayWindows.show = false">
+        <blockBase closeFontBold width="90vw">
+            <addTask v-if="flag.overLayWindows.mode === consts.MODE.ADD" />
+            <showTask v-else-if="flag.overLayWindows.mode === consts.MODE.SHOW" />
+        </blockBase>
+    </up-overlay>
 </template>
 
 <script setup>
@@ -105,6 +71,7 @@
 
     import api from "../../request/catface_task/task";
 
+    import { TOAST } from "@/utils/notice";
     import { DepartmentJava } from "../../common/consts";
     import { AITALK_MODE } from "../../store/aiTalk";
     // com
@@ -113,10 +80,19 @@
 
     import placeHolder from "../../components/com/sub-tabbar/placeHolder.vue";
     import sideTools from "../../components/com/side-tools.vue";
+
+    // sub
+    import addTask from "./sub/add-task.vue";
+    import showTask from "./sub/show-task.vue"
+    import blockBase from "../../components/com/substrate/blockBase.vue";
     // store
 // DATA
     const consts = {
         TASK_NUM_SINGLE: 5,
+        MODE: {
+            ADD: "add",
+            SHOW: "show"
+        }
     }
 
     const flag = reactive({
@@ -130,7 +106,11 @@
                 show: false,
                 type: "loadding"
             }
-        }
+        },
+        overLayWindows: {
+            show: false,
+            mode: "add"
+        },
     })
 
     const state = reactive({
@@ -246,9 +226,17 @@
             flag.status.type = "error";
             return;
         }
-        console.debug(res);
-        dataShow.taskKeywords = res;
-        state.taskKeywords.skip += res.length;
+        if (res) {
+            dataShow.taskKeywords = res;
+            state.taskKeywords.skip += res.length;
+        } else {
+            await new Promise(resolve => {  // INFO 延时处理，防止【搜索】提示框闪现。 // TODO 更好的退场动画；
+                setTimeout(() => {
+                    TOAST("没有搜索到符合条件的任务，换些关键词试试吧。🐱");
+                    flag.search.run = false;
+                }, 1000);
+            });
+        }
 
         // flag.search.run = false;
         flag.search.status.show = false;
@@ -259,6 +247,18 @@
         uni.navigateTo({
             url: "/pages/Rag/index?mode=" + AITALK_MODE.TASK 
         })
+    }
+
+    function openOverlayWindow(mode) {
+        flag.overLayWindows.mode = mode;
+        if (mode == consts.MODE.ADD) {
+
+        } else if (mode == 'show') {
+
+        } else {
+            return;
+        }
+        flag.overLayWindows.show = true;
     }
 
 </script>

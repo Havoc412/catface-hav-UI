@@ -103,7 +103,7 @@
             default: "LOW"
         },
     });
-    const emits = defineEmits([]);
+    const emits = defineEmits(['click']);
 
     const MAX_LEN = 12;
 
@@ -131,6 +131,10 @@
             url += "Detail/index?id=" + props.id;
         else if (props.mode == "encounter")
             url += "Encounter/detail?id=" + props.id;
+        else if (props.mode == "task") {
+            emits('click');
+            return;
+        }
 
         uni.navigateTo({ url });
     }
