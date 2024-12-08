@@ -10,7 +10,11 @@
                     v-model:type="data.level"
                     :type="data.level"
                 />
-                <departmentStatus :type="data.department"/>
+                <departmentStatus 
+                    mode="choose"
+                    v-model:type="data.department"
+                    :type="data.department"
+                />
             </view>
             <up-textarea
                 v-model="data.description"
@@ -19,9 +23,35 @@
             <view class="flex-horizontal gap-10" @click="flag.time = true">
                 <view class="title">时间*</view>
                 <view class="shrink flex-center-both gap-10">
-                    {{ data.time.start_time }}
+                    {{ formatDate(data.time.start_time) }}
                     <h-icon name="com-more_deep" size="13"/>
-                    {{ data.time.deadline }}
+                    {{ formatDate(data.time.deadline) }}
+                </view>
+            </view>
+            <view class="flex-horizontal gap-10" 
+                    @click="flag.timePicker = true"
+            >
+                <view class="title title-2">预估耗时*</view>
+                <view class="block relative">
+                    <up-input
+                        v-model="dataShow.time_estimated"
+                        readonly
+                        placeholder="点击，选择预估时间"
+                        fontSize="12"
+                        border="none"
+                        placeholdertyle="color: #888888"
+                    ></up-input>
+                    <h-btn 
+                        text="" variant="text" radius="5" activeColor="transparent"
+                        :customStyle="{
+                            position: 'absolute', 
+                            top: 0, left: 0,
+                            width: '100%',
+                            height: '100%', 
+                            background: 'transparent', 
+                            border: 'none'
+                        }" @click="flag.timePicker = true"
+                    ></h-btn>
                 </view>
             </view>
             <!--TAG position detail #TODO 之后再做。-->
@@ -80,15 +110,35 @@
                     'height': '40px',
                     'border-radius': '20px',
                 }"
+                :disabled="!submitAbled"
                 @click="submit"
                 @clickDisabled=""
             /> <!--TODO 未完成时，提醒需要完成的内容。-->
         </view>
     </view>
+    <!--TAG Time 选择弹窗-->
+    <up-picker 
+        ref="timePickerRef"
+        :show="flag.timePicker"
+        :columns="Time"
+        title="选择预估任务耗时"
+        :closeOnClickOverlay="false"
+        @cancel="flag.timePicker = false"
+        @confirm="timeChangeHandler"
+    >
+        <!--@change="timeChangeHandler"-->
+    </up-picker>
     <!--TAG popup calendar-->
     <view @click.stop> <!--由于双层悬浮窗，所以先简单遮罩。-->
         <up-calendar :show="flag.time" mode="range" @confirm="confirmTime" @close="flag.time = false"/>        
     </view>
+    <!--TAG 状态栏控制-->
+    <statusWin 
+        v-if="flag.status.show" 
+        :status="flag.status.type"
+        loaddingImgMode="necklace"
+        loaddingImgSize="40px"
+    />
 </template>
 
 <script setup>
@@ -100,11 +150,14 @@
     import { TOAST } from "@/utils/notice";
     import api from "../../../request/catface_task/task";
     import apiNLP from "../../../request/nlp";
+
+    import { Time, formatPT } from "../../../common/consts";
     // com
     import taskLevel from "../../../components/task/taskLevel.vue";
     import departmentStatus from "../../../components/book/sub-cat/departmentStatus.vue";
     import btnLoadding from "../../../components/com/button/variant/btn-loadding.vue";
     import ChipGroup from "../../../components/com/chip/chipGroup.vue";
+    import statusWin from "../../../components/status-win/statusWin.vue";
     // store
 // DATA
     const props = defineProps({
@@ -115,6 +168,15 @@
     const flag = reactive({
         time: false,
         titleBtn: false,
+        timePicker: false,
+        status: {
+            show: false,
+            type: "loadding"
+        },
+    })
+
+    const dataShow = reactive({
+        time_estimated: "",
     })
     
     const data = reactive({
@@ -142,7 +204,7 @@
 // FUNC
     onMounted(() => {
         const dateTemp = new Date();
-        data.time.start_time = formatDate(dateTemp);
+        data.time.start_time = dateTemp;
         data.time.deadline = data.time.start_time;
     });
 
@@ -152,7 +214,7 @@
         data.time.start_time = time[0];
         data.time.deadline = time[time.length - 1];
         // close float window
-        flag.time = false;
+        flag.timePicker = false;
     }
 
     // style
@@ -161,6 +223,25 @@
     });
 
     // core func
+    function timeChangeHandler(event) {
+        console.debug(event);
+        // 
+        data.time.estimated_min_duration = data.time.estimated_max_duration = formatPT(event.value[0], event.value[1], event.value[2]);
+        
+        // UPDATE temp
+        var timeShow = ""
+        if (event.value[0][0] != "0")
+            timeShow += event.value[0];
+        if (event.value[1][0] != "0")
+            timeShow += event.value[1];
+        if (event.value[2][0] != "0")
+            timeShow += event.value[2];
+        dataShow.time_estimated = timeShow;
+
+        console.debug(data, dataShow.time_estimated);
+        flag.timePicker = false;
+    }
+
     const getExplain4LLM = computed(() => {
         return `任务标题：${data.title}， 任务描述：${data.description}， 任务标签：${data.tags.join(", ")}， 预估时间：${data.time.start_time} - ${data.time.deadline}`
     });
@@ -181,7 +262,9 @@
     }
 
     async function submit() {
-        console.debug(data); return; // TEST
+        // console.debug(data); return; // TEST
+
+        flag.status.show = true;
         // 上面 submitAbled 已经检查过了。
         const [res, err] = await api.addTask(data);
         if (err) {
@@ -190,6 +273,8 @@
             TOAST("发布成功！", "success");
             emits('addTask');
         }
+
+        flag.status.show = false;
     }
 
 </script>

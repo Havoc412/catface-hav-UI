@@ -94,7 +94,7 @@ export const Department = [ // UPDATE 或许统一白色会比较好。
   { zh: "其他", color: "#988fd0", en: "other" },
 ];
 
-export const DepartmentJava = {
+export const DepartmentJava = {  // 目前用于 task/index.vue 中的 Position 部分。
   IT: { zh: "信部" },
   MEDICAL: { zh: "医学部" },
   ENGINE: { zh: "工部" },
@@ -215,7 +215,7 @@ export const Age = [
 // Max Data
 export const ENCOUNTER_MAX_NUM = 2;
 
-// Task level
+// TAG Task level
 export const TaskLevelMap = {  // 适配 Java 的返回值形式 // UPDATE 统一
   // INFO 适配当前 Java 后端的返回方式，
   LOW: {
@@ -284,5 +284,33 @@ export const TaskStatus = {
     font: "#FFFFFF",
   },
 };
+
+export const Time = [
+  [
+    "0天", "1天", "2天", "3天"
+  ],
+  [
+    "0小时", "1小时", "2小时", "3小时", "4小时", "5小时", "6小时", "8小时", "10小时", "12小时"
+  ],
+  [
+    "0分钟", "10分钟", "15分钟", "20分钟", "30分钟", "45分钟", "60分钟"
+  ]
+];
+
+export function formatPT(day, hour, minute) {
+  var res = "PT";
+
+  var idx = Time[0].indexOf(day);
+  if(idx > 0)
+    res += idx + "D";
+  idx = Time[1].indexOf(hour);
+  if(idx > 0)
+    res += idx + "H";
+  idx = Time[2].indexOf(minute);
+  if (idx > 0) res += idx + "M";
+
+  return res;
+}
+
 
 

@@ -149,11 +149,16 @@ function DateChooseInit() {
 // TAG Format
 
 function formatDate(date) {
-    const year = date.getFullYear().toString().slice(-2); // 取最后两位年份
-    const month = String(date.getMonth() + 1); // 月份从0开始，需要加1
-    const day = String(date.getDate());
+    try {
+      const year = date.getFullYear().toString().slice(-2); // 取最后两位年份
+      const month = String(date.getMonth() + 1); // 月份从0开始，需要加1
+      const day = String(date.getDate());
 
-    return `${year}-${month}-${day}`;
+      return `${year}-${month}-${day}`;
+    } catch (error) {
+      console.error("Invalid date format:", date);
+      return "";
+    }
 }
 
 // // 示例用法
