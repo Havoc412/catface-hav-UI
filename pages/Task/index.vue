@@ -60,7 +60,7 @@
         @add="openOverlayWindow(consts.MODE.ADD)" />
     <up-overlay opacity=".3" :show="flag.overLayWindows.show" @click="flag.overLayWindows.show = false">
         <blockBase closeFontBold width="90vw" marginBottom="100px">
-            <addTask v-if="flag.overLayWindows.mode === consts.MODE.ADD" />
+            <addTask v-if="flag.overLayWindows.mode === consts.MODE.ADD" @finish="flag.overLayWindows.show = false"/>
             <showTask v-else-if="flag.overLayWindows.mode === consts.MODE.SHOW" />
         </blockBase>
     </up-overlay>
@@ -246,7 +246,7 @@
     function gotoRag() {
         uni.navigateTo({
             url: "/pages/Rag/index?mode=" + AITALK_MODE.TASK 
-        })
+        });
     }
 
     function openOverlayWindow(mode) {

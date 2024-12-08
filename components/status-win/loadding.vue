@@ -102,6 +102,7 @@
 }
 
 .loadding-text {
+    margin-top: 20px;
     font-weight: bold;
     font-size: 20px;
 

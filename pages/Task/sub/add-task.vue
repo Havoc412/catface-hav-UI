@@ -137,7 +137,8 @@
         v-if="flag.status.show" 
         :status="flag.status.type"
         loaddingImgMode="necklace"
-        loaddingImgSize="40px"
+        loaddingText="上传中"
+        loaddingImgSize="50px"
     />
 </template>
 
@@ -163,7 +164,7 @@
     const props = defineProps({
 
     });
-    const emits = defineEmits(['addTask']);
+    const emits = defineEmits(['finish']);
 
     const flag = reactive({
         time: false,
@@ -271,7 +272,7 @@
             TOAST("发布失败，请稍后再试。")
         } else {
             TOAST("发布成功！", "success");
-            emits('addTask');
+            emits('finish');
         }
 
         flag.status.show = false;
