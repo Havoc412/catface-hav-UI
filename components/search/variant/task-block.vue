@@ -45,8 +45,8 @@
     // com
     import tagGroup from "../../tag/group/tagGroup.vue";
 
-    import taskLevel from "../../book/sub-cat/taskLevel.vue";
-    import taskStatus from "../../book/sub-cat/taskStatus.vue";
+    import taskLevel from "../../task/taskLevel.vue";
+    import taskStatus from "../../task/taskStatus.vue";
     import departmentStatus from "../../book/sub-cat/departmentStatus.vue";
 
     import timeInfo from "./sub-task-block/time-info.vue";

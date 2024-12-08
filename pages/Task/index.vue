@@ -59,7 +59,7 @@
     <sideTools :show="[true, true]" :status="0" :mustStatus="0" :bottom="100"
         @add="openOverlayWindow(consts.MODE.ADD)" />
     <up-overlay opacity=".3" :show="flag.overLayWindows.show" @click="flag.overLayWindows.show = false">
-        <blockBase closeFontBold width="90vw">
+        <blockBase closeFontBold width="90vw" marginBottom="100px">
             <addTask v-if="flag.overLayWindows.mode === consts.MODE.ADD" />
             <showTask v-else-if="flag.overLayWindows.mode === consts.MODE.SHOW" />
         </blockBase>

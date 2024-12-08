@@ -7,7 +7,7 @@ import { CheckAuth } from "./auth";
 // TEST
 import { DEBUG } from "../common/setting";
 
-const MESSAGE_DEFAULT = {
+export const MESSAGE_DEFAULT = {
   title: "登录后获取更多",
   description: "",
 };

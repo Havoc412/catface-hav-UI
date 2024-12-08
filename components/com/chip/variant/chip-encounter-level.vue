@@ -16,7 +16,6 @@
     import { encounterLevel } from "../../../../common/consts";
     // com
     import chip from "../chip.vue";
-import { mode } from "crypto-js";
     // store
 // DATA
     const props = defineProps({

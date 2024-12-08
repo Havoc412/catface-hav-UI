@@ -216,7 +216,7 @@ export const Age = [
 export const ENCOUNTER_MAX_NUM = 2;
 
 // Task level
-export const TaskLevel = {
+export const TaskLevelMap = {  // 适配 Java 的返回值形式 // UPDATE 统一
   // INFO 适配当前 Java 后端的返回方式，
   LOW: {
     zh: "一般",
@@ -237,6 +237,26 @@ export const TaskLevel = {
     font: "#FFFFFF",
   },
 };
+export const TaskLevel = [
+  {
+    zh: "一般",
+    en: "LOW",
+    bg: "#D3D3D3", // 使用灰色表示一般
+    font: "#000000",
+  },
+  {
+    zh: "中等",
+    en: "MEDIUM",
+    bg: "#FFA500", // 使用橙色表示中等
+    font: "#000000",
+  },
+  {
+    zh: "紧急",
+    en: "HIGH",
+    bg: "#FF0000", // 使用红色表示紧急
+    font: "#FFFFFF",
+  },
+]
 
 export const TaskStatus = {
   WAITING: {
@@ -256,6 +276,12 @@ export const TaskStatus = {
     en: "ACCEPTED",
     bg: "#FFD700", // 使用金色表示已接取
     font: "#000000",
+  },
+  CANCELED: {
+    zh: "已取消",
+    en: "CANCEL",
+    bg: "#808080", // 使用灰色表示已取消
+    font: "#FFFFFF",
   },
 };
 

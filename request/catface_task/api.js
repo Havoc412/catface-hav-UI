@@ -3,6 +3,7 @@ import { Request } from "..";
 const request = new Request().http;
 
 import { CheckAuth } from "../auth";
+import { MESSAGE_DEFAULT } from "../api_normal";
 
 // TEST
 import { DEBUG } from "../../common/setting";

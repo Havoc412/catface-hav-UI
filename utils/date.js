@@ -78,6 +78,12 @@ function calculateBirthday(year, month, week, day) {
   return `${birthdayDate.getFullYear()}-${String(birthdayDate.getMonth() + 1).padStart(2, '0')}-${String(birthdayDate.getDate()).padStart(2, '0')}`;
 }
 
+/**
+ * 
+ * @param {*} year 
+ * @param {*} month 
+ * @returns 
+ */
 function DayChooseInit(year, month) {
   // 将字符串形式的年月转换为数字
   const selectedYear = parseInt(year.replace("年", ""), 10);
@@ -140,13 +146,30 @@ function DateChooseInit() {
   return [years, months, days];
 }
 
-export {
-    calculateAge,
-    calculateBirthday,
-    DateChooseInit,  // 第一次，获取今日的逻辑
-    MouthChooseInit,
-    DayChooseInit,
+// TAG Format
+
+function formatDate(date) {
+    const year = date.getFullYear().toString().slice(-2); // 取最后两位年份
+    const month = String(date.getMonth() + 1); // 月份从0开始，需要加1
+    const day = String(date.getDate());
+
+    return `${year}-${month}-${day}`;
 }
+
+// // 示例用法
+// const startDate = new Date();
+// const formattedDate = formatDate(startDate);
+// console.log(formattedDate); // 输出类似 "24-12-6"
+
+export {
+  calculateAge,
+  calculateBirthday,
+  DateChooseInit, // 第一次，获取今日的逻辑
+  MouthChooseInit,
+  DayChooseInit,
+  // TAG format
+  formatDate,
+};
 // TEST - 3: calculateBirthday
 // console.log(calculateBirthday(0, 0, 0, 0));
 // console.log(calculateBirthday(0, 10, 0, 0));
