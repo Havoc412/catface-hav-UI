@@ -152,7 +152,8 @@
     import api from "../../../request/catface_task/task";
     import apiNLP from "../../../request/nlp";
 
-    import { Time, formatPT } from "../../../common/consts";
+    import { Time } from "../../../common/consts";
+    import { formatPT } from "../../../utils/date";
     // com
     import taskLevel from "../../../components/task/taskLevel.vue";
     import departmentStatus from "../../../components/book/sub-cat/departmentStatus.vue";

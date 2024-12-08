@@ -297,20 +297,4 @@ export const Time = [
   ]
 ];
 
-export function formatPT(day, hour, minute) {
-  var res = "PT";
-
-  var idx = Time[0].indexOf(day);
-  if(idx > 0)
-    res += idx + "D";
-  idx = Time[1].indexOf(hour);
-  if(idx > 0)
-    res += idx + "H";
-  idx = Time[2].indexOf(minute);
-  if (idx > 0) res += idx + "M";
-
-  return res;
-}
-
-
 

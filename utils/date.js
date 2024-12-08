@@ -149,22 +149,70 @@ function DateChooseInit() {
 // TAG Format
 
 function formatDate(date) {
-    try {
-      const year = date.getFullYear().toString().slice(-2); // 取最后两位年份
-      const month = String(date.getMonth() + 1); // 月份从0开始，需要加1
-      const day = String(date.getDate());
-
-      return `${year}-${month}-${day}`;
-    } catch (error) {
-      console.error("Invalid date format:", date);
-      return "";
-    }
+  if (date == "") return;
+  const year = date.getFullYear().toString().slice(-2); // 取最后两位年份
+  const month = String(date.getMonth() + 1); // 月份从0开始，需要加1
+  const day = String(date.getDate());
+  return `${year}-${month}-${day}`;
 }
 
 // // 示例用法
 // const startDate = new Date();
 // const formattedDate = formatDate(startDate);
 // console.log(formattedDate); // 输出类似 "24-12-6"
+
+export function formatPT(day, hour, minute) {
+  // UPDATE 之后转移到 utils/date.js
+  var res = "PT";
+
+  var idx = Time[0].indexOf(day);
+  if (idx > 0) res += idx + "D";
+  idx = Time[1].indexOf(hour);
+  if (idx > 0) res += idx + "H";
+  idx = Time[2].indexOf(minute);
+  if (idx > 0) res += idx + "M";
+
+  return res;
+}
+
+// TAG PT 系列的处理 & 反处理函数。
+
+import { Time } from "../common/consts";
+export function parsePT(ptString) {
+  // 默认值设置为数组中的第一个元素
+  let day = Time[0][0];
+  let hour = Time[1][0];
+  let minute = Time[2][0];
+
+  // 使用正则表达式匹配 D, H, M 后面的数字
+  const regex = /(\d+)D|(\d+)H|(\d+)M/g;
+  let match;
+
+  while ((match = regex.exec(ptString)) !== null) {
+    if (match[1]) {
+      // 匹配到 D
+      const dayIndex = parseInt(match[1], 10);
+      if (dayIndex >= 0 && dayIndex < Time[0].length) {
+        day = Time[0][dayIndex];
+      }
+    } else if (match[2]) {
+      // 匹配到 H
+      const hourIndex = parseInt(match[2], 10);
+      if (hourIndex >= 0 && hourIndex < Time[1].length) {
+        hour = Time[1][hourIndex];
+      }
+    } else if (match[3]) {
+      // 匹配到 M
+      const minuteIndex = parseInt(match[3], 10);
+      if (minuteIndex >= 0 && minuteIndex < Time[2].length) {
+        minute = Time[2][minuteIndex];
+      }
+    }
+  }
+
+  return { day, hour, minute };
+}
+
 
 export {
   calculateAge,
