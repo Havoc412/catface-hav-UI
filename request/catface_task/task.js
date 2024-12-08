@@ -44,6 +44,21 @@ const api = {
         return [error, true];
       });
   },
+
+  async acceptTask(task_id) {
+    return await post(
+      `task/accept`,
+      {},
+      {
+        user_id: humanStore.user_id, // 补充 User_id 的参数。
+        task_id: task_id,
+      }
+    )
+      .then((data) => {
+        // TIP 增加一个状态的返回值，模仿 Go 函数的写法
+        return [data, null];
+      })
+  },
 };
 
 export default api;

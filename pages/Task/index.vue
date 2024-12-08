@@ -18,7 +18,7 @@
                     <taskBlock mode="task" :id="item.task_id" :avatar="item.avatar" :title="item.title"
                         :content="item.description" :position="item.position" :department="item.department"
                         :tagsHighlight="item.tagsHighlight" :tags="item.tags" :status="item.status" :level="item.level"
-                        :time="item.time" @click="openOverlayWindow(consts.MODE.SHOW)" />
+                        :time="item.time" @click="openOverlayWindow(consts.MODE.SHOW, item)" />
                 </template>
             </view>
         </view>
@@ -34,7 +34,7 @@
                     <taskBlock mode="task" :id="item.task_id" :avatar="item.avatar" :title="item.title"
                         :content="item.description" :position="item.position" :department="item.department"
                         :tagsHighlight="item.tagsHighlight" :tags="item.tags" :status="item.status" :level="item.level"
-                        :time="item.time" @click="openOverlayWindow(consts.MODE.SHOW)" />
+                        :time="item.time" @click="openOverlayWindow(consts.MODE.SHOW, item)" />
                 </template>
             </view>
         </view>
@@ -46,7 +46,7 @@
                     <taskBlock mode="task" :id="item.task_id" :avatar="item.avatar" :title="item.title"
                         :content="item.description" :position="item.position" :department="item.department"
                         :tagsHighlight="item.tagsHighlight" :tags="item.tags" :status="item.status" :level="item.level"
-                        :time="item.time" @click="openOverlayWindow(consts.MODE.SHOW)" />
+                        :time="item.time" @click="openOverlayWindow(consts.MODE.SHOW, item)" />
                 </template>
             </view>
         </view>
@@ -60,8 +60,8 @@
         @add="openOverlayWindow(consts.MODE.ADD)" />
     <up-overlay opacity=".3" :show="flag.overLayWindows.show" @click="flag.overLayWindows.show = false">
         <blockBase closeFontBold width="90vw" marginBottom="100px">
-            <addTask v-if="flag.overLayWindows.mode === consts.MODE.ADD" @finish="flag.overLayWindows.show = false"/>
-            <showTask v-else-if="flag.overLayWindows.mode === consts.MODE.SHOW" />
+            <addTask v-if="flag.overLayWindows.mode === consts.MODE.ADD" @finish="finishHandler"/>
+            <showTask v-else-if="flag.overLayWindows.mode === consts.MODE.SHOW" :data="dataShow.taskDetail" @finish="finishHandler"/>
         </blockBase>
     </up-overlay>
 </template>
@@ -187,34 +187,42 @@
         ],
         taskPosition: [],
         taskKeywords: [],
+        taskDetail: {}, // click 之后选中的目标。
     });
 
 // FUNC
     onMounted( async() => {
         flag.status.show = true;
 
+        await init();
+
+        flag.status.show = false;
+    })
+
+    async function init() {
+        // state.taskPosition['skip'] = 0;
+        // state.taskCommon['skip'] = 0;
+
         // Stage 1. Position
-        const [res1, err1] = await api.getTaskList(consts.TASK_NUM_SINGLE, state.taskPositon.skip, 'department', state.department);
+        const [res1, err1] = await api.getTaskList(consts.TASK_NUM_SINGLE, 0, 'department', state.department);
         if (err1 != null) {
             flag.status.type = "error";
             return;
         }
         console.debug(res1);
         dataShow.taskPosition = res1;
-        state.taskPositon.skip += res1.length;
+        state.taskPositon.skip = res1.length;
         
         // Stage 2. 广场 common
-        const [res2, err2] = await api.getTaskList(consts.TASK_NUM_SINGLE, state.taskCommon.skip);
+        const [res2, err2] = await api.getTaskList(consts.TASK_NUM_SINGLE, 0);
         if (err2 != null) {
             flag.status.type = "error";
             return;
         }
         console.debug(res2);
         dataShow.tasksCommon = res2;
-        state.taskCommon.skip += res2.length;
-
-        flag.status.show = false;
-    })
+        state.taskCommon.skip = res2.length;
+    }
 
     // Func
     async function confirm(e) {
@@ -249,16 +257,21 @@
         });
     }
 
-    function openOverlayWindow(mode) {
+    function openOverlayWindow(mode, data_single) {
         flag.overLayWindows.mode = mode;
         if (mode == consts.MODE.ADD) {
 
         } else if (mode == 'show') {
-
+            dataShow.taskDetail = data_single;
         } else {
             return;
         }
         flag.overLayWindows.show = true;
+    }
+
+    async function finishHandler() {
+        await init();
+        flag.overLayWindows.show = false;
     }
 
 </script>

@@ -12,7 +12,7 @@
 // DATA
     const props = defineProps({
         tagList: {
-            type: String,
+            type: [String, Array],
             default: ""
         }
     });
@@ -21,7 +21,10 @@
 // FUNC
     const decodeTagList = computed(() => {
         if (!props.tagList || props.tagList === "") return [];
-        return props.tagList.split(",");
+        else if (typeof props.tagList === "string")
+            return props.tagList.split(",");
+        else
+            return props.tagList;
     }) 
 
 </script>
